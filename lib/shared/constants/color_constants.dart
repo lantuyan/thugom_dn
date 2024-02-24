@@ -10,7 +10,8 @@ static const kTextMainColor = Color(0xFF363535);
 static const kTextSecondColor = Color(0xFF8E8E93);
 
 static Color kShadowColor = const Color(0xFF8E8E93).withOpacity(0.25);
-static const kBackgroundColor = Color(0xFFFFFFFF);
+static const kBackgroundColor = Color.fromARGB(255, 234, 234, 234);
+static const kBGCardColor = Color(0xFFFFFFFF);
 static const kSecondBackgroundColor = Color(0xD9D9D9D9);
 
 // Active Color and Unactive Colors when user tap button
