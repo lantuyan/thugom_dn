@@ -16,7 +16,7 @@ class SplashController extends GetxController with GetSingleTickerProviderStateM
   void checkUserId() {
     if (getStore.read('userId') != null) {
       Future.delayed(const Duration(seconds: 1), () {
-        Get.offAllNamed('/main');
+        Get.offAllNamed('/mainPage');
       });
     } else {
       Future.delayed(const Duration(seconds: 1), () {

@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/route_manager.dart';
 import 'package:thu_gom/shared/constants/color_constants.dart';
 import 'package:thu_gom/shared/themes/style/custom_button_style.dart';
+import 'package:thu_gom/shared/themes/Themes.dart';
 
 class LandingScreen extends StatelessWidget {
   const LandingScreen({super.key});
@@ -10,6 +11,7 @@ class LandingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: ColorsConstants.kBackgroundColor,
       bottomNavigationBar: Container(
         width: MediaQuery.of(context).size.width,
         height: 120.sp,
@@ -25,7 +27,7 @@ class LandingScreen extends StatelessWidget {
               height: 48.sp,
               child: ElevatedButton(
                 onPressed: () {
-                  Get.offAllNamed('/registerPage');
+                  Get.toNamed('/registerPage');
                 },
                 style: CustomButtonStyle.primaryButton,
                 child: Text(
@@ -46,7 +48,7 @@ class LandingScreen extends StatelessWidget {
               height: 48.sp,
               child: ElevatedButton(
                 onPressed: () {
-                  Get.offAllNamed('/loginPage');
+                  Get.toNamed('/loginPage');
                 },
                 style: CustomButtonStyle.transparentButton,
                 child: Text(
@@ -65,7 +67,7 @@ class LandingScreen extends StatelessWidget {
       extendBody: true,
       body: SafeArea(
         child: Padding(
-          padding: EdgeInsets.fromLTRB(18.sp, 28.sp, 18.sp, 0),
+          padding: EdgeInsets.fromLTRB(24.sp, 28.sp, 24.sp, 0),
           child: SizedBox(
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
@@ -76,25 +78,22 @@ class LandingScreen extends StatelessWidget {
                 Container(
                   margin: EdgeInsets.only(bottom: 28.sp),
                   child: Image.asset(
-                    'assets/images/logo_new.png',
+                    'assets/images/logo_instruction.png',
                     width: MediaQuery.of(context).size.width,
                     height: MediaQuery.of(context).size.width,
                   ),
                 ),
-                const Text(
-                  'Thu Gom',
-                  style: TextStyle(
-                    color: ColorsConstants.kActiveColor,
-                    fontSize: 24,
-                    fontWeight: FontWeight.w700,
-                    fontFamily: 'poppins',
+                Text(
+                  'Tham gia Thu Gom ngay!',
+                  style: Themes.lightTheme.textTheme.headlineMedium?.copyWith(
+                    color: ColorsConstants.kMainColor
                   ),
                 ),
                 Container(
                   margin: const EdgeInsets.only(top: 8),
-                  child: const Text(
-                    'Dự án thu gom, dọn dẹp rác thải tại Đà Nẵng',
-                    style: TextStyle(color: ColorsConstants.kActiveColor),
+                  child: Text(
+                    'Cùng nhau xây dựng một môi trường sống bền vững và giúp giảm thiểu lượng rác thải',
+                    style: Themes.lightTheme.textTheme.titleSmall,
                     textAlign: TextAlign.center,
                   ),
                 ),

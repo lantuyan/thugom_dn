@@ -25,19 +25,19 @@ class RegisterController extends GetxController {
     CustomDialogs.hideLoadingDialog();
     CustomDialogs.showLoadingDialog();
     try {
-      _authRepository.register(formData).then((value) {
-        CustomDialogs.hideLoadingDialog();
-        Get.offAllNamed('/register');
-        CustomDialogs.showSnackBar(2, "register_success".tr, 'success');
-      }).catchError((error) {
-        if (error is AppwriteException) {
-          CustomDialogs.hideLoadingDialog();
-          CustomDialogs.showSnackBar(2, "register_wrong".tr, 'error');
-        } else {
-          CustomDialogs.hideLoadingDialog();
-          CustomDialogs.showSnackBar(2, "wrong".tr, 'error');
-        }
-      });
+      // _authRepository.register(formData).then((value) {
+      //   CustomDialogs.hideLoadingDialog();
+      //   Get.offAllNamed('/register');
+      //   CustomDialogs.showSnackBar(2, "register_success".tr, 'success');
+      // }).catchError((error) {
+      //   if (error is AppwriteException) {
+      //     CustomDialogs.hideLoadingDialog();
+      //     CustomDialogs.showSnackBar(2, "register_wrong".tr, 'error');
+      //   } else {
+      //     CustomDialogs.hideLoadingDialog();
+      //     CustomDialogs.showSnackBar(2, "wrong".tr, 'error');
+      //   }
+      // });
     } catch (e) {
       CustomDialogs.hideLoadingDialog();
       CustomDialogs.showSnackBar(2, "wrong".tr, 'error');
