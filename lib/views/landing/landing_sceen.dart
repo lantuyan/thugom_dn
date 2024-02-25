@@ -14,7 +14,7 @@ class LandingScreen extends StatelessWidget {
       bottomNavigationBar: Container(
         width: MediaQuery.of(context).size.width,
         height: 240.sp,
-        padding: EdgeInsets.symmetric(horizontal: 18.sp),
+        padding: EdgeInsets.symmetric(horizontal: 24.sp),
         color: Colors.transparent,
         child: Column(
           children: [
@@ -30,7 +30,7 @@ class LandingScreen extends StatelessWidget {
                   padding: EdgeInsets.symmetric(vertical: 18.sp),
                   backgroundColor: ColorsConstants.kActiveColor,
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(4),
+                    borderRadius: BorderRadius.circular(10),
                   ),
                   elevation: 0,
                   shadowColor: Colors.transparent,
@@ -55,7 +55,7 @@ class LandingScreen extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(vertical: 18),
                   backgroundColor: ColorsConstants.kBackgroundColor,
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(4),
+                    borderRadius: BorderRadius.circular(10),
                     side: const BorderSide(
                       color: ColorsConstants.kActiveColor,
                     ),
