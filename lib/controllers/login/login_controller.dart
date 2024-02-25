@@ -45,7 +45,7 @@ class LoginController extends GetxController {
     }).catchError((error) {
       CustomDialogs.hideLoadingDialog();
       print(error);
-      if (error is AppwriteException) {
+      if (error is AppwriteException && error.type == 'user_invalid_credentials') {
         CustomDialogs.showSnackBar(2,"Thông tin không hợp lệ. Vui lòng kiểm tra email và mật khẩu", 'error');
       } else {
         CustomDialogs.showSnackBar(2, "Đã có lỗi xảy ra vui lòng thử lại sau!", 'error');

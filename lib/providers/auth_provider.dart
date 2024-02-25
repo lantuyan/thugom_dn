@@ -32,39 +32,39 @@ class AuthProvider {
     final userModel = UserModel.fromMap(response.data);
     return userModel;
   }
-  //Register
-  // Future<models.User> register(Map map) async {
-  //   final String userId = ID.unique();
-  //   final response =  await account.create(
-  //     userId: userId,
-  //     email: map['email'],
-  //     password: map['password'],
-  //     name: map['name'],
-  //   );
-  //   UserModel userModel = UserModel(
-  //     email: map['email'],
-  //     name: map['name'],
-  //     uid: response.$id,
-  //     profilePic: '',
-  //     bio: '',
-  //     scans: [],
-  //   );
-  //
-  //   try {
-  //     await _db.createDocument(
-  //       databaseId: AppWriteConstants.databaseId,
-  //       collectionId: AppWriteConstants.usersCollection,
-  //       documentId: userModel.uid,
-  //       data: userModel.toMap(),
-  //     );
-  //   } catch (e) {
-  //     print(e);
-  //   }
-  //   // await saveUserData(userModel);
-  //   // res2.fold((l) => print(l), (r) => print(r));
-  //
-  //   return response;
-  // }
+  // Register
+  Future<models.User> register(Map map,String role) async {
+    final response =  await account.create(
+      userId: ID.unique(),
+      email: map['email'],
+      password: map['password'],
+      name: map['name'],
+    );
+    UserModel userModel = UserModel(
+      email: map['email'] ?? '',
+      username: map['username'] ?? '',
+      name: map['name'] ?? '',
+      role: role,
+      uid: response.$id,
+      phonenumber: map['phonenumber'] ?? '',
+      zalonumber: map['zalonumber'] ?? '',
+      address: map['address'] ?? '',
+    );
+
+    try {
+      await _db.createDocument(
+        databaseId: AppWriteConstants.databaseId,
+        collectionId: AppWriteConstants.usersCollection,
+        documentId: userModel.uid,
+        data: userModel.toMap(),
+      );
+    } catch (e) {
+      print(e);
+    }
+    // await saveUserData(userModel);
+    // res2.fold((l) => print(l), (r) => print(r));
+    return response;
+  }
 
   // Future<models.User> registera(String email, String password, String name) async {
   //   final response = await account.create(
