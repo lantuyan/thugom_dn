@@ -1,10 +1,12 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:thu_gom/shared/constants/color_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:thu_gom/shared/themes/style/app_text_styles.dart';
+import 'package:thu_gom/views/main/home/detail_trash.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -79,36 +81,65 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 // DANH SACH YÊU CẦU
-                Card(
-                  color: ColorsConstants.kBGCardColor,
-                  margin:
-                      EdgeInsets.only(left: 10.sp, right: 10.sp, bottom: 10.sp),
+                Padding(
+                  padding: EdgeInsets.only(left: 10.sp, right: 10.sp),
                   child: Column(
                     children: [
-                      Row(
-                        children: [
-                          SizedBox(
-                            width: 8.w,
-                          ),
-                          Padding(
-                              padding: EdgeInsets.only(
-                                  left: 4.sp,
-                                  right: 4.sp,
-                                  bottom: 4.sp,
-                                  top: 8.sp),
-                              child: CupertinoNavigationBar(
-                                middle: CupertinoSegmentedControl(
-                                  onValueChanged: (value) {},
-                                  children: {
-                                    
-                                  },
+                      Container(
+                        height: 300.h,
+                        child: DefaultTabController(
+                          length: 2,
+                          child: Column(
+                            children: [
+                              Container(
+                                height: 50.h,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: ColorsConstants.kBGCardColor,
                                 ),
-                              )),
-                        ],
+                                child: TabBar(
+                                  indicatorSize: TabBarIndicatorSize.tab,
+                                  indicator: BoxDecoration(
+                                    color: ColorsConstants.kActiveColor,
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  labelColor: ColorsConstants.kBGCardColor,
+                                  dividerColor: ColorsConstants.kActiveColor,
+                                  tabs: [
+                                    Tab(
+                                      child: Container(
+                                        width: 250.w,
+                                        child: Text(
+                                          "Yêu cầu",
+                                          textAlign: TextAlign.center,
+                                        ),
+                                      ),
+                                    ),
+                                    Tab(
+                                      child: Container(
+                                        width: 250.w,
+                                        child: Text(
+                                          "Lịch Sử",
+                                          textAlign: TextAlign.center,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Expanded(
+                                child: TabBarView(children: [
+                                  MyTabOne(),
+                                  MyTabTwo(),
+                                ]),
+                              )
+                            ],
+                          ),
+                        ),
                       ),
                     ],
                   ),
-                ),
+                )
               ],
             ),
           ),
@@ -145,9 +176,14 @@ class _HomeScreenState extends State<HomeScreen> {
         IconButton(
           padding: EdgeInsets.only(right: 10.sp),
           onPressed: () {
-            print("CLICK QUA TRANG DETAIL TRASH");
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => DetailTrash(),
+                ));
           },
-          icon: SvgPicture.asset('assets/icons/ic_alert.svg'),
+          icon: SvgPicture.asset(
+              'assets/icons/ic_info_information_detail_icon.svg'),
         )
       ],
     );
@@ -180,6 +216,99 @@ class _HomeScreenState extends State<HomeScreen> {
           )
         ],
       ),
+    );
+  }
+}
+
+class MyTabOne extends StatelessWidget {
+  const MyTabOne({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.symmetric(vertical: 10.sp),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10.sp),
+        color: Colors.grey[300],
+        border: Border.all(
+          color: Colors.grey,
+          width: 1,
+        ),
+      ),
+      // width: 400.sp,
+
+      padding: EdgeInsets.symmetric(horizontal: 10.sp, vertical: 10.sp),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              //date
+              Text(
+                '09:01 - 2021.09.01',
+                style: TextStyle(
+                  fontSize: 14.sp,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              //name
+              Text(
+                'Tích điểm'.tr,
+                style: TextStyle(
+                  fontSize: 14.sp,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              //description
+              Text(
+                'hNhận diện rác thải '.tr,
+                style: TextStyle(
+                  fontSize: 14.sp,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              //
+            ],
+          ),
+          Column(
+            children: [
+              //point
+              Text(
+                '100',
+                style: TextStyle(
+                  fontSize: 18.sp,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              //types
+              Text(
+                'Rác tái chế'.tr,
+                style: TextStyle(
+                  fontSize: 18.sp,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class MyTabTwo extends StatelessWidget {
+  const MyTabTwo({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: ColorsConstants.kBGCardColor,
+      child: Center(
+          child: Text(
+        "Danh sách Lịch sử",
+        style: TextStyle(fontSize: 20),
+      )),
     );
   }
 }
