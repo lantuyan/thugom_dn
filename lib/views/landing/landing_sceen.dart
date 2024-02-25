@@ -15,7 +15,7 @@ class LandingScreen extends StatelessWidget {
       bottomNavigationBar: Container(
         width: MediaQuery.of(context).size.width,
         height: 120.sp,
-        padding: EdgeInsets.symmetric(horizontal: 18.sp),
+        padding: EdgeInsets.symmetric(horizontal: 24.sp),
         margin: EdgeInsets.only(bottom: 60.sp),
         color: Colors.transparent,
         child: Column(
@@ -86,7 +86,8 @@ class LandingScreen extends StatelessWidget {
                 Text(
                   'Tham gia Thu Gom ngay!',
                   style: Themes.lightTheme.textTheme.headlineMedium?.copyWith(
-                    color: ColorsConstants.kMainColor
+                    color: ColorsConstants.kMainColor,
+                    fontSize: 27.sp,
                   ),
                 ),
                 Container(

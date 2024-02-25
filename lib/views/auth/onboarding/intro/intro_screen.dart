@@ -25,7 +25,7 @@ class IntroScreenState extends State<IntroScreen> {
       bottomNavigationBar: Container(
         width: MediaQuery.of(context).size.width,
         height: 120.sp,
-        padding: EdgeInsets.symmetric(horizontal: 18.sp),
+        padding: EdgeInsets.symmetric(horizontal: 24.sp),
         margin: EdgeInsets.only(bottom: 60.sp),
         color: Colors.transparent,
         child: Column(
@@ -39,7 +39,7 @@ class IntroScreenState extends State<IntroScreen> {
       body: Container(
         color: Colors.transparent,
         margin: EdgeInsets.only(bottom: 40.sp),
-        padding: EdgeInsets.fromLTRB(18.sp, 20.sp, 18.sp, 0),
+        padding: EdgeInsets.fromLTRB(24.sp, 20.sp, 24.sp, 0),
         child: Column(
           children: [
             Container(
