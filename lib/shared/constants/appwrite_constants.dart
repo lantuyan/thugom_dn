@@ -2,9 +2,9 @@ class AppWriteConstants {
   static String endPoint = "https://cloud.appwrite.io/v1";
   static String endPoint2 = "https://reset-password-alpha.vercel.app/v1";
 
-  static String projectId = "";
-  static String databaseId = "";
-  static String usersCollection = "";
+  static String projectId = "65d97bc4695c6bcbc83d";
+  static String databaseId = "65d9eeb4be97fba1f8b6";
+  static String usersCollection = "65d9eeca5c330a39022c";
   static String binsCollection = '';
 
   static String database_bin_Id = "";

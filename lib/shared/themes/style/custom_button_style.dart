@@ -4,7 +4,7 @@ import 'package:thu_gom/shared/constants/color_constants.dart';
 
 class CustomButtonStyle {
     static ButtonStyle primaryButton = ElevatedButton.styleFrom(
-        minimumSize: Size(214.sp,40.sp),
+        padding: EdgeInsets.symmetric(vertical: 18.sp),
         backgroundColor: ColorsConstants.kActiveColor,
         elevation: 5,
         shape: RoundedRectangleBorder(
