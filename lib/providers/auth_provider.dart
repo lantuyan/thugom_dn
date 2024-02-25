@@ -20,41 +20,51 @@ class AuthProvider {
         email: map['email'], password: map['password']);
     return response;
   }
-
-  //Register
-  Future<models.User> register(Map map) async {
-    const uuid = Uuid();
-    final String userId = uuid.v4();
-    final response =  await account.create(
-      userId: userId,
-      email: map['email'],
-      password: map['password'],
-      name: map['name'],
-    );
-    UserModel userModel = UserModel(
-      email: map['email'],
-      name: map['name'],
-      uid: response.$id,
-      profilePic: '',
-      bio: '',
-      scans: [],
+  Future<UserModel> getUserModel(String userId) async {
+    // Gọi API để lấy dữ liệu từ Database Appwrite
+    final response = await _db.getDocument(
+      databaseId: AppWriteConstants.databaseId,
+      collectionId: AppWriteConstants.usersCollection,
+      documentId: userId,
     );
 
-    try {
-      await _db.createDocument(
-        databaseId: AppWriteConstants.databaseId,
-        collectionId: AppWriteConstants.usersCollection,
-        documentId: userModel.uid,
-        data: userModel.toMap(),
-      );
-    } catch (e) {
-      print(e);
-    }
-    // await saveUserData(userModel);
-    // res2.fold((l) => print(l), (r) => print(r));
-
-    return response;
+    // Xây dựng UserModel từ dữ liệu nhận được
+    final userModel = UserModel.fromMap(response.data);
+    return userModel;
   }
+  //Register
+  // Future<models.User> register(Map map) async {
+  //   final String userId = ID.unique();
+  //   final response =  await account.create(
+  //     userId: userId,
+  //     email: map['email'],
+  //     password: map['password'],
+  //     name: map['name'],
+  //   );
+  //   UserModel userModel = UserModel(
+  //     email: map['email'],
+  //     name: map['name'],
+  //     uid: response.$id,
+  //     profilePic: '',
+  //     bio: '',
+  //     scans: [],
+  //   );
+  //
+  //   try {
+  //     await _db.createDocument(
+  //       databaseId: AppWriteConstants.databaseId,
+  //       collectionId: AppWriteConstants.usersCollection,
+  //       documentId: userModel.uid,
+  //       data: userModel.toMap(),
+  //     );
+  //   } catch (e) {
+  //     print(e);
+  //   }
+  //   // await saveUserData(userModel);
+  //   // res2.fold((l) => print(l), (r) => print(r));
+  //
+  //   return response;
+  // }
 
   // Future<models.User> registera(String email, String password, String name) async {
   //   final response = await account.create(
@@ -89,23 +99,23 @@ class AuthProvider {
 
     return phoneSession;
   }
-  Future<void> updateUserInfo(String userId,String name) async {
-    // Create document to storage user info
-    UserModel userModel = UserModel(
-      email: 'unknown',
-      name: name,
-      uid: userId,
-      profilePic: '',
-      bio: '',
-      scans: [],
-    );
-    await _db.createDocument(
-      databaseId: AppWriteConstants.databaseId,
-      collectionId: AppWriteConstants.usersCollection,
-      documentId: userModel.uid,
-      data: userModel.toMap(),
-    );
-  }
+  // Future<void> updateUserInfo(String userId,String name) async {
+  //   // Create document to storage user info
+  //   UserModel userModel = UserModel(
+  //     email: 'unknown',
+  //     name: name,
+  //     uid: userId,
+  //     profilePic: '',
+  //     bio: '',
+  //     scans: [],
+  //   );
+  //   await _db.createDocument(
+  //     databaseId: AppWriteConstants.databaseId,
+  //     collectionId: AppWriteConstants.usersCollection,
+  //     documentId: userModel.uid,
+  //     data: userModel.toMap(),
+  //   );
+  // }
   Future<void> logOut(String sessionId) {
     return account.deleteSession(sessionId: sessionId);
   }
