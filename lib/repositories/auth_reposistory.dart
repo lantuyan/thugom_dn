@@ -7,7 +7,7 @@ class AuthRepository{
   AuthRepository(this._authProvider);
   Future<models.Session> login(Map map) => _authProvider.login(map);
   Future<UserModel> getUserModel(String userId) => _authProvider.getUserModel(userId);
-  // Future<models.User> register(Map map) => _authProvider.register(map);
+  Future<models.User> register(Map map,String role) => _authProvider.register(map,role);
   Future<void> loginOAuth2(String provider) => _authProvider.loginOAuth2(provider);
   // Future<String?> loginWithPhoneNumber(String phoneNumber) => _authProvider.loginWithPhoneNumber(phoneNumber);
   // Future<models.Session> phoneConfirm(String pinCode,String userId,String name) => _authProvider.phoneConfirm(pinCode,userId, name);
@@ -20,5 +20,6 @@ class AuthRepository{
 
   Future sendLinkResetPassword(Map map) => _authProvider.sendLinkResetPassword(map);
   Future resetPassword(Map map, String userId, String secret ) => _authProvider.resetPassword(map, userId, secret);
+
   
 }
