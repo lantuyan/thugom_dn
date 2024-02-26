@@ -18,7 +18,7 @@ import 'package:thu_gom/views/main/map/map_screen.dart';
 import 'package:thu_gom/views/splash/splash_screen.dart';
 
 class Routes {
-  static const INITIAL = '/mainPage';
+  static const INITIAL = '/splash';
 
   static final routes = [
     GetPage(

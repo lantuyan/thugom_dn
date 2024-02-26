@@ -17,6 +17,7 @@ class RegisterScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: ColorsConstants.kBackgroundColor,
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
