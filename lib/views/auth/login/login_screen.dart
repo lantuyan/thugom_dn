@@ -145,6 +145,7 @@ class LoginScreen extends StatelessWidget {
                       SizedBox(height: 36.sp),
                       SizedBox(
                         width:  ScreenUtil().screenWidth,
+                        height: 48.sp,
                         child: Padding(
                           padding: EdgeInsets.fromLTRB(24.sp, 0.sp, 24.sp, 0),
                           child: ElevatedButton(
