@@ -22,54 +22,48 @@ class IntroScreenState extends State<IntroScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: Container(
-        width: MediaQuery.of(context).size.width,
-        height: 120.sp,
-        padding: EdgeInsets.symmetric(horizontal: 24.sp),
-        margin: EdgeInsets.only(bottom: 60.sp),
-        color: Colors.transparent,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            buildActionButton(),
-          ],
-        ),
-      ),
-      extendBody: false,
       body: Container(
         color: Colors.transparent,
-        margin: EdgeInsets.only(bottom: 40.sp),
         padding: EdgeInsets.fromLTRB(24.sp, 20.sp, 24.sp, 0),
-        child: Column(
-          children: [
-            Container(
-              height: 80.sp,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Text(
-                    "Bước 1/2",
-                    style: AppTextStyles.headline1,
-                  ),
-                  SizedBox(height: 8.sp),
-                  Text(
-                    "Hướng dẫn",
-                    style: TextStyle(
-                      fontSize: 32.sp,
-                      fontFamily: AppTextStyles.fontFamily,
-                      fontWeight: FontWeight.w700,
-                      color: ColorsConstants.kMainColor,
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Container(
+                height: 80.sp,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Text(
+                      "Bước 1/2",
+                      style: AppTextStyles.headline1,
                     ),
-                  ),
-                ],
+                    SizedBox(height: 8.sp),
+                    Text(
+                      "Hướng dẫn",
+                      style: TextStyle(
+                        fontSize: 32.sp,
+                        fontFamily: AppTextStyles.fontFamily,
+                        fontWeight: FontWeight.w700,
+                        color: ColorsConstants.kMainColor,
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
-            Expanded(
-              flex: 3,
-              child: buildPages(),
-            ),
-            buildIndicator(),
-          ],
+              SizedBox(height: 24.sp,),
+              Container(
+                height: ScreenUtil().screenWidth * 0.8,
+                width: ScreenUtil().screenWidth * 0.8,
+                child: SizedBox(
+                  child: buildPages(),
+                ),
+              ),
+              SizedBox(height: 24.sp,),
+              buildIndicator(),
+              SizedBox(height: ScreenUtil().screenWidth * 0.3,),
+              buildActionButton(),
+            ],
+          ),
         ),
       ),
     );
@@ -79,7 +73,7 @@ class IntroScreenState extends State<IntroScreen> {
     return SizedBox(
       width: MediaQuery.of(context).size.width,
       height: 48.sp,
-      child: TextButton(
+      child: ElevatedButton(
         style: currentPage == numberOfPages - 1
             ? CustomButtonStyle.primaryButton
             : CustomButtonStyle.transparentButton,
@@ -122,26 +116,19 @@ class IntroScreenState extends State<IntroScreen> {
         });
       },
       children: [
-        onboardPageView(const AssetImage('assets/images/onboarding_1.jpg')),
-        onboardPageView(const AssetImage('assets/images/onboarding_2.jpg')),
-        onboardPageView(const AssetImage('assets/images/onboarding_3.jpg')),
+        onboardPageView(AssetImage('assets/images/onboarding_1.jpg')),
+        onboardPageView(AssetImage('assets/images/onboarding_2.jpg')),
+        onboardPageView(AssetImage('assets/images/onboarding_3.jpg')),
       ],
     );
   }
 
   Widget onboardPageView(ImageProvider<Object> imageProvider) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        SizedBox(height: 20.sp),
-        Image(
-          fit: BoxFit.cover,
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height * 0.5,
-          image: imageProvider,
-        ),
-      ],
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(20),
+      child: Image(
+        image: imageProvider,
+      ),
     );
   }
 
