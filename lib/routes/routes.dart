@@ -3,6 +3,7 @@ import 'package:thu_gom/controllers/login/login_binding.dart';
 import 'package:thu_gom/controllers/main/home/home_binding.dart';
 import 'package:thu_gom/controllers/main/main_binding.dart';
 import 'package:thu_gom/controllers/onboarding/onboarding_binding.dart';
+import 'package:thu_gom/controllers/profile/profile_binding.dart';
 import 'package:thu_gom/controllers/register/register_binding.dart';
 import 'package:thu_gom/controllers/splash/splash_binding.dart';
 import 'package:thu_gom/views/auth/login/login_screen.dart';
@@ -49,7 +50,7 @@ class Routes {
     GetPage(
       name:  '/profilePage',
       page: () => ProfileScreen(),
-      binding: OnboardingBinding(),
+      binding: ProfileBinding(),
     ),
     GetPage(
         name: '/mainPage',
