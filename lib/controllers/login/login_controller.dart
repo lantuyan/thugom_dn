@@ -1,4 +1,5 @@
 import 'package:appwrite/appwrite.dart';
+import 'package:thu_gom/models/user/user_model.dart';
 import 'package:thu_gom/repositories/auth_reposistory.dart';
 import 'package:thu_gom/widgets/custom_dialogs.dart';
 import 'package:flutter/material.dart';
@@ -18,108 +19,53 @@ class LoginController extends GetxController {
   final emailFieldKey = GlobalKey<FormBuilderFieldState>();
   final passwordFieldKey = GlobalKey<FormBuilderFieldState>();
   final nameFieldKey = GlobalKey<FormBuilderFieldState>();
-  final phoneFieldKey = GlobalKey<FormFieldState>();
-  final TextEditingController phoneFieldController = TextEditingController();
-
-  //
-  var checkName = false;
   // Password Visible Bool
   RxBool passwordVisible = true.obs;
   //Get Storage
   final GetStorage _getStorage = GetStorage();
-  var phoneNumber;
-  var name;
-  var pinCode;
-  var userId;
   @override
   void onInit() {
     super.onInit();
   }
 
   //Login method
-  login(Map map) async {
-    CustomDialogs.hideLoadingDialog();
+  Future<void> login(Map map) async {
     CustomDialogs.showLoadingDialog();
-    try {
-      await _authRepository.login({
-            'email': map['email'],
-            'password': map['password']
-          }).then((value) {
-            CustomDialogs.hideLoadingDialog();
-            _getStorage.write('userId', value.userId);
-            _getStorage.write('sessionId', value.$id);
-            Get.offAllNamed('/main');
-          }).catchError((error) {
-        if (error is AppwriteException) {
-          CustomDialogs.hideLoadingDialog();
-          CustomDialogs.showSnackBar(2, "login wrong".tr, 'error');
-        } else {
-          CustomDialogs.hideLoadingDialog();
-          CustomDialogs.showSnackBar(2, "wrong".tr, 'error');
-        }
-      });
-    } catch (e) {
+    await _authRepository.login({
+      'email': map['email'],
+      'password': map['password']
+    }).then((value) async {
+      _getStorage.write('userId', value.userId);
+      _getStorage.write('sessionId', value.$id);
+      final userModel = await getUserModel(value.userId);
+      _getStorage.write('name', userModel.name);
+      _getStorage.write('role', userModel.role);
       CustomDialogs.hideLoadingDialog();
-      CustomDialogs.showSnackBar(2, "wrong".tr, 'error');
-    }
-  }
-  //Login with OAuth2 method
-  loginWithOAuth2(String provider) async {
-    CustomDialogs.hideLoadingDialog();
-    CustomDialogs.showLoadingDialog();
-    try{
-      await _authRepository.loginOAuth2(provider).then((value){
-        _authRepository.getCurrentSession().then((value){
-          _getStorage.write('userId', value.userId);
-          _getStorage.write('sessionId', value.$id);
-          Get.offAllNamed('/main');
-        });
-      }).catchError((error){
-        CustomDialogs.hideLoadingDialog();
-        CustomDialogs.showSnackBar(2, "wrong".tr, 'error');
-      });
-    }catch(e){
+      Get.offAllNamed('/mainPage');
+    }).catchError((error) {
       CustomDialogs.hideLoadingDialog();
-      CustomDialogs.showSnackBar(2, "wrong".tr, 'error');
-    }
-  }
-  //Login with phone number method
-  Future<void> loginWithPhoneNumber(String? phoneNumber,String? name) async {
-    if(phoneNumber == null || phoneNumber == "" ){
-      CustomDialogs.showSnackBar(2, "wrong".tr, 'error');
-    }else{
-      try {
-        var result = await _authRepository.loginWithPhoneNumber(phoneNumber);
-        if(result !=null){
-          userId = result;
-          Get.offAndToNamed('otp-confirm');
-        }
-      } catch (e) {
-        CustomDialogs.showSnackBar(2, "wrong".tr, 'error');
+      print(error);
+      if (error is AppwriteException && error.type == 'user_invalid_credentials') {
+        CustomDialogs.showSnackBar(2,"Thông tin không hợp lệ. Vui lòng kiểm tra email và mật khẩu", 'error');
+      } else {
+        CustomDialogs.showSnackBar(2, "Đã có lỗi xảy ra vui lòng thử lại sau!", 'error');
       }
-    }
+    });
   }
-  Future<void> verifyPhone(String pinCode,String? name) async {
-    try {
-      await _authRepository.phoneConfirm(pinCode,userId,name!).then((value) async {
-        _getStorage.write('userId', value.userId);
-        _getStorage.write('sessionId', value.$id);
-        await updateUserInfo(value.userId,name);
-        Get.offAllNamed('/main');
-      });
-    } catch (e) {
-      CustomDialogs.showSnackBar(2, "wrong".tr, 'error');
-    }
+  Future<UserModel> getUserModel(String userId) async {
+    var userModel = await _authRepository.getUserModel(userId);
+    return userModel;
   }
-  Future<void> updateUserInfo(String userId,String? name) async {
-    try{
-      await _authRepository.updateUserInfo(userId, name!);
-    }catch(e){
-      if(e is AppwriteException && e.type == 'document_already_exists'){
-        Get.offAllNamed('/main');
-      }
-    }
-  }
+
+  // Future<void> updateUserInfo(String userId,String? name) async {
+  //   try{
+  //     await _authRepository.updateUserInfo(userId, name!);
+  //   }catch(e){
+  //     if(e is AppwriteException && e.type == 'document_already_exists'){
+  //       Get.offAllNamed('/main');
+  //     }
+  //   }
+  // }
   //Logout
   void logout() async {
     CustomDialogs.showLoadingDialog();

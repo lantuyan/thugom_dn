@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/route_manager.dart';
 import 'package:thu_gom/shared/constants/color_constants.dart';
+import 'package:thu_gom/shared/themes/style/custom_button_style.dart';
+import 'package:thu_gom/shared/themes/Themes.dart';
 
 class LandingScreen extends StatelessWidget {
   const LandingScreen({super.key});
@@ -9,30 +11,25 @@ class LandingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: ColorsConstants.kBackgroundColor,
       bottomNavigationBar: Container(
         width: MediaQuery.of(context).size.width,
-        height: 240.sp,
-        padding: EdgeInsets.symmetric(horizontal: 18.sp),
+        height: 120.sp,
+        padding: EdgeInsets.symmetric(horizontal: 24.sp),
+        margin: EdgeInsets.only(bottom: 60.sp),
         color: Colors.transparent,
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            Container(
-              margin: EdgeInsets.only(bottom: 18.sp),
+            SizedBox(
+              // margin: EdgeInsets.only(bottom: 18.sp),
               width: MediaQuery.of(context).size.width,
+              height: 48.sp,
               child: ElevatedButton(
                 onPressed: () {
-                  Get.offAllNamed('/registerPage');
+                  Get.toNamed('/registerPage');
                 },
-                style: ElevatedButton.styleFrom(
-                  foregroundColor: ColorsConstants.kActiveColor,
-                  padding: EdgeInsets.symmetric(vertical: 18.sp),
-                  backgroundColor: ColorsConstants.kActiveColor,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(4),
-                  ),
-                  elevation: 0,
-                  shadowColor: Colors.transparent,
-                ),
+                style: CustomButtonStyle.primaryButton,
                 child: Text(
                   'Đăng ký',
                   style: TextStyle(
@@ -44,24 +41,16 @@ class LandingScreen extends StatelessWidget {
               ),
             ),
             SizedBox(
+              height: 18.sp,
+            ),
+            SizedBox(
               width: MediaQuery.of(context).size.width,
+              height: 48.sp,
               child: ElevatedButton(
                 onPressed: () {
-                  Get.offAllNamed('/loginPage');
+                  Get.toNamed('/loginPage');
                 },
-                style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(vertical: 18),
-                  backgroundColor: ColorsConstants.kBackgroundColor,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(4),
-                    side: const BorderSide(
-                      color: ColorsConstants.kActiveColor,
-                    ),
-                  ),
-                  elevation: 0,
-                  shadowColor: Colors.transparent,
-                  foregroundColor: ColorsConstants.kActiveColor,
-                ),
+                style: CustomButtonStyle.transparentButton,
                 child: Text(
                   'Đăng nhập',
                   style: TextStyle(
@@ -78,7 +67,7 @@ class LandingScreen extends StatelessWidget {
       extendBody: true,
       body: SafeArea(
         child: Padding(
-          padding: EdgeInsets.fromLTRB(18.sp, 28.sp, 18.sp, 0),
+          padding: EdgeInsets.fromLTRB(24.sp, 28.sp, 24.sp, 0),
           child: SizedBox(
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
@@ -89,25 +78,23 @@ class LandingScreen extends StatelessWidget {
                 Container(
                   margin: EdgeInsets.only(bottom: 28.sp),
                   child: Image.asset(
-                    'assets/images/logo_new.png',
+                    'assets/images/logo_instruction.png',
                     width: MediaQuery.of(context).size.width,
                     height: MediaQuery.of(context).size.width,
                   ),
                 ),
-                const Text(
-                  'Thu Gom',
-                  style: TextStyle(
-                    color: ColorsConstants.kActiveColor,
-                    fontSize: 24,
-                    fontWeight: FontWeight.w700,
-                    fontFamily: 'poppins',
+                Text(
+                  'Tham gia Thu Gom ngay!',
+                  style: Themes.lightTheme.textTheme.headlineMedium?.copyWith(
+                    color: ColorsConstants.kMainColor,
+                    fontSize: 27.sp,
                   ),
                 ),
                 Container(
                   margin: const EdgeInsets.only(top: 8),
-                  child: const Text(
-                    'Dự án thu gom, dọn dẹp rác thải tại Đà Nẵng',
-                    style: TextStyle(color: ColorsConstants.kActiveColor),
+                  child: Text(
+                    'Cùng nhau xây dựng một môi trường sống bền vững và giúp giảm thiểu lượng rác thải',
+                    style: Themes.lightTheme.textTheme.titleSmall,
                     textAlign: TextAlign.center,
                   ),
                 ),
