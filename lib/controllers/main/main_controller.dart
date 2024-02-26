@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:carousel_slider/carousel_controller.dart';
 import 'package:thu_gom/views/main/home/home_screen.dart';
+import 'package:thu_gom/views/main/home/home_screen_collecter.dart';
 import 'package:thu_gom/views/main/infomation/infomation_screen.dart';
 import 'package:thu_gom/views/main/map/map_screen.dart';
 
@@ -17,7 +18,8 @@ class MainController extends GetxController {
   RxString currentRole = "person".obs;
 
   List<Widget> pages = [
-    HomeScreen(),
+    // HomeScreen(),
+    HomeScreenCollector(),
     MapScreen(),
     InfomationScreen(),
   ];

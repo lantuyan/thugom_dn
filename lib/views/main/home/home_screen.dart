@@ -7,6 +7,8 @@ import 'package:thu_gom/shared/constants/color_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:thu_gom/shared/themes/style/app_text_styles.dart';
 import 'package:thu_gom/views/main/home/detail_trash.dart';
+import 'package:thu_gom/widgets/dot_widget.dart';
+import 'package:thu_gom/widgets/item_requestTrash.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -226,76 +228,31 @@ class MyTabOne extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 10.sp),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10.sp),
-        color: Colors.grey[300],
+        color: ColorsConstants.kBGCardColor,
         border: Border.all(
-          color: Colors.grey,
+          color: ColorsConstants.kShadowColor,
           width: 1,
         ),
       ),
-      // width: 400.sp,
-
       padding: EdgeInsets.symmetric(horizontal: 10.sp, vertical: 10.sp),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              //date
-              Text(
-                '09:01 - 2021.09.01',
-                style: TextStyle(
-                  fontSize: 14.sp,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              //name
-              Text(
-                'Tích điểm'.tr,
-                style: TextStyle(
-                  fontSize: 14.sp,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              //description
-              Text(
-                'hNhận diện rác thải '.tr,
-                style: TextStyle(
-                  fontSize: 14.sp,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              //
-            ],
-          ),
-          Column(
-            children: [
-              //point
-              Text(
-                '100',
-                style: TextStyle(
-                  fontSize: 18.sp,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              //types
-              Text(
-                'Rác tái chế'.tr,
-                style: TextStyle(
-                  fontSize: 18.sp,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ],
-          ),
-        ],
+      child:  InkWell(
+        onTap: () {print("CLICK QUAN PAGE REQUEST");},
+        child: SingleChildScrollView(
+          child: Column(children: [
+            item_requestTrash(),
+            item_requestTrash(),
+            item_requestTrash(),
+            item_requestTrash(),
+          ],),
+        ),
       ),
     );
   }
 }
+
+
 
 class MyTabTwo extends StatelessWidget {
   const MyTabTwo({super.key});
@@ -303,12 +260,24 @@ class MyTabTwo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: ColorsConstants.kBGCardColor,
-      child: Center(
-          child: Text(
-        "Danh sách Lịch sử",
-        style: TextStyle(fontSize: 20),
-      )),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10.sp),
+        color: ColorsConstants.kBGCardColor,
+        border: Border.all(
+          color: ColorsConstants.kShadowColor,
+          width: 1,
+        ),
+      ),
+      padding: EdgeInsets.symmetric(horizontal: 10.sp, vertical: 10.sp),
+      child:  InkWell(
+        onTap: () {print("CLICK QUAN PAGE REQUEST");},
+        child: SingleChildScrollView(
+          child: Column(children: [
+            item_requestTrash(),
+            item_requestTrash(),
+          ],),
+        ),
+      ),
     );
   }
 }

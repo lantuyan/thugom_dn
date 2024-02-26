@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:thu_gom/shared/constants/color_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:thu_gom/shared/themes/style/app_text_styles.dart';
+import 'package:thu_gom/widgets/item_requestTrash.dart';
 
 class HomeScreenCollector extends StatefulWidget {
   @override
@@ -36,7 +37,7 @@ class _HomeScreenCollectorState extends State<HomeScreenCollector> {
                   child: Column(
                     children: [
                       Container(
-                        height: 300.h,
+                        height: 500.h,
                         child: DefaultTabController(
                           length: 2,
                           child: Column(
@@ -129,34 +130,58 @@ class _HomeScreenCollectorState extends State<HomeScreenCollector> {
   }
 }
 
+
 class listRequest extends StatelessWidget {
   const listRequest({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: ColorsConstants.kBGCardColor,
-      child: Center(
-          child: Text(
-        "Danh sách yêu cầu",
-        style: TextStyle(fontSize: 20),
-      )),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10.sp),
+        color: ColorsConstants.kBGCardColor,
+        border: Border.all(
+          color: ColorsConstants.kShadowColor,
+          width: 1,
+        ),
+      ),
+      padding: EdgeInsets.symmetric(horizontal: 10.sp, vertical: 10.sp),
+      child:  InkWell(
+        onTap: () {print("CLICK QUAN PAGE REQUEST");},
+        child: SingleChildScrollView(
+          child: Column(children: [
+            item_requestTrash(),
+            item_requestTrash(),
+            item_requestTrash(),
+          ],),
+        ),
+      ),
     );
   }
 }
-
 class listComfirmed extends StatelessWidget {
   const listComfirmed({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: ColorsConstants.kBGCardColor,
-      child: Center(
-          child: Text(
-        "Danh sách Lịch sử",
-        style: TextStyle(fontSize: 20),
-      )),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10.sp),
+        color: ColorsConstants.kBGCardColor,
+        border: Border.all(
+          color: ColorsConstants.kShadowColor,
+          width: 1,
+        ),
+      ),
+      padding: EdgeInsets.symmetric(horizontal: 10.sp, vertical: 10.sp),
+      child:  InkWell(
+        onTap: () {print("CLICK QUAN PAGE REQUEST");},
+        child: SingleChildScrollView(
+          child: Column(children: [
+            item_requestTrash(),
+          ],),
+        ),
+      ),
     );
   }
 }
