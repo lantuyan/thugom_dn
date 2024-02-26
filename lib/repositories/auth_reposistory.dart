@@ -11,10 +11,9 @@ class AuthRepository{
   Future<void> loginOAuth2(String provider) => _authProvider.loginOAuth2(provider);
   // Future<String?> loginWithPhoneNumber(String phoneNumber) => _authProvider.loginWithPhoneNumber(phoneNumber);
   // Future<models.Session> phoneConfirm(String pinCode,String userId,String name) => _authProvider.phoneConfirm(pinCode,userId, name);
-  // Future<void> updateUserInfo(String userId,String name) => _authProvider.updateUserInfo(userId,name);
+  Future<void> updateProfile(Map map,String address,String userId) => _authProvider.updateProfile(map,address,userId);
   Future<void> logOut(String sessionId) => _authProvider.logOut(sessionId);
   Future<models.Session> getCurrentSession() => _authProvider.getCurrentSession();
-
 
   Future verifyEmail() => _authProvider.verifyEmail();
 
