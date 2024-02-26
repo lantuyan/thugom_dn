@@ -11,6 +11,7 @@ static const kTextSecondColor = Color(0xFF8E8E93);
 
 static Color kShadowColor = const Color(0xFF8E8E93).withOpacity(0.25);
 static const kBackgroundColor = Color.fromARGB(255, 234, 234, 234);
+static const ksecondBackgroundColor = Color(0xFFFFFFFF);
 static const kBGCardColor = Color(0xFFFFFFFF);
 static const kSecondBackgroundColor = Color(0xD9D9D9D9);
 

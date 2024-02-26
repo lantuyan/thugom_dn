@@ -15,7 +15,7 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ColorsConstants.kBackgroundColor,
+      backgroundColor: ColorsConstants.ksecondBackgroundColor,
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(

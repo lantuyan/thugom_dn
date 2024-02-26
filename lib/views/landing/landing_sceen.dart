@@ -11,7 +11,7 @@ class LandingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ColorsConstants.kBackgroundColor,
+      backgroundColor: ColorsConstants.ksecondBackgroundColor,
       bottomNavigationBar: Container(
         width: MediaQuery.of(context).size.width,
         height: 120.sp,
