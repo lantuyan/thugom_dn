@@ -10,4 +10,9 @@ class AppWriteConstants {
   static String collection_point_Id = "65db36de750ed6145af1";
   static String userRequestTrashCollection = "65d9eedea7d5c425131b";
   
+  static String categoryCollectionId = "";
+  static String categoryBucketId = "";
+  static String trashBucketId = "";
+  static String categoryDetailCollectionId = "";
+  
 }
