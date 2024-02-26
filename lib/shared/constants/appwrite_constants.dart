@@ -8,7 +8,7 @@ class AppWriteConstants {
   static String binsCollection = '';
 
   static String database_bin_Id = "";
-  static String collection_bin_Id = "";
+  static String collection_bin_Id = "65db36de750ed6145af1";
 
   static String categoryCollectionId = "";
   static String categoryBucketId = "";
