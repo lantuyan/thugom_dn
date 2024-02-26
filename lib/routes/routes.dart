@@ -11,13 +11,14 @@ import 'package:thu_gom/views/landing/landing_sceen.dart';
 import 'package:thu_gom/views/auth/onboarding/intro/intro_screen.dart';
 import 'package:thu_gom/views/auth/onboarding/profile/profile_screen.dart';
 import 'package:thu_gom/views/main/home/home_screen.dart';
+import 'package:thu_gom/views/main/home/home_screen_collecter.dart';
 import 'package:thu_gom/views/main/infomation/infomation_screen.dart';
 import 'package:thu_gom/views/main/main_screen.dart';
 import 'package:thu_gom/views/main/map/map_screen.dart';
 import 'package:thu_gom/views/splash/splash_screen.dart';
 
 class Routes {
-  static const INITIAL = '/splash';
+  static const INITIAL = '/mainPage';
 
   static final routes = [
     GetPage(
@@ -58,7 +59,7 @@ class Routes {
         children: [
           GetPage(
             name: '/homePage',
-            page: () => HomeScreen(),
+            page: () => HomeScreenCollector(),
             binding: HomeBinding(),
           ),
           GetPage(

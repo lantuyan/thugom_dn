@@ -6,16 +6,14 @@ import 'package:get/get.dart';
 import 'package:thu_gom/shared/constants/color_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:thu_gom/shared/themes/style/app_text_styles.dart';
-import 'package:thu_gom/views/main/home/detail_trash.dart';
-import 'package:thu_gom/widgets/dot_widget.dart';
 import 'package:thu_gom/widgets/item_requestTrash.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomeScreenCollector extends StatefulWidget {
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<HomeScreenCollector> createState() => _HomeScreenCollectorState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenCollectorState extends State<HomeScreenCollector> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -33,62 +31,13 @@ class _HomeScreenState extends State<HomeScreen> {
                 SizedBox(
                   height: 8.h,
                 ),
-                // ĐĂNG KÝ THU GOM
-                Card(
-                  color: ColorsConstants.kBGCardColor,
-                  margin:
-                      EdgeInsets.only(left: 10.sp, right: 10.sp, bottom: 10.sp),
-                  child: Column(
-                    children: [
-                      Row(
-                        children: [
-                          SizedBox(
-                            width: 8.w,
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(
-                                left: 4.sp,
-                                right: 4.sp,
-                                bottom: 4.sp,
-                                top: 8.sp),
-                            child: Text(
-                              "Đăng ký thu gom",
-                              style: AppTextStyles.title,
-                              textAlign: TextAlign.start,
-                            ),
-                          ),
-                        ],
-                      ),
-                      _TrashItem("assets/images/trash_wooden.png",
-                          "Rác cồng kềnh", "hihihi"),
-                      SizedBox(
-                        height: 4.h,
-                      ),
-                      _TrashItem("assets/images/trash_metal.png",
-                          "Rác xây dựng", "hihihi"),
-                      SizedBox(
-                        height: 4.h,
-                      ),
-                      _TrashItem("assets/images/trash_paper.png", "Rác tái chế",
-                          "hihihi"),
-                      SizedBox(
-                        height: 4.h,
-                      ),
-                      _TrashItem("assets/images/trash_rubber.png", "Rác khác",
-                          "hihihi"),
-                      SizedBox(
-                        height: 4.h,
-                      ),
-                    ],
-                  ),
-                ),
                 // DANH SACH YÊU CẦU
                 Padding(
                   padding: EdgeInsets.only(left: 10.sp, right: 10.sp),
                   child: Column(
                     children: [
                       Container(
-                        height: 300.h,
+                        height: 500.h,
                         child: DefaultTabController(
                           length: 2,
                           child: Column(
@@ -112,7 +61,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       child: Container(
                                         width: 250.w,
                                         child: Text(
-                                          "Yêu cầu",
+                                          "Yêu Cầu (3)",
                                           textAlign: TextAlign.center,
                                         ),
                                       ),
@@ -121,7 +70,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       child: Container(
                                         width: 250.w,
                                         child: Text(
-                                          "Lịch Sử",
+                                          "Đã Xử Lý (1)",
                                           textAlign: TextAlign.center,
                                         ),
                                       ),
@@ -131,8 +80,8 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
                               Expanded(
                                 child: TabBarView(children: [
-                                  MyTabOne(),
-                                  MyTabTwo(),
+                                  listRequest(),
+                                  listComfirmed(),
                                 ]),
                               )
                             ],
@@ -147,47 +96,6 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
       ),
-    );
-  }
-
-  Row _TrashItem(
-    String image,
-    String nameTrash,
-    String links,
-  ) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Padding(
-          padding: EdgeInsets.only(left: 10.sp),
-          child: Image.asset(
-            image,
-            width: 80.w,
-            height: 50.h,
-            fit: BoxFit.fill,
-          ),
-        ),
-        SizedBox(
-          width: 120.w,
-          child: Text(
-            nameTrash,
-            style: AppTextStyles.bodyText1.copyWith(fontSize: 16.sp),
-            textAlign: TextAlign.left,
-          ),
-        ),
-        IconButton(
-          padding: EdgeInsets.only(right: 10.sp),
-          onPressed: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => DetailTrash(),
-                ));
-          },
-          icon: SvgPicture.asset(
-              'assets/icons/ic_info_information_detail_icon.svg'),
-        )
-      ],
     );
   }
 
@@ -213,7 +121,7 @@ class _HomeScreenState extends State<HomeScreen> {
             width: 10.w,
           ),
           Text(
-            "Hello".tr + "\ Tấn",
+            "URENCO 15:".tr + "Nhân viên 1",
             style: AppTextStyles.headline1,
           )
         ],
@@ -222,8 +130,9 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
-class MyTabOne extends StatelessWidget {
-  const MyTabOne({super.key});
+
+class listRequest extends StatelessWidget {
+  const listRequest({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -241,7 +150,6 @@ class MyTabOne extends StatelessWidget {
         onTap: () {print("CLICK QUAN PAGE REQUEST");},
         child: SingleChildScrollView(
           child: Column(children: [
-            item_requestTrash(),
             item_requestTrash(),
             item_requestTrash(),
             item_requestTrash(),
@@ -251,11 +159,8 @@ class MyTabOne extends StatelessWidget {
     );
   }
 }
-
-
-
-class MyTabTwo extends StatelessWidget {
-  const MyTabTwo({super.key});
+class listComfirmed extends StatelessWidget {
+  const listComfirmed({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -273,7 +178,6 @@ class MyTabTwo extends StatelessWidget {
         onTap: () {print("CLICK QUAN PAGE REQUEST");},
         child: SingleChildScrollView(
           child: Column(children: [
-            item_requestTrash(),
             item_requestTrash(),
           ],),
         ),

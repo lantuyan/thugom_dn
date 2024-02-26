@@ -27,41 +27,41 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: ColorsConstants.kMainColor,
-          elevation: 0,
-          title: Text(
-            "app_name".tr,
-            style: TextStyle(
-                fontSize: 20.sp,
-                fontWeight: FontWeight.w600,
-                color: Colors.white),
-          ),
-          // leading: Container(
-          //   padding: EdgeInsets.symmetric(horizontal: 20.sp),
-          //   width: 200.sp,
-          //   child: Row(
-          //     children: [
-          //       Image.asset(
-          //         "assets/images/logo_new.png",
-          //         width: 30.sp,
-          //         height: 30.sp,
-          //       ),
-          //       SizedBox(
-          //         width: 10.sp,
-          //       ),
-          //       Text(
-          //         "Nguyễn Văn A",
-          //         style: TextStyle(
-          //             fontSize: 18.sp,
-          //             fontWeight: FontWeight.w600,
-          //             color: Colors.white),
-          //       ),
-          //     ],
-          //   ),
-          // ),
-          centerTitle: true,
-        ),
+        // appBar: AppBar(
+        //   backgroundColor: ColorsConstants.kMainColor,
+        //   elevation: 0,
+        //   title: Text(
+        //     "app_name".tr,
+        //     style: TextStyle(
+        //         fontSize: 20.sp,
+        //         fontWeight: FontWeight.w600,
+        //         color: Colors.white),
+        //   ),
+        //   leading: Container(
+        //     padding: EdgeInsets.symmetric(horizontal: 20.sp),
+        //     width: 200.sp,
+        //     child: Row(
+        //       children: [
+        //         Image.asset(
+        //           "assets/images/logo_new.png",
+        //           width: 30.sp,
+        //           height: 30.sp,
+        //         ),
+        //         SizedBox(
+        //           width: 10.sp,
+        //         ),
+        //         Text(
+        //           "Nguyễn Văn A",
+        //           style: TextStyle(
+        //               fontSize: 18.sp,
+        //               fontWeight: FontWeight.w600,
+        //               color: Colors.white),
+        //         ),
+        //       ],
+        //     ),
+        //   ),
+        //   centerTitle: true,
+        // ),
         bottomNavigationBar: BottomAppBar(
           elevation: 0,
           // notchMargin: 10,
