@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/route_manager.dart';
 import 'package:thu_gom/shared/constants/color_constants.dart';
+import 'package:thu_gom/shared/themes/style/custom_button_style.dart';
 import 'package:thu_gom/shared/themes/Themes.dart';
 
 class LandingScreen extends StatelessWidget {
@@ -13,28 +14,22 @@ class LandingScreen extends StatelessWidget {
       backgroundColor: ColorsConstants.kBackgroundColor,
       bottomNavigationBar: Container(
         width: MediaQuery.of(context).size.width,
-        height: 240.sp,
+        height: 120.sp,
         padding: EdgeInsets.symmetric(horizontal: 24.sp),
+        margin: EdgeInsets.only(bottom: 60.sp),
         color: Colors.transparent,
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            Container(
-              margin: EdgeInsets.only(bottom: 18.sp),
+            SizedBox(
+              // margin: EdgeInsets.only(bottom: 18.sp),
               width: MediaQuery.of(context).size.width,
+              height: 48.sp,
               child: ElevatedButton(
                 onPressed: () {
                   Get.toNamed('/registerPage');
                 },
-                style: ElevatedButton.styleFrom(
-                  foregroundColor: ColorsConstants.kActiveColor,
-                  padding: EdgeInsets.symmetric(vertical: 18.sp),
-                  backgroundColor: ColorsConstants.kActiveColor,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  elevation: 0,
-                  shadowColor: Colors.transparent,
-                ),
+                style: CustomButtonStyle.primaryButton,
                 child: Text(
                   'Đăng ký',
                   style: TextStyle(
@@ -46,24 +41,16 @@ class LandingScreen extends StatelessWidget {
               ),
             ),
             SizedBox(
+              height: 18.sp,
+            ),
+            SizedBox(
               width: MediaQuery.of(context).size.width,
+              height: 48.sp,
               child: ElevatedButton(
                 onPressed: () {
                   Get.toNamed('/loginPage');
                 },
-                style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(vertical: 18),
-                  backgroundColor: ColorsConstants.kBackgroundColor,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    side: const BorderSide(
-                      color: ColorsConstants.kActiveColor,
-                    ),
-                  ),
-                  elevation: 0,
-                  shadowColor: Colors.transparent,
-                  foregroundColor: ColorsConstants.kActiveColor,
-                ),
+                style: CustomButtonStyle.transparentButton,
                 child: Text(
                   'Đăng nhập',
                   style: TextStyle(
@@ -99,7 +86,8 @@ class LandingScreen extends StatelessWidget {
                 Text(
                   'Tham gia Thu Gom ngay!',
                   style: Themes.lightTheme.textTheme.headlineMedium?.copyWith(
-                    color: ColorsConstants.kMainColor
+                    color: ColorsConstants.kMainColor,
+                    fontSize: 27.sp,
                   ),
                 ),
                 Container(
