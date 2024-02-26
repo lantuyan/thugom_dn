@@ -15,7 +15,7 @@ class CustomDialogs{
             children: [
               const CircularProgressIndicator(color: ColorsConstants.kMainColor,),
               SizedBox(height: 10.sp),
-              Text('loading'.tr+" ..."),
+              Text('Đang xử lý...'),
             ],
           ),
         ),
@@ -24,26 +24,26 @@ class CustomDialogs{
     );
   }
   static void hideLoadingDialog(){
-    Get.back(closeOverlays: true);
+    Get.back();
   }
   static void showSnackBar(int duration,String message,String type){
     Color color;
     Icon icon;
     if (type == 'error') {
-      icon = const Icon(Icons.error_outline);
+      icon = const Icon(Icons.error_outline,color: Colors.white);
       color = Colors.red;
     } else if (type == 'alert') {
       icon = const Icon(Icons.notifications_outlined);
       color = Colors.amber;
     } else if (type == 'success'){
-      icon = const Icon(Icons.check_circle_outline);
+      icon = const Icon(Icons.check_circle_outline,color: Colors.white);
       color = ColorsConstants.kMainColor;
     }else{
       icon = const Icon(Icons.notifications_outlined);
       color = Colors.blue;
     }
     Get.snackbar(
-      type == 'error'?"error notification".tr:"notification".tr,
+      type == 'error'?"Thông báo lỗi":"Thông báo",
       message,
       icon: icon,
       snackPosition: SnackPosition.BOTTOM,

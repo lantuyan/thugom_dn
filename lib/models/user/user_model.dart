@@ -3,64 +3,75 @@ import 'package:flutter/foundation.dart';
 @immutable
 class UserModel {
   final String email;
+  final String username;
   final String name;
-  final List<String> scans;
-  final String profilePic;
+  final String role;
   final String uid;
-  final String bio;
+  final String phonenumber;
+  final String zalonumber;
+  final String address;
   const UserModel({
     required this.email,
+    required this.username,
     required this.name,
-    required this.scans,
-    required this.profilePic,
+    required this.role,
     required this.uid,
-    required this.bio,
+    required this.phonenumber,
+    required this.zalonumber,
+    required this.address,
   });
 
   UserModel copyWith({
     String? email,
+    String? username,
     String? name,
-    List<String>? scans,
-    String? profilePic,
+    String? role,
     String? uid,
-    String? bio,
+    String? phonenumber,
+    String? zalonumber,
+    String? address,
   }) {
     return UserModel(
       email: email ?? this.email,
+      username: username ?? this.username,
       name: name ?? this.name,
-      scans: scans ?? this.scans,
-      profilePic: profilePic ?? this.profilePic,
+      role: role ?? this.role,
       uid: uid ?? this.uid,
-      bio: bio ?? this.bio,
+      phonenumber: phonenumber ?? this.phonenumber,
+      zalonumber: zalonumber ?? this.zalonumber,
+      address: address ?? this.address,
     );
   }
 
   Map<String, dynamic> toMap() {
-    final result = <String, dynamic>{};
-
-    result.addAll({'email': email});
-    result.addAll({'name': name});
-    result.addAll({'scans': scans});
-    result.addAll({'profilePic': profilePic});
-    result.addAll({'bio': bio});
-
-    return result;
+    return {
+      'email': email,
+      'username': username,
+      'name': name,
+      'role': role,
+      'uid': uid,
+      'phonenumber': phonenumber,
+      'zalonumber': zalonumber,
+      'address': address,
+    };
   }
 
   factory UserModel.fromMap(Map<String, dynamic> map) {
     return UserModel(
       email: map['email'] ?? '',
+      username: map['username'] ?? '',
       name: map['name'] ?? '',
-      scans: List<String>.from(map['scans']),
-      profilePic: map['profilePic'] ?? '',
-      uid: map['\$id'] ?? '',
-      bio: map['bio'] ?? '',
+      role: map['role'] ?? '',
+      uid: map['uid'] ?? '',
+      phonenumber: map['phonenumber'] ?? '',
+      zalonumber: map['zalonumber'] ?? '',
+      address: map['address'] ?? '',
     );
   }
 
   @override
   String toString() {
-    return 'UserModel(email: $email, name: $name, scans: $scans, profilePic: $profilePic, uid: $uid, bio: $bio)';
+    return 'UserModel(email: $email, username: $username, name: $name, role: $role, uid: $uid, phonenumber: $phonenumber, zalonumber: $zalonumber, address: $address)';
   }
 
   @override
@@ -69,20 +80,25 @@ class UserModel {
 
     return other is UserModel &&
         other.email == email &&
+        other.username == username &&
         other.name == name &&
-        listEquals(other.scans, scans) &&
-        other.profilePic == profilePic &&
+        other.role == role &&
         other.uid == uid &&
-        other.bio == bio;
+        other.phonenumber == phonenumber &&
+        other.zalonumber == zalonumber &&
+        other.address == address;
   }
 
   @override
   int get hashCode {
     return email.hashCode ^
-        name.hashCode ^
-        scans.hashCode ^
-        profilePic.hashCode ^
-        uid.hashCode ^
-        bio.hashCode;
+    username.hashCode ^
+    name.hashCode ^
+    role.hashCode ^
+    uid.hashCode ^
+    phonenumber.hashCode ^
+    zalonumber.hashCode ^
+    address.hashCode;
   }
 }
+
