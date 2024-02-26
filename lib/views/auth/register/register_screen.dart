@@ -236,10 +236,10 @@ class RegisterScreen extends StatelessWidget {
                           width:  ScreenUtil().screenWidth,
                           child: ElevatedButton(
                               onPressed: () {
-                                Get.toNamed('/profilePage');
-                                // if (_registerController.formKey.currentState!.saveAndValidate()) {
-                                //   _registerController.register(_registerController.formKey.currentState!.value);
-                                // }
+                                // Get.toNamed('/profilePage');
+                                if (_registerController.formKey.currentState!.saveAndValidate()) {
+                                  _registerController.register(_registerController.formKey.currentState!.value);
+                                }
                               },
                               style: CustomButtonStyle.primaryButton,
                               child: Text(
