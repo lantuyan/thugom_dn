@@ -234,6 +234,7 @@ class RegisterScreen extends StatelessWidget {
                         SizedBox(height: 36.sp),
                         SizedBox(
                           width:  ScreenUtil().screenWidth,
+                          height: 48.sp,
                           child: ElevatedButton(
                               onPressed: () {
                                 // Get.toNamed('/profilePage');
