@@ -69,6 +69,8 @@ dependencies:
 
   #add flutter_map
   google_maps_flutter: ^2.5.3
+  geocoding: ^2.2.0
+  geolocator: ^11.0.0
 
 dev_dependencies:
   flutter_test:
