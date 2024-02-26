@@ -14,7 +14,7 @@ class CustomButtonStyle {
     );
 
     static ButtonStyle transparentButton = ElevatedButton.styleFrom(
-        backgroundColor: ColorsConstants.kBackgroundColor,
+        backgroundColor: ColorsConstants.ksecondBackgroundColor,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10),
           side: const BorderSide(
