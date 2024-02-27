@@ -12,65 +12,10 @@ class LandingScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorsConstants.ksecondBackgroundColor,
-      bottomNavigationBar: Container(
-        width: MediaQuery.of(context).size.width,
-        height: 120.sp,
-        padding: EdgeInsets.symmetric(horizontal: 24.sp),
-        margin: EdgeInsets.only(bottom: 60.sp),
-        color: Colors.transparent,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            SizedBox(
-              // margin: EdgeInsets.only(bottom: 18.sp),
-              width: MediaQuery.of(context).size.width,
-              height: 48.sp,
-              child: ElevatedButton(
-                onPressed: () {
-                  Get.toNamed('/registerPage');
-                },
-                style: CustomButtonStyle.primaryButton,
-                child: Text(
-                  'Đăng ký',
-                  style: TextStyle(
-                    color: ColorsConstants.kSecondColor,
-                    fontWeight: FontWeight.w600,
-                    fontSize: 18.sp,
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(
-              height: 18.sp,
-            ),
-            SizedBox(
-              width: MediaQuery.of(context).size.width,
-              height: 48.sp,
-              child: ElevatedButton(
-                onPressed: () {
-                  Get.toNamed('/loginPage');
-                },
-                style: CustomButtonStyle.transparentButton,
-                child: Text(
-                  'Đăng nhập',
-                  style: TextStyle(
-                    color: ColorsConstants.kMainColor,
-                    fontWeight: FontWeight.w600,
-                    fontSize: 18.sp,
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-      extendBody: true,
       body: SafeArea(
-        child: Padding(
-          padding: EdgeInsets.fromLTRB(24.sp, 28.sp, 24.sp, 0),
-          child: SizedBox(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height,
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.fromLTRB(24.sp, 28.sp, 24.sp, 24.sp),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -79,8 +24,8 @@ class LandingScreen extends StatelessWidget {
                   margin: EdgeInsets.only(bottom: 28.sp),
                   child: Image.asset(
                     'assets/images/logo_instruction.png',
-                    width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.width,
+                    width: ScreenUtil().screenWidth*0.8,
+                    height: ScreenUtil().screenWidth*0.8,
                   ),
                 ),
                 Text(
@@ -96,6 +41,47 @@ class LandingScreen extends StatelessWidget {
                     'Cùng nhau xây dựng một môi trường sống bền vững và giúp giảm thiểu lượng rác thải',
                     style: Themes.lightTheme.textTheme.titleSmall,
                     textAlign: TextAlign.center,
+                  ),
+                ),
+                SizedBox(height: 30.sp,),
+                SizedBox(
+                  // margin: EdgeInsets.only(bottom: 18.sp),
+                  width: ScreenUtil().screenWidth,
+                  height: 48.sp,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Get.toNamed('/registerPage');
+                    },
+                    style: CustomButtonStyle.primaryButton,
+                    child: Text(
+                      'Đăng ký',
+                      style: TextStyle(
+                        color: ColorsConstants.kSecondColor,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 18.sp,
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 18.sp,
+                ),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width,
+                  height: 48.sp,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Get.toNamed('/loginPage');
+                    },
+                    style: CustomButtonStyle.transparentButton,
+                    child: Text(
+                      'Đăng nhập',
+                      style: TextStyle(
+                        color: ColorsConstants.kMainColor,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 18.sp,
+                      ),
+                    ),
                   ),
                 ),
               ],
