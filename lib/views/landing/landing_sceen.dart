@@ -50,7 +50,7 @@ class LandingScreen extends StatelessWidget {
                   height: 48.sp,
                   child: ElevatedButton(
                     onPressed: () {
-                      Get.toNamed('/introPage');
+                      Get.toNamed('/registerPage');
                     },
                     style: CustomButtonStyle.primaryButton,
                     child: Text(
