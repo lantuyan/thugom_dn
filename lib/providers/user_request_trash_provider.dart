@@ -24,6 +24,13 @@ class UserRequestTrashProvider {
     return response;
   }
 
+  Future<models.DocumentList> getRequest() async {
+    final response = await databases!.listDocuments(
+        databaseId: AppWriteConstants.databaseId,
+        collectionId: AppWriteConstants.categoryCollectionId);
+    return response;
+  }
+
   // Future<models.File> uploadCategoryImage(String imagePath) {
   //   String fileName = "${DateTime.now().microsecondsSinceEpoch}"
   //       "${imagePath.split(".").last}";

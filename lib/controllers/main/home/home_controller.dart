@@ -70,6 +70,14 @@ class HomeController extends GetxController
     // TODO: implement onClose
     super.onClose();
   }
+  Future<void> getRequest() async {
+    await _userRequestTrashRepository.getRequest().then((value){
+      print(value.documents.first.data);
+    }).catchError((onError){
+      print(onError);
+    });
+
+  }
 
   getCategory() async {
     try {
