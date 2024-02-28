@@ -4,7 +4,8 @@
     <application
         android:label="thu_gom"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/ic_launcher" 
+        android:enableOnBackInvokedCallback="true">
         <meta-data android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyATdkfW2BNrWihxHncE_e5DgjVhK8hXo3I"/>
         <activity

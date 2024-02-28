@@ -12,7 +12,7 @@ import 'package:thu_gom/views/auth/register/register_screen.dart';
 import 'package:thu_gom/views/landing/landing_sceen.dart';
 import 'package:thu_gom/views/auth/onboarding/intro/intro_screen.dart';
 import 'package:thu_gom/views/auth/onboarding/profile/profile_screen.dart';
-import 'package:thu_gom/views/main/home/home_screen.dart';
+import 'package:thu_gom/views/main/home/home_screen_person.dart';
 import 'package:thu_gom/views/main/home/home_screen_collecter.dart';
 import 'package:thu_gom/views/main/infomation/infomation_screen.dart';
 import 'package:thu_gom/views/main/main_screen.dart';
@@ -61,7 +61,18 @@ class Routes {
           GetPage(
             name: '/homePage',
             page: () => HomeScreenCollector(),
-            binding: HomeBinding(),
+            children: [
+              GetPage(
+                name: '/homePageCollector',
+                page: () => HomeScreenCollector(),
+                binding: HomeBinding(),
+              ),
+              GetPage(
+                name: '/homePagePerson',
+                page: () => HomeScreenPerson(),
+                binding: HomeBinding(),
+              ),
+            ],
           ),
           GetPage(
             name: '/mapPage',

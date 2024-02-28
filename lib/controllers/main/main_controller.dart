@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:carousel_slider/carousel_controller.dart';
 import 'package:thu_gom/managers/data_manager.dart';
-import 'package:thu_gom/views/main/home/home_screen.dart';
+import 'package:thu_gom/views/main/home/home_screen_person.dart';
 import 'package:thu_gom/views/main/home/home_screen_collecter.dart';
 import 'package:thu_gom/views/main/infomation/infomation_screen.dart';
 import 'package:thu_gom/views/main/map/map_screen.dart';
@@ -19,7 +19,7 @@ class MainController extends GetxController {
   String currentRole = DataManager().getData('role');
 
   List<Widget> pagesUser = [
-    HomeScreen(),
+    HomeScreenPerson(),
     MapScreen(),
     InfomationScreen(),
   ];

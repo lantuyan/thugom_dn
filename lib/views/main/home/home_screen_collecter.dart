@@ -3,6 +3,11 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:thu_gom/controllers/main/home/home_controller.dart';
+import 'package:thu_gom/providers/category_provider.dart';
+import 'package:thu_gom/providers/user_request_trash_provider.dart';
+import 'package:thu_gom/repositories/category_reponsitory.dart';
+import 'package:thu_gom/repositories/user_request_trash_reponsitory.dart';
 import 'package:thu_gom/shared/constants/color_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:thu_gom/shared/themes/style/app_text_styles.dart';
@@ -15,6 +20,9 @@ class HomeScreenCollector extends StatefulWidget {
 }
 
 class _HomeScreenCollectorState extends State<HomeScreenCollector> {
+  final HomeController _homeController = Get.put(HomeController(
+      CategoryRepository(CategoryProvider()),
+      UserRequestTrashRepository(UserRequestTrashProvider())));
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -110,7 +118,7 @@ class _HomeScreenCollectorState extends State<HomeScreenCollector> {
           ),
           GestureDetector(
             onTap: () {
-              print("CLICK SANG PAGE PROFILE NÈ!!!!");
+               _homeController.logOut(); // LOGOUT
             },
             child: Image.asset(
               'assets/images/user-avatar.png',

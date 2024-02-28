@@ -119,4 +119,26 @@ class HomeController extends GetxController
       change(null, status: RxStatus.error("Something went wrong"));
     }
   }
+
+  Future<void> logOut() async {
+    CustomDialogs.showLoadingDialog();
+    try {
+      await AuthProvider().logOut(_getStorage.read('sessionId')).then((value) {
+        CustomDialogs.hideLoadingDialog();
+        _getStorage.remove('userId');
+        _getStorage.remove('sessionId');
+        _getStorage.remove('name');
+        _getStorage.remove('role');
+        Get.offAllNamed('/landingPage');
+      }).catchError((onError) {
+        print("Error: $onError");
+        CustomDialogs.hideLoadingDialog();
+        CustomDialogs.showSnackBar(2, "wrong".tr, 'error');
+      });
+    } catch (error) {
+      print("Error: $error");
+      CustomDialogs.hideLoadingDialog();
+      CustomDialogs.showSnackBar(2, "wrong".tr, 'error');
+    }
+  }
 }
