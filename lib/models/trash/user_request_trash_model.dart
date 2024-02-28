@@ -38,11 +38,15 @@ class UserRequestTrashModel {
     phone_number = map['phone_number'];
     address = map['address'];
     description = map['description'];
-    point_lat = map['point_lat'];
-    point_lng = map['point_lng'];
+    point_lat = map['point_lat'].toDouble();
+    point_lng = map['point_lng'].toDouble();
     status = map['status'];
     confirm = map['confirm'];
-    hidden = map['hidden'];
+    if (map['hidden'] != null) {
+      hidden = List<String>.from(map['hidden']);
+    } else {
+      hidden = [];
+    }
     createAt = map['createAt'];
     updateAt = map['updateAt'];
   }
