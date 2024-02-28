@@ -174,7 +174,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                         width: 250.w,
                                         child: Text(
                                           "Yêu cầu (3)",
-                                          style: AppTextStyles.bodyText1,
+                                          style: TextStyle(
+                                            fontSize: 14.sp,
+                                            fontWeight: FontWeight.w600,
+                                            fontFamily:
+                                                AppTextStyles.fontFamily,
+                                          ),
                                           textAlign: TextAlign.center,
                                         ),
                                       ),
@@ -184,7 +189,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                         width: 250.w,
                                         child: Text(
                                           "Lịch Sử (1)",
-                                          style: AppTextStyles.bodyText1,
+                                          style: TextStyle(
+                                            fontSize: 14.sp,
+                                            fontWeight: FontWeight.w600,
+                                            fontFamily:
+                                                AppTextStyles.fontFamily,
+                                          ),
                                           textAlign: TextAlign.center,
                                         ),
                                       ),
@@ -267,21 +277,28 @@ class tabListRequest extends StatelessWidget {
           print("CLICK QUAN PAGE REQUEST");
         },
         child: SingleChildScrollView(
-          child: Obx(() {
-            return ListView.builder(
-                scrollDirection: Axis.vertical,
-                itemCount: userController.userRequestTrashList.length,
-                itemBuilder: (context, index) {
-                  UserRequestTrashModel request =
-                      userController.userRequestTrashList[index];
-                  return item_requestTrash(
-                    id: request.requestId,
-                    createAt: request.createAt,
-                    trash_type: request.trash_type,
-                    image: request.image,
-                  );
-                });
-          }),
+          // child: Obx(() {
+          //   return ListView.builder(
+          //       scrollDirection: Axis.vertical,
+          //       itemCount: userController.userRequestTrashList.length,
+          //       itemBuilder: (context, index) {
+          //         UserRequestTrashModel request =
+          //             userController.userRequestTrashList[index];
+          //         return item_requestTrash(
+          //           // id: request.requestId,
+          //           // createAt: request.createAt,
+          //           // trash_type: request.trash_type,
+          //           // image: request.image,
+          //         );
+          //       });
+          // }),
+          child: Column(
+            children: [
+              item_requestTrash(),
+              item_requestTrash(),
+              item_requestTrash(),
+            ],
+          ),
         ),
       ),
     );
@@ -310,7 +327,7 @@ class tabListHistory extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              // item_requestTrash(),
+              item_requestTrash(),
               // item_requestTrash(),
             ],
           ),

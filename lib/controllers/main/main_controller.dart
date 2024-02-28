@@ -19,8 +19,8 @@ class MainController extends GetxController {
   RxString currentRole = "person".obs;
 
   List<Widget> pages = [
-    HomeScreen(),
     HomeScreenCollector(),
+    HomeScreen(),
     MapScreen(),
     InfomationScreen(),
   ];

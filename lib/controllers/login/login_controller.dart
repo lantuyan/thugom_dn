@@ -41,6 +41,11 @@ class LoginController extends GetxController {
       _getStorage.write('name', userModel.name);
       _getStorage.write('role', userModel.role);
       CustomDialogs.hideLoadingDialog();
+      if(_getStorage.read('role') == 'person'){
+
+      }else if (_getStorage.read('role') == 'collector'){
+        
+      }
       Get.offAllNamed('/mainPage');
     }).catchError((error) {
       CustomDialogs.hideLoadingDialog();
