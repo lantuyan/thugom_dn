@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:carousel_slider/carousel_controller.dart';
-import 'package:get_storage/get_storage.dart';
-import 'package:thu_gom/views/main/home/home_screen.dart';
+import 'package:thu_gom/managers/data_manager.dart';
+import 'package:thu_gom/views/main/home/home_screen_person.dart';
 import 'package:thu_gom/views/main/home/home_screen_collecter.dart';
 import 'package:thu_gom/views/main/infomation/infomation_screen.dart';
 import 'package:thu_gom/views/main/map/map_screen.dart';
@@ -16,33 +16,40 @@ class MainController extends GetxController {
 
   var currentPage = 0.obs;
   var currentBanner = 0.obs;
-  RxString currentRole = "person".obs;
+  String currentRole = DataManager().getData('role');
 
-  List<Widget> pages = [
-    HomeScreenCollector(),
-    HomeScreen(),
+  List<Widget> pagesUser = [
+    HomeScreenPerson(),
     MapScreen(),
     InfomationScreen(),
   ];
+
+  List<Widget> pagesCollector = [
+    HomeScreenCollector(),
+    MapScreen(),
+    InfomationScreen(),
+  ];
+
+  List<Widget> pages = [];
 
   @override
   void onInit() {
     super.onInit();
     pageController = PageController(initialPage: 0);
     carouselController = CarouselController();
-    changeRole("person");
+
+    selectRole(currentRole);
   }
 
-  void changeRole(String role) {
+  void selectRole(String role) {
     if (role == "person") {
-      pages.removeAt(1);
+      pages = pagesUser;
     }
     if (role == "collector") {
-      pages.removeAt(0);
-      currentRole.value = "collector";
+      pages = pagesCollector;
     }
     if (role == "admin") {
-      pages.removeAt(0);
+      pages = pagesUser;
     }
   }
 

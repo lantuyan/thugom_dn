@@ -1,4 +1,5 @@
 import 'package:appwrite/appwrite.dart';
+import 'package:thu_gom/managers/data_manager.dart';
 import 'package:thu_gom/models/user/user_model.dart';
 import 'package:thu_gom/repositories/auth_reposistory.dart';
 import 'package:thu_gom/widgets/custom_dialogs.dart';
@@ -41,11 +42,10 @@ class LoginController extends GetxController {
       _getStorage.write('name', userModel.name);
       _getStorage.write('role', userModel.role);
       CustomDialogs.hideLoadingDialog();
-      if(_getStorage.read('role') == 'person'){
+      
+      DataManager().saveData('userId', value.userId);
+      DataManager().saveData('role', userModel.role);
 
-      }else if (_getStorage.read('role') == 'collector'){
-        
-      }
       Get.offAllNamed('/mainPage');
     }).catchError((error) {
       CustomDialogs.hideLoadingDialog();
