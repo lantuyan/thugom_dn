@@ -16,6 +16,7 @@ import 'package:thu_gom/views/main/home/home_screen_person.dart';
 import 'package:thu_gom/views/main/home/home_screen_collecter.dart';
 import 'package:thu_gom/views/main/infomation/infomation_screen.dart';
 import 'package:thu_gom/views/main/main_screen.dart';
+import 'package:thu_gom/views/main/map/map_collecter_screen.dart';
 import 'package:thu_gom/views/main/map/map_screen.dart';
 import 'package:thu_gom/views/splash/splash_screen.dart';
 
@@ -76,12 +77,23 @@ class Routes {
           ),
           GetPage(
             name: '/mapPage',
-            page: () => MapScreen(),
+            page: () => MapCollecterScreen(),
+            children: [
+              GetPage(
+                name: '/mapCollecterScreen',
+                page: () => MapCollecterScreen(),
+              ),
+              GetPage(
+                name: '/mapScreen',
+                page: () => MapScreen(),
+              ),
+            ],
           ),
           GetPage(
             name: '/infomationPage',
             page: () => InfomationScreen(),
           ),
-        ]),
+        ]
+    ),
   ];
 }
