@@ -4,23 +4,16 @@ import 'package:get/get.dart';
 import 'package:thu_gom/shared/themes/style/app_text_styles.dart';
 import 'package:thu_gom/widgets/dot_widget.dart';
 
-class item_requestTrash extends StatelessWidget {
-  // final String id;
-  // final String? createAt;
-  // final String trash_type;
-  // final String image;
-  const item_requestTrash({
+class item_requestTrashCollector extends StatelessWidget {
+  const item_requestTrashCollector({
     super.key,
-    // required this.id,
-    // this.createAt,
-    // required this.trash_type,
-    // required this.image,
   });
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
+        
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -28,12 +21,11 @@ class item_requestTrash extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 //date
-                Text('20/02/2024',
-                    style: AppTextStyles.bodyText1.copyWith(fontSize: 12.sp)),
-                //description
-                Text('Thu gom'.tr, style: AppTextStyles.caption),
                 Text('Rác cồng kềnh'.tr,
-                    style: AppTextStyles.bodyText1.copyWith(fontSize: 16.sp)),
+                    style: AppTextStyles.caption.copyWith(fontSize: 16.sp)),
+                //description
+                Text('Nguyen Van A'.tr, style: AppTextStyles.bodyText1),
+                Text('15 Kinh Duong Vuong'.tr, style: AppTextStyles.bodyText1),
               ],
             ),
             Column(

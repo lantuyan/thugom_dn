@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:carousel_slider/carousel_controller.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:thu_gom/views/main/home/home_screen.dart';
 import 'package:thu_gom/views/main/home/home_screen_collecter.dart';
 import 'package:thu_gom/views/main/infomation/infomation_screen.dart';
@@ -18,8 +19,8 @@ class MainController extends GetxController {
   RxString currentRole = "person".obs;
 
   List<Widget> pages = [
-    // HomeScreen(),
     HomeScreenCollector(),
+    HomeScreen(),
     MapScreen(),
     InfomationScreen(),
   ];
@@ -34,14 +35,14 @@ class MainController extends GetxController {
 
   void changeRole(String role) {
     if (role == "person") {
-      // pages.removeAt(1);
+      pages.removeAt(1);
     }
     if (role == "collector") {
-      pages.removeAt(1);
+      pages.removeAt(0);
       currentRole.value = "collector";
     }
     if (role == "admin") {
-      pages.removeAt(1);
+      pages.removeAt(0);
     }
   }
 

@@ -1,4 +1,5 @@
 import 'package:get/route_manager.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:thu_gom/controllers/login/login_binding.dart';
 import 'package:thu_gom/controllers/main/home/home_binding.dart';
 import 'package:thu_gom/controllers/main/main_binding.dart';
@@ -20,7 +21,6 @@ import 'package:thu_gom/views/splash/splash_screen.dart';
 
 class Routes {
   static const INITIAL = '/splash';
-
   static final routes = [
     GetPage(
       name: '/splash',
@@ -56,8 +56,8 @@ class Routes {
         name: '/mainPage',
         page: () => MainScreen(),
         binding: MainBinding(),
-
         children: [
+          
           GetPage(
             name: '/homePage',
             page: () => HomeScreenCollector(),
