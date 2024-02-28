@@ -26,8 +26,9 @@ class RequestDetailController extends GetxController {
   Future<void> onInit() async {
     super.onInit();
     data.value = await Get.arguments;
-    requestId = requestDetailModel.requestId;
     requestDetailModel = data.value['requestDetail'];
+    print(requestDetailModel.image);
+    requestId = requestDetailModel.requestId;
     name.value = await _getStorage.read('name');
     userId.value = await _getStorage.read('userId');
     loading.value = false;

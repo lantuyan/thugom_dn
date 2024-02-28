@@ -486,7 +486,7 @@ class CollectorUI extends StatelessWidget {
                               ),
                                   (){
                                 Get.back();
-                                _requestDetailController.hiddenRequest(_requestDetailController.requestDetailModel.senderId,_requestDetailController.requestDetailModel.hidden);
+                                _requestDetailController.hiddenRequest(_requestDetailController.requestDetailModel.requestId,_requestDetailController.requestDetailModel.hidden);
                               }
                           );
                         }else{
@@ -524,7 +524,7 @@ class CollectorUI extends StatelessWidget {
                         ),
                             (){
                           Get.back();
-                          _requestDetailController.confirmRequest(_requestDetailController.requestDetailModel.senderId,_requestDetailController.userId.value);
+                          _requestDetailController.confirmRequest(_requestDetailController.requestDetailModel.requestId,_requestDetailController.userId.value);
                         }
                     );
                   },
