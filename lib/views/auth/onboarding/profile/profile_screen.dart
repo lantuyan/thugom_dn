@@ -51,13 +51,13 @@ class ProfileScreen extends StatelessWidget {
                 FormBuilderTextField(
                   key: _profileController.nameFieldKey,
                   name: 'name',
-                  style: Themes.lightTheme.textTheme.titleSmall,
+                  style: AppTextStyles.bodyText1,
                   decoration: InputDecoration(
                     contentPadding: EdgeInsets.fromLTRB(12.sp, 0, 12.sp, 0),
                     filled: true,
                     fillColor: Colors.white,
                     labelText: 'Tên đầy đủ',
-                    labelStyle: Themes.lightTheme.textTheme.titleSmall?.copyWith(
+                    labelStyle: AppTextStyles.bodyText1.copyWith(
                         color: ColorsConstants.kMainColor
                     ),
                     border: OutlineInputBorder(
@@ -72,24 +72,23 @@ class ProfileScreen extends StatelessWidget {
                   validator: FormBuilderValidators.compose([
                     FormBuilderValidators.required(errorText: "Không được để trống trường này"),
                   ]),
-                  // style: Themes.lightTheme.textTheme.titleSmall,
                 ),
                 SizedBox(height: 30.sp),
                 // Phone number Field
                 FormBuilderTextField(
                   key: _profileController.phonenumberFieldKey,
                   name: 'phonenumber',
-                  style: Themes.lightTheme.textTheme.titleSmall,
+                  style: AppTextStyles.bodyText1,
                   decoration: InputDecoration(
                     contentPadding: EdgeInsets.fromLTRB(12.sp, 0, 12.sp, 0),
                     filled: true,
                     fillColor: Colors.white,
                     labelText: 'Số điện thoại',
-                    labelStyle: Themes.lightTheme.textTheme.titleSmall?.copyWith(
+                    labelStyle: AppTextStyles.bodyText1.copyWith(
                         color: ColorsConstants.kMainColor
                     ),
                     hintText: 'Nhập số điện thoại',
-                    hintStyle: Themes.lightTheme.textTheme.titleSmall?.copyWith(
+                    hintStyle: AppTextStyles.bodyText1.copyWith(
                         color: ColorsConstants.kTextSecondColor
                     ),
                     border: OutlineInputBorder(
@@ -106,24 +105,23 @@ class ProfileScreen extends StatelessWidget {
                     FormBuilderValidators.maxLength(11,errorText: "Số điện thoại không hợp lệ"),
                     FormBuilderValidators.numeric(errorText: "Số điện thoại không hợp lệ"),
                   ]),
-                  // style: Themes.lightTheme.textTheme.titleSmall,
                 ),
                 SizedBox(height: 30.sp),
                 // Zalo number Field
                 FormBuilderTextField(
                   key: _profileController.zalonumberFieldKey,
                   name: 'zalonumber',
-                  style: Themes.lightTheme.textTheme.titleSmall,
+                  style: AppTextStyles.bodyText1,
                   decoration: InputDecoration(
                     contentPadding: EdgeInsets.fromLTRB(12.sp, 0, 12.sp, 0),
                     filled: true,
                     fillColor: Colors.white,
                     labelText: 'Tài khoản zalo',
-                    labelStyle: Themes.lightTheme.textTheme.titleSmall?.copyWith(
+                    labelStyle: AppTextStyles.bodyText1.copyWith(
                         color: ColorsConstants.kMainColor
                     ),
                     hintText: 'Nhập số điện thoại đăng ký zalo ',
-                    hintStyle: Themes.lightTheme.textTheme.titleSmall?.copyWith(
+                    hintStyle: AppTextStyles.bodyText1.copyWith(
                         color: ColorsConstants.kTextSecondColor
                     ),
                     border: OutlineInputBorder(
@@ -140,12 +138,13 @@ class ProfileScreen extends StatelessWidget {
                     FormBuilderValidators.maxLength(11,errorText: "Số điện thoại không hợp lệ"),
                     FormBuilderValidators.numeric(errorText: "Số điện thoại không hợp lệ"),
                   ]),
-                  // style: Themes.lightTheme.textTheme.titleSmall,
                 ),
                 SizedBox(height: 26.sp),
                 Align(
                     alignment: Alignment.centerLeft,
-                    child: Text('Địa chỉ', style: Themes.lightTheme.textTheme.headline6,)
+                    child: Text('Địa chỉ', style: AppTextStyles.title.copyWith(
+                        fontSize: 16.sp
+                    ),)
                 ),
                 SizedBox(height: 16.sp),
                 Row(
@@ -154,13 +153,13 @@ class ProfileScreen extends StatelessWidget {
                         child: DropdownButtonFormField(
                           value: _profileController.selectedDistrict.value,
                           isExpanded: true,
-                          style: Themes.lightTheme.textTheme.titleSmall,
+                          style: AppTextStyles.bodyText1,
                           decoration: InputDecoration(
                             contentPadding: EdgeInsets.fromLTRB(12.sp, 0, 12.sp, 0),
                             filled: true,
                             fillColor: Colors.white,
                             hintText: 'Quận, huyện',
-                            hintStyle: Themes.lightTheme.textTheme.titleSmall?.copyWith(
+                            hintStyle: AppTextStyles.bodyText1?.copyWith(
                                 color: ColorsConstants.kMainColor
                             ),
                             border: OutlineInputBorder(
@@ -198,13 +197,13 @@ class ProfileScreen extends StatelessWidget {
                             value: _profileController.selectedSubDistrict.value ?? '',
                             isExpanded: true,
                             isDense: true,
-                            style: Themes.lightTheme.textTheme.titleSmall,
+                            style: AppTextStyles.bodyText1,
                             // value: _profileController.selectedSubDistrict,
                             decoration: InputDecoration(
                               contentPadding: EdgeInsets.fromLTRB(12.sp, 0, 12.sp, 0),
                               fillColor: Colors.white,
                               hintText: 'Quận, huyện',
-                              hintStyle: Themes.lightTheme.textTheme.titleSmall?.copyWith(
+                              hintStyle: AppTextStyles.bodyText1?.copyWith(
                                   color: ColorsConstants.kMainColor
                               ),
                               border: OutlineInputBorder(
@@ -241,17 +240,17 @@ class ProfileScreen extends StatelessWidget {
                 FormBuilderTextField(
                   key: _profileController.streetFieldKey,
                   name: 'street',
-                  style: Themes.lightTheme.textTheme.titleSmall,
+                  style: AppTextStyles.bodyText1,
                   decoration: InputDecoration(
                     contentPadding: EdgeInsets.fromLTRB(12.sp, 0, 12.sp, 0),
                     filled: true,
                     fillColor: Colors.white,
                     labelText: 'Số nhà, đường',
                     hintText: 'Nhập số nhà và tên đường',
-                    hintStyle: Themes.lightTheme.textTheme.titleSmall?.copyWith(
+                    hintStyle: AppTextStyles.bodyText1?.copyWith(
                         color: ColorsConstants.kTextSecondColor
                     ),
-                    labelStyle: Themes.lightTheme.textTheme.titleSmall?.copyWith(
+                    labelStyle: AppTextStyles.bodyText1?.copyWith(
                         color: ColorsConstants.kMainColor
                     ),
                     border: OutlineInputBorder(
@@ -266,7 +265,7 @@ class ProfileScreen extends StatelessWidget {
                   validator: FormBuilderValidators.compose([
                     FormBuilderValidators.required(errorText: "Không được để trống trường này"),
                   ]),
-                  // style: Themes.lightTheme.textTheme.titleSmall,
+                  // style: AppTextStyles.bodyText1,
                 ),
                 SizedBox(height: 46.sp),
                 SizedBox(

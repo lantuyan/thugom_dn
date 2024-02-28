@@ -2,6 +2,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:thu_gom/shared/constants/color_constants.dart';
+import 'package:thu_gom/shared/themes/style/app_text_styles.dart';
 class CustomDialogs{
   static void showLoadingDialog(){
     Get.dialog(
@@ -15,7 +16,7 @@ class CustomDialogs{
             children: [
               const CircularProgressIndicator(color: ColorsConstants.kMainColor,),
               SizedBox(height: 10.sp),
-              Text('Đang xử lý...'),
+              Text('Đang xử lý...',style: AppTextStyles.bodyText1),
             ],
           ),
         ),
