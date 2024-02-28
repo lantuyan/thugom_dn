@@ -23,7 +23,33 @@ class UserRequestTrashProvider {
 
     return response;
   }
+  Future<void> cancelRequest(String requestId) async {
+    await databases?.updateDocument(
+        databaseId: AppWriteConstants.databaseId,
+        collectionId: AppWriteConstants.userRequestTrashCollection,
+        documentId: requestId,
+        data:{
+          'status' : 'cancel',
+        }
+    );
+  }
+  Future<void> hiddenRequest(String requestId, List<String> hidden) async {
+    await databases?.updateDocument(
+      databaseId: AppWriteConstants.databaseId,
+      collectionId: AppWriteConstants.userRequestTrashCollection,
+      documentId: requestId,
+      data: {'hidden': hidden},
+    );
+  }
 
+  Future<void> confirmRequest(String requestId, String userId) async {
+    await databases?.updateDocument(
+      databaseId: AppWriteConstants.databaseId,
+      collectionId: AppWriteConstants.userRequestTrashCollection,
+      documentId: requestId,
+      data: {'confirm': userId},
+    );
+  }
   // Future<models.File> uploadCategoryImage(String imagePath) {
   //   String fileName = "${DateTime.now().microsecondsSinceEpoch}"
   //       "${imagePath.split(".").last}";
