@@ -45,10 +45,7 @@ dependencies:
   appwrite: ^11.0.0
 
   # add form builder
-  flutter_form_builder: ^9.1.1
-  intl_phone_number_input:
-  pin_code_fields: ^8.0.1
-
+  flutter_form_builder: ^9.2.1
   # add form builder validators
   form_builder_validators: ^9.1.0
 
@@ -72,6 +69,12 @@ dependencies:
 
   #add flutter_map
   google_maps_flutter: ^2.5.3
+  geocoding: ^2.2.0
+  geolocator: ^11.0.0
+
+  #
+  uni_links: ^0.5.1
+  flutter_widget_from_html: ^0.14.11
 
 dev_dependencies:
   flutter_test:
