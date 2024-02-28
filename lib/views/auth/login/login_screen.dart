@@ -69,6 +69,7 @@ class LoginScreen extends StatelessWidget {
                             labelText: 'Email',
                             labelStyle: AppTextStyles.bodyText1
                                 .copyWith(color: ColorsConstants.kMainColor),
+                            errorStyle: AppTextStyles.error,
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10),
                             ),
@@ -102,6 +103,7 @@ class LoginScreen extends StatelessWidget {
                               labelText: 'Mật khẩu',
                               labelStyle: AppTextStyles.bodyText1
                                   .copyWith(color: ColorsConstants.kMainColor),
+                              errorStyle: AppTextStyles.error,
                               suffixIcon: Obx(() => IconButton(
                                 color: ColorsConstants.kMainColor,
                                 icon: _loginController.passwordVisible.value

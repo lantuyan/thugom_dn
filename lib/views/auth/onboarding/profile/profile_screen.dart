@@ -60,6 +60,7 @@ class ProfileScreen extends StatelessWidget {
                     labelStyle: AppTextStyles.bodyText1.copyWith(
                         color: ColorsConstants.kMainColor
                     ),
+                    errorStyle: AppTextStyles.error,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
@@ -91,6 +92,7 @@ class ProfileScreen extends StatelessWidget {
                     hintStyle: AppTextStyles.bodyText1.copyWith(
                         color: ColorsConstants.kTextSecondColor
                     ),
+                    errorStyle: AppTextStyles.error,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
@@ -124,6 +126,7 @@ class ProfileScreen extends StatelessWidget {
                     hintStyle: AppTextStyles.bodyText1.copyWith(
                         color: ColorsConstants.kTextSecondColor
                     ),
+                    errorStyle: AppTextStyles.error,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
@@ -247,12 +250,13 @@ class ProfileScreen extends StatelessWidget {
                     fillColor: Colors.white,
                     labelText: 'Số nhà, đường',
                     hintText: 'Nhập số nhà và tên đường',
-                    hintStyle: AppTextStyles.bodyText1?.copyWith(
+                    hintStyle: AppTextStyles.bodyText1.copyWith(
                         color: ColorsConstants.kTextSecondColor
                     ),
-                    labelStyle: AppTextStyles.bodyText1?.copyWith(
+                    labelStyle: AppTextStyles.bodyText1.copyWith(
                         color: ColorsConstants.kMainColor
                     ),
+                    errorStyle: AppTextStyles.error,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),

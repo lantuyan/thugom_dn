@@ -53,6 +53,7 @@ class RegisterScreen extends StatelessWidget {
                             labelStyle: AppTextStyles.bodyText1.copyWith(
                               color: ColorsConstants.kMainColor
                             ),
+                            errorStyle: AppTextStyles.error,
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10),
                             ),
@@ -81,6 +82,7 @@ class RegisterScreen extends StatelessWidget {
                             labelStyle: AppTextStyles.bodyText1.copyWith(
                                 color: ColorsConstants.kMainColor
                             ),
+                            errorStyle: AppTextStyles.error,
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10),
                             ),
@@ -111,6 +113,7 @@ class RegisterScreen extends StatelessWidget {
                               labelStyle: AppTextStyles.bodyText1.copyWith(
                                   color: ColorsConstants.kMainColor
                               ),
+                              errorStyle: AppTextStyles.error,
                               suffixIcon: Obx(() => IconButton(
                                 color: ColorsConstants.kMainColor,
                                 icon: _registerController.passwordVisible.value
@@ -152,6 +155,7 @@ class RegisterScreen extends StatelessWidget {
                               labelStyle: AppTextStyles.bodyText1.copyWith(
                                   color: ColorsConstants.kMainColor
                               ),
+                              errorStyle: AppTextStyles.error,
                               suffixIcon: Obx(() => IconButton(
                                 color: ColorsConstants.kMainColor,
                                 icon: _registerController.confirmPasswordVisible.value
