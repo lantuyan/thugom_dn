@@ -27,7 +27,7 @@ class UserRequestTrashProvider {
   Future<models.DocumentList> getRequest() async {
     final response = await databases!.listDocuments(
         databaseId: AppWriteConstants.databaseId,
-        collectionId: AppWriteConstants.categoryCollectionId);
+        collectionId: AppWriteConstants.usersCollection);
     return response;
   }
 
