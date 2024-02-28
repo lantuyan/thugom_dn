@@ -16,7 +16,7 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   final MainController _mainController = Get.find<MainController>();
-  late String isRole = _mainController.currentRole.value;
+  late String isRole = _mainController.currentRole;
 
   @override
   void initState() {
@@ -66,8 +66,7 @@ class _MainScreenState extends State<MainScreen> {
           elevation: 0,
           // notchMargin: 10,
           child: Container(
-              padding:
-                  EdgeInsets.symmetric(horizontal: 10.sp, vertical: 0.sp),
+              padding: EdgeInsets.symmetric(horizontal: 10.sp, vertical: 0.sp),
               child: Obx(
                 () => Row(
                   mainAxisAlignment: isRole == "person"
