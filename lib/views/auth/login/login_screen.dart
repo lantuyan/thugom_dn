@@ -5,6 +5,7 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:iconly/iconly.dart';
 import 'package:thu_gom/shared/themes/Themes.dart';
 import 'package:get/get.dart';
+import 'package:thu_gom/shared/themes/style/app_text_styles.dart';
 
 import '../../../controllers/login/login_controller.dart';
 import '../../../shared/constants/color_constants.dart';
@@ -36,10 +37,15 @@ class LoginScreen extends StatelessWidget {
                   child: Column(
                     children: [
                       Text('Xin chào!',
-                          style: Themes.lightTheme.textTheme.headline6),
+                          style: AppTextStyles.bodyText1.copyWith(
+                            fontSize: 16.sp
+                          )
+                      ),
                       Text(
                         'Đăng nhập ',
-                        style: Themes.lightTheme.textTheme.headline3,
+                        style: AppTextStyles.headline1.copyWith(
+                            fontSize: 24.sp
+                        ),
                       ),
                     ],
                   ),
@@ -61,8 +67,9 @@ class LoginScreen extends StatelessWidget {
                             filled: true,
                             fillColor: Colors.white,
                             labelText: 'Email',
-                            labelStyle: Themes.lightTheme.textTheme.titleSmall!
+                            labelStyle: AppTextStyles.bodyText1
                                 .copyWith(color: ColorsConstants.kMainColor),
+                            errorStyle: AppTextStyles.error,
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10),
                             ),
@@ -76,7 +83,7 @@ class LoginScreen extends StatelessWidget {
                             FormBuilderValidators.required(errorText: "Không được để trống trường này"),
                             FormBuilderValidators.email(errorText: "Email không hợp lệ"),
                           ]),
-                          style: Themes.lightTheme.textTheme.titleSmall,
+                          style: AppTextStyles.bodyText1,
                         ),
                       ),
                       SizedBox(height: 30.sp),
@@ -87,15 +94,16 @@ class LoginScreen extends StatelessWidget {
                             key: _loginController.passwordFieldKey,
                             name: 'password',
                             obscureText: _loginController.passwordVisible.value,
-                            style: Themes.lightTheme.textTheme.titleSmall,
+                            style: AppTextStyles.bodyText1,
                             decoration: InputDecoration(
                               contentPadding:
                               EdgeInsets.fromLTRB(12.sp, 0, 12.sp, 0),
                               filled: true,
                               fillColor: Colors.white,
                               labelText: 'Mật khẩu',
-                              labelStyle: Themes.lightTheme.textTheme.titleSmall!
+                              labelStyle: AppTextStyles.bodyText1
                                   .copyWith(color: ColorsConstants.kMainColor),
+                              errorStyle: AppTextStyles.error,
                               suffixIcon: Obx(() => IconButton(
                                 color: ColorsConstants.kMainColor,
                                 icon: _loginController.passwordVisible.value
@@ -133,10 +141,11 @@ class LoginScreen extends StatelessWidget {
                           child: GestureDetector(
                               onTap: () {},
                               child: Text('Quên mật khẩu ?',
-                                  style: Themes.lightTheme.textTheme.bodySmall?.copyWith(
-                                      fontWeight: FontWeight.w700,
+                                  style: AppTextStyles.headline3.copyWith(
+                                      fontWeight: FontWeight.w600,
                                       color: ColorsConstants.kMainColor,
-                                      decoration: TextDecoration.underline
+                                      decoration: TextDecoration.underline,
+                                      decorationColor: ColorsConstants.kMainColor
                                   )
                               )
                           ),
@@ -171,8 +180,9 @@ class LoginScreen extends StatelessWidget {
                           child: Column(
                             children: [
                               Text('Chưa có tài khoản ?',
-                                  style: Themes.lightTheme.textTheme.bodySmall?.copyWith(
-                                      fontWeight: FontWeight.w700
+                                  style: AppTextStyles.headline3.copyWith(
+                                    fontSize: 13.sp,
+                                    fontWeight: FontWeight.w700,
                                   )
                               ),
                               GestureDetector(
@@ -180,10 +190,11 @@ class LoginScreen extends StatelessWidget {
                                     Get.offAndToNamed("/registerPage");
                                   },
                                   child: Text('Đăng ký ngay',
-                                      style: Themes.lightTheme.textTheme.bodySmall?.copyWith(
-                                        fontWeight: FontWeight.w700,
+                                      style: AppTextStyles.headline3.copyWith(
+                                        fontWeight: FontWeight.w600,
                                         color: ColorsConstants.kMainColor,
-                                        decoration: TextDecoration.underline
+                                        decoration: TextDecoration.underline,
+                                        decorationColor: ColorsConstants.kMainColor
                                       )
                                   )
                               )

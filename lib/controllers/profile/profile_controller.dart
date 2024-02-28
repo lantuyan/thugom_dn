@@ -119,6 +119,8 @@ class ProfileController extends GetxController {
       CustomDialogs.hideLoadingDialog();
       Get.offAllNamed('/mainPage');
     }).catchError((onError){
+      print(onError);
+      CustomDialogs.hideLoadingDialog();
       CustomDialogs.showSnackBar(2, "Đã có lỗi xảy ra vui lòng thử lại sau!", 'error');
     });
   }

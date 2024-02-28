@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/route_manager.dart';
 import 'package:thu_gom/shared/constants/color_constants.dart';
+import 'package:thu_gom/shared/themes/style/app_text_styles.dart';
 import 'package:thu_gom/shared/themes/style/custom_button_style.dart';
 import 'package:thu_gom/shared/themes/Themes.dart';
 
@@ -30,16 +31,18 @@ class LandingScreen extends StatelessWidget {
                 ),
                 Text(
                   'Tham gia Thu Gom ngay!',
-                  style: Themes.lightTheme.textTheme.headlineMedium?.copyWith(
+                  style: AppTextStyles.headline1.copyWith(
                     color: ColorsConstants.kMainColor,
-                    fontSize: 27.sp,
+                    fontSize: 24.sp,
                   ),
                 ),
                 Container(
                   margin: const EdgeInsets.only(top: 8),
                   child: Text(
                     'Cùng nhau xây dựng một môi trường sống bền vững và giúp giảm thiểu lượng rác thải',
-                    style: Themes.lightTheme.textTheme.titleSmall,
+                    style: AppTextStyles.bodyText2.copyWith(
+                      fontSize: 16.sp,
+                    ),
                     textAlign: TextAlign.center,
                   ),
                 ),
