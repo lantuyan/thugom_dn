@@ -7,6 +7,7 @@ import 'package:thu_gom/shared/constants/color_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:thu_gom/shared/themes/style/app_text_styles.dart';
 import 'package:thu_gom/widgets/item_requestTrash.dart';
+import 'package:thu_gom/widgets/item_requestTrashCollector.dart';
 
 class HomeScreenCollector extends StatefulWidget {
   @override
@@ -130,7 +131,6 @@ class _HomeScreenCollectorState extends State<HomeScreenCollector> {
   }
 }
 
-
 class listRequest extends StatelessWidget {
   const listRequest({super.key});
 
@@ -146,19 +146,24 @@ class listRequest extends StatelessWidget {
         ),
       ),
       padding: EdgeInsets.symmetric(horizontal: 10.sp, vertical: 10.sp),
-      child:  InkWell(
-        onTap: () {print("CLICK QUAN PAGE REQUEST");},
+      child: InkWell(
+        onTap: () {
+          print("CLICK QUAN PAGE REQUEST");
+        },
         child: SingleChildScrollView(
-          child: Column(children: [
-            item_requestTrash(),
-            item_requestTrash(),
-            item_requestTrash(),
-          ],),
+          child: Column(
+            children: [
+              item_requestTrashCollector(),
+              item_requestTrashCollector(),
+              item_requestTrashCollector(),
+            ],
+          ),
         ),
       ),
     );
   }
 }
+
 class listComfirmed extends StatelessWidget {
   const listComfirmed({super.key});
 
@@ -174,12 +179,16 @@ class listComfirmed extends StatelessWidget {
         ),
       ),
       padding: EdgeInsets.symmetric(horizontal: 10.sp, vertical: 10.sp),
-      child:  InkWell(
-        onTap: () {print("CLICK QUAN PAGE REQUEST");},
+      child: InkWell(
+        onTap: () {
+          print("CLICK QUAN PAGE REQUEST");
+        },
         child: SingleChildScrollView(
-          child: Column(children: [
-            item_requestTrash(),
-          ],),
+          child: Column(
+            children: [
+              item_requestTrashCollector(),
+            ],
+          ),
         ),
       ),
     );

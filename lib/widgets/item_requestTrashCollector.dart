@@ -1,28 +1,19 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:thu_gom/shared/constants/appwrite_constants.dart';
 import 'package:thu_gom/shared/themes/style/app_text_styles.dart';
 import 'package:thu_gom/widgets/dot_widget.dart';
 
-class item_requestTrash extends StatelessWidget {
-  final String id;
-  final String? createAt;
-  final String trash_type;
-  final String image;
-  const item_requestTrash({
+class item_requestTrashCollector extends StatelessWidget {
+  const item_requestTrashCollector({
     super.key,
-    required this.id,
-    this.createAt,
-    required this.trash_type,
-    required this.image,
   });
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
+        
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -30,23 +21,22 @@ class item_requestTrash extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 //date
-                Text(createAt!,
-                    style: AppTextStyles.bodyText1.copyWith(fontSize: 12.sp)),
+                Text('Rác cồng kềnh'.tr,
+                    style: AppTextStyles.caption.copyWith(fontSize: 16.sp)),
                 //description
-                Text('Thu gom'.tr, style: AppTextStyles.caption),
-                Text(trash_type,
-                    style: AppTextStyles.bodyText1.copyWith(fontSize: 16.sp)),
+                Text('Nguyen Van A'.tr, style: AppTextStyles.bodyText1),
+                Text('15 Kinh Duong Vuong'.tr, style: AppTextStyles.bodyText1),
               ],
             ),
             Column(
               children: [
+                //name
                 SizedBox(
                   height: 80.h,
-                  child: CachedNetworkImage(
-                    fit: BoxFit.fill,
-                    height: 80.h,
-                    imageUrl:
-                        '${AppWriteConstants.endPoint}/storage/buckets/${AppWriteConstants.categoryBucketId}/files/${image}/view?project=${AppWriteConstants.projectId}',
+                  child: Image.asset(
+                    "assets/images/trash_wooden.png",
+                    width: 100.w,
+                    fit: BoxFit.cover,
                   ),
                 ),
               ],
