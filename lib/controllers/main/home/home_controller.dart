@@ -10,7 +10,7 @@ import 'package:thu_gom/providers/auth_provider.dart';
 import 'package:thu_gom/repositories/category_reponsitory.dart';
 import 'package:thu_gom/repositories/user_request_trash_reponsitory.dart';
 import 'package:thu_gom/widgets/custom_dialogs.dart';
-import 'package:uni_links/uni_links.dart';
+// import 'package:uni_links/uni_links.dart';
 
 class HomeController extends GetxController
     with StateMixin<List<CategoryModel>> {
@@ -28,27 +28,30 @@ class HomeController extends GetxController
     if (!kIsWeb) {
       // It will handle app links while the app is already started - be it in
       // the foreground or in the background.
-      _sub = uriLinkStream.listen((Uri? uri) async {
-        print('got uri: $uri');
+      
+      // TODO: - Handle incoming links - recommed using: https://fluttergems.dev/packages/app_links/
+      
+      // _sub = uriLinkStream.listen((Uri? uri) async {
+      //   print('got uri: $uri');
 
-        if (uri != null) {
-          Map<String, String> params = uri.queryParameters;
+      //   if (uri != null) {
+      //     Map<String, String> params = uri.queryParameters;
 
-          if (params.containsKey('secret') && params.containsKey('userId')) {
-            String secret = params['secret']!;
-            String userId = params['userId']!;
+      //     if (params.containsKey('secret') && params.containsKey('userId')) {
+      //       String secret = params['secret']!;
+      //       String userId = params['userId']!;
 
-            print('UserId >>>> $userId');
-            print('secret >>>> $secret');
+      //       print('UserId >>>> $userId');
+      //       print('secret >>>> $secret');
 
-            await AuthProvider().validateEmail(userId, secret);
-            CustomDialogs.showLoadingDialog();
-            CustomDialogs.hideLoadingDialog();
-          }
-        }
-      }, onError: (Object err) {
-        print(err);
-      });
+      //       await AuthProvider().validateEmail(userId, secret);
+      //       CustomDialogs.showLoadingDialog();
+      //       CustomDialogs.hideLoadingDialog();
+      //     }
+      //   }
+      // }, onError: (Object err) {
+      //   print(err);
+      // });
     }
   }
 
