@@ -22,7 +22,7 @@ class UserRequestTrashProvider {
 
     return response;
   }
-
+  // LIST REQUEST OF USER
   Future<models.DocumentList> getRequestWithStatusPending() async {
     final GetStorage _getStorage = GetStorage();
     final userID = _getStorage.read('userId');
@@ -32,6 +32,17 @@ class UserRequestTrashProvider {
       queries: [
         Query.equal('status', 'pending'),
         Query.equal('senderId', userID)
+      ],
+    );
+    return response;
+  }
+    // LIST REQUEST OF COLLECTOR
+    Future<models.DocumentList> getRequestListColletor() async {
+    final response = await databases!.listDocuments(
+      databaseId: AppWriteConstants.databaseId,
+      collectionId: AppWriteConstants.userRequestTrashCollection,
+      queries: [
+        Query.equal('status', 'pending'),
       ],
     );
     return response;
@@ -50,6 +61,20 @@ class UserRequestTrashProvider {
     );
     return response;
   }
+
+  Future<models.DocumentList> getRequestListConfirmColletor() async {
+    final GetStorage _getStorage = GetStorage();
+    final userID = _getStorage.read('userId');
+    final response = await databases!.listDocuments(
+      databaseId: AppWriteConstants.databaseId,
+      collectionId: AppWriteConstants.userRequestTrashCollection,
+      queries: [
+        Query.equal('confirm', userID)
+      ],
+    );
+    return response;
+  }
+
   Future<void> cancelRequest(String requestId) async {
     await databases?.updateDocument(
         databaseId: AppWriteConstants.databaseId,
@@ -119,4 +144,5 @@ class UserRequestTrashProvider {
 
   //   return response;
   // }
+
 }
