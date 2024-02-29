@@ -367,7 +367,6 @@ class CollectorUI extends StatelessWidget {
         SizedBox(
           height: 20.sp,
         ),
-
         CachedNetworkImage(
           imageUrl: _requestDetailController.requestDetailModel.image,
           imageBuilder: (context, imageProvider) => Container(
@@ -444,41 +443,126 @@ class CollectorUI extends StatelessWidget {
         SizedBox(
           height: 30.sp,
         ),
-        Row(
-          children: [
-            Expanded(
-                child: SizedBox(
-                  height: 48.sp,
-                  child: ElevatedButton(
-                      onPressed: () {
-                        CustomDialogs.contactDialog(
-                          _requestDetailController.requestDetailModel.address,
-                          _requestDetailController.requestDetailModel.phone_number,
-                          _requestDetailController.requestDetailModel.phone_number,
-                        );
-                      },
-                      style: CustomButtonStyle.primaryButton,
-                      child: Text(
-                        'Liên Hệ',
+        if(_requestDetailController.requestDetailModel.confirm == _requestDetailController.userId.value)
+          Column(
+            children: [
+              Center(
+                child: RichText(
+                  text: TextSpan(
+                    text: 'Tình trạng thu gom:  ',
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18,
+                    ),
+                    children: <TextSpan>[
+                      TextSpan(
+                        text: 'Đã được thu gom',
                         style: TextStyle(
-                            color: Colors.white, fontSize: 16.sp),
+                          color: ColorsConstants.kMainColor,
+                          fontSize: 18,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 48.sp,
+                child: ElevatedButton(
+                    onPressed: () {
+                      CustomDialogs.contactDialog(
+                        _requestDetailController.requestDetailModel.address,
+                        _requestDetailController.requestDetailModel.phone_number,
+                        _requestDetailController.requestDetailModel.phone_number,
+                      );
+                    },
+                    style: CustomButtonStyle.primaryButton,
+                    child: Text(
+                      'Liên Hệ',
+                      style: TextStyle(
+                          color: Colors.white, fontSize: 16.sp),
+                    )
+                ),
+              )
+            ],
+          )
+        else
+          Column(
+            children: [
+              Row(
+                children: [
+                  Expanded(
+                      child: SizedBox(
+                        height: 48.sp,
+                        child: ElevatedButton(
+                            onPressed: () {
+                              CustomDialogs.contactDialog(
+                                _requestDetailController.requestDetailModel.address,
+                                _requestDetailController.requestDetailModel.phone_number,
+                                _requestDetailController.requestDetailModel.phone_number,
+                              );
+                            },
+                            style: CustomButtonStyle.primaryButton,
+                            child: Text(
+                              'Liên Hệ',
+                              style: TextStyle(
+                                  color: Colors.white, fontSize: 16.sp),
+                            )
+                        ),
                       )
                   ),
-                )
-            ),
-            SizedBox(
-              width: 20.sp,
-            ),
-            Expanded(
-                child: SizedBox(
-                  height: 48.sp,
-                  child: ElevatedButton(
-                      onPressed: (){
-                        if(_requestDetailController.allowHidden.value){
+                  SizedBox(
+                    width: 20.sp,
+                  ),
+                  Expanded(
+                      child: SizedBox(
+                        height: 48.sp,
+                        child: ElevatedButton(
+                            onPressed: (){
+                              if(_requestDetailController.allowHidden.value){
+                                CustomDialogs.confirmDialog(
+                                    'Xác nhận bỏ qua',
+                                    Text(
+                                      'Bạn chắc chắn muốn bỏ qua thu gom yêu cầu này?',
+                                      style: AppTextStyles.bodyText2.copyWith(
+                                          fontSize: 12.sp
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                        (){
+                                      Get.back();
+                                      _requestDetailController.hiddenRequest(_requestDetailController.requestDetailModel.requestId,_requestDetailController.requestDetailModel.hidden);
+                                    }
+                                );
+                              }else{
+                                null;
+                              }
+                            },
+                            style: CustomButtonStyle.transparentButton,
+                            child: Text(
+                              'Bỏ qua',
+                              style: TextStyle(
+                                  color: ColorsConstants.kTextMainColor,
+                                  fontSize: 16.sp),
+                            )),
+                      )),
+                ],
+              ),
+              SizedBox(
+                height: 20.sp,
+              ),
+              Obx(() {
+                if(_requestDetailController.allowConfirm.value){
+                  return SizedBox(
+                    width: ScreenUtil().screenWidth,
+                    height: 48.sp,
+                    child: ElevatedButton(
+                        onPressed: () {
                           CustomDialogs.confirmDialog(
-                              'Xác nhận bỏ qua',
+                              'Xác nhận thu gom',
                               Text(
-                                'Bạn chắc chắn muốn bỏ qua thu gom yêu cầu này?',
+                                'Bạn chắc chắn muốn xác nhận thu gom yêu cầu này? Yêu cầu này sẽ được chuyển vào phần đã xử lý ',
                                 style: AppTextStyles.bodyText2.copyWith(
                                     fontSize: 12.sp
                                 ),
@@ -486,59 +570,23 @@ class CollectorUI extends StatelessWidget {
                               ),
                                   (){
                                 Get.back();
-                                _requestDetailController.hiddenRequest(_requestDetailController.requestDetailModel.requestId,_requestDetailController.requestDetailModel.hidden);
+                                _requestDetailController.confirmRequest(_requestDetailController.requestDetailModel.requestId,_requestDetailController.userId.value);
                               }
                           );
-                        }else{
-                          null;
-                        }
-                      },
-                      style: CustomButtonStyle.transparentButton,
-                      child: Text(
-                        'Bỏ qua',
-                        style: TextStyle(
-                            color: ColorsConstants.kTextMainColor,
-                            fontSize: 16.sp),
-                      )),
-                )),
-          ],
-        ),
-        SizedBox(
-          height: 20.sp,
-        ),
-        Obx(() {
-          if(_requestDetailController.allowConfirm.value){
-            return SizedBox(
-              width: ScreenUtil().screenWidth,
-              height: 48.sp,
-              child: ElevatedButton(
-                  onPressed: () {
-                    CustomDialogs.confirmDialog(
-                        'Xác nhận thu gom',
-                        Text(
-                          'Bạn chắc chắn muốn xác nhận thu gom yêu cầu này? Yêu cầu này sẽ được chuyển vào phần đã xử lý ',
-                          style: AppTextStyles.bodyText2.copyWith(
-                            fontSize: 12.sp
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
-                            (){
-                          Get.back();
-                          _requestDetailController.confirmRequest(_requestDetailController.requestDetailModel.requestId,_requestDetailController.userId.value);
-                        }
-                    );
-                  },
-                  style: CustomButtonStyle.primaryButton,
-                  child: Text(
-                    'Xác nhận thu gom',
-                    style:
-                    TextStyle(color: Colors.white, fontSize: 18.sp),
-                  )),
-            );
-          }else{
-            return Container();
-          }
-        },)
+                        },
+                        style: CustomButtonStyle.primaryButton,
+                        child: Text(
+                          'Xác nhận thu gom',
+                          style:
+                          TextStyle(color: Colors.white, fontSize: 18.sp),
+                        )),
+                  );
+                }else{
+                  return Container();
+                }
+              },)
+            ],
+          )
       ],
     );
   }
