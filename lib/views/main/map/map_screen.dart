@@ -9,18 +9,18 @@ import 'package:thu_gom/shared/constants/color_constants.dart';
 import 'package:thu_gom/shared/themes/style/app_text_styles.dart';
 
 class MapScreen extends StatelessWidget {
-   MapScreen({Key? key}) : super(key: key);
-   final GetStorage _getStorage = GetStorage();
-   var name ='';
+  MapScreen({Key? key}) : super(key: key);
+  final GetStorage _getStorage = GetStorage();
+  var name = '';
   @override
   Widget build(BuildContext context) {
     name = _getStorage.read('name');
     final user = Get.put(MapController());
     return Obx(() => Scaffold(
-      body: user.activeGPS.value == false
-          ? _buildNoGpsView(user)
-          : _buildMapView(context, user),
-    ));
+          body: user.activeGPS.value == false
+              ? _buildNoGpsView(user)
+              : _buildMapView(context, user),
+        ));
   }
 
   Widget _buildNoGpsView(MapController user) {
@@ -65,16 +65,6 @@ class MapScreen extends StatelessWidget {
   }
 
   Widget _buildMapView(BuildContext context, MapController user) {
-    if (!user.isDataLoaded.value) {
-      return Center(child: CircularProgressIndicator());
-    }
-    // Kiểm tra xem _initialPosition có được khởi tạo hay không
-    if (user.initialPos == null) {
-      // Nếu chưa được khởi tạo, hiển thị màn hình trống hoặc thông báo lỗi
-      return Center(
-        child: Text('Không thể tải bản đồ do thiếu thông tin vị trí.'),
-      );
-    }
     return Scaffold(
       body: Column(
         children: [
@@ -82,52 +72,69 @@ class MapScreen extends StatelessWidget {
             color: ColorsConstants.kBGCardColor,
             child: _userName(),
           ),
-          Expanded(
-            flex: 4,
-            child: Stack(
-              children: [
-                GoogleMap(
-                  initialCameraPosition: CameraPosition(
-                    target: user.initialPos,
-                    zoom: 16.0,
+          !user.isDataLoaded.value
+              ? const Center(
+                  child: CircularProgressIndicator(
+                    color: ColorsConstants.kActiveColor,
                   ),
-                  markers: {
-                    Marker(
-                      markerId: MarkerId("user_location"),
-                      position: user.initialPos,
-                      icon: BitmapDescriptor.defaultMarkerWithHue(
-                          BitmapDescriptor.hueRed),
-                    ),
-                    ...user.markers,
-                  },
-                ),
-                Positioned(
-                  top: 20,
-                  right: 20,
-                  child: Container(
-                    padding: EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Text(
-                      'Số lượng điểm thu gom: ${user.markers.length}',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
+                )
+              : user.initialPos == null
+                  ? const Center(
+                      child: Text(
+                        'Không thể tải bản đồ do thiếu thông tin vị trí.',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: ColorsConstants.kActiveColor,
+                        ),
+                      ),
+                    )
+                  : Expanded(
+                      flex: 4,
+                      child: Stack(
+                        children: [
+                          GoogleMap(
+                            initialCameraPosition: CameraPosition(
+                              target: user.initialPos,
+                              zoom: 16.0,
+                            ),
+                            markers: {
+                              Marker(
+                                markerId: MarkerId("user_location"),
+                                position: user.initialPos,
+                                icon: BitmapDescriptor.defaultMarkerWithHue(
+                                    BitmapDescriptor.hueRed),
+                              ),
+                              ...user.markers,
+                            },
+                          ),
+                          Positioned(
+                            top: 20,
+                            right: 20,
+                            child: Container(
+                              padding: EdgeInsets.all(10),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: Text(
+                                'Số lượng điểm thu gom: ${user.markers.length}',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                  ),
-                ),
-              ],
-            ),
-          ),
           Expanded(
             flex: 1,
             child: Obx(() {
               // Sử dụng isDataLoaded để kiểm tra xem dữ liệu đã tải xong chưa
               if (!user.isDataLoaded.value) {
-                return Center(child: CircularProgressIndicator());
+               return Text('Đang tải dữ liệu...');
               } else {
                 return Container(
                   padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
@@ -161,6 +168,7 @@ class MapScreen extends StatelessWidget {
       ),
     );
   }
+
   Padding _userName() {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 12.sp),

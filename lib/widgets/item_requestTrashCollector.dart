@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:thu_gom/shared/constants/color_constants.dart';
 import 'package:thu_gom/shared/themes/style/app_text_styles.dart';
 import 'package:thu_gom/widgets/dot_widget.dart';
 import 'package:intl/intl.dart';
@@ -55,10 +56,24 @@ class item_requestTrashCollector extends StatelessWidget {
                 //name
                 SizedBox(
                   height: 80.h,
+                  width: 100.w,
                   child: Image.network(
                     image,
-                    width: 100.w,
+                    scale: 1.0,
+                    cacheHeight: 100,
+                    cacheWidth: 100,
                     fit: BoxFit.cover,
+                    loadingBuilder: (context, child, loadingProgress) => loadingProgress == null
+                        ? child
+                        : Center(
+                            child: CircularProgressIndicator(
+                              color: ColorsConstants.kActiveColor,
+                              value: loadingProgress.expectedTotalBytes != null
+                                  ? loadingProgress.cumulativeBytesLoaded /
+                                      loadingProgress.expectedTotalBytes!
+                                  : null,
+                            ),
+                          ),
                   ),
                 ),
               ],

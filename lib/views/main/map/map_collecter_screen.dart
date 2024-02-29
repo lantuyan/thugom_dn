@@ -10,17 +10,17 @@ import 'package:thu_gom/shared/themes/style/app_text_styles.dart';
 class MapCollecterScreen extends StatelessWidget {
   MapCollecterScreen({Key? key}) : super(key: key);
   final GetStorage _getStorage = GetStorage();
-  var name ='';
+  var name = '';
   @override
   Widget build(BuildContext context) {
     name = _getStorage.read('name');
     final user = Get.put(MapController());
     user.userRequest();
     return Obx(() => Scaffold(
-      body: user.activeGPS.value == false
-          ? _buildNoGpsView(user)
-          : _buildMapView(context, user),
-    ));
+          body: user.activeGPS.value == false
+              ? _buildNoGpsView(user)
+              : _buildMapView(context, user),
+        ));
   }
 
   Widget _buildNoGpsView(MapController user) {
@@ -65,14 +65,6 @@ class MapCollecterScreen extends StatelessWidget {
   }
 
   Widget _buildMapView(BuildContext context, MapController user) {
-    if (!user.isDataLoaded.value) {
-      return Center(child: CircularProgressIndicator());
-    }
-    if (user.initialPos == null) {
-      return Center(
-        child: Text('Không thể tải bản đồ do thiếu thông tin vị trí.'),
-      );
-    }
     return Scaffold(
       body: Column(
         children: [
@@ -80,52 +72,69 @@ class MapCollecterScreen extends StatelessWidget {
             color: ColorsConstants.kBGCardColor,
             child: _userName(name),
           ),
-          Expanded(
-            flex: 4,
-            child: Stack(
-              children: [
-                GoogleMap(
-                  initialCameraPosition: CameraPosition(
-                    target: user.initialPos,
-                    zoom: 16.0,
+          !user.isDataLoaded.value
+              ? const Center(
+                  child: CircularProgressIndicator(
+                    color: ColorsConstants.kActiveColor,
                   ),
-                  markers: {
-                    Marker(
-                      markerId: MarkerId("user_location"),
-                      position: user.initialPos,
-                      icon: BitmapDescriptor.defaultMarkerWithHue(
-                          BitmapDescriptor.hueRed),
-                    ),
-                    ...user.markers_user,
-                  },
-                ),
-                Positioned(
-                  top: 20,
-                  right: 20,
-                  child: Container(
-                    padding: EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Text(
-                      'Số người yêu cầu thu gom: ${user.markers_user.length}',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
+                )
+              : user.initialPos == null
+                  ? const Center(
+                      child: Text(
+                        'Không thể tải bản đồ do thiếu thông tin vị trí.',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: ColorsConstants.kActiveColor,
+                        ),
+                      ),
+                    )
+                  : Expanded(
+                      flex: 4,
+                      child: Stack(
+                        children: [
+                          GoogleMap(
+                            initialCameraPosition: CameraPosition(
+                              target: user.initialPos,
+                              zoom: 16.0,
+                            ),
+                            markers: {
+                              Marker(
+                                markerId: MarkerId("user_location"),
+                                position: user.initialPos,
+                                icon: BitmapDescriptor.defaultMarkerWithHue(
+                                    BitmapDescriptor.hueRed),
+                              ),
+                              ...user.markers_user,
+                            },
+                          ),
+                          Positioned(
+                            top: 20,
+                            right: 20,
+                            child: Container(
+                              padding: EdgeInsets.all(10),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: Text(
+                                'Số người yêu cầu thu gom: ${user.markers_user.length}',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                  ),
-                ),
-              ],
-            ),
-          ),
           Expanded(
             flex: 1,
             child: Obx(() {
               // Sử dụng isDataLoaded để kiểm tra xem dữ liệu đã tải xong chưa
               if (!user.isDataLoaded.value) {
-                return Center(child: CircularProgressIndicator());
+                return Text('Đang tải dữ liệu...');
               } else {
                 return Container(
                   padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
@@ -159,6 +168,7 @@ class MapCollecterScreen extends StatelessWidget {
       ),
     );
   }
+
   Padding _userName(String name) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 12.sp),
