@@ -202,7 +202,7 @@ class _tabListRequestState extends State<listRequest> {
                   },
                   child:  item_requestTrashCollector(
                     id: request.requestId,
-                    senderId: request.senderId,
+                    createAt: request.createAt,
                     trash_type: request.trash_type,
                     image: request.image,
                     address: request.address,
@@ -263,7 +263,7 @@ class _listComfirmedState extends State<listComfirmed> {
                   },
                   child:  item_requestTrashCollector(
                     id: request.requestId,
-                    senderId: request.senderId,
+                    createAt: request.createAt,
                     trash_type: request.trash_type,
                     image: request.image,
                     address: request.address,

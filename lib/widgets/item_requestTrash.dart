@@ -4,6 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:thu_gom/shared/themes/style/app_text_styles.dart';
 import 'package:thu_gom/widgets/dot_widget.dart';
 import 'dart:io';
@@ -23,6 +24,9 @@ class item_requestTrash extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var inputFormat = DateFormat('yyyy-MM-dd HH:mm');
+    var inputDate = inputFormat.parse(createAt);
+    var outputFormat = DateFormat('dd/MM/yyyy');
     return Column(
       children: [
         Row(
@@ -32,7 +36,7 @@ class item_requestTrash extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 //date
-                Text(createAt!,
+                Text(outputFormat.format(inputDate),
                     style: AppTextStyles.bodyText1.copyWith(fontSize: 12.sp)),
                 //description
                 Text('Thu gom'.tr, style: AppTextStyles.caption),
@@ -47,7 +51,7 @@ class item_requestTrash extends StatelessWidget {
                   height: 80.h,
                   width: 100.w,
                   child: Image.network(
-                        image,
+                    image,
                     fit: BoxFit.fill,
                     scale: 1.0,
                   ),

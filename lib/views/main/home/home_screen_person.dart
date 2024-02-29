@@ -100,12 +100,15 @@ class _HomeScreenPersonState extends State<HomeScreenPerson> {
                                         top: 4.sp, bottom: 4.sp),
                                     child: GestureDetector(
                                       onTap: () {
-                                    Get.toNamed('/requestPersonPage', arguments: {
-                                      'categoryId': request.categoryID,
-                                      'categoryTitle': request.category_title,
-                                      'categoryImage': request.category_image,
-                                    });
-                                  },
+                                        Get.toNamed('/requestPersonPage',
+                                            arguments: {
+                                              'categoryId': request.categoryID,
+                                              'categoryTitle':
+                                                  request.category_title,
+                                              'categoryImage':
+                                                  request.category_image,
+                                            });
+                                      },
                                       child: Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
@@ -294,11 +297,7 @@ class _tabListRequestState extends State<tabListRequest> {
     return Obx(
       () {
         if (widget.userController.isLoading.value) {
-          return Center(
-              child: Text(
-            "ĐANG TẢI DỮ LIỆU",
-            style: AppTextStyles.bodyText1,
-          ));
+          return SizedBox( child: CircularProgressIndicator());
         } else {
           return Container(
             decoration: BoxDecoration(
@@ -310,37 +309,42 @@ class _tabListRequestState extends State<tabListRequest> {
               ),
             ),
             padding: EdgeInsets.symmetric(horizontal: 10.sp, vertical: 10.sp),
-            child: ListView.builder(
-              scrollDirection: Axis.vertical,
-              itemCount:
-                  widget.userController.listRequestUser.length,
-              shrinkWrap: true,
-              itemBuilder: (context, index) {
-                UserRequestTrashModel request =
-                    widget.userController.listRequestUser[index];
-                print(">>>>>>>>> DATA <<<<<<<: ${request.trash_type}");
-                return GestureDetector(
-                  onTap: () {
-                    Get.toNamed('requestDetailPage', arguments: {
-                      'requestDetail': request
-                    });
-                    // print("GO TO PAGE DETAIL REQUEST");
-                  },
-                  child: item_requestTrash(
-                    id: request.requestId,
-                    createAt: request.createAt,
-                    trash_type: request.trash_type,
-                    image: request.image,
+            child: widget.userController.listRequestUser.isEmpty
+                ? Text(
+                    "Bạn chưa có yêu cầu thu gom nào",
+                    style: AppTextStyles.bodyText1,
+                    textAlign: TextAlign.center,
+                  )
+                : ListView.builder(
+                    scrollDirection: Axis.vertical,
+                    itemCount: widget.userController.listRequestUser.length,
+                    shrinkWrap: true,
+                    itemBuilder: (context, index) {
+                      UserRequestTrashModel request =
+                          widget.userController.listRequestUser[index];
+
+                      return GestureDetector(
+                        onTap: () {
+                          Get.toNamed('requestDetailPage',
+                              arguments: {'requestDetail': request});
+                          // print("GO TO PAGE DETAIL REQUEST");
+                        },
+                        child: item_requestTrash(
+                          id: request.requestId,
+                          createAt: request.createAt,
+                          trash_type: request.trash_type,
+                          image: request.image,
+                        ),
+                      );
+                    },
                   ),
-                );
-              },
-            ),
           );
         }
       },
     );
   }
 }
+
 class tabListHistory extends StatefulWidget {
   final HomeController userController;
   const tabListHistory({super.key, required this.userController});
@@ -355,11 +359,7 @@ class _tabListHistoryState extends State<tabListHistory> {
     return Obx(
       () {
         if (widget.userController.isLoading.value) {
-          return Center(
-              child: Text(
-            "ĐANG TẢI DỮ LIỆU",
-            style: AppTextStyles.bodyText1,
-          ));
+          return SizedBox( child: CircularProgressIndicator());
         } else {
           return Container(
             decoration: BoxDecoration(
@@ -371,31 +371,34 @@ class _tabListHistoryState extends State<tabListHistory> {
               ),
             ),
             padding: EdgeInsets.symmetric(horizontal: 10.sp, vertical: 10.sp),
-            child: ListView.builder(
-              scrollDirection: Axis.vertical,
-              itemCount:
-                  widget.userController.listRequestHistory.length,
-              shrinkWrap: true,
-              itemBuilder: (context, index) {
-                UserRequestTrashModel request =
-                    widget.userController.listRequestUser[index];
-                print(">>>>>>>>> DATA <<<<<<<: ${request.trash_type}");
-                return GestureDetector(
-                  onTap: () {
-                    Get.toNamed('requestDetailPage', arguments: {
-                      'requestDetail': request
-                    });
-                    // print("GO TO PAGE DETAIL REQUEST");
-                  },
-                  child: item_requestTrash(
-                    id: request.requestId,
-                    createAt: request.createAt,
-                    trash_type: request.trash_type,
-                    image: request.image,
+            child: widget.userController.listRequestHistory.isEmpty
+                ? Text(
+                    "Hãy tạo yêu cầu thu gom đầu tiên nào!",
+                    style: AppTextStyles.bodyText1,
+                    textAlign: TextAlign.center,
+                  )
+                : ListView.builder(
+                    scrollDirection: Axis.vertical,
+                    itemCount: widget.userController.listRequestHistory.length,
+                    shrinkWrap: true,
+                    itemBuilder: (context, index) {
+                      UserRequestTrashModel request =
+                          widget.userController.listRequestHistory[index];
+                      return GestureDetector(
+                        onTap: () {
+                          Get.toNamed('requestDetailPage',
+                              arguments: {'requestDetail': request});
+                          // print("GO TO PAGE DETAIL REQUEST");
+                        },
+                        child: item_requestTrash(
+                          id: request.requestId,
+                          createAt: request.createAt,
+                          trash_type: request.trash_type,
+                          image: request.image,
+                        ),
+                      );
+                    },
                   ),
-                );
-              },
-            ),
           );
         }
       },
