@@ -23,10 +23,10 @@ class RequestPersonScreen extends StatelessWidget {
           backgroundColor: ColorsConstants.ksecondBackgroundColor,
           // elevation: 5,
           // shadowColor: ColorsConstants.kShadowColor,
-          title: Obx(() => Text(
-                _requestPersonController.name.value,
-                style: AppTextStyles.bodyText1.copyWith(fontSize: 16.sp),
-              )),
+          // title: Obx(() => Text(
+          //       _requestPersonController.name.value,
+          //       style: AppTextStyles.bodyText1.copyWith(fontSize: 16.sp),
+          //     )),
           centerTitle: true, // Đảm bảo title được căn giữa
           leading: IconButton(
             icon: Icon(Icons.arrow_back),
