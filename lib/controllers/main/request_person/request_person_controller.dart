@@ -74,7 +74,7 @@ class RequestPersonController extends GetxController {
         point_lat: double.parse(pointLatitute),
         point_lng: double.parse(pointLongitute),
         status: status,
-        confirm: confirm,
+        confirm: null,
         hidden: [],
         createAt: DateTime.now().toString(),
         updateAt: DateTime.now().toString());
