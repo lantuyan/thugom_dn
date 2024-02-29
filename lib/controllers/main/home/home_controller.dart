@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:appwrite/appwrite.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
+import 'package:get/get_rx/get_rx.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:thu_gom/models/trash/category_model.dart';
 import 'package:thu_gom/models/trash/user_request_trash_model.dart';
@@ -27,7 +28,7 @@ class HomeController extends GetxController {
 
   late List<UserRequestTrashModel> listRequestColletor = [];
   late List<UserRequestTrashModel> listRequestConfirmColletor = [];
-  var isLoading = true.obs; // Sử dụng Rx để theo dõi
+  RxBool isLoading = true.obs; // Sử dụng Rx để theo dõi
   var count = 0.obs;
   StreamSubscription? _sub;
   RxString name = ''.obs;
@@ -79,6 +80,7 @@ class HomeController extends GetxController {
 
     getRequestListColletor();
     getRequestListConfirmColletor();
+    isLoading.value = false;
   }
 
   @override
