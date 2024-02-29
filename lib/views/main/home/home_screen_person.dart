@@ -324,11 +324,11 @@ class _tabListRequestState extends State<tabListRequest> {
                     print(">>>>>>>>> DATA <<<<<<<: ${request.trash_type}");
                     return GestureDetector(
                       onTap: () {
-                        // Get.toNamed('requestDetailPage', arguments: {
-                        //   'requestDetail': widget
-                        //       .userController.userRequestTrashList[index]
-                        // });
-                        print("GO TO PAGE DETAIL REQUEST");
+                        Get.toNamed('requestDetailPage', arguments: {
+                          'requestDetail': widget
+                              .userController.userRequestTrashList[index]
+                        });
+                        // print("GO TO PAGE DETAIL REQUEST");
                       },
                       child: item_requestTrash(
                         id: request.requestId,
@@ -391,11 +391,11 @@ class _tabListHistoryState extends State<tabListHistory> {
                     print(">>>>>>>>> DATA <<<<<<<: ${request.trash_type}");
                     return GestureDetector(
                       onTap: () {
-                        // Get.toNamed('requestDetailPage', arguments: {
-                        //   'requestDetail': widget
-                        //       .userController.userRequestTrashList[index]
-                        // });
-                        print("GO TO PAGE DETAIL REQUEST");
+                        Get.toNamed('requestDetailPage', arguments: {
+                          'requestDetail': widget
+                              .userController.userRequestTrashList[index]
+                        });
+                        // print("GO TO PAGE DETAIL REQUEST");
                       },
                       child: item_requestTrash(
                         id: request.requestId,

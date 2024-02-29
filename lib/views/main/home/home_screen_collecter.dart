@@ -198,11 +198,11 @@ class _tabListRequestState extends State<listRequest> {
                         widget.userController.listRequestColletor[index];
                     return GestureDetector(
                       onTap: () {
-                        // Get.toNamed('requestDetailPage', arguments: {
-                        //   'requestDetail': widget
-                        //       .userController.userRequestTrashList[index]
-                        // });
-                        print("GO TO PAGE DETAIL REQUEST");
+                        Get.toNamed('requestDetailPage', arguments: {
+                          'requestDetail': widget
+                              .userController.userRequestTrashList[index]
+                        });
+                        // print("GO TO PAGE DETAIL REQUEST");
                       },
                       child:  item_requestTrashCollector(
                         id: request.requestId,
@@ -265,11 +265,11 @@ class _listComfirmedState extends State<listComfirmed> {
                         widget.userController.listRequestConfirmColletor[index];
                     return GestureDetector(
                       onTap: () {
-                        // Get.toNamed('requestDetailPage', arguments: {
-                        //   'requestDetail': widget
-                        //       .userController.userRequestTrashList[index]
-                        // });
-                        print("GO TO PAGE DETAIL REQUEST");
+                        Get.toNamed('requestDetailPage', arguments: {
+                          'requestDetail': widget
+                              .userController.userRequestTrashList[index]
+                        });
+                        // print("GO TO PAGE DETAIL REQUEST");
                       },
                       child:  item_requestTrashCollector(
                         id: request.requestId,
