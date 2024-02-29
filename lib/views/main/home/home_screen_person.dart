@@ -1,11 +1,14 @@
+import 'package:appwrite/appwrite.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:thu_gom/controllers/login/login_controller.dart';
 import 'package:thu_gom/controllers/main/home/home_controller.dart';
+import 'package:thu_gom/models/trash/category_model.dart';
 import 'package:thu_gom/models/trash/user_request_trash_model.dart';
 import 'package:thu_gom/providers/auth_provider.dart';
 import 'package:thu_gom/providers/category_provider.dart';
@@ -30,6 +33,7 @@ class _HomeScreenPersonState extends State<HomeScreenPerson> {
   final HomeController _homeController = Get.put(HomeController(
       CategoryRepository(CategoryProvider()),
       UserRequestTrashRepository(UserRequestTrashProvider())));
+  final GetStorage _getStorage = GetStorage();
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -75,69 +79,87 @@ class _HomeScreenPersonState extends State<HomeScreenPerson> {
                       ),
                       SizedBox(
                         height: 240.h,
-                        child: _homeController.obx(
-                          (state) => ListView.builder(
-                            scrollDirection: Axis.vertical,
-                            physics: const BouncingScrollPhysics(),
-                            itemCount: 4,
-                            itemBuilder: (context, index) {
-                              return Padding(
-                                padding:
-                                    EdgeInsets.only(top: 4.sp, bottom: 4.sp),
-                                child: GestureDetector(
-                                  onTap: () {
-                                    print("CLICK GO TO PAGE HOME REQUEST");
+                        child: Obx(
+                          () {
+                            if (_homeController.isLoading.value) {
+                              return Center(
+                                  child: Text(
+                                "ĐANG TẢI DỮ LIỆU",
+                                style: AppTextStyles.bodyText1,
+                              ));
+                            } else {
+                              return ListView.builder(
+                                scrollDirection: Axis.vertical,
+                                physics: const BouncingScrollPhysics(),
+                                itemCount: _homeController.categoryList.length,
+                                itemBuilder: (context, index) {
+                                  CategoryModel request =
+                                      _homeController.categoryList[index];
+                                  return Padding(
+                                    padding: EdgeInsets.only(
+                                        top: 4.sp, bottom: 4.sp),
+                                    child: GestureDetector(
+                                      onTap: () {
+                                    Get.toNamed('/requestPersonPage', arguments: {
+                                      'categoryId': request.categoryID,
+                                      'categoryTitle': request.category_title,
+                                      'categoryImage': request.category_image,
+                                    });
                                   },
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Padding(
-                                        padding: EdgeInsets.only(left: 10.sp),
-                                        child: CachedNetworkImage(
-                                          fit: BoxFit.fill,
-                                          width: 80.w,
-                                          height: 50.h,
-                                          imageUrl:
-                                              '${AppWriteConstants.endPoint}/storage/buckets/${AppWriteConstants.categoryBucketId}/files/${state![index].category_image}/view?project=${AppWriteConstants.projectId}',
-                                        ),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Padding(
+                                            padding:
+                                                EdgeInsets.only(left: 10.sp),
+                                            child: CachedNetworkImage(
+                                              fit: BoxFit.fill,
+                                              width: 80.w,
+                                              height: 50.h,
+                                              imageUrl:
+                                                  '${AppWriteConstants.endPoint}/storage/buckets/${AppWriteConstants.categoryBucketId}/files/${request.category_image}/view?project=${AppWriteConstants.projectId}',
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: 140.w,
+                                            child: Text(
+                                              request.category_title,
+                                              style: AppTextStyles.bodyText1
+                                                  .copyWith(fontSize: 16.sp),
+                                              textAlign: TextAlign.left,
+                                            ),
+                                          ),
+                                          IconButton(
+                                            padding:
+                                                EdgeInsets.only(right: 10.sp),
+                                            onPressed: () {
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        DetailTrash(
+                                                      id: request.categoryID,
+                                                      image: request
+                                                          .category_image,
+                                                      title: request
+                                                          .category_title,
+                                                      description: request
+                                                          .category_description,
+                                                    ),
+                                                  ));
+                                            },
+                                            icon: SvgPicture.asset(
+                                                'assets/icons/ic_info_information_detail_icon.svg'),
+                                          )
+                                        ],
                                       ),
-                                      SizedBox(
-                                        width: 140.w,
-                                        child: Text(
-                                          state![index].category_title,
-                                          style: AppTextStyles.bodyText1
-                                              .copyWith(fontSize: 16.sp),
-                                          textAlign: TextAlign.left,
-                                        ),
-                                      ),
-                                      IconButton(
-                                        padding: EdgeInsets.only(right: 10.sp),
-                                        onPressed: () {
-                                          Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                builder: (context) =>
-                                                    DetailTrash(
-                                                  id: state![index].categoryID,
-                                                  image: state![index]
-                                                      .category_image,
-                                                  title: state![index]
-                                                      .category_title,
-                                                  description: state![index]
-                                                      .category_description,
-                                                ),
-                                              ));
-                                        },
-                                        icon: SvgPicture.asset(
-                                            'assets/icons/ic_info_information_detail_icon.svg'),
-                                      )
-                                    ],
-                                  ),
-                                ),
+                                    ),
+                                  );
+                                },
                               );
-                            },
-                          ),
+                            }
+                          },
                         ),
                       ),
                     ],
@@ -149,7 +171,7 @@ class _HomeScreenPersonState extends State<HomeScreenPerson> {
                   child: Column(
                     children: [
                       Container(
-                        height: 300.h,
+                        height: 400.h,
                         child: DefaultTabController(
                           length: 2,
                           child: Column(
@@ -173,7 +195,7 @@ class _HomeScreenPersonState extends State<HomeScreenPerson> {
                                       child: Container(
                                         width: 250.w,
                                         child: Text(
-                                          "Yêu cầu (3)",
+                                          "Yêu cầu",
                                           style: TextStyle(
                                             fontSize: 14.sp,
                                             fontWeight: FontWeight.w600,
@@ -188,7 +210,7 @@ class _HomeScreenPersonState extends State<HomeScreenPerson> {
                                       child: Container(
                                         width: 250.w,
                                         child: Text(
-                                          "Lịch Sử (1)",
+                                          "Lịch Sử ",
                                           style: TextStyle(
                                             fontSize: 14.sp,
                                             fontWeight: FontWeight.w600,
@@ -207,7 +229,9 @@ class _HomeScreenPersonState extends State<HomeScreenPerson> {
                                   tabListRequest(
                                     userController: _homeController,
                                   ),
-                                  tabListHistory(),
+                                  tabListHistory(
+                                    userController: _homeController,
+                                  ),
                                 ]),
                               )
                             ],
@@ -246,93 +270,137 @@ class _HomeScreenPersonState extends State<HomeScreenPerson> {
           SizedBox(
             width: 10.w,
           ),
-          Text(
-            "Hello".tr + "\ Tấn",
-            style: AppTextStyles.headline1,
-          )
+          Obx(() {
+            return Text(
+              "Xin chào, ${_homeController.name.value}",
+              style: AppTextStyles.headline1,
+            );
+          })
         ],
       ),
     );
   }
 }
 
-class tabListRequest extends StatelessWidget {
+class tabListRequest extends StatefulWidget {
   final HomeController userController;
   const tabListRequest({super.key, required this.userController});
 
   @override
+  State<tabListRequest> createState() => _tabListRequestState();
+}
+
+class _tabListRequestState extends State<tabListRequest> {
+  @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10.sp),
-        color: ColorsConstants.kBGCardColor,
-        border: Border.all(
-          color: ColorsConstants.kShadowColor,
-          width: 1,
-        ),
-      ),
-      padding: EdgeInsets.symmetric(horizontal: 10.sp, vertical: 10.sp),
-      child: InkWell(
-        onTap: () {
-          print("CLICK QUAN PAGE REQUEST");
-        },
-        child: SingleChildScrollView(
-          // child: Obx(() {
-          //   return ListView.builder(
-          //       scrollDirection: Axis.vertical,
-          //       itemCount: userController.userRequestTrashList.length,
-          //       itemBuilder: (context, index) {
-          //         UserRequestTrashModel request =
-          //             userController.userRequestTrashList[index];
-          //         return item_requestTrash(
-          //           // id: request.requestId,
-          //           // createAt: request.createAt,
-          //           // trash_type: request.trash_type,
-          //           // image: request.image,
-          //         );
-          //       });
-          // }),
-          child: Column(
-            children: [
-              item_requestTrash(),
-              item_requestTrash(),
-              item_requestTrash(),
-            ],
-          ),
-        ),
-      ),
+    return Obx(
+      () {
+        if (widget.userController.isLoading.value) {
+          return Center(
+              child: Text(
+            "ĐANG TẢI DỮ LIỆU",
+            style: AppTextStyles.bodyText1,
+          ));
+        } else {
+          return Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10.sp),
+              color: ColorsConstants.kBGCardColor,
+              border: Border.all(
+                color: ColorsConstants.kShadowColor,
+                width: 1,
+              ),
+            ),
+            padding: EdgeInsets.symmetric(horizontal: 10.sp, vertical: 10.sp),
+            child: ListView.builder(
+              scrollDirection: Axis.vertical,
+              itemCount:
+                  widget.userController.listRequestUser.length,
+              shrinkWrap: true,
+              itemBuilder: (context, index) {
+                UserRequestTrashModel request =
+                    widget.userController.listRequestUser[index];
+                print(">>>>>>>>> DATA <<<<<<<: ${request.trash_type}");
+                return GestureDetector(
+                  onTap: () {
+                    Get.toNamed('requestDetailPage', arguments: {
+                      'requestDetail': request
+                    });
+                    // print("GO TO PAGE DETAIL REQUEST");
+                  },
+                  child: item_requestTrash(
+                    id: request.requestId,
+                    createAt: request.createAt,
+                    trash_type: request.trash_type,
+                    image: request.image,
+                  ),
+                );
+              },
+            ),
+          );
+        }
+      },
     );
   }
 }
-
-class tabListHistory extends StatelessWidget {
-  const tabListHistory({super.key});
+class tabListHistory extends StatefulWidget {
+  final HomeController userController;
+  const tabListHistory({super.key, required this.userController});
 
   @override
+  State<tabListHistory> createState() => _tabListHistoryState();
+}
+
+class _tabListHistoryState extends State<tabListHistory> {
+  @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10.sp),
-        color: ColorsConstants.kBGCardColor,
-        border: Border.all(
-          color: ColorsConstants.kShadowColor,
-          width: 1,
-        ),
-      ),
-      padding: EdgeInsets.symmetric(horizontal: 10.sp, vertical: 10.sp),
-      child: InkWell(
-        onTap: () {
-          print("CLICK QUAN PAGE REQUEST");
-        },
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              item_requestTrash(),
-              // item_requestTrash(),
-            ],
-          ),
-        ),
-      ),
+    return Obx(
+      () {
+        if (widget.userController.isLoading.value) {
+          return Center(
+              child: Text(
+            "ĐANG TẢI DỮ LIỆU",
+            style: AppTextStyles.bodyText1,
+          ));
+        } else {
+          return Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10.sp),
+              color: ColorsConstants.kBGCardColor,
+              border: Border.all(
+                color: ColorsConstants.kShadowColor,
+                width: 1,
+              ),
+            ),
+            padding: EdgeInsets.symmetric(horizontal: 10.sp, vertical: 10.sp),
+            child: ListView.builder(
+              scrollDirection: Axis.vertical,
+              itemCount:
+                  widget.userController.listRequestHistory.length,
+              shrinkWrap: true,
+              itemBuilder: (context, index) {
+                UserRequestTrashModel request =
+                    widget.userController.listRequestUser[index];
+                print(">>>>>>>>> DATA <<<<<<<: ${request.trash_type}");
+                return GestureDetector(
+                  onTap: () {
+                    Get.toNamed('requestDetailPage', arguments: {
+                      'requestDetail': request
+                    });
+                    // print("GO TO PAGE DETAIL REQUEST");
+                  },
+                  child: item_requestTrash(
+                    id: request.requestId,
+                    createAt: request.createAt,
+                    trash_type: request.trash_type,
+                    image: request.image,
+                  ),
+                );
+              },
+            ),
+          );
+        }
+      },
     );
   }
 }

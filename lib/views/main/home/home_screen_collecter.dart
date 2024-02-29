@@ -3,7 +3,9 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:thu_gom/controllers/main/home/home_controller.dart';
+import 'package:thu_gom/models/trash/user_request_trash_model.dart';
 import 'package:thu_gom/providers/category_provider.dart';
 import 'package:thu_gom/providers/user_request_trash_provider.dart';
 import 'package:thu_gom/repositories/category_reponsitory.dart';
@@ -23,6 +25,8 @@ class _HomeScreenCollectorState extends State<HomeScreenCollector> {
   final HomeController _homeController = Get.put(HomeController(
       CategoryRepository(CategoryProvider()),
       UserRequestTrashRepository(UserRequestTrashProvider())));
+  final GetStorage _getStorage = GetStorage();
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -70,8 +74,14 @@ class _HomeScreenCollectorState extends State<HomeScreenCollector> {
                                       child: Container(
                                         width: 250.w,
                                         child: Text(
-                                          "Yêu Cầu (3)",
+                                          "Yêu Cầu",
                                           textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                            fontSize: 14.sp,
+                                            fontWeight: FontWeight.w600,
+                                            fontFamily:
+                                                AppTextStyles.fontFamily,
+                                          ),
                                         ),
                                       ),
                                     ),
@@ -79,8 +89,14 @@ class _HomeScreenCollectorState extends State<HomeScreenCollector> {
                                       child: Container(
                                         width: 250.w,
                                         child: Text(
-                                          "Đã Xử Lý (1)",
+                                          "Đã Xử Lý",
                                           textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                            fontSize: 14.sp,
+                                            fontWeight: FontWeight.w600,
+                                            fontFamily:
+                                                AppTextStyles.fontFamily,
+                                          ),
                                         ),
                                       ),
                                     ),
@@ -89,8 +105,8 @@ class _HomeScreenCollectorState extends State<HomeScreenCollector> {
                               ),
                               Expanded(
                                 child: TabBarView(children: [
-                                  listRequest(),
-                                  listComfirmed(),
+                                  listRequest(userController: _homeController),
+                                  listComfirmed(userController: _homeController),
                                 ]),
                               )
                             ],
@@ -129,76 +145,139 @@ class _HomeScreenCollectorState extends State<HomeScreenCollector> {
           SizedBox(
             width: 10.w,
           ),
-          Text(
-            "URENCO 15:".tr + "Nhân viên 1",
-            style: AppTextStyles.headline1,
-          )
+          Obx(() {
+            return Text(
+              "Xin chào, ${_homeController.name.value}",
+              style: AppTextStyles.headline1,
+            );
+          })
+
         ],
       ),
     );
   }
 }
 
-class listRequest extends StatelessWidget {
-  const listRequest({super.key});
+class listRequest extends StatefulWidget {
+  final HomeController userController;
+  const listRequest({super.key, required this.userController});
 
   @override
+  State<listRequest> createState() => _tabListRequestState();
+}
+
+class _tabListRequestState extends State<listRequest> {
+  @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10.sp),
-        color: ColorsConstants.kBGCardColor,
-        border: Border.all(
-          color: ColorsConstants.kShadowColor,
-          width: 1,
-        ),
-      ),
-      padding: EdgeInsets.symmetric(horizontal: 10.sp, vertical: 10.sp),
-      child: InkWell(
-        onTap: () {
-          print("CLICK QUAN PAGE REQUEST");
-        },
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              item_requestTrashCollector(),
-              item_requestTrashCollector(),
-              item_requestTrashCollector(),
-            ],
-          ),
-        ),
-      ),
+    return Obx(
+      () {
+        if (widget.userController.isLoading.value) {
+          return Center(
+              child: Text(
+            "ĐANG TẢI DỮ LIỆU",
+            style: AppTextStyles.bodyText1,
+          ));
+        } else {
+          return Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10.sp),
+              color: ColorsConstants.kBGCardColor,
+              border: Border.all(
+                color: ColorsConstants.kShadowColor,
+                width: 1,
+              ),
+            ),
+            padding: EdgeInsets.symmetric(horizontal: 10.sp, vertical: 10.sp),
+            child: ListView.builder(
+              scrollDirection: Axis.vertical,
+              itemCount:
+                  widget.userController.listRequestColletor.length,
+              shrinkWrap: true,
+              itemBuilder: (context, index) {
+                UserRequestTrashModel request =
+                    widget.userController.listRequestColletor[index];
+                return GestureDetector(
+                  onTap: () {
+                    Get.toNamed('requestDetailPage', arguments: {
+                      'requestDetail': request
+                    });
+                    // print("GO TO PAGE DETAIL REQUEST");
+                  },
+                  child:  item_requestTrashCollector(
+                    id: request.requestId,
+                    senderId: request.senderId,
+                    trash_type: request.trash_type,
+                    image: request.image,
+                    address: request.address,
+                  ),
+                );
+              },
+            ),
+          );
+        }
+      },
+    );
+  }
+}
+class listComfirmed extends StatefulWidget {
+  final HomeController userController;
+  const listComfirmed({super.key, required this.userController});
+
+  @override
+  State<listComfirmed> createState() => _listComfirmedState();
+}
+
+class _listComfirmedState extends State<listComfirmed> {
+  @override
+  Widget build(BuildContext context) {
+    return Obx(
+      () {
+        if (widget.userController.isLoading.value) {
+          return Center(
+              child: Text(
+            "ĐANG TẢI DỮ LIỆU",
+            style: AppTextStyles.bodyText1,
+          ));
+        } else {
+          return Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10.sp),
+              color: ColorsConstants.kBGCardColor,
+              border: Border.all(
+                color: ColorsConstants.kShadowColor,
+                width: 1,
+              ),
+            ),
+            padding: EdgeInsets.symmetric(horizontal: 10.sp, vertical: 10.sp),
+            child: ListView.builder(
+              scrollDirection: Axis.vertical,
+              itemCount:
+                  widget.userController.listRequestConfirmColletor.length,
+              shrinkWrap: true,
+              itemBuilder: (context, index) {
+                UserRequestTrashModel request =
+                    widget.userController.listRequestConfirmColletor[index];
+                return GestureDetector(
+                  onTap: () {
+                    Get.toNamed('requestDetailPage', arguments: {
+                      'requestDetail': request
+                    });
+                    // print("GO TO PAGE DETAIL REQUEST");
+                  },
+                  child:  item_requestTrashCollector(
+                    id: request.requestId,
+                    senderId: request.senderId,
+                    trash_type: request.trash_type,
+                    image: request.image,
+                    address: request.address,
+                  ),
+                );
+              },
+            ),
+          );
+        }
+      },
     );
   }
 }
 
-class listComfirmed extends StatelessWidget {
-  const listComfirmed({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10.sp),
-        color: ColorsConstants.kBGCardColor,
-        border: Border.all(
-          color: ColorsConstants.kShadowColor,
-          width: 1,
-        ),
-      ),
-      padding: EdgeInsets.symmetric(horizontal: 10.sp, vertical: 10.sp),
-      child: InkWell(
-        onTap: () {
-          print("CLICK QUAN PAGE REQUEST");
-        },
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              item_requestTrashCollector(),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
