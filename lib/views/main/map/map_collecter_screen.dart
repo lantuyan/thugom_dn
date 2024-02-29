@@ -135,6 +135,7 @@ class MapCollecterScreen extends StatelessWidget {
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
                         ),
+                        textAlign: TextAlign.left,
                       ),
                       Obx(() {
                         return Text(
@@ -142,6 +143,7 @@ class MapCollecterScreen extends StatelessWidget {
                           style: TextStyle(
                             fontSize: 18,
                           ),
+                          textAlign: TextAlign.left,
                         );
                       }),
                     ],

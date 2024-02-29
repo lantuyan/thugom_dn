@@ -107,7 +107,7 @@ class MapScreen extends StatelessWidget {
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: Text(
-                      'Số lượng Marker: ${user.markers.length}',
+                      'Số lượng điểm thu gom: ${user.markers.length}',
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
@@ -136,6 +136,7 @@ class MapScreen extends StatelessWidget {
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
                         ),
+                        textAlign: TextAlign.left,
                       ),
                       Obx(() {
                         return Text(
@@ -143,6 +144,7 @@ class MapScreen extends StatelessWidget {
                           style: TextStyle(
                             fontSize: 18,
                           ),
+                          textAlign: TextAlign.left,
                         );
                       }),
                     ],
