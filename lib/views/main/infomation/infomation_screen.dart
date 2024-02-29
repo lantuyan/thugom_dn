@@ -59,19 +59,20 @@ class InfomationScreen extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Text(
-                            'Luật bảo vệ môi trường',
-                            style: Theme.of(context).textTheme.headline6,
-                          ),
+                            Text(
+                              'Luật bảo vệ môi trường',
+                              style: Theme.of(context).textTheme.headline6,
+                            ),
                           const SizedBox(height: 16.0),
                           Text(
                             'Môi trường bao gồm các yếu tố vật chất tự nhiên và nhân tạo quan hệ mật thiết với nhau, bao quanh con người, có ảnh hưởng đến đời sống, kinh tế, xã hội, sự tồn tại, phát triển của con người, sinh vật và tự nhiên.',
                             style: Theme.of(context).textTheme.bodyText2,
-                            textAlign: TextAlign.justify, // Đặt textAlign
+                            textAlign: TextAlign.justify,
                           ),
                         ],
                       ),
                     ),
+
                   ],
                 ),
               ),
@@ -192,4 +193,8 @@ class InfomationScreen extends StatelessWidget {
       ),
     );
   }
+}
+
+class WebViewScreen {
+
 }

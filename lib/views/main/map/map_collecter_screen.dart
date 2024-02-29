@@ -12,6 +12,7 @@ class MapCollecterScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final user = Get.put(MapController());
+    user.userRequest();
     return Obx(() => Scaffold(
       body: user.activeGPS.value == false
           ? _buildNoGpsView(user)
@@ -64,9 +65,7 @@ class MapCollecterScreen extends StatelessWidget {
     if (!user.isDataLoaded.value) {
       return Center(child: CircularProgressIndicator());
     }
-    // Kiểm tra xem _initialPosition có được khởi tạo hay không
     if (user.initialPos == null) {
-      // Nếu chưa được khởi tạo, hiển thị màn hình trống hoặc thông báo lỗi
       return Center(
         child: Text('Không thể tải bản đồ do thiếu thông tin vị trí.'),
       );
@@ -107,7 +106,7 @@ class MapCollecterScreen extends StatelessWidget {
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: Text(
-                      'Số lượng Marker: ${user.markers_user.length}',
+                      'Số người yêu cầu thu gom: ${user.markers_user.length}',
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
@@ -136,6 +135,7 @@ class MapCollecterScreen extends StatelessWidget {
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
                         ),
+                        textAlign: TextAlign.left,
                       ),
                       Obx(() {
                         return Text(
@@ -143,6 +143,7 @@ class MapCollecterScreen extends StatelessWidget {
                           style: TextStyle(
                             fontSize: 18,
                           ),
+                          textAlign: TextAlign.left,
                         );
                       }),
                     ],
