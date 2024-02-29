@@ -24,6 +24,9 @@ class HomeController extends GetxController {
   late List<UserRequestTrashModel> userRequestTrashList = [];
   late List<UserRequestTrashModel> listRequestUser = [];
   late List<UserRequestTrashModel> listRequestHistory = [];
+
+  late List<UserRequestTrashModel> listRequestColletor = [];
+  late List<UserRequestTrashModel> listRequestConfirmColletor = [];
   var isLoading = true.obs; // Sử dụng Rx để theo dõi
   var count = 0.obs;
   StreamSubscription? _sub;
@@ -64,7 +67,6 @@ class HomeController extends GetxController {
     // TODO: implement onInit
     super.onInit();
     _handleIncomingLinks();
-
   }
 
   @override
@@ -73,6 +75,9 @@ class HomeController extends GetxController {
     getUserRequestFromAppwrite();
     getRequestWithStatusPending();
     getRequestHistory();
+
+    getRequestListColletor();
+    getRequestListConfirmColletor();
   }
 
   @override
@@ -102,7 +107,6 @@ class HomeController extends GetxController {
     }
   }
 
-  
   getUserRequestFromAppwrite() async {
     try {
       await _userRequestTrashRepository
@@ -126,7 +130,9 @@ class HomeController extends GetxController {
 
   getRequestWithStatusPending() async {
     try {
-      await _userRequestTrashRepository.getRequestWithStatusPending().then((value) {
+      await _userRequestTrashRepository
+          .getRequestWithStatusPending()
+          .then((value) {
         Map<String, dynamic> data = value.toMap();
         List listRequest = data['documents'].toList();
         listRequestUser = listRequest
@@ -135,16 +141,13 @@ class HomeController extends GetxController {
             )
             .toList();
         isLoading.value = false;
-        print(">>>>>> LIST REQUEST PENDING  <<<<<<<<< ${listRequestUser}");
         update(listRequestUser);
-        print(">>>>>>>> COUNT ${listRequestUser.length}");
-        int itemCount = listRequestHistory.length;
-        
       });
     } catch (e) {
       print(e);
     }
   }
+
   getRequestHistory() async {
     try {
       await _userRequestTrashRepository.getRequestHistory().then((value) {
@@ -156,58 +159,56 @@ class HomeController extends GetxController {
             )
             .toList();
         isLoading.value = false;
-        print(">>>>>> LIST REQUEST PENDING  <<<<<<<<< ${listRequestHistory}");
         update(listRequestHistory);
       });
     } catch (e) {
       print(e);
     }
   }
-  // getCategory() async {
-  //   try {
-  //     change(null, status: RxStatus.loading());
-  //     await _categoryRepository.getCategory().then((value) {
-  //       Map<String, dynamic> data = value.toMap();A
-  //       List d = data['documents'].toList();
-  //       categoryList = d
-  //           .map(
-  //             (e) => CategoryModel.fromMap(e['data']),
-  //           )
-  //           .toList();
-  //       change(categoryList, status: RxStatus.success());
-  //     }).catchError((error) {
-  //       if (error is AppwriteException) {
-  //         change(null, status: RxStatus.error(error.response['message']));
-  //       } else {
-  //         change(null, status: RxStatus.error("Something went wrong"));
-  //       }
-  //     });
-  //   } catch (e) {
-  //     change(null, status: RxStatus.error("Something went wrong"));
-  //   }
-  // }
 
-  // getUserRequestFromAppwrite() async {
-  //   try {
-  //     change(null, status: RxStatus.loading());
-  //     await _userRequestTrashRepository
-  //         .getRequestOfUserFromAppwrite()
-  //         .then((value) {
-  //       Map<String, dynamic> data = value.toMap();
-  //       List listRequest = data['documents'].toList();
-  //       userRequestTrashList = listRequest
-  //           .map(
-  //             (e) => UserRequestTrashModel.fromMap(e['data']),
-  //           )
-  //           .toList();
-  //           print(">>>>>> LIST REQUEST <<<<<<<<< ${userRequestTrashList}");
-  //       change(categoryList, status: RxStatus.success());
-  //     });
-  //   } catch (e) {
-  //     print(e);
-  //     change(null, status: RxStatus.error("Something went wrong"));
-  //   }
-  // }
+  getRequestListColletor() async {
+    try {
+      await _userRequestTrashRepository.getRequestListColletor().then((value) {
+        final GetStorage _getStorage = GetStorage();
+        final userID = _getStorage.read('userId');
+        Map<String, dynamic> data = value.toMap();
+        List listRequest = data['documents'].toList();
+        listRequestColletor = listRequest
+            .map(
+              (e) => UserRequestTrashModel.fromMap(e['data']),
+            ).where((request) => request.hidden!.every((element) => element != userID))
+            .toList();
+        isLoading.value = false;
+        print(">>>>>> LIST REQUEST PENDING  <<<<<<<<< ${listRequestColletor}");
+        update(listRequestColletor);
+      });
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  getRequestListConfirmColletor() async {
+    try {
+      await _userRequestTrashRepository
+          .getRequestListConfirmColletor()
+          .then((value) {
+        Map<String, dynamic> data = value.toMap();
+        List listRequest = data['documents'].toList();
+        listRequestConfirmColletor = listRequest
+            .map(
+              (e) => UserRequestTrashModel.fromMap(e['data']),
+            )
+            .toList();
+        isLoading.value = false;
+        print(
+            ">>>>>> LIST REQUEST PENDING  <<<<<<<<< ${listRequestConfirmColletor}");
+        update(listRequestConfirmColletor);
+      });
+    } catch (e) {
+      print(e);
+    }
+  }
+
 
   Future<void> logOut() async {
     CustomDialogs.showLoadingDialog();

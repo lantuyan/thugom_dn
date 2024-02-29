@@ -1,9 +1,11 @@
+import 'package:appwrite/appwrite.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:thu_gom/controllers/login/login_controller.dart';
 import 'package:thu_gom/controllers/main/home/home_controller.dart';
 import 'package:thu_gom/models/trash/category_model.dart';
@@ -31,6 +33,7 @@ class _HomeScreenPersonState extends State<HomeScreenPerson> {
   final HomeController _homeController = Get.put(HomeController(
       CategoryRepository(CategoryProvider()),
       UserRequestTrashRepository(UserRequestTrashProvider())));
+  final GetStorage _getStorage = GetStorage();
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -264,7 +267,7 @@ class _HomeScreenPersonState extends State<HomeScreenPerson> {
             width: 10.w,
           ),
           Text(
-            "Hello".tr + "\ Tấn",
+            "Hello".tr + "\ ${_getStorage.read('name')}",
             style: AppTextStyles.headline1,
           )
         ],
