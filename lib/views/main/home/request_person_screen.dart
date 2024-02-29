@@ -259,7 +259,7 @@ class RequestPersonScreen extends StatelessWidget {
                            CustomDialogs.showSnackBar(3, "Vui lòng chụp ảnh", 'error');
                           }
                           else if (_requestPersonController.formKey.currentState?.validate() == true) {
-                            _requestPersonController.address.value =
+                            _requestPersonController.description.value =
                               _requestPersonController
                                   .desriptionFieldKey.currentState?.value;
                           _requestPersonController.phoneNumber.value =

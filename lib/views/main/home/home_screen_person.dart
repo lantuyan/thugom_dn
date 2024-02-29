@@ -310,36 +310,30 @@ class _tabListRequestState extends State<tabListRequest> {
               ),
             ),
             padding: EdgeInsets.symmetric(horizontal: 10.sp, vertical: 10.sp),
-            child: SingleChildScrollView(
-              child: SizedBox(
-                height: 340.h,
-                child: ListView.builder(
-                  scrollDirection: Axis.vertical,
-                  itemCount:
-                      widget.userController.listRequestUser.length,
-                  shrinkWrap: true,
-                  itemBuilder: (context, index) {
-                    UserRequestTrashModel request =
-                        widget.userController.listRequestUser[index];
-                    print(">>>>>>>>> DATA <<<<<<<: ${request.trash_type}");
-                    return GestureDetector(
-                      onTap: () {
-                        Get.toNamed('requestDetailPage', arguments: {
-                          'requestDetail': widget
-                              .userController.userRequestTrashList[index]
-                        });
-                        // print("GO TO PAGE DETAIL REQUEST");
-                      },
-                      child: item_requestTrash(
-                        id: request.requestId,
-                        createAt: request.createAt,
-                        trash_type: request.trash_type,
-                        image: request.image,
-                      ),
-                    );
+            child: ListView.builder(
+              scrollDirection: Axis.vertical,
+              itemCount:
+                  widget.userController.listRequestUser.length,
+              shrinkWrap: true,
+              itemBuilder: (context, index) {
+                UserRequestTrashModel request =
+                    widget.userController.listRequestUser[index];
+                print(">>>>>>>>> DATA <<<<<<<: ${request.trash_type}");
+                return GestureDetector(
+                  onTap: () {
+                    Get.toNamed('requestDetailPage', arguments: {
+                      'requestDetail': request
+                    });
+                    // print("GO TO PAGE DETAIL REQUEST");
                   },
-                ),
-              ),
+                  child: item_requestTrash(
+                    id: request.requestId,
+                    createAt: request.createAt,
+                    trash_type: request.trash_type,
+                    image: request.image,
+                  ),
+                );
+              },
             ),
           );
         }
@@ -377,36 +371,30 @@ class _tabListHistoryState extends State<tabListHistory> {
               ),
             ),
             padding: EdgeInsets.symmetric(horizontal: 10.sp, vertical: 10.sp),
-            child: SingleChildScrollView(
-              child: SizedBox(
-                height: 340.h,
-                child: ListView.builder(
-                  scrollDirection: Axis.vertical,
-                  itemCount:
-                      widget.userController.listRequestHistory.length,
-                  shrinkWrap: true,
-                  itemBuilder: (context, index) {
-                    UserRequestTrashModel request =
-                        widget.userController.listRequestUser[index];
-                    print(">>>>>>>>> DATA <<<<<<<: ${request.trash_type}");
-                    return GestureDetector(
-                      onTap: () {
-                        Get.toNamed('requestDetailPage', arguments: {
-                          'requestDetail': widget
-                              .userController.userRequestTrashList[index]
-                        });
-                        // print("GO TO PAGE DETAIL REQUEST");
-                      },
-                      child: item_requestTrash(
-                        id: request.requestId,
-                        createAt: request.createAt,
-                        trash_type: request.trash_type,
-                        image: request.image,
-                      ),
-                    );
+            child: ListView.builder(
+              scrollDirection: Axis.vertical,
+              itemCount:
+                  widget.userController.listRequestHistory.length,
+              shrinkWrap: true,
+              itemBuilder: (context, index) {
+                UserRequestTrashModel request =
+                    widget.userController.listRequestUser[index];
+                print(">>>>>>>>> DATA <<<<<<<: ${request.trash_type}");
+                return GestureDetector(
+                  onTap: () {
+                    Get.toNamed('requestDetailPage', arguments: {
+                      'requestDetail': request
+                    });
+                    // print("GO TO PAGE DETAIL REQUEST");
                   },
-                ),
-              ),
+                  child: item_requestTrash(
+                    id: request.requestId,
+                    createAt: request.createAt,
+                    trash_type: request.trash_type,
+                    image: request.image,
+                  ),
+                );
+              },
             ),
           );
         }
