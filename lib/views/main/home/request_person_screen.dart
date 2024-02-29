@@ -280,7 +280,7 @@ class RequestPersonScreen extends StatelessWidget {
                           ),
                         ),
                         style: ElevatedButton.styleFrom(
-                          primary: ColorsConstants.kMainColor,
+                          backgroundColor: ColorsConstants.kMainColor,
                           padding:
                               EdgeInsets.fromLTRB(20.sp, 10.sp, 20.sp, 10.sp),
                           shape: RoundedRectangleBorder(
