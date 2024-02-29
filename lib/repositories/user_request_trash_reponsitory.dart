@@ -14,4 +14,6 @@ class UserRequestTrashRepository{
   Future<void> confirmRequest(String requestId, String userId) => _userRequestTrashProvider.confirmRequest(requestId,userId);
 
   Future<void> sendRequestToAppwrite(UserRequestTrashModel userRequestTrashModel) => _userRequestTrashProvider.sendRequestToAppwrite(userRequestTrashModel);
+  
+  Future<models.File> uploadImageToAppwrite(String imagePath) => _userRequestTrashProvider.uploadCategoryImage(imagePath);
 }

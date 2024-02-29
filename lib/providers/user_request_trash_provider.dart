@@ -80,16 +80,16 @@ class UserRequestTrashProvider {
     }
   }
 
-  // Future<models.File> uploadCategoryImage(String imagePath) {
-  //   String fileName = "${DateTime.now().microsecondsSinceEpoch}"
-  //       "${imagePath.split(".").last}";
-  //   final response = storage!.createFile(
-  //       bucketId: AppWriteConstants.categoryBucketId,
-  //       fileId: ID.unique(),
-  //       file: InputFile.fromPath(path: imagePath, filename: fileName));
+  Future<models.File> uploadCategoryImage(String imagePath) {
+    String fileName = "${DateTime.now().microsecondsSinceEpoch}"
+        "${imagePath.split(".").last}";
+    final response = storage.createFile(
+        bucketId: AppWriteConstants.userRequestTrashBucketId,
+        fileId: ID.unique(),
+        file: InputFile.fromPath(path: imagePath, filename: fileName));
 
-  //   return response;
-  // }
+    return response;
+  }
 
   // Future<dynamic> deleteCategoryImage(String fileId) {
   //   final response = storage!.deleteFile(

@@ -1,10 +1,14 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:thu_gom/managers/data_manager.dart';
 import 'package:thu_gom/models/trash/user_request_trash_model.dart';
 import 'package:thu_gom/repositories/user_request_trash_reponsitory.dart';
+import 'package:thu_gom/shared/constants/appwrite_constants.dart';
 import 'package:thu_gom/widgets/custom_dialogs.dart';
 import 'package:uuid/uuid.dart';
 
@@ -14,6 +18,7 @@ class RequestPersonController extends GetxController {
   RequestPersonController(this._requestRepository);
 
   //Key
+  final GlobalKey<FormBuilderState> formKey = GlobalKey<FormBuilderState>();
   final desriptionFieldKey = GlobalKey<FormBuilderFieldState>();
   final addressFieldKey = GlobalKey<FormBuilderFieldState>();
   final phoneNumberFieldKey = GlobalKey<FormBuilderFieldState>();
@@ -25,6 +30,8 @@ class RequestPersonController extends GetxController {
   late String title;
   late String requestId;
   late String userId;
+  late String imageLink;
+  RxString imagePath = "".obs;
   RxString name = "".obs;
   RxString address = "".obs;
   RxString phoneNumber = "".obs;
@@ -36,6 +43,9 @@ class RequestPersonController extends GetxController {
   late String confirm = "";
 
   late UserRequestTrashModel requestDetailModel;
+  final picker = ImagePicker();
+  late File image;
+  late Image imageWidget;
 
   @override
   onInit() {
@@ -45,18 +55,19 @@ class RequestPersonController extends GetxController {
     userId = DataManager().getData("userId");
     loading.value = false;
     getUserLocation();
-    
+
     super.onInit();
   }
 
   //Person
   Future<void> sendRequestToAppwrite() async {
     CustomDialogs.showLoadingDialog();
+    await uploadImageToAppwrite();
     UserRequestTrashModel userRequestTrashModel = UserRequestTrashModel(
         requestId: Uuid().v1(),
         senderId: userId,
         trash_type: trashType,
-        image: "test image",
+        image: imageLink,
         phone_number: phoneNumber.value,
         address: address.value,
         description: description.value,
@@ -85,7 +96,35 @@ class RequestPersonController extends GetxController {
   }
 
   Future getImageFromCamera() async {
-    
+    final pickedFile = await picker.pickImage(source: ImageSource.camera, imageQuality: 25);
+    if (pickedFile != null) {
+      imagePath.value = pickedFile.path;
+      image = File(pickedFile.path);
+      imageWidget = Image.file(
+        image,
+        fit: BoxFit.fill,
+        cacheHeight: 400,
+        cacheWidth: 400,
+      );
+      // uploadImageToAppwrite();
+    }
+  }
+
+    Future<void> uploadImageToAppwrite() async {
+    CustomDialogs.showLoadingDialog();
+    try {
+      // Add the 'await' keyword to wait for the upload to complete
+      var value = await _requestRepository.uploadImageToAppwrite(imagePath.value);
+
+      imageLink = 'https://cloud.appwrite.io/v1/storage/' +
+          'buckets/${AppWriteConstants.userRequestTrashBucketId}/' +
+          'files/${value.$id}/view?project=${AppWriteConstants.projectId}';
+
+      CustomDialogs.hideLoadingDialog();
+    } catch (onError) {
+      CustomDialogs.hideLoadingDialog();
+      print(onError);
+    }
   }
 
   Future<void> getUserLocation() async {
