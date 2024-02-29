@@ -112,6 +112,7 @@ class MapController extends GetxController {
         databaseId: AppWriteConstants.databaseId,
         collectionId: AppWriteConstants.userRequestTrashCollection,
       );
+      markers_user.clear();
       for (var documents in documentlistUser.documents) {
         Map<String, dynamic> data = documents.data as Map<String, dynamic>;
         double? pointLat = data['point_lat'] as double?;

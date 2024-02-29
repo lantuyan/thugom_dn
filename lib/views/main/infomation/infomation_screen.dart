@@ -5,7 +5,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:thu_gom/controllers/main/home/home_controller.dart';
 import 'package:thu_gom/shared/constants/color_constants.dart';
 import 'package:thu_gom/shared/themes/style/app_text_styles.dart';
-
+import 'package:thu_gom/widgets/web_view.dart';
 class InfomationScreen extends StatelessWidget {
    InfomationScreen({Key? key}) : super(key: key);
   final GetStorage _getStorage = GetStorage();
@@ -63,10 +63,18 @@ class InfomationScreen extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                            Text(
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => WebViewPage()),
+                              );
+                            },
+                            child: Text(
                               'Luật bảo vệ môi trường',
                               style: Theme.of(context).textTheme.headline6,
                             ),
+                          ),
                           const SizedBox(height: 16.0),
                           Text(
                             'Môi trường bao gồm các yếu tố vật chất tự nhiên và nhân tạo quan hệ mật thiết với nhau, bao quanh con người, có ảnh hưởng đến đời sống, kinh tế, xã hội, sự tồn tại, phát triển của con người, sinh vật và tự nhiên.',
@@ -76,6 +84,7 @@ class InfomationScreen extends StatelessWidget {
                         ],
                       ),
                     ),
+
 
                   ],
                 ),
@@ -89,20 +98,20 @@ class InfomationScreen extends StatelessWidget {
               decoration: const BoxDecoration(
                 border: Border(
                   bottom: BorderSide(
-                    color: Colors.grey, // Màu sắc của đường viền
-                    width: 6.0, // Độ dày của đường viền
+                    color: Colors.grey,
+                    width: 6.0,
                   ),
                   left:  BorderSide(
-                    color: Colors.grey, // Màu sắc của đường viền
-                    width: 6.0, // Độ dày của đường viền
+                    color: Colors.grey,
+                    width: 6.0,
                   ),
                   top:  BorderSide(
-                    color: Colors.grey, // Màu sắc của đường viền
-                    width: 6.0, // Độ dày của đường viền
+                    color: Colors.grey,
+                    width: 6.0,
                   ),
                   right:  BorderSide(
-                    color: Colors.grey, // Màu sắc của đường viền
-                    width: 6.0, // Độ dày của đường viền
+                    color: Colors.grey,
+                    width: 6.0,
                   ),
                 ),
               ),
@@ -113,20 +122,24 @@ class InfomationScreen extends StatelessWidget {
                       context,
                       'Phí thu gom rác cồng kềnh',
                       'assets/images/blog_2.jpg',
+
                     ),
                     buildInformationContainer(
                       context,
                       'Thông tư...',
                       'assets/images/blog_3.jpg',
+
                     ),
                     buildInformationContainer(
                       context,
                       'Thông tư...',
                       'assets/images/blog_4.jpg',
+
                     ),
                   ],
                 ),
               ),
+
             ),
           ),
         ],
@@ -134,6 +147,7 @@ class InfomationScreen extends StatelessWidget {
     );
 
   }
+
 
   Widget buildInformationContainer(BuildContext context, String title, String imagePath) {
     return Container(
@@ -155,10 +169,19 @@ class InfomationScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    title,
-                    style: Theme.of(context).textTheme.subtitle1,
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => WebViewPage()),
+                      );
+                    },
+                    child: Text(
+                      title,
+                      style: Theme.of(context).textTheme.subtitle1,
+                    ),
                   ),
+
                   const SizedBox(height: 8.0),
                 ],
               ),
@@ -168,7 +191,9 @@ class InfomationScreen extends StatelessWidget {
       ),
     );
   }
+
   Padding _userName(String name) {
+
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 12.sp),
       child: Row(
@@ -199,6 +224,5 @@ class InfomationScreen extends StatelessWidget {
   }
 }
 
-class WebViewScreen {
 
-}
+
