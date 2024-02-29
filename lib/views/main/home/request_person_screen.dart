@@ -1,3 +1,4 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -13,6 +14,7 @@ class RequestPersonScreen extends StatelessWidget {
   RequestPersonScreen({super.key});
   final RequestPersonController _requestPersonController =
       Get.find<RequestPersonController>();
+  final CarouselController _carouselController = CarouselController();
 
   @override
   Widget build(BuildContext context) {
@@ -23,10 +25,10 @@ class RequestPersonScreen extends StatelessWidget {
           backgroundColor: ColorsConstants.ksecondBackgroundColor,
           // elevation: 5,
           // shadowColor: ColorsConstants.kShadowColor,
-          // title: Obx(() => Text(
-          //       _requestPersonController.name.value,
-          //       style: AppTextStyles.bodyText1.copyWith(fontSize: 16.sp),
-          //     )),
+          title: Obx(() => Text(
+                _requestPersonController.name.value,
+                style: AppTextStyles.bodyText1.copyWith(fontSize: 16.sp),
+              )),
           centerTitle: true, // Đảm bảo title được căn giữa
           leading: IconButton(
             icon: Icon(Icons.arrow_back),
@@ -227,47 +229,88 @@ class RequestPersonScreen extends StatelessWidget {
                     SizedBox(
                       height: 20.sp,
                     ),
-                    Center(
-                      child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            minimumSize: Size(65.sp, 65.sp),
-                            shape: CircleBorder(),
-                            padding: EdgeInsets.all(5.sp),
-                            backgroundColor: ColorsConstants.kBackgroundColor,
-                            elevation: 2,
+                    Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(vertical: 15.sp),
+                        child: SingleChildScrollView(
+                          child: CarouselSlider(
+                            carouselController: _carouselController,
+                            items: [
+                              ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    minimumSize: Size(65.sp, 65.sp),
+                                    shape: CircleBorder(),
+                                    padding: EdgeInsets.all(5.sp),
+                                    backgroundColor:
+                                        ColorsConstants.kBackgroundColor,
+                                    elevation: 2,
+                                  ),
+                                  onPressed: () {
+                                    _carouselController.animateToPage(0);
+                                    _requestPersonController.getImageFromCamera();
+                                  },
+                                  child: SvgPicture.asset(
+                                    'assets/icons/ic_scan.svg',
+                                    colorFilter: ColorFilter.mode(
+                                        ColorsConstants.kMainColor,
+                                        BlendMode.srcIn),
+                                    width: 40.sp,
+                                    height: 40.sp,
+                                  )),
+                              ElevatedButton(
+                                onPressed: () {
+                                  _carouselController.animateToPage(1);
+                                  _requestPersonController.getImageFromGallery();
+                                },
+                                child: Icon(Icons.image_outlined,
+                                    color: ColorsConstants.kMainColor,
+                                    size: 36.sp),
+                                style: ElevatedButton.styleFrom(
+                                  minimumSize: Size(65.sp, 65.sp),
+                                  shape: CircleBorder(),
+                                  padding: EdgeInsets.all(5.sp),
+                                  backgroundColor:
+                                      ColorsConstants.kBackgroundColor,
+                                  elevation: 2,
+                                ),
+                              )
+                            ],
+                            options: CarouselOptions(
+                                height: 65.sp,
+                                enlargeCenterPage: true,
+                                viewportFraction: 0.3,
+                                enableInfiniteScroll: false),
                           ),
-                          onPressed: () {
-                            _requestPersonController.getImageFromCamera();
-                          },
-                          child: SvgPicture.asset(
-                            'assets/icons/ic_scan.svg',
-                            colorFilter: ColorFilter.mode(
-                                ColorsConstants.kMainColor, BlendMode.srcIn),
-                            width: 40.sp,
-                            height: 40.sp,
-                          )),
+                        ),
+                      ),
                     ),
+
                     SizedBox(
                       height: 20.sp,
                     ),
                     Center(
                       child: ElevatedButton(
                         onPressed: () {
-                          _requestPersonController.formKey.currentState?.saveAndValidate();
-                          
+                          _requestPersonController.formKey.currentState
+                              ?.saveAndValidate();
+
                           if (_requestPersonController.imagePath.value == "") {
-                           CustomDialogs.showSnackBar(3, "Vui lòng chụp ảnh", 'error');
-                          }
-                          else if (_requestPersonController.formKey.currentState?.validate() == true) {
+                            CustomDialogs.showSnackBar(
+                                3, "Vui lòng chụp ảnh", 'error');
+                          } else if (_requestPersonController
+                                  .formKey.currentState
+                                  ?.validate() ==
+                              true) {
                             _requestPersonController.description.value =
-                              _requestPersonController
-                                  .desriptionFieldKey.currentState?.value;
-                          _requestPersonController.phoneNumber.value =
-                              _requestPersonController
-                                  .phoneNumberFieldKey.currentState?.value;
-                          _requestPersonController.address.value =
-                              _requestPersonController
-                                  .addressFieldKey.currentState?.value;
+                                _requestPersonController
+                                    .desriptionFieldKey.currentState?.value;
+                            _requestPersonController.phoneNumber.value =
+                                _requestPersonController
+                                    .phoneNumberFieldKey.currentState?.value;
+                            _requestPersonController.address.value =
+                                _requestPersonController
+                                    .addressFieldKey.currentState?.value;
 
                             _requestPersonController.sendRequestToAppwrite();
                           }

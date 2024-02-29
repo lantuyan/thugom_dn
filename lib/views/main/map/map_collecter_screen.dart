@@ -73,9 +73,12 @@ class MapCollecterScreen extends StatelessWidget {
             child: _userName(name),
           ),
           !user.isDataLoaded.value
-              ? const Center(
-                  child: CircularProgressIndicator(
-                    color: ColorsConstants.kActiveColor,
+              ? Container(
+                  height: MediaQuery.of(context).size.height * 0.3,
+                  child: Center(
+                    child: CircularProgressIndicator(
+                      color: ColorsConstants.kActiveColor,
+                    ),
                   ),
                 )
               : user.initialPos == null
@@ -191,7 +194,7 @@ class MapCollecterScreen extends StatelessWidget {
             width: 10.w,
           ),
           Text(
-            "Xin chào," + name,
+            "Xin chào: " + name,
             style: AppTextStyles.headline1,
           )
         ],

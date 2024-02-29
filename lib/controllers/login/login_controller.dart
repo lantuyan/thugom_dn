@@ -44,6 +44,8 @@ class LoginController extends GetxController {
       CustomDialogs.hideLoadingDialog();
       
       DataManager().saveData('userId', value.userId);
+      DataManager().saveData('sessionId', value.$id);
+      DataManager().saveData('name', userModel.name);
       DataManager().saveData('role', userModel.role);
 
       Get.offAllNamed('/mainPage');
