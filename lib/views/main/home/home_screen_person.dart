@@ -284,7 +284,7 @@ class _HomeScreenPersonState extends State<HomeScreenPerson> {
           ),
           Obx(() {
             return Text(
-              "Xin chào,${_homeController.name.value}",
+              "Xin chào: ${_homeController.name.value}",
               style: AppTextStyles.headline1,
             );
           })

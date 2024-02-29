@@ -215,7 +215,7 @@ class InfomationScreen extends StatelessWidget {
             width: 10.w,
           ),
           Text(
-            "Xin chào," + name,
+            "Xin chào: " + name,
             style: AppTextStyles.headline1,
           )
         ],
