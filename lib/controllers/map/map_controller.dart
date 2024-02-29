@@ -67,8 +67,8 @@ class MapController extends GetxController {
 
   void loadMarkersCollecter() async {
     BitmapDescriptor customIcon = await BitmapDescriptor.fromAssetImage(
-      ImageConfiguration(size: Size(5, 5)), // Kích thước mong muốn của biểu tượng
-      'assets/images/bin_icon.jpg',
+      ImageConfiguration(size: Size(20 , 20)), // Kích thước mong muốn của biểu tượng
+      'assets/images/bin_icon1.jpg',
     );
     try {
       collection_points = Databases(client);
@@ -103,8 +103,8 @@ class MapController extends GetxController {
   }
   void userRequest() async {
     BitmapDescriptor customIcon = await BitmapDescriptor.fromAssetImage(
-      ImageConfiguration(size: Size(5, 5)), // Kích thước mong muốn của biểu tượng
-      'assets/images/bin_icon.jpg',
+      ImageConfiguration(size: Size(20, 20)), // Kích thước mong muốn của biểu tượng
+      'assets/images/bin_icon1.jpg',
     );
     try {
       user_request = Databases(client);
