@@ -72,15 +72,15 @@ class HomeController extends GetxController {
   }
 
   @override
-  void onReady() {
-    getCategory();
-    getUserRequestFromAppwrite();
-    getRequestWithStatusPending();
-    getRequestHistory();
+  void onReady() async {
+    await getCategory();
+    await getUserRequestFromAppwrite();
+    await getRequestWithStatusPending();
+    await getRequestHistory();
 
-    getRequestListColletor();
-    getRequestListConfirmColletor();
-    isLoading.value = false;
+    await getRequestListColletor();
+    await getRequestListConfirmColletor();
+   
   }
 
   @override
@@ -89,7 +89,7 @@ class HomeController extends GetxController {
     super.onClose();
   }
 
-  getCategory() async {
+  Future getCategory() async {
     try {
       await _categoryRepository.getCategory().then((value) {
         Map<String, dynamic> data = value.toMap();
@@ -100,7 +100,7 @@ class HomeController extends GetxController {
             )
             .toList();
         // Dữ liệu đã được tải xong, đặt isLoading thành false
-        isLoading.value = false;
+        // isLoading.value = false;
         print(">>>>>> LIST CATE <<<<<<<<< ${categoryList}");
         update(categoryList);
         print(">>>>>>>> COUNT ${categoryList.length}");
@@ -110,7 +110,7 @@ class HomeController extends GetxController {
     }
   }
 
-  getUserRequestFromAppwrite() async {
+  Future getUserRequestFromAppwrite() async {
     try {
       await _userRequestTrashRepository
           .getRequestOfUserFromAppwrite()
@@ -122,7 +122,7 @@ class HomeController extends GetxController {
               (e) => UserRequestTrashModel.fromMap(e['data']),
             )
             .toList();
-        isLoading.value = false;
+        // isLoading.value = false;
         print(">>>>>> LIST REQUEST  <<<<<<<<< ${userRequestTrashList}");
         update(userRequestTrashList);
       });
@@ -131,7 +131,7 @@ class HomeController extends GetxController {
     }
   }
 
-  getRequestWithStatusPending() async {
+  Future getRequestWithStatusPending() async {
     try {
       await _userRequestTrashRepository
           .getRequestWithStatusPending()
@@ -143,7 +143,7 @@ class HomeController extends GetxController {
               (e) => UserRequestTrashModel.fromMap(e['data']),
             )
             .toList();
-        isLoading.value = false;
+        // isLoading.value = false;
         update(listRequestUser);
       });
     } catch (e) {
@@ -151,7 +151,7 @@ class HomeController extends GetxController {
     }
   }
 
-  getRequestHistory() async {
+  Future getRequestHistory() async {
     try {
       await _userRequestTrashRepository.getRequestHistory().then((value) {
         Map<String, dynamic> data = value.toMap();
@@ -161,7 +161,7 @@ class HomeController extends GetxController {
               (e) => UserRequestTrashModel.fromMap(e['data']),
             )
             .toList();
-        isLoading.value = false;
+        // isLoading.value = false;
         update(listRequestHistory);
       });
     } catch (e) {
@@ -169,7 +169,7 @@ class HomeController extends GetxController {
     }
   }
 
-  getRequestListColletor() async {
+  Future getRequestListColletor() async {
     try {
       await _userRequestTrashRepository.getRequestListColletor().then((value) {
         final GetStorage _getStorage = GetStorage();
@@ -181,7 +181,7 @@ class HomeController extends GetxController {
               (e) => UserRequestTrashModel.fromMap(e['data']),
             ).where((request) => request.hidden!.every((element) => element != userID))
             .toList();
-        isLoading.value = false;
+        // isLoading.value = false;
         print(">>>>>> LIST REQUEST PENDING  <<<<<<<<< ${listRequestColletor}");
         update(listRequestColletor);
       });
@@ -190,7 +190,7 @@ class HomeController extends GetxController {
     }
   }
 
-  getRequestListConfirmColletor() async {
+  Future getRequestListConfirmColletor() async {
     try {
       await _userRequestTrashRepository
           .getRequestListConfirmColletor()

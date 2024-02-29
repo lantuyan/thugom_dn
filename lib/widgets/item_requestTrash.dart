@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:thu_gom/shared/constants/color_constants.dart';
 import 'package:thu_gom/shared/themes/style/app_text_styles.dart';
 import 'package:thu_gom/widgets/dot_widget.dart';
 import 'dart:io';
@@ -54,6 +55,19 @@ class item_requestTrash extends StatelessWidget {
                     image,
                     fit: BoxFit.fill,
                     scale: 1.0,
+                    cacheHeight: 100,
+                    cacheWidth: 100,
+                    loadingBuilder: (context, child, loadingProgress) => loadingProgress == null
+                        ? child
+                        : Center(
+                            child: CircularProgressIndicator(
+                              color: ColorsConstants.kActiveColor,
+                              value: loadingProgress.expectedTotalBytes != null
+                                  ? loadingProgress.cumulativeBytesLoaded /
+                                      loadingProgress.expectedTotalBytes!
+                                  : null,
+                            ),
+                          ),
                   ),
                 ),
               ],

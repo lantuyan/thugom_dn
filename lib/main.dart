@@ -26,6 +26,7 @@ class App extends StatelessWidget {
       builder: (_, child) {
         return SafeArea(
           child: GetMaterialApp(
+            useInheritedMediaQuery: true,
             debugShowCheckedModeBanner: false,
             title: 'Thu Gom',
             theme: Themes.lightTheme,

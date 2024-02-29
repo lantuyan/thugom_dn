@@ -15,7 +15,7 @@ class MainController extends GetxController {
   late PageController pageController;
   late CarouselController carouselController;
 
-  var currentPage = 0.obs;
+  RxInt currentPage = 0.obs;
   var currentBanner = 0.obs;
   String currentRole = DataManager().getData('role');
 
@@ -63,10 +63,10 @@ class MainController extends GetxController {
     currentBanner.value = index;
   }
 
-  @override
-  void dispose() {
-    pageController.dispose();
+  // @override
+  // void dispose() {
+  //   pageController.dispose();
 
-    super.dispose();
-  }
+  //   super.dispose();
+  // }
 }

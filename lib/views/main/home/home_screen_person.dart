@@ -122,6 +122,15 @@ class _HomeScreenPersonState extends State<HomeScreenPerson> {
                                               height: 50.h,
                                               imageUrl:
                                                   '${AppWriteConstants.endPoint}/storage/buckets/${AppWriteConstants.categoryBucketId}/files/${request.category_image}/view?project=${AppWriteConstants.projectId}',
+                                              placeholder: (context, url) => Center(
+                                                child: CircularProgressIndicator(
+                                                  value: 0.5,
+                                                  color: ColorsConstants.kActiveColor,
+                                                ),
+                                              ),
+                                              errorWidget:
+                                                  (context, url, error) =>
+                                                      Icon(Icons.error),
                                             ),
                                           ),
                                           SizedBox(
@@ -275,7 +284,7 @@ class _HomeScreenPersonState extends State<HomeScreenPerson> {
           ),
           Obx(() {
             return Text(
-              "Xin chào, ${_homeController.name.value}",
+              "Xin chào,${_homeController.name.value}",
               style: AppTextStyles.headline1,
             );
           })
@@ -299,7 +308,11 @@ class _tabListRequestState extends State<tabListRequest> {
     return Obx(
       () {
         if (widget.userController.isLoading.value) {
-          return SizedBox( child: CircularProgressIndicator());
+          return Center(
+              child: Text(
+            "ĐANG TẢI DỮ LIỆU",
+            style: AppTextStyles.bodyText1,
+          ));
         } else {
           return Container(
             decoration: BoxDecoration(
@@ -361,7 +374,11 @@ class _tabListHistoryState extends State<tabListHistory> {
     return Obx(
       () {
         if (widget.userController.isLoading.value) {
-          return SizedBox( child: CircularProgressIndicator());
+          return Center(
+              child: Text(
+            "ĐANG TẢI DỮ LIỆU",
+            style: AppTextStyles.bodyText1,
+          ));
         } else {
           return Container(
             decoration: BoxDecoration(

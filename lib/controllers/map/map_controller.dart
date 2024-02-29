@@ -31,11 +31,11 @@ class MapController extends GetxController {
 
 
   @override
-  void onInit() {
+  void onInit() async {
     super.onInit();
-    getUserLocation();
-    userRequest();
-    loadMarkersCollecter();
+    await getUserLocation();
+    await userRequest();
+    await loadMarkersCollecter();
   }
 
   Future<void> getUserLocation() async {
@@ -60,12 +60,12 @@ class MapController extends GetxController {
       _initialPosition = LatLng(position.latitude, position.longitude);
 
       // Sau khi _initialPosition được khởi tạo, cập nhật biến isDataLoaded
-      isDataLoaded.value = true;
+      // isDataLoaded.value = true;
       update(); // Cần gọi update để cập nhật UI
     }
   }
 
-  void loadMarkersCollecter() async {
+  Future<void> loadMarkersCollecter() async {
     BitmapDescriptor customIcon = await BitmapDescriptor.fromAssetImage(
       ImageConfiguration(size: Size(20 , 20)), // Kích thước mong muốn của biểu tượng
       'assets/images/bin_icon1.jpg',
@@ -101,7 +101,7 @@ class MapController extends GetxController {
       print('Error!!! $e');
     }
   }
-  void userRequest() async {
+  Future<void> userRequest() async {
     BitmapDescriptor customIcon = await BitmapDescriptor.fromAssetImage(
       ImageConfiguration(size: Size(20, 20)), // Kích thước mong muốn của biểu tượng
       'assets/images/bin_icon1.jpg',
@@ -133,7 +133,7 @@ class MapController extends GetxController {
       }
 
       shouldShowMarkers.value = true;
-      isDataLoaded.value = true;
+      // isDataLoaded.value = true;
       update();
     } catch (e) {
       print('Error!!! $e');
