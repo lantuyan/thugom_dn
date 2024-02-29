@@ -100,8 +100,12 @@ class _HomeScreenPersonState extends State<HomeScreenPerson> {
                                         top: 4.sp, bottom: 4.sp),
                                     child: GestureDetector(
                                       onTap: () {
-                                        print("CLICK GO TO PAGE HOME REQUEST");
-                                      },
+                                    Get.toNamed('/requestPersonPage', arguments: {
+                                      'categoryId': request.categoryID,
+                                      'categoryTitle': request.category_title,
+                                      'categoryImage': request.category_image,
+                                    });
+                                  },
                                       child: Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
