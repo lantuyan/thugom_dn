@@ -22,6 +22,7 @@ import 'package:thu_gom/views/main/infomation/infomation_screen.dart';
 import 'package:thu_gom/views/main/main_screen.dart';
 import 'package:thu_gom/views/main/map/map_collecter_screen.dart';
 import 'package:thu_gom/views/main/map/map_screen.dart';
+import 'package:thu_gom/views/main/map/map.dart';
 import 'package:thu_gom/views/splash/splash_screen.dart';
 
 class Routes {
@@ -91,7 +92,7 @@ class Routes {
           ),
           GetPage(
             name: '/mapPage',
-            page: () => MapCollecterScreen(),
+            page: () => Map(),
             children: [
               GetPage(
                 name: '/mapCollecterScreen',

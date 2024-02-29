@@ -5,15 +5,24 @@ import 'package:thu_gom/shared/themes/style/app_text_styles.dart';
 import 'package:thu_gom/widgets/dot_widget.dart';
 
 class item_requestTrashCollector extends StatelessWidget {
+  final String id;
+  final String trash_type;
+  final String address;
+  final String image;
+  final String senderId;
   const item_requestTrashCollector({
     super.key,
+    required this.trash_type,
+    required this.address,
+    required this.image,
+    required this.senderId,
+    required this.id,
   });
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -21,11 +30,19 @@ class item_requestTrashCollector extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 //date
-                Text('Rác cồng kềnh'.tr,
+                Text(trash_type,
                     style: AppTextStyles.caption.copyWith(fontSize: 16.sp)),
-                //description
-                Text('Nguyen Van A'.tr, style: AppTextStyles.bodyText1),
-                Text('15 Kinh Duong Vuong'.tr, style: AppTextStyles.bodyText1),
+                //name sender
+                Text(senderId, style: AppTextStyles.bodyText1),
+
+                SizedBox(
+                  width: 200.w,
+                  child: Text(
+                    address,
+                    style: AppTextStyles.bodyText1.copyWith(fontSize: 12.sp),
+                    maxLines: 2,
+                  ),
+                ),
               ],
             ),
             Column(
@@ -33,8 +50,8 @@ class item_requestTrashCollector extends StatelessWidget {
                 //name
                 SizedBox(
                   height: 80.h,
-                  child: Image.asset(
-                    "assets/images/trash_wooden.png",
+                  child: Image.network(
+                    image,
                     width: 100.w,
                     fit: BoxFit.cover,
                   ),

@@ -12,8 +12,8 @@ import 'package:thu_gom/repositories/user_request_trash_reponsitory.dart';
 import 'package:thu_gom/widgets/custom_dialogs.dart';
 // import 'package:uni_links/uni_links.dart';
 
-class HomeController extends GetxController
-    with StateMixin<List<CategoryModel>> {
+class HomeController extends GetxController {
+  // with StateMixin<List<CategoryModel>> {
   final CategoryRepository _categoryRepository;
   final UserRequestTrashRepository _userRequestTrashRepository;
   HomeController(this._categoryRepository, this._userRequestTrashRepository);
@@ -22,15 +22,22 @@ class HomeController extends GetxController
 
   late List<CategoryModel> categoryList = [];
   late List<UserRequestTrashModel> userRequestTrashList = [];
+  late List<UserRequestTrashModel> listRequestUser = [];
+  late List<UserRequestTrashModel> listRequestHistory = [];
+
+  late List<UserRequestTrashModel> listRequestColletor = [];
+  late List<UserRequestTrashModel> listRequestConfirmColletor = [];
+  var isLoading = true.obs; // Sử dụng Rx để theo dõi
+  var count = 0.obs;
   StreamSubscription? _sub;
 
   void _handleIncomingLinks() {
     if (!kIsWeb) {
       // It will handle app links while the app is already started - be it in
       // the foreground or in the background.
-      
+
       // TODO: - Handle incoming links - recommed using: https://fluttergems.dev/packages/app_links/
-      
+
       // _sub = uriLinkStream.listen((Uri? uri) async {
       //   print('got uri: $uri');
 
@@ -66,6 +73,11 @@ class HomeController extends GetxController
   void onReady() {
     getCategory();
     getUserRequestFromAppwrite();
+    getRequestWithStatusPending();
+    getRequestHistory();
+
+    getRequestListColletor();
+    getRequestListConfirmColletor();
   }
 
   @override
@@ -76,7 +88,6 @@ class HomeController extends GetxController
 
   getCategory() async {
     try {
-      change(null, status: RxStatus.loading());
       await _categoryRepository.getCategory().then((value) {
         Map<String, dynamic> data = value.toMap();
         List d = data['documents'].toList();
@@ -85,22 +96,19 @@ class HomeController extends GetxController
               (e) => CategoryModel.fromMap(e['data']),
             )
             .toList();
-        change(categoryList, status: RxStatus.success());
-      }).catchError((error) {
-        if (error is AppwriteException) {
-          change(null, status: RxStatus.error(error.response['message']));
-        } else {
-          change(null, status: RxStatus.error("Something went wrong"));
-        }
+        // Dữ liệu đã được tải xong, đặt isLoading thành false
+        isLoading.value = false;
+        print(">>>>>> LIST CATE <<<<<<<<< ${categoryList}");
+        update(categoryList);
+        print(">>>>>>>> COUNT ${categoryList.length}");
       });
     } catch (e) {
-      change(null, status: RxStatus.error("Something went wrong"));
+      print(e);
     }
   }
 
   getUserRequestFromAppwrite() async {
     try {
-      change(null, status: RxStatus.loading());
       await _userRequestTrashRepository
           .getRequestOfUserFromAppwrite()
           .then((value) {
@@ -111,14 +119,96 @@ class HomeController extends GetxController
               (e) => UserRequestTrashModel.fromMap(e['data']),
             )
             .toList();
-            print(">>>>>> LIST REQUEST <<<<<<<<< ${userRequestTrashList}");
-        change(categoryList, status: RxStatus.success());
+        isLoading.value = false;
+        print(">>>>>> LIST REQUEST  <<<<<<<<< ${userRequestTrashList}");
+        update(userRequestTrashList);
       });
     } catch (e) {
       print(e);
-      change(null, status: RxStatus.error("Something went wrong"));
     }
   }
+
+  getRequestWithStatusPending() async {
+    try {
+      await _userRequestTrashRepository
+          .getRequestWithStatusPending()
+          .then((value) {
+        Map<String, dynamic> data = value.toMap();
+        List listRequest = data['documents'].toList();
+        listRequestUser = listRequest
+            .map(
+              (e) => UserRequestTrashModel.fromMap(e['data']),
+            )
+            .toList();
+        isLoading.value = false;
+        update(listRequestUser);
+      });
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  getRequestHistory() async {
+    try {
+      await _userRequestTrashRepository.getRequestHistory().then((value) {
+        Map<String, dynamic> data = value.toMap();
+        List listRequest = data['documents'].toList();
+        listRequestHistory = listRequest
+            .map(
+              (e) => UserRequestTrashModel.fromMap(e['data']),
+            )
+            .toList();
+        isLoading.value = false;
+        update(listRequestHistory);
+      });
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  getRequestListColletor() async {
+    try {
+      await _userRequestTrashRepository.getRequestListColletor().then((value) {
+        final GetStorage _getStorage = GetStorage();
+        final userID = _getStorage.read('userId');
+        Map<String, dynamic> data = value.toMap();
+        List listRequest = data['documents'].toList();
+        listRequestColletor = listRequest
+            .map(
+              (e) => UserRequestTrashModel.fromMap(e['data']),
+            ).where((request) => request.hidden!.every((element) => element != userID))
+            .toList();
+        isLoading.value = false;
+        print(">>>>>> LIST REQUEST PENDING  <<<<<<<<< ${listRequestColletor}");
+        update(listRequestColletor);
+      });
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  getRequestListConfirmColletor() async {
+    try {
+      await _userRequestTrashRepository
+          .getRequestListConfirmColletor()
+          .then((value) {
+        Map<String, dynamic> data = value.toMap();
+        List listRequest = data['documents'].toList();
+        listRequestConfirmColletor = listRequest
+            .map(
+              (e) => UserRequestTrashModel.fromMap(e['data']),
+            )
+            .toList();
+        isLoading.value = false;
+        print(
+            ">>>>>> LIST REQUEST PENDING  <<<<<<<<< ${listRequestConfirmColletor}");
+        update(listRequestConfirmColletor);
+      });
+    } catch (e) {
+      print(e);
+    }
+  }
+
 
   Future<void> logOut() async {
     CustomDialogs.showLoadingDialog();

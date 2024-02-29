@@ -1,5 +1,6 @@
 import 'package:appwrite/appwrite.dart';
 import 'package:appwrite/models.dart' as models;
+import 'package:flutter/material.dart';
 import 'package:thu_gom/shared/constants/appwrite_constants.dart';
 import 'package:thu_gom/shared/constants/color_constants.dart';
 import 'package:geolocator/geolocator.dart';
@@ -25,6 +26,8 @@ class MapController extends GetxController {
   late Databases user_request;
   Set<Marker> markers_user = {};
   var isDataLoaded = false.obs;
+
+
   @override
   void onInit() {
     super.onInit();
@@ -61,6 +64,10 @@ class MapController extends GetxController {
   }
 
   void loadMarkersCollecter() async {
+    BitmapDescriptor customIcon = await BitmapDescriptor.fromAssetImage(
+      ImageConfiguration(size: Size(5, 5)), // Kích thước mong muốn của biểu tượng
+      'assets/images/bin_icon.jpg',
+    );
     try {
       collection_points = Databases(client);
       models.DocumentList documentList = await collection_points.listDocuments(
@@ -76,8 +83,7 @@ class MapController extends GetxController {
           Marker(
             markerId: MarkerId("$latitude-$longitude"),
             position: LatLng(latitude, longitude),
-            icon:
-            BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue),
+            icon: customIcon,
             onTap: () {
               currentAddress.value = address;
               shouldShowMarkers.value = true;
@@ -93,6 +99,10 @@ class MapController extends GetxController {
     }
   }
   void loadMarkersUser() async {
+    BitmapDescriptor customIcon = await BitmapDescriptor.fromAssetImage(
+      ImageConfiguration(size: Size(5, 5)), // Kích thước mong muốn của biểu tượng
+      'assets/images/bin_icon.jpg',
+    );
     try {
       user_request = Databases(client);
       models.DocumentList documentList = await user_request.listDocuments(
@@ -108,8 +118,7 @@ class MapController extends GetxController {
           Marker(
             markerId: MarkerId("$lat-$lng"),
             position: LatLng(lat, lng),
-            icon:
-            BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue),
+            icon:customIcon,
             onTap: () {
               currentAddress.value = address;
               shouldShowMarkers.value = true;
