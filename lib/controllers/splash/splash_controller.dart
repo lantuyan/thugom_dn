@@ -17,6 +17,8 @@ class SplashController extends GetxController with GetSingleTickerProviderStateM
   void checkUserId() {
     if (getStore.read('userId') != null) {
       DataManager().saveData('userId', getStore.read('userId'));
+      DataManager().saveData('sessionId', getStore.read('sessionId'));
+      DataManager().saveData('name', getStore.read('name'));
       DataManager().saveData('role', getStore.read('role'));
       
       Future.delayed(const Duration(seconds: 1), () {

@@ -53,7 +53,9 @@ class RequestDetailScreen extends StatelessWidget {
 
               child: Obx((){
                 if(_requestDetailController.loading.value){
-                  return CircularProgressIndicator();
+                  return CircularProgressIndicator(
+                    color: ColorsConstants.kMainColor,
+                  );
                 }else{
                   if(_requestDetailController.userId.value != _requestDetailController.requestDetailModel.senderId){
                     //Collector

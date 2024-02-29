@@ -51,7 +51,7 @@ class RequestPersonController extends GetxController {
   onInit() {
     title = argumentData['categoryTitle'];
     trashType = argumentData['categoryTitle'];
-    name.value = DataManager().getData("userId");
+    name.value = DataManager().getData("name");
     userId = DataManager().getData("userId");
     loading.value = false;
     getUserLocation();
@@ -96,7 +96,8 @@ class RequestPersonController extends GetxController {
   }
 
   Future getImageFromCamera() async {
-    final pickedFile = await picker.pickImage(source: ImageSource.camera, imageQuality: 25);
+    final pickedFile =
+        await picker.pickImage(source: ImageSource.camera, imageQuality: 25);
     if (pickedFile != null) {
       imagePath.value = pickedFile.path;
       image = File(pickedFile.path);
@@ -110,11 +111,26 @@ class RequestPersonController extends GetxController {
     }
   }
 
-    Future<void> uploadImageToAppwrite() async {
+  Future getImageFromGallery() async {
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      imagePath.value = pickedFile.path;
+      image = File(pickedFile.path);
+      imageWidget = Image.file(
+        image,
+        fit: BoxFit.fill, 
+        cacheHeight: 400, 
+        cacheWidth: 400
+      );
+    }
+  }
+
+  Future<void> uploadImageToAppwrite() async {
     CustomDialogs.showLoadingDialog();
     try {
       // Add the 'await' keyword to wait for the upload to complete
-      var value = await _requestRepository.uploadImageToAppwrite(imagePath.value);
+      var value =
+          await _requestRepository.uploadImageToAppwrite(imagePath.value);
 
       imageLink = 'https://cloud.appwrite.io/v1/storage/' +
           'buckets/${AppWriteConstants.userRequestTrashBucketId}/' +

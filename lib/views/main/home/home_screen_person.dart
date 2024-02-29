@@ -162,7 +162,9 @@ class _HomeScreenPersonState extends State<HomeScreenPerson> {
                                                   ));
                                             },
                                             icon: SvgPicture.asset(
-                                                'assets/icons/ic_info_information_detail_icon.svg'),
+                                                'assets/icons/ic_info_information_detail_icon.svg',
+                                                color: ColorsConstants.kActiveColor,
+                                                ),
                                           )
                                         ],
                                       ),

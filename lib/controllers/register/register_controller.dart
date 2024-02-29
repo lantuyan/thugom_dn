@@ -42,6 +42,8 @@ class RegisterController extends GetxController {
         _getStorage.write('role', userModel.role);
         
         DataManager().saveData('userId', value.userId);
+        DataManager().saveData('sessionId', value.$id);
+        DataManager().saveData('name', userModel.name);
         DataManager().saveData('role', userModel.role);
       });
       Get.offAllNamed('/introPage');
