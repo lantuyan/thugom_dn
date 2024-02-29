@@ -1,6 +1,6 @@
-
 import 'package:appwrite/appwrite.dart';
 import 'package:appwrite/models.dart' as models;
+import 'package:get_storage/get_storage.dart';
 import 'package:thu_gom/services/appwrite.dart';
 import 'package:thu_gom/shared/constants/appwrite_constants.dart';
 
@@ -15,12 +15,39 @@ class UserRequestTrashProvider {
     databases = Databases(Appwrite.instance.client);
   }
 
-  
   Future<models.DocumentList> getRequestOfUserFromAppwrite() async {
     final response = await databases!.listDocuments(
         databaseId: AppWriteConstants.databaseId,
-        collectionId: AppWriteConstants.categoryCollectionId);
+        collectionId: AppWriteConstants.userRequestTrashCollection);
 
+    return response;
+  }
+
+  Future<models.DocumentList> getRequestWithStatusPending() async {
+    final GetStorage _getStorage = GetStorage();
+    final userID = _getStorage.read('userId');
+    final response = await databases!.listDocuments(
+      databaseId: AppWriteConstants.databaseId,
+      collectionId: AppWriteConstants.userRequestTrashCollection,
+      queries: [
+        Query.equal('status', 'pending'),
+        Query.equal('senderId', userID)
+      ],
+    );
+    return response;
+  }
+
+  Future<models.DocumentList> getRequestHistory() async {
+    final GetStorage _getStorage = GetStorage();
+    final userID = _getStorage.read('userId');
+    final response = await databases!.listDocuments(
+      databaseId: AppWriteConstants.databaseId,
+      collectionId: AppWriteConstants.userRequestTrashCollection,
+      queries: [
+        Query.notEqual('status', 'pending'),
+        Query.equal('senderId', userID)
+      ],
+    );
     return response;
   }
   Future<void> cancelRequest(String requestId) async {
@@ -50,6 +77,7 @@ class UserRequestTrashProvider {
       data: {'confirm': userId},
     );
   }
+
   // Future<models.File> uploadCategoryImage(String imagePath) {
   //   String fileName = "${DateTime.now().microsecondsSinceEpoch}"
   //       "${imagePath.split(".").last}";
@@ -83,7 +111,6 @@ class UserRequestTrashProvider {
 
   //   return response;
   // }
-
 
   //   Future<models.DocumentList> getCategoryDetail() async {
   //   final response = await databases!.listDocuments(
