@@ -8,5 +8,7 @@ class UserRequestTrashRepository{
 
 
   Future<models.DocumentList> getRequestOfUserFromAppwrite() => _userRequestTrashProvider.getRequestOfUserFromAppwrite();
+  Future<models.DocumentList> getRequestWithStatusPending() => _userRequestTrashProvider.getRequestWithStatusPending();
+  Future<models.DocumentList> getRequestHistory() => _userRequestTrashProvider.getRequestHistory();
 
 }
