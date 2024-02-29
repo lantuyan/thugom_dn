@@ -1,6 +1,7 @@
 import 'package:appwrite/appwrite.dart';
 import 'package:appwrite/models.dart' as models;
 import 'package:flutter/material.dart';
+import 'package:thu_gom/models/trash/user_request_trash_model.dart';
 import 'package:thu_gom/shared/constants/appwrite_constants.dart';
 import 'package:thu_gom/shared/constants/color_constants.dart';
 import 'package:geolocator/geolocator.dart';
@@ -25,6 +26,7 @@ class MapController extends GetxController {
   //collecter
   late Databases user_request;
   Set<Marker> markers_user = {};
+
   var isDataLoaded = false.obs;
 
 
@@ -32,7 +34,7 @@ class MapController extends GetxController {
   void onInit() {
     super.onInit();
     getUserLocation();
-    loadMarkersUser();
+    userRequest();
     loadMarkersCollecter();
   }
 
@@ -74,6 +76,7 @@ class MapController extends GetxController {
         databaseId: AppWriteConstants.databaseId,
         collectionId: AppWriteConstants.collection_point_Id,
       );
+
       for (var document in documentList.documents) {
         Map<String, dynamic> data = document.data as Map<String, dynamic>;
         double latitude = data['point_lat'];
@@ -98,40 +101,42 @@ class MapController extends GetxController {
       print('Error!!! $e');
     }
   }
-  void loadMarkersUser() async {
+  void userRequest() async {
     BitmapDescriptor customIcon = await BitmapDescriptor.fromAssetImage(
       ImageConfiguration(size: Size(5, 5)), // Kích thước mong muốn của biểu tượng
       'assets/images/bin_icon.jpg',
     );
     try {
       user_request = Databases(client);
-      models.DocumentList documentList = await user_request.listDocuments(
+      models.DocumentList documentlistUser = await user_request.listDocuments(
         databaseId: AppWriteConstants.databaseId,
         collectionId: AppWriteConstants.userRequestTrashCollection,
       );
-      for (var document in documentList.documents) {
-        Map<String, dynamic> data = document.data as Map<String, dynamic>;
-        double lat = data['point_lat'];
-        double lng = data['point_lng'];
+      for (var documents in documentlistUser.documents) {
+        Map<String, dynamic> data = documents.data as Map<String, dynamic>;
+        double? pointLat = data['point_lat'] as double?;
+        double? pointLng = data['point_lng'] as double?;
         String address = data['address'];
         markers_user.add(
           Marker(
-            markerId: MarkerId("$lat-$lng"),
-            position: LatLng(lat, lng),
-            icon:customIcon,
+            markerId: MarkerId("$pointLat-$pointLng"),
+            position: LatLng(pointLat!, pointLng!),
+            icon: customIcon,
             onTap: () {
               currentAddress.value = address;
               shouldShowMarkers.value = true;
             },
           ),
         );
+
       }
+
       shouldShowMarkers.value = true;
       isDataLoaded.value = true;
       update();
-
     } catch (e) {
       print('Error!!! $e');
     }
   }
+
 }
