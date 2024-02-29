@@ -1,5 +1,6 @@
 import 'package:appwrite/appwrite.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:thu_gom/managers/data_manager.dart';
 import 'package:thu_gom/repositories/auth_reposistory.dart';
 import 'package:thu_gom/widgets/custom_dialogs.dart';
 import 'package:get/get.dart';
@@ -36,8 +37,8 @@ class RegisterController extends GetxController {
         _getStorage.write('userId', value.userId);
         _getStorage.write('sessionId', value.$id);
         final userModel = await getUserModel(value.userId);
-        _getStorage.write('name', userModel.name);
-        _getStorage.write('role', userModel.role);
+        DataManager().saveData('userId', value.userId);
+        DataManager().saveData('role', userModel.role);
       });
       Get.offAllNamed('/introPage');
       CustomDialogs.showSnackBar(2, "Đăng ký tài khoàn thành công", 'success');
