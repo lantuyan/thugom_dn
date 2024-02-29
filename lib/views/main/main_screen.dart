@@ -81,13 +81,14 @@ class _MainScreenState extends State<MainScreen> {
                       page: 0,
                       title: "home_nav".tr,
                     ),
-                    if (isRole != "collector" && isRole != "admin")
                       _bottomAppBarItem(
                           icon: _mainController.currentPage == 1
                               ? UIIcons.icMapFill
                               : UIIcons.icMap,
                           page: 1,
                           title: "map_nav".tr),
+                          
+                    if (isRole != "collector" && isRole != "admin")
                     _bottomAppBarItem(
                       icon: _mainController.currentPage == 2
                           ? UIIcons.icNotificationFill

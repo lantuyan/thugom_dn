@@ -6,8 +6,8 @@ import 'package:thu_gom/controllers/map/map_controller.dart';
 import 'package:thu_gom/shared/constants/color_constants.dart';
 import 'package:thu_gom/shared/themes/style/app_text_styles.dart';
 
-class MapScreen extends StatelessWidget {
-  const MapScreen({Key? key}) : super(key: key);
+class MapCollecterScreen extends StatelessWidget {
+  const MapCollecterScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -94,7 +94,7 @@ class MapScreen extends StatelessWidget {
                       icon: BitmapDescriptor.defaultMarkerWithHue(
                           BitmapDescriptor.hueRed),
                     ),
-                    ...user.markers,
+                    ...user.markers_user,
                   },
                 ),
                 Positioned(
@@ -107,7 +107,7 @@ class MapScreen extends StatelessWidget {
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: Text(
-                      'Số lượng Marker: ${user.markers.length}',
+                      'Số lượng Marker: ${user.markers_user.length}',
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
@@ -126,7 +126,7 @@ class MapScreen extends StatelessWidget {
                 return Center(child: CircularProgressIndicator());
               } else {
                 return Container(
-                  padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                  padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [

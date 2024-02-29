@@ -14,4 +14,8 @@ class UserRequestTrashRepository{
   Future<models.DocumentList> getRequestListColletor() => _userRequestTrashProvider.getRequestListColletor();
   Future<models.DocumentList> getRequestListConfirmColletor() => _userRequestTrashProvider.getRequestListConfirmColletor();
 
+  Future<void> cancelRequest(String requestId) => _userRequestTrashProvider.cancelRequest(requestId);
+  Future<void> hiddenRequest(String requestId, List<String> hidden) => _userRequestTrashProvider.hiddenRequest(requestId,hidden);
+  Future<void> confirmRequest(String requestId, String userId) => _userRequestTrashProvider.confirmRequest(requestId,userId);
+
 }
