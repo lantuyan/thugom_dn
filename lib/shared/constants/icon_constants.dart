@@ -19,5 +19,8 @@ class UIIcons {
   static String icNotification = '$iconsDir/ic_alert.svg';
   static String icNotificationFill = '$iconsDir/ic_alert_filled.svg';
   
+  // Icon person
+  static String icPerson = '$iconsDir/ic_person.svg';
+  static String icPersonFill = '$iconsDir/ic_person_filled.svg';
 
 }
