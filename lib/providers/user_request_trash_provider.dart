@@ -1,13 +1,14 @@
 import 'package:appwrite/appwrite.dart';
 import 'package:appwrite/models.dart' as models;
+import 'package:thu_gom/models/trash/user_request_trash_model.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:thu_gom/services/appwrite.dart';
 import 'package:thu_gom/shared/constants/appwrite_constants.dart';
 
 class UserRequestTrashProvider {
-  Account? account;
-  Storage? storage;
-  Databases? databases;
+  late Account account;
+  late Storage storage;
+  late Databases databases;
 
   UserRequestTrashProvider() {
     account = Account(Appwrite.instance.client);
@@ -103,16 +104,44 @@ class UserRequestTrashProvider {
     );
   }
 
-  // Future<models.File> uploadCategoryImage(String imagePath) {
-  //   String fileName = "${DateTime.now().microsecondsSinceEpoch}"
-  //       "${imagePath.split(".").last}";
-  //   final response = storage!.createFile(
-  //       bucketId: AppWriteConstants.categoryBucketId,
-  //       fileId: ID.unique(),
-  //       file: InputFile.fromPath(path: imagePath, filename: fileName));
+  Future sendRequestToAppwrite(
+      UserRequestTrashModel userRequestTrashModel) async {
+    try {
+      await databases.createDocument(
+          databaseId: AppWriteConstants.databaseId,
+          collectionId: AppWriteConstants.userRequestTrashCollection,
+          documentId: userRequestTrashModel.requestId,
+          data: {
+            "senderId": userRequestTrashModel.senderId,
+            "image": userRequestTrashModel.image,
+            "phone_number": userRequestTrashModel.phone_number,
+            "address": userRequestTrashModel.address,
+            "description": userRequestTrashModel.description,
+            "point_lat": userRequestTrashModel.point_lat,
+            "point_lng": userRequestTrashModel.point_lng,
+            "status": userRequestTrashModel.status,
+            "confirm": userRequestTrashModel.confirm,
+            "hidden": userRequestTrashModel.hidden,
+            "trash_type": userRequestTrashModel.trash_type,
+            "createAt": userRequestTrashModel.createAt,
+            "updateAt": userRequestTrashModel.updateAt,
+          });
+      print("sendRequestToAppwrite");
+    } catch (e) {
+      print("sendRequestToAppwrite error: $e");
+    }
+  }
 
-  //   return response;
-  // }
+  Future<models.File> uploadCategoryImage(String imagePath) {
+    String fileName = "${DateTime.now().microsecondsSinceEpoch}"
+        "${imagePath.split(".").last}";
+    final response = storage.createFile(
+        bucketId: AppWriteConstants.userRequestTrashBucketId,
+        fileId: ID.unique(),
+        file: InputFile.fromPath(path: imagePath, filename: fileName));
+
+    return response;
+  }
 
   // Future<dynamic> deleteCategoryImage(String fileId) {
   //   final response = storage!.deleteFile(

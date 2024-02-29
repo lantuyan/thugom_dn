@@ -4,6 +4,7 @@ import 'package:thu_gom/controllers/login/login_binding.dart';
 import 'package:thu_gom/controllers/main/home/home_binding.dart';
 import 'package:thu_gom/controllers/main/main_binding.dart';
 import 'package:thu_gom/controllers/main/request_detail/request_detail_binding.dart';
+import 'package:thu_gom/controllers/main/request_person/request_person_binding.dart';
 import 'package:thu_gom/controllers/onboarding/onboarding_binding.dart';
 import 'package:thu_gom/controllers/profile/profile_binding.dart';
 import 'package:thu_gom/controllers/register/register_binding.dart';
@@ -15,6 +16,7 @@ import 'package:thu_gom/views/auth/onboarding/intro/intro_screen.dart';
 import 'package:thu_gom/views/auth/onboarding/profile/profile_screen.dart';
 import 'package:thu_gom/views/main/home/home_screen_person.dart';
 import 'package:thu_gom/views/main/home/home_screen_collecter.dart';
+import 'package:thu_gom/views/main/home/request_person_screen.dart';
 import 'package:thu_gom/views/main/home/request_detail_screen.dart';
 import 'package:thu_gom/views/main/infomation/infomation_screen.dart';
 import 'package:thu_gom/views/main/main_screen.dart';
@@ -60,6 +62,11 @@ class Routes {
       name:  '/requestDetailPage',
       page: () => RequestDetailScreen(),
       binding: RequestDetailBinding(),
+    ),
+    GetPage(
+      name: '/requestPersonPage',
+      page: () => RequestPersonScreen(),
+      binding: RequestPersonBinding(),
     ),
     GetPage(
         name: '/mainPage',

@@ -61,7 +61,7 @@ dependencies:
   smooth_page_indicator: ^1.1.0
 
   # add image_picker and exif to get image info
-  image_picker:
+  image_picker: ^1.0.6
   exif: ^3.3.0
 
   # add sqlite
