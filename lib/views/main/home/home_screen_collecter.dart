@@ -145,10 +145,13 @@ class _HomeScreenCollectorState extends State<HomeScreenCollector> {
           SizedBox(
             width: 10.w,
           ),
-          Text(
-            "URENCO 15:".tr + "${_getStorage.read('name')}", // GET NAME
-            style: AppTextStyles.headline1,
-          )
+          Obx(() {
+            return Text(
+              "Xin chào, ${_homeController.name.value}",
+              style: AppTextStyles.headline1,
+            );
+          })
+
         ],
       ),
     );

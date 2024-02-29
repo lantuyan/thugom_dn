@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:thu_gom/controllers/map/map_controller.dart';
 import 'package:thu_gom/shared/constants/color_constants.dart';
 import 'package:thu_gom/shared/themes/style/app_text_styles.dart';
 
 class MapCollecterScreen extends StatelessWidget {
-  const MapCollecterScreen({Key? key}) : super(key: key);
-
+  MapCollecterScreen({Key? key}) : super(key: key);
+  final GetStorage _getStorage = GetStorage();
+  var name ='';
   @override
   Widget build(BuildContext context) {
+    name = _getStorage.read('name');
     final user = Get.put(MapController());
     user.userRequest();
     return Obx(() => Scaffold(
@@ -75,7 +78,7 @@ class MapCollecterScreen extends StatelessWidget {
         children: [
           Container(
             color: ColorsConstants.kBGCardColor,
-            child: _userName(),
+            child: _userName(name),
           ),
           Expanded(
             flex: 4,
@@ -156,7 +159,7 @@ class MapCollecterScreen extends StatelessWidget {
       ),
     );
   }
-  Padding _userName() {
+  Padding _userName(String name) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 12.sp),
       child: Row(
@@ -178,7 +181,7 @@ class MapCollecterScreen extends StatelessWidget {
             width: 10.w,
           ),
           Text(
-            "Hello".tr + "\ Nghĩa",
+            "Xin chào," + name,
             style: AppTextStyles.headline1,
           )
         ],

@@ -30,7 +30,7 @@ class HomeController extends GetxController {
   var isLoading = true.obs; // Sử dụng Rx để theo dõi
   var count = 0.obs;
   StreamSubscription? _sub;
-
+  RxString name = ''.obs;
   void _handleIncomingLinks() {
     if (!kIsWeb) {
       // It will handle app links while the app is already started - be it in
@@ -63,10 +63,11 @@ class HomeController extends GetxController {
   }
 
   @override
-  void onInit() {
+  Future<void> onInit() async {
     // TODO: implement onInit
     super.onInit();
     _handleIncomingLinks();
+    name.value = await _getStorage.read('name');
   }
 
   @override

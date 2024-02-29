@@ -270,10 +270,12 @@ class _HomeScreenPersonState extends State<HomeScreenPerson> {
           SizedBox(
             width: 10.w,
           ),
-          Text(
-            "Hello".tr + "\ ${_getStorage.read('name')}",
-            style: AppTextStyles.headline1,
-          )
+          Obx(() {
+            return Text(
+              "Xin chào, ${_homeController.name.value}",
+              style: AppTextStyles.headline1,
+            );
+          })
         ],
       ),
     );
