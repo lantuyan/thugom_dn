@@ -141,7 +141,7 @@ class MapCollecterScreen extends StatelessWidget {
                         return Text(
                           user.currentAddress.value,
                           style: TextStyle(
-                            fontSize: 18,
+                            fontSize: 16,
                           ),
                           textAlign: TextAlign.left,
                         );
