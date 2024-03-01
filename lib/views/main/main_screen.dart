@@ -27,7 +27,7 @@ class _MainScreenState extends State<MainScreen> {
         ),
         bottomNavigationBar: Obx(
           () => BottomNavigationBar(
-
+            selectedItemColor: ColorsConstants.kActiveColor,
             currentIndex: _mainController.currentPage.value,
             onTap: (index) {
               _mainController.goToTab(index);
@@ -50,8 +50,8 @@ class _MainScreenState extends State<MainScreen> {
                   _mainController.currentRole != "admin")
                 BottomNavigationBarItem(
                   icon: _icon(_mainController.currentPage.value == 2
-                      ? UIIcons.icNotificationFill
-                      : UIIcons.icNotification),
+                      ? UIIcons.icPersonFill
+                      : UIIcons.icPerson),
                   label: "information_nav".tr,
                 ),
             ],
