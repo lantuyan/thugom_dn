@@ -115,7 +115,8 @@ class ProfileController extends GetxController {
     CustomDialogs.showLoadingDialog();
     String address = formValue['street'] +","+selectedDistrict.value+","+selectedSubDistrict.value;
     final userId = await _getStorage.read('userId');
-    await _authRepository.updateProfile(formValue, address, userId).then((value) {
+    await _authRepository.updateProfile(formValue, address, userId).then((value) async {
+      await _getStorage.write('name', formValue['name']);
       CustomDialogs.hideLoadingDialog();
       Get.offAllNamed('/mainPage');
     }).catchError((onError){

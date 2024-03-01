@@ -39,10 +39,9 @@ class LoginController extends GetxController {
       _getStorage.write('userId', value.userId);
       _getStorage.write('sessionId', value.$id);
       final userModel = await getUserModel(value.userId);
-      _getStorage.write('name', userModel.name);
-      _getStorage.write('role', userModel.role);
+      await _getStorage.write('name', userModel.name);
+      await _getStorage.write('role', userModel.role);
       CustomDialogs.hideLoadingDialog();
-      
       DataManager().saveData('userId', value.userId);
       DataManager().saveData('sessionId', value.$id);
       DataManager().saveData('name', userModel.name);
