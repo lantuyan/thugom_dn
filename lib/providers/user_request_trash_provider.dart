@@ -100,7 +100,7 @@ class UserRequestTrashProvider {
       databaseId: AppWriteConstants.databaseId,
       collectionId: AppWriteConstants.userRequestTrashCollection,
       documentId: requestId,
-      data: {'confirm': userId},
+      data: {'confirm': userId,'status': 'finish'},
     );
   }
 

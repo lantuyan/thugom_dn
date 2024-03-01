@@ -37,13 +37,8 @@ class RegisterController extends GetxController {
         _getStorage.write('userId', value.userId);
         _getStorage.write('sessionId', value.$id);
         final userModel = await getUserModel(value.userId);
-
-        _getStorage.write('name', userModel.name);
-        _getStorage.write('role', userModel.role);
-        
         DataManager().saveData('userId', value.userId);
         DataManager().saveData('sessionId', value.$id);
-        DataManager().saveData('name', userModel.name);
         DataManager().saveData('role', userModel.role);
       });
       Get.offAllNamed('/introPage');
