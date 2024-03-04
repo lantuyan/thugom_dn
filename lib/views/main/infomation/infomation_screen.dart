@@ -70,12 +70,12 @@ class InfomationScreen extends StatelessWidget {
                               children: [
                                 Text(
                                   'Luật bảo vệ môi trường',
-                                  style: Theme.of(context).textTheme.titleLarge,
+                                  style: AppTextStyles.headline1,
                                 ),
                                 const SizedBox(height: 16.0),
                                 Text(
                                   'Môi trường bao gồm các yếu tố vật chất tự nhiên và nhân tạo quan hệ mật thiết với nhau, bao quanh con người, có ảnh hưởng đến đời sống, kinh tế, xã hội, sự tồn tại, phát triển của con người, sinh vật và tự nhiên.',
-                                  style: Theme.of(context).textTheme.bodyMedium,
+                                  style: AppTextStyles.bodyText1,
                                   textAlign: TextAlign.justify,
                                 ),
                               ],
