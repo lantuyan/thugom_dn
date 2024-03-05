@@ -67,6 +67,10 @@ dependencies:
   # add sqlite
   sqflite: ^2.3.0
 
+  # add Map, Launcher, Chart
+  flutter_map: ^6.1.0
+  url_launcher: ^6.2.5
+  fl_chart: ^0.66.2
   #add flutter_map
   google_maps_flutter: ^2.5.3
   geocoding: ^2.2.0
