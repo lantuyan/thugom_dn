@@ -190,11 +190,13 @@ class MapScreen extends StatelessWidget {
           SizedBox(
             width: 10.w,
           ),
-          Text(
-            "Xin chào, " + name,
-            style: AppTextStyles.headline1,
-            overflow: TextOverflow.ellipsis, // Truncate văn bản nếu vượt quá khung
-            maxLines: 1, // Giới hạn số dòng hiển thị
+          Expanded(
+            child: Text(
+              "Xin chào, " + name,
+              style: AppTextStyles.headline1,
+              overflow: TextOverflow.ellipsis, // Truncate văn bản nếu vượt quá khung
+              maxLines: 1, // Giới hạn số dòng hiển thị
+            ),
           )
         ],
       ),

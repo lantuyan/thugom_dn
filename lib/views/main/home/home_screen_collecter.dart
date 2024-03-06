@@ -146,11 +146,13 @@ class _HomeScreenCollectorState extends State<HomeScreenCollector> {
             width: 10.w,
           ),
           Obx(() {
-            return Text(
-              "Xin chào, ${_homeController.name.value}",
-              style: AppTextStyles.headline1,
-              overflow: TextOverflow.ellipsis, // Truncate văn bản nếu vượt quá khung
-              maxLines: 1, // Giới hạn số dòng hiển thị
+            return Expanded(
+              child: Text(
+                "Xin chào, ${_homeController.name.value}",
+                style: AppTextStyles.headline1,
+                overflow: TextOverflow.ellipsis, // Truncate văn bản nếu vượt quá khung
+                maxLines: 1, // Giới hạn số dòng hiển thị
+              ),
             );
           })
 
