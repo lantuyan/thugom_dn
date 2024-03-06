@@ -28,6 +28,7 @@ class _HomeAdminScreenState extends State<HomeAdminScreen> {
   Widget build(BuildContext context) {
     bool _pressed = false;
     return Scaffold(
+      backgroundColor: ColorsConstants.ksecondBackgroundColor,
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
