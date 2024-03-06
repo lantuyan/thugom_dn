@@ -1,12 +1,13 @@
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:thu_gom/controllers/main/home/home_controller.dart';
 import 'package:thu_gom/models/trash/user_request_trash_model.dart';
 import 'package:thu_gom/repositories/user_request_trash_reponsitory.dart';
 import 'package:thu_gom/widgets/custom_dialogs.dart';
 
 class RequestDetailController extends GetxController {
   final UserRequestTrashRepository _requestRepository;
-
+  final HomeController _homeController = Get.find<HomeController>();
   RequestDetailController(this._requestRepository);
   //Get Storage
   final GetStorage _getStorage = GetStorage();
@@ -39,6 +40,8 @@ class RequestDetailController extends GetxController {
     await _requestRepository.cancelRequest(requestId).then((value){
       CustomDialogs.hideLoadingDialog();
       Get.offAllNamed('/mainPage');
+      _homeController.listRequestUser.remove(requestDetailModel);
+      _homeController.listRequestHistory.add(requestDetailModel);
       CustomDialogs.showSnackBar(2, "Đã hủy yêu cầu thành công", 'success');
     }).catchError((onError){
       CustomDialogs.hideLoadingDialog();
@@ -53,6 +56,8 @@ class RequestDetailController extends GetxController {
       allowHidden.value = false;
       allowConfirm.value = false;
       CustomDialogs.hideLoadingDialog();
+      _homeController.listRequestColletor.remove(requestDetailModel);
+      _homeController.listRequestConfirmColletor.add(requestDetailModel);
       CustomDialogs.showSnackBar(2, "Xác nhận thu gom thành công", 'success');
     }).catchError((onError){
       CustomDialogs.hideLoadingDialog();
@@ -66,15 +71,19 @@ class RequestDetailController extends GetxController {
     var newHidden;
     if (oldHiddenList != null) {
       // Nếu danh sách hidden không rỗng, thêm requestId vào danh sách
-      oldHiddenList.add(requestId);
+      oldHiddenList.add(userId.value);
       newHidden = oldHiddenList; // Gán lại danh sách mới vào newHidden
     } else {
       // Nếu danh sách hidden rỗng, tạo danh sách mới với requestId duy nhất
-      newHidden = [requestId];
+      newHidden = [userId.value];
     }
+    print(oldHiddenList.toString());
+    print(newHidden);
+    _homeController.listRequestColletor.remove(requestDetailModel);
     await _requestRepository.hiddenRequest(requestId,newHidden).then((value){
       allowConfirm.value = false;
       CustomDialogs.hideLoadingDialog();
+      Get.offNamed('/mainPage');
       CustomDialogs.showSnackBar(2, "Đã bỏ qua yêu cầu thành công", 'success');
     }).catchError((onError){
       CustomDialogs.hideLoadingDialog();
