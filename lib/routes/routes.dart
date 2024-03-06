@@ -19,6 +19,9 @@ import 'package:thu_gom/views/main/home/home_screen_person.dart';
 import 'package:thu_gom/views/main/home/home_screen_collecter.dart';
 import 'package:thu_gom/views/main/home/request_person_screen.dart';
 import 'package:thu_gom/views/main/home/request_detail_screen.dart';
+import 'package:thu_gom/views/main/home/statistic/bar_chart_screen.dart';
+import 'package:thu_gom/views/main/home/statistic/line_chart_screen.dart';
+import 'package:thu_gom/views/main/home/statistic/pie_chart_screen.dart';
 import 'package:thu_gom/views/main/infomation/infomation_screen.dart';
 import 'package:thu_gom/views/main/main_screen.dart';
 import 'package:thu_gom/views/main/map/map_collecter_screen.dart';
@@ -70,11 +73,25 @@ class Routes {
       binding: RequestPersonBinding(),
     ),
     GetPage(
+      name: '/barChartPage',
+      page: () => BarChartScreen(),
+      // binding: RequestPersonBinding(),
+    ),
+    GetPage(
+      name: '/lineChartPage',
+      page: () => LineChartScreen(),
+      // binding: RequestPersonBinding(),
+    ),
+    GetPage(
+      name: '/pieChartPage',
+      page: () => PieChartScreen(),
+      // binding: RequestPersonBinding(),
+    ),
+    GetPage(
         name: '/mainPage',
         page: () => MainScreen(),
         binding: MainBinding(),
         children: [
-          
           GetPage(
             name: '/homePage',
             page: () => HomeScreenCollector(),
