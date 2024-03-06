@@ -25,7 +25,6 @@ class _HomeScreenCollectorState extends State<HomeScreenCollector> {
   final HomeController _homeController = Get.put(HomeController(
       CategoryRepository(CategoryProvider()),
       UserRequestTrashRepository(UserRequestTrashProvider())));
-  final GetStorage _getStorage = GetStorage();
 
   @override
   Widget build(BuildContext context) {
@@ -149,6 +148,7 @@ class _HomeScreenCollectorState extends State<HomeScreenCollector> {
             return Text(
               "Xin chào: ${_homeController.name.value}",
               style: AppTextStyles.headline1,
+              
             );
           })
 

@@ -105,21 +105,25 @@ class ProfileController extends GetxController {
   final zalonumberFieldKey = GlobalKey<FormBuilderFieldState>();
   final streetFieldKey = GlobalKey<FormBuilderFieldState>();
   @override
-  void onInit() {
+  void onInit() async {
     super.onInit();
     selectedDistrict.value = districts.first;
     selectedSubDistrict.value = subDistricts[selectedDistrict.value]!.first;
+
   }
+
+
 
   Future<void> updateProfile(Map formValue) async {
     CustomDialogs.showLoadingDialog();
     String address = formValue['street'] +","+selectedDistrict.value+","+selectedSubDistrict.value;
     final userId = await _getStorage.read('userId');
+    // await _getStorage.write('name', formValue['name']);
     await _authRepository.updateProfile(formValue, address, userId).then((value) {
       CustomDialogs.hideLoadingDialog();
       Get.offAllNamed('/mainPage');
     }).catchError((onError){
-      print(onError);
+      print(onError); 
       CustomDialogs.hideLoadingDialog();
       CustomDialogs.showSnackBar(2, "Đã có lỗi xảy ra vui lòng thử lại sau!", 'error');
     });
