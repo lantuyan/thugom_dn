@@ -27,6 +27,11 @@ class MapController extends GetxController {
   //collecter
   late Databases user_request;
   List<Marker> markers_user = [];
+  //static
+  List<Marker> static_user_done = [];
+  List<Marker> static_user_not = [];
+  DateTime startTime = DateTime.now();
+  DateTime endTime = DateTime.now();
 
   var isDataLoaded = false.obs;
 
@@ -37,6 +42,10 @@ class MapController extends GetxController {
     await getUserLocation();
     await userRequest();
     await loadMarkersCollecter();
+  }
+
+  void filterDataByTime() {
+    statistical(startTime, endTime);
   }
 
   Future<void> getUserLocation() async {
@@ -79,7 +88,7 @@ class MapController extends GetxController {
         double latitude = data['point_lat'];
         double longitude = data['point_lng'];
         String address = data['address'];
-        Marker markerCollecter = Marker(
+        Marker marker = Marker(
           point: LatLng(latitude, longitude),
           child: GestureDetector(
             onTap: () {
@@ -94,7 +103,7 @@ class MapController extends GetxController {
             ),
           ),
         );
-        markers.add(markerCollecter);
+        markers.add(marker);
       }
       isDataLoaded.value = true;
       shouldShowMarkers.value = true;
@@ -104,6 +113,7 @@ class MapController extends GetxController {
       print('Error!!! $e');
     }
   }
+
   Future<void> userRequest() async {
     try {
       user_request = Databases(client);
@@ -141,6 +151,67 @@ class MapController extends GetxController {
       print('Error!!! $e');
     }
   }
+
+  Future<void> statistical(DateTime startTime, DateTime endTime) async {
+    try {
+      user_request = Databases(client);
+      models.DocumentList documentlistUser = await user_request.listDocuments(
+        databaseId: AppWriteConstants.databaseId,
+        collectionId: AppWriteConstants.userRequestTrashCollection,
+      );
+      static_user_done.clear();
+      static_user_not.clear();
+      for (var documents in documentlistUser.documents) {
+        Map<String, dynamic> data = documents.data as Map<String, dynamic>;
+        double? pointLat = data['point_lat'] as double?;
+        double? pointLng = data['point_lng'] as double?;
+        String date = data['createAt'];
+        String status = data['status'];
+        DateTime documentDateTime = DateTime.parse(date);
+        if (documentDateTime.isAfter(startTime) && documentDateTime.isBefore(endTime)) {
+          if (status == 'pending') {
+            Marker marker = Marker(
+              point: LatLng(pointLat!, pointLng!),
+              child: Image.asset(
+                'assets/images/bin.jpg',
+                height: 10,
+                width: 10,
+              ),
+            );
+            static_user_not.add(marker);
+          }
+          // Thêm marker vào danh sách tương ứng
+          else if(status == 'finish') {
+            Marker marker = Marker(
+              point: LatLng(pointLat!, pointLng!),
+              child: Image.asset(
+                'assets/images/bin1.jpg',
+                height: 10,
+                width: 10,
+              ),
+            );
+            static_user_done.add(marker);
+          }
+        }
+      }
+      isDataLoaded.value = true;
+      shouldShowMarkers.value = true;
+      update();
+    } catch (e) {
+      print('Error!!! $e');
+    }
+  }
+
+  bool isWithinTime(String date, TimeOfDay startTime, TimeOfDay endTime) {
+    // Chuyển đổi date sang định dạng DateTime
+    DateTime dateTime = DateTime.parse(date);
+    // Tạo DateTime tương ứng với startTime và endTime
+    DateTime startDateTime = DateTime(dateTime.year, dateTime.month, dateTime.day, startTime.hour, startTime.minute);
+    DateTime endDateTime = DateTime(dateTime.year, dateTime.month, dateTime.day, endTime.hour, endTime.minute);
+    // Kiểm tra xem dateTime có nằm trong khoảng startTime và endTime không
+    return dateTime.isAfter(startDateTime) && dateTime.isBefore(endDateTime);
+  }
+
 
   Future<void> openGoogleMapsApp(
       double startLat, double startLng, double endLat, double endLng) async {

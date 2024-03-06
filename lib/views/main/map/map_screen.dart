@@ -73,9 +73,12 @@ class MapScreen extends StatelessWidget {
             child: _userName(),
           ),
           !user.isDataLoaded.value
-              ? const Center(
-                  child: CircularProgressIndicator(
-                    color: ColorsConstants.kActiveColor,
+              ? Container(
+                  height: MediaQuery.of(context).size.height * 0.3,
+                  child: Center(
+                    child: CircularProgressIndicator(
+                      color: ColorsConstants.kActiveColor,
+                    ),
                   ),
                 )
               : user.initialPos == null
