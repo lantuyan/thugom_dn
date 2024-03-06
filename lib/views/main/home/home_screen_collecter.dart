@@ -134,7 +134,7 @@ class _HomeScreenCollectorState extends State<HomeScreenCollector> {
           ),
           GestureDetector(
             onTap: () {
-               _homeController.logOut(); // LOGOUT
+               // _homeController.logOut(); // LOGOUT
             },
             child: Image.asset(
               'assets/images/user-avatar.png',

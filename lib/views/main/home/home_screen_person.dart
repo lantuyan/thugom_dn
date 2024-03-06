@@ -273,7 +273,7 @@ class _HomeScreenPersonState extends State<HomeScreenPerson> {
           ),
           GestureDetector(
             onTap: () {
-              _homeController.logOut(); // LOGOUT
+              // _homeController.logOut(); // LOGOUT
             },
             child: Image.asset(
               'assets/images/user-avatar.png',
