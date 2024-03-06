@@ -108,7 +108,7 @@ class _MapAdminScreenState extends State<MapAdminScreen> {
             ),
           )
               : Expanded(
-            flex: 4,
+            flex: 5,
             child: Stack(
               children: [
                 controller.FlutterMap(
@@ -165,12 +165,15 @@ class _MapAdminScreenState extends State<MapAdminScreen> {
                       // Hàng chứa hai calendar date picker
                       Row(
                         children: [
+
                           Expanded(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text('Thời gian bắt đầu:'),
+                                Text('Bắt đầu:'),
                                 SizedBox(height: 5),
+                                Icon(Icons.calendar_today),
+                                // Biểu tượng lịch trước picker bắt đầu
                                 InkWell(
                                   onTap: () {
                                     // Hiển thị date picker và cập nhật giá trị cho biến startTime
@@ -195,8 +198,9 @@ class _MapAdminScreenState extends State<MapAdminScreen> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text('Thời gian kết thúc:'),
+                                Text('Kết thúc:'),
                                 SizedBox(height: 5),
+                                Icon(Icons.calendar_today),
                                 InkWell(
                                   onTap: () {
                                     // Hiển thị date picker và cập nhật giá trị cho biến endTime

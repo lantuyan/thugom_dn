@@ -34,6 +34,8 @@ class MapController extends GetxController {
   DateTime endTime = DateTime.now();
 
   var isDataLoaded = false.obs;
+  var isDataLoaded2 = false.obs;
+  var isDataLoaded3 = false.obs;
 
 
   @override
@@ -144,7 +146,7 @@ class MapController extends GetxController {
         );
         markers_user.add(marker);
       }
-      isDataLoaded.value = true;
+      isDataLoaded2.value = true;
       shouldShowMarkers.value = true;
       update();
     } catch (e) {
@@ -194,25 +196,13 @@ class MapController extends GetxController {
           }
         }
       }
-      isDataLoaded.value = true;
+      isDataLoaded3.value = true;
       shouldShowMarkers.value = true;
       update();
     } catch (e) {
       print('Error!!! $e');
     }
   }
-
-  bool isWithinTime(String date, TimeOfDay startTime, TimeOfDay endTime) {
-    // Chuyển đổi date sang định dạng DateTime
-    DateTime dateTime = DateTime.parse(date);
-    // Tạo DateTime tương ứng với startTime và endTime
-    DateTime startDateTime = DateTime(dateTime.year, dateTime.month, dateTime.day, startTime.hour, startTime.minute);
-    DateTime endDateTime = DateTime(dateTime.year, dateTime.month, dateTime.day, endTime.hour, endTime.minute);
-    // Kiểm tra xem dateTime có nằm trong khoảng startTime và endTime không
-    return dateTime.isAfter(startDateTime) && dateTime.isBefore(endDateTime);
-  }
-
-
   Future<void> openGoogleMapsApp(
       double startLat, double startLng, double endLat, double endLng) async {
     showDialog(
