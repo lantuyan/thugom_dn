@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_map/flutter_map.dart' as controller;
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:thu_gom/controllers/map/map_controller.dart';
 import 'package:thu_gom/shared/constants/color_constants.dart';
 import 'package:thu_gom/shared/themes/style/app_text_styles.dart';
@@ -96,20 +96,29 @@ class MapCollecterScreen extends StatelessWidget {
                       flex: 4,
                       child: Stack(
                         children: [
-                          GoogleMap(
-                            initialCameraPosition: CameraPosition(
-                              target: user.initialPos,
-                              zoom: 16.0,
+                          controller.FlutterMap(
+                            options: controller.MapOptions(
+                              initialCenter: user.initialPos,
+                              initialZoom: 16.0,
                             ),
-                            markers: {
-                              Marker(
-                                markerId: MarkerId("user_location"),
-                                position: user.initialPos,
-                                icon: BitmapDescriptor.defaultMarkerWithHue(
-                                    BitmapDescriptor.hueRed),
+                            children: [
+                              controller.TileLayer(
+                                urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
                               ),
-                              ...user.markers_user,
-                            },
+                              controller.MarkerLayer(
+                                markers:[
+                                  controller.Marker(
+                                    point: user.initialPos,
+                                    child: const Icon(
+                                      Icons.location_on,
+                                      color: Colors.redAccent,
+                                      size: 20,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              controller.MarkerLayer(markers: user.markers_user),
+                            ],
                           ),
                           Positioned(
                             top: 20,
