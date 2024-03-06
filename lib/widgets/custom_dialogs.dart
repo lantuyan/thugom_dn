@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:thu_gom/shared/constants/color_constants.dart';
 import 'package:thu_gom/shared/themes/style/app_text_styles.dart';
 import 'package:thu_gom/shared/themes/style/custom_button_style.dart';
+import 'package:url_launcher/url_launcher.dart';
 class CustomDialogs{
   static void showLoadingDialog(){
     Get.dialog(
@@ -104,33 +105,88 @@ class CustomDialogs{
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                'Địa chỉ',style: AppTextStyles.headline1,
-              ),
-              Text(
-                address,
-                style: AppTextStyles.bodyText2.copyWith(
-                    color: ColorsConstants.kMainColor
+              Padding(
+                padding: EdgeInsets.only(left: 12),
+                child: Text(
+                  'Địa chỉ',style: AppTextStyles.headline1,
                 ),
               ),
+              TextButton(
+                onPressed: () async {
+                  var map = Uri.parse('https://www.google.com/maps/search/'+address);
+                  if (await canLaunchUrl(map)) {
+                    await launchUrl(map);
+                  } else {
+                    showSnackBar(2, "Đã có lỗi xảy ra vui lòng thử lại sau!", 'error');
+                  }
+                },
+                child: Text(
+                  address,
+                  overflow: TextOverflow.ellipsis, // Truncate văn bản nếu vượt quá khung
+                  maxLines: 1, // Giới hạn số dòng hiển thị
+                  style: AppTextStyles.bodyText2.copyWith(
+                      decoration: TextDecoration.underline,
+                      decorationColor: ColorsConstants.kMainColor,
+                      fontSize: 16.sp,
+                      color: ColorsConstants.kMainColor
+                  ),
+                ),
+
+              ),
               SizedBox(height: 12.sp,),
-              Text(
-                'Số điện thoại',style: AppTextStyles.headline1,
+              Padding(
+                padding: EdgeInsets.only(left: 12),
+                child: Text(
+                  'Số điện thoại',style: AppTextStyles.headline1,
+                ),
               ),
-              Text(
-                phonenumber,style: AppTextStyles.bodyText2.copyWith(
-                  color: ColorsConstants.kMainColor
-              ),
+              TextButton(
+                onPressed: () async {
+                  var tel = Uri.parse('tel:'+phonenumber);
+                  if (await canLaunchUrl(tel)) {
+                    await launchUrl(tel);
+                  } else {
+                    showSnackBar(2, "Đã có lỗi xảy ra vui lòng thử lại sau!", 'error');
+                  }
+                },
+                child: Text(
+                  phonenumber,
+                  style: AppTextStyles.bodyText2.copyWith(
+                      decoration: TextDecoration.underline,
+                      decorationColor: ColorsConstants.kMainColor,
+                      fontSize: 16.sp,
+                      color: ColorsConstants.kMainColor
+                  ),
+                ),
+
               ),
               SizedBox(height: 12.sp,),
-              Text(
-                'Zalo liên hệ',style: AppTextStyles.headline1,
+              Padding(
+                padding: EdgeInsets.only(left: 12),
+                child: Text(
+                  'Zalo liên hệ',style: AppTextStyles.headline1,
+                ),
               ),
-              Text(
-                phonenumber,style: AppTextStyles.bodyText2.copyWith(
-                  color: ColorsConstants.kMainColor
-              ),
-              ),
+              TextButton(
+                onPressed: () async {
+                  var zaloLink = Uri.parse('https://zalo.me/'+phonenumber);
+                  if (await canLaunchUrl(zaloLink)) {
+                    await launchUrl(zaloLink);
+                  } else {
+                    showSnackBar(2, "Đã có lỗi xảy ra vui lòng thử lại sau!", 'error');
+                  }
+                },
+                child: Text(
+                  phonenumber,
+                  style: AppTextStyles.bodyText2.copyWith(
+                      decoration: TextDecoration.underline,
+                      decorationColor: ColorsConstants.kMainColor,
+                      fontSize: 16.sp,
+                      color: ColorsConstants.kMainColor
+                  ),
+                ),
+
+              )
             ],
           ),
         ),
