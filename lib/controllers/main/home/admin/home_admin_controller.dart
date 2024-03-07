@@ -12,7 +12,7 @@ class HomeAdminController extends GetxController {
   final dateRangeFieldKey = GlobalKey<FormBuilderFieldState>();
 
   final Rx<DateTimeRange?> selectedDateRange = Rx<DateTimeRange?>(null);
-  RxString chartType ='chart'.obs;
+  RxString chartType ='bar'.obs;
 
   final CarouselController carouselController = CarouselController();
   var currentIndex = 0.obs;

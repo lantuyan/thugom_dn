@@ -110,14 +110,21 @@ class PersonUI extends StatelessWidget {
         SizedBox(
           height: 20.sp,
         ),
-        ClipRRect(
-          borderRadius: BorderRadius.circular(20),
-          child: Image.network(
-            _requestDetailController.requestDetailModel.image,
+        CachedNetworkImage(
+          imageUrl: _requestDetailController.requestDetailModel.image,
+          imageBuilder: (context, imageProvider) => Container(
             width: ScreenUtil().screenWidth * 0.5,
             height: ScreenUtil().screenWidth * 0.5,
-            fit: BoxFit.cover,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+              image: DecorationImage(
+                image: imageProvider,
+                fit: BoxFit.cover,
+              ),
+            ),
           ),
+          placeholder: (context, url) => CircularProgressIndicator(color: ColorsConstants.kMainColor,),
+          errorWidget: (context, url, error) => Icon(Icons.error),
         ),
         SizedBox(
           height: 20.sp,

@@ -3,16 +3,16 @@ import 'package:appwrite/models.dart' as models;
 import 'package:flutter/material.dart';
 import 'package:thu_gom/models/trash/user_request_trash_model.dart';
 import 'package:thu_gom/shared/constants/appwrite_constants.dart';
-import 'package:thu_gom/shared/constants/color_constants.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:flutter_map/flutter_map.dart';
+import 'package:latlong2/latlong.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class MapController extends GetxController {
   late LatLng _initialPosition = LatLng(16.0544, 108.2034);
   LatLng get initialPos => _initialPosition;
 
-  GoogleMapController? mapController;
   var activeGPS = true.obs;
   var shouldShowMarkers = false.obs;
 
@@ -22,12 +22,19 @@ class MapController extends GetxController {
       .setProject(AppWriteConstants.projectId);
   // user
   late Databases collection_points;
-  Set<Marker> markers = {};
+  List<Marker> markers = [];
   //collecter
   late Databases user_request;
-  Set<Marker> markers_user = {};
+  List<Marker> markers_user = [];
+  //static
+  List<Marker> static_user_done = [];
+  List<Marker> static_user_not = [];
+  DateTime startTime = DateTime.now();
+  DateTime endTime = DateTime.now();
 
   var isDataLoaded = false.obs;
+  var isDataLoaded2 = false.obs;
+  var isDataLoaded3 = false.obs;
 
 
   @override
@@ -36,6 +43,10 @@ class MapController extends GetxController {
     await getUserLocation();
     await userRequest();
     await loadMarkersCollecter();
+  }
+
+  void filterDataByTime() {
+    statistical(startTime, endTime);
   }
 
   Future<void> getUserLocation() async {
@@ -66,10 +77,6 @@ class MapController extends GetxController {
   }
 
   Future<void> loadMarkersCollecter() async {
-    BitmapDescriptor customIcon = await BitmapDescriptor.fromAssetImage(
-      ImageConfiguration(size: Size(20 , 20)), // Kích thước mong muốn của biểu tượng
-      'assets/images/bin_icon1.jpg',
-    );
     try {
       collection_points = Databases(client);
       models.DocumentList documentList = await collection_points.listDocuments(
@@ -82,30 +89,34 @@ class MapController extends GetxController {
         double latitude = data['point_lat'];
         double longitude = data['point_lng'];
         String address = data['address'];
-        markers.add(
-          Marker(
-            markerId: MarkerId("$latitude-$longitude"),
-            position: LatLng(latitude, longitude),
-            icon: customIcon,
+        Marker marker = Marker(
+          point: LatLng(latitude, longitude),
+          child: GestureDetector(
             onTap: () {
               currentAddress.value = address;
-              shouldShowMarkers.value = true;
+              openGoogleMapsApp(_initialPosition.latitude,
+                  _initialPosition.longitude, latitude, longitude);
             },
+            child: Image.asset(
+              'assets/images/bin.jpg',
+              height: 10,
+              width: 10,
+            ),
           ),
         );
+        markers.add(marker);
       }
+      isDataLoaded.value = true;
       shouldShowMarkers.value = true;
       update();
-      isDataLoaded.value = true;
+
     } catch (e) {
       print('Error!!! $e');
     }
   }
+
   Future<void> userRequest() async {
-    BitmapDescriptor customIcon = await BitmapDescriptor.fromAssetImage(
-      ImageConfiguration(size: Size(20, 20)), // Kích thước mong muốn của biểu tượng
-      'assets/images/bin_icon1.jpg',
-    );
+
     try {
       user_request = Databases(client);
       models.DocumentList documentlistUser = await user_request.listDocuments(
@@ -118,26 +129,177 @@ class MapController extends GetxController {
         double? pointLat = data['point_lat'] as double?;
         double? pointLng = data['point_lng'] as double?;
         String address = data['address'];
-        markers_user.add(
-          Marker(
-            markerId: MarkerId("$pointLat-$pointLng"),
-            position: LatLng(pointLat!, pointLng!),
-            icon: customIcon,
+        String senderId = data['senderId'];
+        String trash_type = data['trash_type'];
+        String image = data['image'];
+        String? description = data['description'] as String?;
+        String phone_number = data['phone_number'];
+        String status = data['status'];
+        String createAt = data['createAt'];
+        String updateAt = data['updateAt'];
+
+
+        UserRequestTrashModel request = UserRequestTrashModel(senderId: senderId,
+          address: address, trash_type: trash_type, image: image, description: description!,
+          phone_number: phone_number, point_lat: pointLat!, point_lng: pointLng!, status: status, createAt: createAt, updateAt: updateAt, requestId: ''
+        );
+        Marker marker = Marker(
+          point: LatLng(pointLat!, pointLng!),
+          child: GestureDetector(
             onTap: () {
               currentAddress.value = address;
-              shouldShowMarkers.value = true;
+              requestDetail(request);
             },
+            child: Image.asset(
+              'assets/images/bin.jpg',
+              height: 10,
+              width: 10,
+            ),
           ),
         );
-
+        markers_user.add(marker);
       }
-
+      isDataLoaded2.value = true;
       shouldShowMarkers.value = true;
-      // isDataLoaded.value = true;
       update();
     } catch (e) {
       print('Error!!! $e');
     }
+  }
+
+  Future<void> statistical(DateTime startTime, DateTime endTime) async {
+    try {
+      user_request = Databases(client);
+      models.DocumentList documentlistUser = await user_request.listDocuments(
+        databaseId: AppWriteConstants.databaseId,
+        collectionId: AppWriteConstants.userRequestTrashCollection,
+      );
+      static_user_done.clear();
+      static_user_not.clear();
+      for (var documents in documentlistUser.documents) {
+        Map<String, dynamic> data = documents.data as Map<String, dynamic>;
+        double? pointLat = data['point_lat'] as double?;
+        double? pointLng = data['point_lng'] as double?;
+        String address = data['address'];
+        String senderId = data['senderId'];
+        String trash_type = data['trash_type'];
+        String image = data['image'];
+        String? description = data['description'] as String?;
+        String phone_number = data['phone_number'];
+        String status = data['status'];
+        String date = data['createAt'];
+        String updateAt = data['updateAt'];
+
+        UserRequestTrashModel request = UserRequestTrashModel(senderId: senderId,
+            address: address, trash_type: trash_type, image: image, description: description!,
+            phone_number: phone_number, point_lat: pointLat!, point_lng: pointLng!, status: status, createAt: date, updateAt: updateAt, requestId: '');
+
+        DateTime documentDateTime = DateTime.parse(date);
+        if (documentDateTime.isAfter(startTime) && documentDateTime.isBefore(endTime)) {
+          if (status == 'pending') {
+            Marker marker = Marker(
+              point: LatLng(pointLat!, pointLng!),
+              child: GestureDetector(
+                onTap: () {
+                  requestDetail(request);
+                },
+                child: Image.asset(
+                  'assets/images/bin.jpg',
+                  height: 10,
+                  width: 10,
+                ),
+              ),
+            );
+            static_user_not.add(marker);
+          }
+          // Thêm marker vào danh sách tương ứng
+          else if(status == 'finish') {
+            Marker marker = Marker(
+              point: LatLng(pointLat!, pointLng!),
+              child: GestureDetector(
+                onTap: () {
+                  requestDetail(request);
+                },
+                child: Image.asset(
+                  'assets/images/bin1.jpg',
+                  height: 10,
+                  width: 10,
+                ),
+              ),
+            );
+            static_user_done.add(marker);
+          }
+        }
+      }
+      isDataLoaded3.value = true;
+      shouldShowMarkers.value = true;
+      update();
+    } catch (e) {
+      print('Error!!! $e');
+    }
+  }
+  Future<void> openGoogleMapsApp(
+      double startLat, double startLng, double endLat, double endLng) async {
+    showDialog(
+      context: Get.context!,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Xác nhận di chuyển"),
+          content: Text("Bạn có chắc chắn muốn di chuyển đến đích này không?"),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Đóng dialog
+              },
+              child: Text("Hủy"),
+            ),
+            TextButton(
+              onPressed: () async {
+                Navigator.of(context).pop(); // Đóng dialog
+                final url = Uri.parse(
+                    'https://www.google.com/maps/dir/?api=1&origin=$startLat,$startLng&destination=$endLat,$endLng');
+                try {
+                  await launchUrl(url);
+                } catch (e) {
+                  print('Error launching Google Maps: $e');
+                }
+              },
+              child: Text("Đồng ý"),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> requestDetail(
+      dynamic request) async {
+    showDialog(
+      context: Get.context!,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Chi tiết yêu cầu"),
+          content: Text("Bạn muốn xem yêu cầu chi tiết?"),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Đóng dialog
+              },
+              child: Text("Hủy"),
+            ),
+            TextButton(
+              onPressed: () async {
+                Navigator.of(context).pop(); // Đóng dialog
+                Get.toNamed('requestDetailPage', arguments: {
+                  'requestDetail': request
+                });
+              },
+              child: Text("Xác nhận"),
+            ),
+          ],
+        );
+      },
+    );
   }
 
 }

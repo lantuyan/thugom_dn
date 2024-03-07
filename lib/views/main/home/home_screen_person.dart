@@ -269,7 +269,7 @@ class _HomeScreenPersonState extends State<HomeScreenPerson> {
           ),
           GestureDetector(
             onTap: () {
-              _homeController.logOut(); // LOGOUT
+              // _homeController.logOut(); // LOGOUT
             },
             child: Image.asset(
               'assets/images/user-avatar.png',
@@ -281,9 +281,13 @@ class _HomeScreenPersonState extends State<HomeScreenPerson> {
             width: 10.w,
           ),
           Obx(() {
-            return Text(
-              "Xin chào: ${_homeController.name.value}",
-              style: AppTextStyles.headline1,
+            return Expanded(
+              child: Text(
+                "Xin chào, ${_homeController.name.value}",
+                style: AppTextStyles.headline1,
+                overflow: TextOverflow.ellipsis, // Truncate văn bản nếu vượt quá khung
+                maxLines: 1, // Giới hạn số dòng hiển thị
+              ),
             );
           })
         ],

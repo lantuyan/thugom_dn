@@ -28,6 +28,7 @@ class _HomeAdminScreenState extends State<HomeAdminScreen> {
   Widget build(BuildContext context) {
     bool _pressed = false;
     return Scaffold(
+      backgroundColor: ColorsConstants.ksecondBackgroundColor,
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
@@ -155,88 +156,85 @@ class _HomeAdminScreenState extends State<HomeAdminScreen> {
                           fontSize: 16.sp
                       )
                   ),
-                  SizedBox(height: 10.sp),
-                  FormBuilderDateRangePicker(
-                    key: _homeAdminController.dateRangeFieldKey,
-                    name: 'dateRange',
-                    firstDate: DateTime(2020, 1, 1),
-                    lastDate: DateTime.now(),
-                    decoration: InputDecoration(
-                      contentPadding: EdgeInsets.fromLTRB(12.sp, 0, 12.sp, 0),
-                      filled: true,
-                      fillColor: Colors.white,
-                      labelText: 'Thời gian thống kê',
-                      labelStyle: AppTextStyles.bodyText1
-                          .copyWith(color: ColorsConstants.kMainColor),
-                      errorStyle: AppTextStyles.error,
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
+                  SizedBox(height: 20.sp),
+                  Obx((){
+                    return FormBuilderDateRangePicker(
+                      key: _homeAdminController.dateRangeFieldKey,
+                      name: 'dateRange',
+                      firstDate: DateTime(2020, 1, 1),
+                      lastDate: DateTime.now(),
+                      decoration: InputDecoration(
+                        contentPadding: EdgeInsets.fromLTRB(12.sp, 0, 12.sp, 0),
+                        filled: true,
+                        fillColor: Colors.white,
+                        labelText: 'Thời gian thống kê',
+                        labelStyle: AppTextStyles.bodyText1
+                            .copyWith(color: ColorsConstants.kMainColor),
+                        errorStyle: AppTextStyles.error,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        suffixIcon: _homeAdminController.selectedDateRange.value != null
+                            ? IconButton(
+                          color: ColorsConstants.kMainColor,
+                          icon: Icon(Icons.clear), // Icon xóa
+                          onPressed: () {
+                            _homeAdminController.selectedDateRange.value = null; // Xóa dữ liệu đã chọn
+                            _homeAdminController.dateRangeFieldKey.currentState?.reset();
+                          },
+                        )
+                            : IconButton(
+                          color: ColorsConstants.kMainColor,
+                          icon: Icon(Icons.calendar_month),
+                          onPressed: () {
+                            _homeAdminController.dateRangeFieldKey.currentState?.focus();
+                          },
+                        ), // Nếu không có dữ liệu, không hiển thị icon xóa
                       ),
-                      suffixIcon: _homeAdminController.selectedDateRange.value != null
-                          ? IconButton(
-                              color: ColorsConstants.kMainColor,
-                              icon: Icon(Icons.clear), // Icon xóa
-                              onPressed: () {
-                                _homeAdminController.selectedDateRange.value = null; // Xóa dữ liệu đã chọn
-                                _homeAdminController
-                                    .dateRangeFieldKey.currentState
-                                    ?.reset();
-                              },
-                            )
-                          : IconButton(
-                            color: ColorsConstants.kMainColor,
-                            icon: Icon(Icons.calendar_month), // Icon xóa
-                            onPressed: () {
-                              _homeAdminController.dateRangeFieldKey.currentState?.focus();
-                            },
-                          ), // Nếu không có dữ liệu, không hiển thị icon xóa
-                    ),
-                    onChanged: (DateTimeRange? value) {
-                      _homeAdminController.selectedDateRange.value = value;
-                    },
-                    style: AppTextStyles.bodyText1,
-                  ),
+                      onChanged: (DateTimeRange? value) {
+                        _homeAdminController.selectedDateRange.value = value;
+                      },
+                      style: AppTextStyles.bodyText1,
+                    );
+                  }),
                   SizedBox(height: 36.sp),
                   SizedBox(
                     width:  ScreenUtil().screenWidth,
                     height: 48.sp,
-                    child: Padding(
-                      padding: EdgeInsets.fromLTRB(24.sp, 0.sp, 24.sp, 0),
-                      child: ElevatedButton(
-                          onPressed: () {
-                            if (_homeAdminController.selectedDateRange.value ==
-                                null) {
-                              CustomDialogs.showSnackBar(
-                                  2, "Vui lòng chọn thời gian thống kê", 'error');
-                            } else {
-                              switch (_homeAdminController.chartType.value) {
-                                case 'bar':
-                                  Get.toNamed('/barChartPage',arguments: {
-                                    'dateRange': _homeAdminController.selectedDateRange.value
-                                  });
-                                  break;
-                                case 'line':
-                                  Get.toNamed('/lineChartPage',arguments: {
-                                    'dateRange': _homeAdminController.selectedDateRange.value
-                                  });
-                                  break;
-                                case 'pie':
-                                  Get.toNamed('/pieChartPage',arguments: {
-                                    'dateRange': _homeAdminController.selectedDateRange.value
-                                  });
-                                  break;
-                                default:
-                                  CustomDialogs.showSnackBar(2, "Đã có lỗi xảy ra vui lòng thử lại sau!", 'error');
-                              }
+                    child: ElevatedButton(
+                        onPressed: () {
+                          if (_homeAdminController.selectedDateRange.value ==
+                              null) {
+                            CustomDialogs.showSnackBar(
+                                2, "Vui lòng chọn thời gian thống kê", 'error');
+                          } else {
+                            switch (_homeAdminController.chartType.value) {
+                              case 'bar':
+                                Get.toNamed('/barChartPage',arguments: {
+                                  'dateRange': _homeAdminController.selectedDateRange.value
+                                });
+                                break;
+                              case 'line':
+                                Get.toNamed('/lineChartPage',arguments: {
+                                  'dateRange': _homeAdminController.selectedDateRange.value
+                                });
+                                break;
+                              case 'pie':
+                                Get.toNamed('/pieChartPage',arguments: {
+                                  'dateRange': _homeAdminController.selectedDateRange.value
+                                });
+                                break;
+                              default:
+                                CustomDialogs.showSnackBar(2, "Đã có lỗi xảy ra vui lòng thử lại sau!", 'error');
                             }
-                          },
-                          style: CustomButtonStyle.primaryButton,
-                          child: Text(
-                            'Xem thống kê',
-                            style: TextStyle(
-                                color: Colors.white, fontSize: 18.sp),
-                          )
-                      ),
+                          }
+                        },
+                        style: CustomButtonStyle.primaryButton,
+                        child: Text(
+                          'Xem thống kê',
+                          style: TextStyle(
+                              color: Colors.white, fontSize: 18.sp),
+                        )
                     ),
                   ),
                 ],
