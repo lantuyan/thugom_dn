@@ -143,6 +143,22 @@ class UserRequestTrashProvider {
     return response;
   }
 
+  Future<int> loadRequestByType(String type,String dateRange) async {
+    List<String> dates = dateRange.toString().split(" - ");
+    print(dates[0]);
+    print(dates[1]);
+    final response = await databases.listDocuments(
+      databaseId: AppWriteConstants.databaseId,
+      collectionId: AppWriteConstants.userRequestTrashCollection,
+      queries: [
+        Query.equal('trash_type', type),
+        Query.greaterThanEqual('createAt', dates[0]),
+        Query.lessThanEqual('createAt', dates[1]),
+      ],
+    );
+    return response.total;
+  }
+
   // Future<dynamic> deleteCategoryImage(String fileId) {
   //   final response = storage!.deleteFile(
   //     bucketId: AppWriteConstants.categoryBucketId,
