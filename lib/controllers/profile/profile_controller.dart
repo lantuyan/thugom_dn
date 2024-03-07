@@ -105,7 +105,7 @@ class ProfileController extends GetxController {
   final zalonumberFieldKey = GlobalKey<FormBuilderFieldState>();
   final streetFieldKey = GlobalKey<FormBuilderFieldState>();
   @override
-  void onInit() async {
+  void onInit() {
     super.onInit();
     selectedDistrict.value = districts.first;
     selectedSubDistrict.value = subDistricts[selectedDistrict.value]!.first;
