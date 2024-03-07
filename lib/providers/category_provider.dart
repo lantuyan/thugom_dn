@@ -24,46 +24,4 @@ class CategoryProvider {
     return response;
   }
 
-  // Future<models.File> uploadCategoryImage(String imagePath) {
-  //   String fileName = "${DateTime.now().microsecondsSinceEpoch}"
-  //       "${imagePath.split(".").last}";
-  //   final response = storage!.createFile(
-  //       bucketId: AppWriteConstants.categoryBucketId,
-  //       fileId: ID.unique(),
-  //       file: InputFile.fromPath(path: imagePath, filename: fileName));
-
-  //   return response;
-  // }
-
-  // Future<dynamic> deleteCategoryImage(String fileId) {
-  //   final response = storage!.deleteFile(
-  //     bucketId: AppWriteConstants.categoryBucketId,
-  //     fileId: ID.unique(),
-  //   );
-
-  //   return response;
-  // }
-
-  // Future<models.Document> createCategory(Map map) async {
-  //   final response = databases!.createDocument(
-  //       databaseId: AppWriteConstants.databaseId,
-  //       collectionId: AppWriteConstants.categoryCollectionId,
-  //       documentId: ID.unique(),
-  //       data: {
-  //         "category_name": map["category_name"],
-  //         "category_image": map["category_image"],
-  //         "categoryID": map["category_image"]
-  //       });
-
-  //   return response;
-  // }
-
-
-  //   Future<models.DocumentList> getCategoryDetail() async {
-  //   final response = await databases!.listDocuments(
-  //       databaseId: AppWriteConstants.databaseId,
-  //       collectionId: AppWriteConstants.categoryDetailCollectionId);
-
-  //   return response;
-  // }
 }
