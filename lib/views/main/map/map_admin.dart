@@ -108,7 +108,7 @@ class _MapAdminScreenState extends State<MapAdminScreen> {
             ),
           )
               : Expanded(
-            flex: 5,
+            flex: 3,
             child: Stack(
               children: [
                 controller.FlutterMap(
@@ -141,14 +141,14 @@ class _MapAdminScreenState extends State<MapAdminScreen> {
           ),
 
           Expanded(
-            flex: 2,
+            flex: 1,
             child: Obx(() {
               // Sử dụng isDataLoaded để kiểm tra xem dữ liệu đã tải xong chưa
               if (!user.isDataLoaded.value) {
                 return Text('Đang tải dữ liệu...');
               } else {
                 return Container(
-                  padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+                  padding: EdgeInsets.symmetric(vertical: 2, horizontal: 2),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -221,11 +221,12 @@ class _MapAdminScreenState extends State<MapAdminScreen> {
                             ),
                           ),
                           SizedBox(height: 20), // Khoảng cách giữa picker và button
-
                           // Button "Kiểm tra"
                           ElevatedButton(
                             onPressed: () {
-                              user.statistical(timePickerController.startTime.value, timePickerController.endTime.value);
+                              setState(() {
+                                user.statistical(timePickerController.startTime.value, timePickerController.endTime.value);
+                              });
                             },
                             child: Text('Kiểm tra'),
                           ),
