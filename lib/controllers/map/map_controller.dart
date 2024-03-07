@@ -3,7 +3,6 @@ import 'package:appwrite/models.dart' as models;
 import 'package:flutter/material.dart';
 import 'package:thu_gom/models/trash/user_request_trash_model.dart';
 import 'package:thu_gom/shared/constants/appwrite_constants.dart';
-import 'package:thu_gom/shared/constants/color_constants.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:flutter_map/flutter_map.dart';
@@ -117,6 +116,7 @@ class MapController extends GetxController {
   }
 
   Future<void> userRequest() async {
+
     try {
       user_request = Databases(client);
       models.DocumentList documentlistUser = await user_request.listDocuments(
@@ -129,6 +129,20 @@ class MapController extends GetxController {
         double? pointLat = data['point_lat'] as double?;
         double? pointLng = data['point_lng'] as double?;
         String address = data['address'];
+        String senderId = data['senderId'];
+        String trash_type = data['trash_type'];
+        String image = data['image'];
+        String? description = data['description'] as String?;
+        String phone_number = data['phone_number'];
+        String status = data['status'];
+        String createAt = data['createAt'];
+        String updateAt = data['updateAt'];
+
+
+        UserRequestTrashModel request = UserRequestTrashModel(senderId: senderId,
+          address: address, trash_type: trash_type, image: image, description: description!,
+          phone_number: phone_number, point_lat: pointLat!, point_lng: pointLng!, status: status, createAt: createAt, updateAt: updateAt, requestId: ''
+        );
         Marker marker = Marker(
           point: LatLng(pointLat!, pointLng!),
           child: GestureDetector(
@@ -136,6 +150,9 @@ class MapController extends GetxController {
               currentAddress.value = address;
               openGoogleMapsApp(_initialPosition.latitude,
                   _initialPosition.longitude, pointLat, pointLng);
+              Get.toNamed('requestDetailPage', arguments: {
+                'requestDetail': request
+              });
             },
             child: Image.asset(
               'assets/images/bin.jpg',
@@ -167,17 +184,36 @@ class MapController extends GetxController {
         Map<String, dynamic> data = documents.data as Map<String, dynamic>;
         double? pointLat = data['point_lat'] as double?;
         double? pointLng = data['point_lng'] as double?;
-        String date = data['createAt'];
+        String address = data['address'];
+        String senderId = data['senderId'];
+        String trash_type = data['trash_type'];
+        String image = data['image'];
+        String? description = data['description'] as String?;
+        String phone_number = data['phone_number'];
         String status = data['status'];
+        String date = data['createAt'];
+        String updateAt = data['updateAt'];
+
+        UserRequestTrashModel request = UserRequestTrashModel(senderId: senderId,
+            address: address, trash_type: trash_type, image: image, description: description!,
+            phone_number: phone_number, point_lat: pointLat!, point_lng: pointLng!, status: status, createAt: date, updateAt: updateAt, requestId: '');
+
         DateTime documentDateTime = DateTime.parse(date);
         if (documentDateTime.isAfter(startTime) && documentDateTime.isBefore(endTime)) {
           if (status == 'pending') {
             Marker marker = Marker(
               point: LatLng(pointLat!, pointLng!),
-              child: Image.asset(
-                'assets/images/bin.jpg',
-                height: 10,
-                width: 10,
+              child: GestureDetector(
+                onTap: () {
+                  Get.toNamed('requestDetailPage', arguments: {
+                    'requestDetail': request
+                  });
+                },
+                child: Image.asset(
+                  'assets/images/bin.jpg',
+                  height: 10,
+                  width: 10,
+                ),
               ),
             );
             static_user_not.add(marker);
@@ -186,10 +222,17 @@ class MapController extends GetxController {
           else if(status == 'finish') {
             Marker marker = Marker(
               point: LatLng(pointLat!, pointLng!),
-              child: Image.asset(
-                'assets/images/bin1.jpg',
-                height: 10,
-                width: 10,
+              child: GestureDetector(
+                onTap: () {
+                  Get.toNamed('requestDetailPage', arguments: {
+                    'requestDetail': request
+                  });
+                },
+                child: Image.asset(
+                  'assets/images/bin1.jpg',
+                  height: 10,
+                  width: 10,
+                ),
               ),
             );
             static_user_done.add(marker);
