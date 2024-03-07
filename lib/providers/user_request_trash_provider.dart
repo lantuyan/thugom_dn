@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:appwrite/appwrite.dart';
 import 'package:appwrite/models.dart' as models;
 import 'package:thu_gom/models/trash/user_request_trash_model.dart';
@@ -40,13 +42,16 @@ class UserRequestTrashProvider {
   }
 
   // LIST REQUEST OF COLLECTOR
-  Future<models.DocumentList> getRequestListColletor() async {
+  Future<models.DocumentList> getRequestListColletor(int offset,int currentPage) async {
     final response = await databases!.listDocuments(
       databaseId: AppWriteConstants.databaseId,
       collectionId: AppWriteConstants.userRequestTrashCollection,
       queries: [
         Query.equal('status', 'pending'),
+        Query.limit(10),
+        Query.offset(offset * currentPage),
       ],
+      
     );
     return response;
   }

@@ -32,6 +32,11 @@ class HomeController extends GetxController {
   var count = 0.obs;
   StreamSubscription? _sub;
   RxString name = ''.obs;
+  RxBool hasNextPage = true.obs;
+  RxBool isLoadMoreRunning = false.obs;
+  final int offsetSize = 10;
+  int currentPage = 1;
+
   void _handleIncomingLinks() {
     if (!kIsWeb) {
       // It will handle app links while the app is already started - be it in
@@ -80,7 +85,7 @@ class HomeController extends GetxController {
 
     await getRequestListColletor();
     await getRequestListConfirmColletor();
-   
+    await getMoreData();
   }
 
   @override
@@ -169,24 +174,81 @@ class HomeController extends GetxController {
     }
   }
 
+  // Future getRequestListColletor() async {
+  //   try {
+  //     await _userRequestTrashRepository.getRequestListColletor(0).then((value) {
+  //       final GetStorage _getStorage = GetStorage();
+  //       final userID = _getStorage.read('userId');
+  //       Map<String, dynamic> data = value.toMap();
+  //       List listRequest = data['documents'].toList();
+  //       listRequestColletor = listRequest
+  //           .map(
+  //             (e) => UserRequestTrashModel.fromMap(e['data']),
+  //           ).where((request) => request.hidden!.every((element) => element != userID))
+  //           .toList();
+  //       // isLoading.value = false;
+  //       print(">>>>>> LIST REQUEST PENDING  <<<<<<<<< ${listRequestColletor}");
+  //       update(listRequestColletor);
+  //     });
+  //   } catch (e) {
+  //     print(e);
+  //   }
+  // }
   Future getRequestListColletor() async {
     try {
-      await _userRequestTrashRepository.getRequestListColletor().then((value) {
+      await _userRequestTrashRepository.getRequestListColletor(0,currentPage).then((value) {
         final GetStorage _getStorage = GetStorage();
         final userID = _getStorage.read('userId');
         Map<String, dynamic> data = value.toMap();
         List listRequest = data['documents'].toList();
-        listRequestColletor = listRequest
+        listRequestColletor.assignAll(listRequest
             .map(
               (e) => UserRequestTrashModel.fromMap(e['data']),
-            ).where((request) => request.hidden!.every((element) => element != userID))
-            .toList();
-        // isLoading.value = false;
-        print(">>>>>> LIST REQUEST PENDING  <<<<<<<<< ${listRequestColletor}");
+            )
+            .where((request) =>
+                request.hidden!.every((element) => element != userID))
+            .toList());
+        print(
+            ">>>>>> LIST REQUEST PENDING 1  <<<<<<<<< ${listRequestColletor}");
         update(listRequestColletor);
       });
     } catch (e) {
       print(e);
+    }
+  }
+
+  Future getMoreData() async {
+    if (hasNextPage == true && isLoadMoreRunning == false) {
+      isLoadMoreRunning.value = true;
+
+      try {
+        await _userRequestTrashRepository
+            .getRequestListColletor(offsetSize,currentPage)
+            .then((value) {
+          final GetStorage _getStorage = GetStorage();
+          final userID = _getStorage.read('userId');
+          Map<String, dynamic> data = value.toMap();
+          List listRequest = data['documents'].toList();
+          bool hasMoreData = listRequest.length > offsetSize;
+          if (listRequest.isNotEmpty) {
+            listRequestColletor.addAll(listRequest
+                .map(
+                  (e) => UserRequestTrashModel.fromMap(e['data']),
+                )
+                .where((request) =>
+                    request.hidden!.every((element) => element != userID))
+                .toList());
+            print(
+                ">>>>>> LIST REQUEST PENDING 2 <<<<<<<<< ${listRequestColletor}");
+            currentPage++;
+          } else {
+            hasNextPage.value = false;
+          }
+        });
+      } catch (e) {
+        print(e);
+      }
+      isLoadMoreRunning.value = false;
     }
   }
 
@@ -204,15 +266,13 @@ class HomeController extends GetxController {
             .toList();
         isLoading.value = false;
         print(
-            ">>>>>> LIST REQUEST PENDING  <<<<<<<<< ${listRequestConfirmColletor}");
+            ">>>>>> LIST REQUEST PENDING 3 <<<<<<<<< ${listRequestConfirmColletor}");
         update(listRequestConfirmColletor);
-
       });
     } catch (e) {
       print(e);
     }
   }
-
 
   Future<void> logOut() async {
     CustomDialogs.showLoadingDialog();

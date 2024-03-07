@@ -1,11 +1,9 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:thu_gom/controllers/main/home/home_controller.dart';
-import 'package:thu_gom/models/trash/user_request_trash_model.dart';
 import 'package:thu_gom/providers/category_provider.dart';
 import 'package:thu_gom/providers/user_request_trash_provider.dart';
 import 'package:thu_gom/repositories/category_reponsitory.dart';
@@ -13,8 +11,8 @@ import 'package:thu_gom/repositories/user_request_trash_reponsitory.dart';
 import 'package:thu_gom/shared/constants/color_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:thu_gom/shared/themes/style/app_text_styles.dart';
-import 'package:thu_gom/widgets/item_requestTrash.dart';
-import 'package:thu_gom/widgets/item_requestTrashCollector.dart';
+import 'package:thu_gom/views/main/home/tab/comfirmed_collector.dart';
+import 'package:thu_gom/views/main/home/tab/request_collector.dart';
 
 class HomeScreenCollector extends StatefulWidget {
   @override
@@ -49,7 +47,7 @@ class _HomeScreenCollectorState extends State<HomeScreenCollector> {
                   child: Column(
                     children: [
                       Container(
-                        height: 500.h,
+                        height: MediaQuery.of(context).size.height * 0.78,
                         child: DefaultTabController(
                           length: 2,
                           child: Column(
@@ -105,7 +103,8 @@ class _HomeScreenCollectorState extends State<HomeScreenCollector> {
                               Expanded(
                                 child: TabBarView(children: [
                                   listRequest(userController: _homeController),
-                                  listComfirmed(userController: _homeController),
+                                  listComfirmed(
+                                      userController: _homeController),
                                 ]),
                               )
                             ],
@@ -133,7 +132,7 @@ class _HomeScreenCollectorState extends State<HomeScreenCollector> {
           ),
           GestureDetector(
             onTap: () {
-               _homeController.logOut(); // LOGOUT
+              _homeController.logOut(); // LOGOUT
             },
             child: Image.asset(
               'assets/images/user-avatar.png',
@@ -148,136 +147,14 @@ class _HomeScreenCollectorState extends State<HomeScreenCollector> {
             return Text(
               "Xin chào: ${_homeController.name.value}",
               style: AppTextStyles.headline1,
-              
             );
           })
-
         ],
       ),
     );
   }
 }
 
-class listRequest extends StatefulWidget {
-  final HomeController userController;
-  const listRequest({super.key, required this.userController});
 
-  @override
-  State<listRequest> createState() => _tabListRequestState();
-}
 
-class _tabListRequestState extends State<listRequest> {
-  @override
-  Widget build(BuildContext context) {
-    return Obx(
-      () {
-        if (widget.userController.isLoading.value) {
-          return Center(
-              child: Text(
-            "ĐANG TẢI DỮ LIỆU",
-            style: AppTextStyles.bodyText1,
-          ));
-        } else {
-          return Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10.sp),
-              color: ColorsConstants.kBGCardColor,
-              border: Border.all(
-                color: ColorsConstants.kShadowColor,
-                width: 1,
-              ),
-            ),
-            padding: EdgeInsets.symmetric(horizontal: 10.sp, vertical: 10.sp),
-            child: ListView.builder(
-              scrollDirection: Axis.vertical,
-              itemCount:
-                  widget.userController.listRequestColletor.length,
-              shrinkWrap: true,
-              itemBuilder: (context, index) {
-                UserRequestTrashModel request =
-                    widget.userController.listRequestColletor[index];
-                return GestureDetector(
-                  onTap: () {
-                    Get.toNamed('requestDetailPage', arguments: {
-                      'requestDetail': request
-                    });
-                    // print("GO TO PAGE DETAIL REQUEST");
-                  },
-                  child:  item_requestTrashCollector(
-                    id: request.requestId,
-                    createAt: request.createAt,
-                    trash_type: request.trash_type,
-                    image: request.image,
-                    address: request.address,
-                  ),
-                );
-              },
-            ),
-          );
-        }
-      },
-    );
-  }
-}
-class listComfirmed extends StatefulWidget {
-  final HomeController userController;
-  const listComfirmed({super.key, required this.userController});
-
-  @override
-  State<listComfirmed> createState() => _listComfirmedState();
-}
-
-class _listComfirmedState extends State<listComfirmed> {
-  @override
-  Widget build(BuildContext context) {
-    return Obx(
-      () {
-        if (widget.userController.isLoading.value) {
-          return Center(
-              child: Text(
-            "ĐANG TẢI DỮ LIỆU",
-            style: AppTextStyles.bodyText1,
-          ));
-        } else {
-          return Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10.sp),
-              color: ColorsConstants.kBGCardColor,
-              border: Border.all(
-                color: ColorsConstants.kShadowColor,
-                width: 1,
-              ),
-            ),
-            padding: EdgeInsets.symmetric(horizontal: 10.sp, vertical: 10.sp),
-            child: ListView.builder(
-              scrollDirection: Axis.vertical,
-              itemCount:
-                  widget.userController.listRequestConfirmColletor.length,
-              shrinkWrap: true,
-              itemBuilder: (context, index) {
-                UserRequestTrashModel request =
-                    widget.userController.listRequestConfirmColletor[index];
-                return GestureDetector(
-                  onTap: () {
-                    Get.toNamed('requestDetailPage', arguments: {
-                      'requestDetail': request
-                    });
-                    // print("GO TO PAGE DETAIL REQUEST");
-                  },
-                  child:  item_requestTrashCollector(
-                    id: request.requestId,
-                    createAt: request.createAt,
-                    trash_type: request.trash_type,
-                    image: request.image,
-                    address: request.address,
-                  ),
-                );
-              },
-            ),
-          );
-        }
-      },
-    );
-  }
-}
 
