@@ -148,11 +148,7 @@ class MapController extends GetxController {
           child: GestureDetector(
             onTap: () {
               currentAddress.value = address;
-              openGoogleMapsApp(_initialPosition.latitude,
-                  _initialPosition.longitude, pointLat, pointLng);
-              Get.toNamed('requestDetailPage', arguments: {
-                'requestDetail': request
-              });
+              requestDetail(request);
             },
             child: Image.asset(
               'assets/images/bin.jpg',
@@ -205,9 +201,7 @@ class MapController extends GetxController {
               point: LatLng(pointLat!, pointLng!),
               child: GestureDetector(
                 onTap: () {
-                  Get.toNamed('requestDetailPage', arguments: {
-                    'requestDetail': request
-                  });
+                  requestDetail(request);
                 },
                 child: Image.asset(
                   'assets/images/bin.jpg',
@@ -224,9 +218,7 @@ class MapController extends GetxController {
               point: LatLng(pointLat!, pointLng!),
               child: GestureDetector(
                 onTap: () {
-                  Get.toNamed('requestDetailPage', arguments: {
-                    'requestDetail': request
-                  });
+                  requestDetail(request);
                 },
                 child: Image.asset(
                   'assets/images/bin1.jpg',
@@ -273,6 +265,36 @@ class MapController extends GetxController {
                 }
               },
               child: Text("Đồng ý"),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> requestDetail(
+      dynamic request) async {
+    showDialog(
+      context: Get.context!,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Chi tiết yêu cầu"),
+          content: Text("Bạn muốn xem yêu cầu chi tiết?"),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Đóng dialog
+              },
+              child: Text("Hủy"),
+            ),
+            TextButton(
+              onPressed: () async {
+                Navigator.of(context).pop(); // Đóng dialog
+                Get.toNamed('requestDetailPage', arguments: {
+                  'requestDetail': request
+                });
+              },
+              child: Text("Xác nhận"),
             ),
           ],
         );
