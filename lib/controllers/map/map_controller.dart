@@ -143,21 +143,24 @@ class MapController extends GetxController {
           address: address, trash_type: trash_type, image: image, description: description!,
           phone_number: phone_number, point_lat: pointLat!, point_lng: pointLng!, status: status, createAt: createAt, updateAt: updateAt, requestId: ''
         );
-        Marker marker = Marker(
-          point: LatLng(pointLat!, pointLng!),
-          child: GestureDetector(
-            onTap: () {
-              currentAddress.value = address;
-              requestDetail(request);
-            },
-            child: Image.asset(
-              'assets/images/bin.jpg',
-              height: 10,
-              width: 10,
+        if (status == 'pending')
+        {
+          Marker marker = Marker(
+            point: LatLng(pointLat!, pointLng!),
+            child: GestureDetector(
+              onTap: () {
+                currentAddress.value = address;
+                requestDetail(request);
+              },
+              child: Image.asset(
+                'assets/images/bin.jpg',
+                height: 10,
+                width: 10,
+              ),
             ),
-          ),
-        );
-        markers_user.add(marker);
+          );
+          markers_user.add(marker);
+        }
       }
       isDataLoaded2.value = true;
       shouldShowMarkers.value = true;
