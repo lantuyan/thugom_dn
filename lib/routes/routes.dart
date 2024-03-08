@@ -1,6 +1,7 @@
 import 'package:get/route_manager.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:thu_gom/controllers/login/login_binding.dart';
+import 'package:thu_gom/controllers/main/home/admin/chart/bar_chart_binding.dart';
 import 'package:thu_gom/controllers/main/home/admin/chart/pie_chart_binding.dart';
 import 'package:thu_gom/controllers/main/home/home_binding.dart';
 import 'package:thu_gom/controllers/main/infomation/infomation_binding.dart';
@@ -76,7 +77,7 @@ class Routes {
     GetPage(
       name: '/barChartPage',
       page: () => BarChartScreen(),
-      // binding: RequestPersonBinding(),
+      binding: BarChartBinding(),
     ),
     GetPage(
       name: '/lineChartPage',
