@@ -1,7 +1,11 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:appwrite/appwrite.dart';
 import 'package:appwrite/models.dart' as models;
+import 'package:excel/excel.dart';
+import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:thu_gom/models/trash/user_request_trash_model.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:thu_gom/services/appwrite.dart';
@@ -42,7 +46,8 @@ class UserRequestTrashProvider {
   }
 
   // LIST REQUEST OF COLLECTOR
-  Future<models.DocumentList> getRequestListColletor(int offset,int currentPage) async {
+  Future<models.DocumentList> getRequestListColletor(
+      int offset, int currentPage) async {
     final response = await databases!.listDocuments(
       databaseId: AppWriteConstants.databaseId,
       collectionId: AppWriteConstants.userRequestTrashCollection,
@@ -51,7 +56,6 @@ class UserRequestTrashProvider {
         Query.limit(10),
         Query.offset(offset * currentPage),
       ],
-      
     );
     return response;
   }
@@ -76,9 +80,7 @@ class UserRequestTrashProvider {
     final response = await databases!.listDocuments(
       databaseId: AppWriteConstants.databaseId,
       collectionId: AppWriteConstants.userRequestTrashCollection,
-      queries: [
-        Query.equal('confirm', userID)
-      ],
+      queries: [Query.equal('confirm', userID)],
     );
     return response;
   }
@@ -107,7 +109,7 @@ class UserRequestTrashProvider {
       databaseId: AppWriteConstants.databaseId,
       collectionId: AppWriteConstants.userRequestTrashCollection,
       documentId: requestId,
-      data: {'confirm': userId,'status': 'finish'},
+      data: {'confirm': userId, 'status': 'finish'},
     );
   }
 
@@ -150,7 +152,7 @@ class UserRequestTrashProvider {
     return response;
   }
 
-  Future<int> loadRequestByType(String type,String dateRange) async {
+  Future<int> loadRequestByType(String type, String dateRange) async {
     List<String> dates = dateRange.toString().split(" - ");
     print(dates[0]);
     print(dates[1]);
@@ -165,6 +167,88 @@ class UserRequestTrashProvider {
     );
     return response.total;
   }
+
+  // admin
+  Future<models.DocumentList> getRequestByDateRange(String dateRange) async {
+    List<String> dates = dateRange.toString().split(" - ");
+    print("dataRange $dateRange");
+    print(dates[0]);
+    print(dates[1]);
+    final response = await databases.listDocuments(
+      databaseId: AppWriteConstants.databaseId,
+      collectionId: AppWriteConstants.userRequestTrashCollection,
+      queries: [
+        Query.greaterThanEqual('createAt', dates[0]),
+        Query.lessThanEqual('createAt', dates[1]),
+      ],
+    );
+    return response;
+  }
+
+  Future<String> exportRequestToExcel(models.DocumentList data, String fileName) async {
+    final stopwatch = Stopwatch()..start();
+
+    final excel = Excel.createExcel();
+    final Sheet sheet = excel[excel.getDefaultSheet()!];
+   
+  //   // Write header row
+  sheet.appendRow([
+    TextCellValue('senderId'),
+    TextCellValue('image'),
+    TextCellValue('phone_number'),
+    TextCellValue('address'),
+    TextCellValue('description'),
+    TextCellValue('status'),
+    TextCellValue('confirm'),
+    TextCellValue('hidden'),
+    TextCellValue('trash_type'),
+    TextCellValue('createAt'),
+    TextCellValue('updateAt'),
+    TextCellValue('point_lat'),
+    TextCellValue('point_lng')
+  ]);
+   sheet.appendRow([]);
+
+  // Populate data
+  for (final document in data.documents) {
+    sheet.appendRow([
+      TextCellValue(document.data['senderId'] ?? ''),
+      TextCellValue(document.data['image'] ?? ''),
+      TextCellValue(document.data['phone_number'] ?? ''),
+      TextCellValue(document.data['address'] ?? ''),
+      TextCellValue(document.data['description'] ?? ''),
+      TextCellValue(document.data['status'] ?? ''),
+      TextCellValue(document.data['confirm'] ?? ''),
+      TextCellValue(document.data['hidden'].toString()),
+      TextCellValue(document.data['trash_type'] ?? ''),
+      TextCellValue(document.data['createAt'] ?? ''),
+      TextCellValue(document.data['updateAt'] ?? ''),
+      TextCellValue(document.data['point_lat'].toString()),
+      TextCellValue(document.data['point_lng'].toString()),
+    ]);
+
+    // break line
+    sheet.appendRow([]);
+  }
+
+  var fileBytes = excel.save();
+  var directory = await getApplicationDocumentsDirectory();
+  
+  directory = Directory('/storage/emulated/0/Download');
+
+  final file =  File('${directory.path}/$fileName.xlsx')
+  ..createSync(recursive: true)
+  ..writeAsBytesSync(fileBytes!);
+
+  print('File is saved to ${file.path}');
+
+  if (file.existsSync()) {
+    return file.path;
+  } else {
+    return '';
+  }
+
+}
 
   // Future<dynamic> deleteCategoryImage(String fileId) {
   //   final response = storage!.deleteFile(

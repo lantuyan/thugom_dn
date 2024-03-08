@@ -6,6 +6,8 @@ import 'package:thu_gom/controllers/main/home/admin/home_admin_controller.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:thu_gom/providers/user_request_trash_provider.dart';
+import 'package:thu_gom/repositories/user_request_trash_reponsitory.dart';
 import 'package:thu_gom/shared/constants/color_constants.dart';
 import 'package:thu_gom/shared/themes/style/app_text_styles.dart';
 import 'package:thu_gom/shared/themes/style/custom_button_style.dart';
@@ -18,7 +20,7 @@ class HomeAdminScreen extends StatefulWidget {
 
 class _HomeAdminScreenState extends State<HomeAdminScreen> {
   final HomeAdminController _homeAdminController =
-      Get.put<HomeAdminController>(HomeAdminController());
+      Get.put<HomeAdminController>(HomeAdminController(UserRequestTrashRepository(UserRequestTrashProvider())));
   final List<RxBool> _pressedList = [
     false.obs,
     false.obs,
@@ -232,6 +234,28 @@ class _HomeAdminScreenState extends State<HomeAdminScreen> {
                         style: CustomButtonStyle.primaryButton,
                         child: Text(
                           'Xem thống kê',
+                          style: TextStyle(
+                              color: Colors.white, fontSize: 18.sp),
+                        )
+                    ),
+                  ),
+                  SizedBox(height: 36.sp),
+                  SizedBox(
+                    width:  ScreenUtil().screenWidth,
+                    height: 48.sp,
+                    child: ElevatedButton(
+                        onPressed: () {
+                          if (_homeAdminController.selectedDateRange.value ==
+                              null) {
+                            CustomDialogs.showSnackBar(
+                                2, "Vui lòng chọn thời gian thống kê", 'error');
+                          } else {
+                            _homeAdminController.loadRequestByRange();
+                          }
+                        },
+                        style: CustomButtonStyle.primaryButton,
+                        child: Text(
+                          'Xuất báo cáo',
                           style: TextStyle(
                               color: Colors.white, fontSize: 18.sp),
                         )
