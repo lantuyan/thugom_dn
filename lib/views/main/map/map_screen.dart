@@ -150,9 +150,8 @@ class MapScreen extends StatelessWidget {
                return Text('Đang tải dữ liệu...');
               } else {
                 return Container(
-                  padding: EdgeInsets.symmetric(vertical: 5, horizontal: 5),
+                  padding: EdgeInsets.symmetric(vertical: 0, horizontal: 0),
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
                         'Thông tin vị trí',
@@ -160,17 +159,33 @@ class MapScreen extends StatelessWidget {
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
                         ),
-                        textAlign: TextAlign.left,
                       ),
                       Obx(() {
-                        return Text(
-                          user.currentAddress.value,
-                          style: TextStyle(
-                            fontSize: 16,
-                          ),
-                          textAlign: TextAlign.left,
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              user.currentAddress.value,
+                              style: TextStyle(
+                                fontSize: 16,
+                              ),
+                            ),
+                            Text(
+                              user.labels.value,
+                              style: TextStyle(
+                                fontSize: 16,
+                              ),
+                            ),
+                            Text(
+                              user.infos.value,
+                              style: TextStyle(
+                                fontSize: 16,
+                              ),
+                            ),
+                          ],
                         );
                       }),
+
                     ],
                   ),
                 );
