@@ -17,6 +17,9 @@ class MapController extends GetxController {
   var shouldShowMarkers = false.obs;
 
   RxString currentAddress = ''.obs;
+  RxString labels = ''.obs;
+  RxString infos = ''.obs;
+
   late final client = Client()
       .setEndpoint(AppWriteConstants.endPoint)
       .setProject(AppWriteConstants.projectId);
@@ -89,11 +92,21 @@ class MapController extends GetxController {
         double latitude = data['point_lat'];
         double longitude = data['point_lng'];
         String address = data['address'];
+        String label = data['label'];
+        String info = data['info'] ?? "";
+        if (data['info'] != null) {
+          info = data['info'];
+        } else {
+          // Xử lý khi 'info' là null
+          info = "Không có thông tin";
+        }
         Marker marker = Marker(
           point: LatLng(latitude, longitude),
           child: GestureDetector(
             onTap: () {
               currentAddress.value = address;
+              labels.value = label;
+              infos.value = info;
               openGoogleMapsApp(_initialPosition.latitude,
                   _initialPosition.longitude, latitude, longitude);
             },
@@ -143,21 +156,24 @@ class MapController extends GetxController {
           address: address, trash_type: trash_type, image: image, description: description!,
           phone_number: phone_number, point_lat: pointLat!, point_lng: pointLng!, status: status, createAt: createAt, updateAt: updateAt, requestId: ''
         );
-        Marker marker = Marker(
-          point: LatLng(pointLat!, pointLng!),
-          child: GestureDetector(
-            onTap: () {
-              currentAddress.value = address;
-              requestDetail(request);
-            },
-            child: Image.asset(
-              'assets/images/bin.jpg',
-              height: 10,
-              width: 10,
+        if (status == 'pending')
+        {
+          Marker marker = Marker(
+            point: LatLng(pointLat!, pointLng!),
+            child: GestureDetector(
+              onTap: () {
+                currentAddress.value = address;
+                requestDetail(request);
+              },
+              child: Image.asset(
+                'assets/images/bin.jpg',
+                height: 10,
+                width: 10,
+              ),
             ),
-          ),
-        );
-        markers_user.add(marker);
+          );
+          markers_user.add(marker);
+        }
       }
       isDataLoaded2.value = true;
       shouldShowMarkers.value = true;

@@ -6,6 +6,8 @@ import 'package:appwrite/models.dart' as models;
 import 'package:excel/excel.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:flutter/material.dart';
+import 'package:thu_gom/models/chart/bar_chart_model.dart';
 import 'package:thu_gom/models/trash/user_request_trash_model.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:thu_gom/services/appwrite.dart';
@@ -249,6 +251,20 @@ class UserRequestTrashProvider {
   }
 
 }
+    Future<int> loadRequestByDate(String dateRange) async {
+    String startDate = dateRange + " 00:00:00.000";
+    String endDate = dateRange + " 24:59:59.000";
+    final response = await databases!.listDocuments(
+      databaseId: AppWriteConstants.databaseId,
+      collectionId: AppWriteConstants.userRequestTrashCollection,
+      queries: [
+        Query.greaterThanEqual('createAt', startDate),
+        Query.lessThanEqual('createAt', endDate),
+      ],
+    );
+    return response.total;
+  }
+
 
   // Future<dynamic> deleteCategoryImage(String fileId) {
   //   final response = storage!.deleteFile(
