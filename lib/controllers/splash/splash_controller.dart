@@ -20,6 +20,8 @@ class SplashController extends GetxController with GetSingleTickerProviderStateM
       DataManager().saveData('sessionId', getStore.read('sessionId'));
       DataManager().saveData('name', getStore.read('name'));
       DataManager().saveData('role', getStore.read('role'));
+      DataManager().saveData('zalonumber', getStore.read('zalonumber'));
+      DataManager().saveData('address', getStore.read('address'));
       
       Future.delayed(const Duration(seconds: 1), () {
         Get.offAllNamed('/mainPage');

@@ -41,11 +41,15 @@ class LoginController extends GetxController {
       final userModel = await getUserModel(value.userId);
       await _getStorage.write('name', userModel.name);
       await _getStorage.write('role', userModel.role);
+      await _getStorage.write('zalonumber', userModel.zalonumber);
+      await _getStorage.write('address', userModel.address);
       CustomDialogs.hideLoadingDialog();
       DataManager().saveData('userId', value.userId);
       DataManager().saveData('sessionId', value.$id);
       DataManager().saveData('name', userModel.name);
       DataManager().saveData('role', userModel.role);
+      DataManager().saveData('zalonumber', userModel.zalonumber);
+      DataManager().saveData('address', userModel.address);
 
       Get.offAllNamed('/mainPage');
     }).catchError((error) {

@@ -120,6 +120,9 @@ class ProfileController extends GetxController {
     final userId = await _getStorage.read('userId');
     await _authRepository.updateProfile(formValue, address, userId).then((value) async {
       await _getStorage.write('name', formValue['name']);
+      await _getStorage.write('phonenumber', formValue['phonenumber']);
+      await _getStorage.write('zalonumber', formValue['zalonumber']);
+      await _getStorage.write('address', address);
       CustomDialogs.hideLoadingDialog();
       Get.offAllNamed('/mainPage');
     }).catchError((onError){

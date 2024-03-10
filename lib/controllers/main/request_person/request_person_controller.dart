@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:thu_gom/managers/data_manager.dart';
 import 'package:thu_gom/models/trash/user_request_trash_model.dart';
@@ -45,14 +46,18 @@ class RequestPersonController extends GetxController {
   late UserRequestTrashModel requestDetailModel;
   final picker = ImagePicker();
   late File image;
-  late Image imageWidget;
+  late Image imageWidget; 
+
+  final GetStorage _getStorage = GetStorage();
 
   @override
-  onInit() {
+  onInit() async {
     title = argumentData['categoryTitle'];
     trashType = argumentData['categoryTitle'];
     name.value = DataManager().getData("name");
     userId = DataManager().getData("userId");
+    phoneNumber.value = await _getStorage.read('zalonumber');
+    address.value = await _getStorage.read('address');
     loading.value = false;
     getUserLocation();
 

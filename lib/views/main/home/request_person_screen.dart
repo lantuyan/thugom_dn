@@ -5,16 +5,34 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:thu_gom/controllers/main/request_person/request_person_controller.dart';
 import 'package:thu_gom/shared/constants/color_constants.dart';
 import 'package:thu_gom/shared/themes/style/app_text_styles.dart';
 import 'package:thu_gom/widgets/custom_dialogs.dart';
 
-class RequestPersonScreen extends StatelessWidget {
+class RequestPersonScreen extends StatefulWidget {
   RequestPersonScreen({super.key});
+
+  @override
+  State<RequestPersonScreen> createState() => _RequestPersonScreenState();
+}
+
+class _RequestPersonScreenState extends State<RequestPersonScreen> {
   final RequestPersonController _requestPersonController =
       Get.find<RequestPersonController>();
+
   final CarouselController _carouselController = CarouselController();
+  final GetStorage _getStorage = GetStorage();
+  late String zalonumber;
+  late String address;
+
+  @override
+  void initState() {
+    super.initState();
+    zalonumber = _getStorage.read('zalonumber');
+    address = _getStorage.read('address');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -156,6 +174,7 @@ class RequestPersonScreen extends StatelessWidget {
                     ),
                     // Address Field
                     FormBuilderTextField(
+                      initialValue: address,
                       key: _requestPersonController.addressFieldKey,
                       name: 'address',
                       decoration: InputDecoration(
@@ -191,6 +210,7 @@ class RequestPersonScreen extends StatelessWidget {
                       height: 30.sp,
                     ),
                     FormBuilderTextField(
+                      initialValue: zalonumber,
                       key: _requestPersonController.phoneNumberFieldKey,
                       name: 'phonenumber',
                       decoration: InputDecoration(
@@ -248,7 +268,8 @@ class RequestPersonScreen extends StatelessWidget {
                                   ),
                                   onPressed: () {
                                     _carouselController.animateToPage(0);
-                                    _requestPersonController.getImageFromCamera();
+                                    _requestPersonController
+                                        .getImageFromCamera();
                                   },
                                   child: SvgPicture.asset(
                                     'assets/icons/ic_scan.svg',
@@ -261,7 +282,8 @@ class RequestPersonScreen extends StatelessWidget {
                               ElevatedButton(
                                 onPressed: () {
                                   _carouselController.animateToPage(1);
-                                  _requestPersonController.getImageFromGallery();
+                                  _requestPersonController
+                                      .getImageFromGallery();
                                 },
                                 child: Icon(Icons.image_outlined,
                                     color: ColorsConstants.kMainColor,
