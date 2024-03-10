@@ -577,9 +577,9 @@ class CollectorUI extends StatelessWidget {
                                 ),
                                 textAlign: TextAlign.center,
                               ),
-                                  (){
-                                Get.back();
-                                _requestDetailController.confirmRequest(_requestDetailController.requestDetailModel.requestId,_requestDetailController.userId.value);
+                                  ()async{
+                                await _requestDetailController.confirmRequest(_requestDetailController.requestDetailModel.requestId,_requestDetailController.userId.value);
+                                await Get.offAllNamed('/mainPage');
                               }
                           );
                         },
