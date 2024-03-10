@@ -6,6 +6,7 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:thu_gom/controllers/main/request_detail/request_detail_controller.dart';
 import 'package:get/get.dart';
+import 'package:thu_gom/managers/data_manager.dart';
 import 'package:thu_gom/shared/constants/color_constants.dart';
 import 'package:thu_gom/shared/themes/Themes.dart';
 import 'package:thu_gom/shared/themes/style/app_text_styles.dart';
@@ -57,7 +58,10 @@ class RequestDetailScreen extends StatelessWidget {
                     color: ColorsConstants.kMainColor,
                   );
                 }else{
-                  if(_requestDetailController.userId.value != _requestDetailController.requestDetailModel.senderId){
+                  if(DataManager().getData('role') =='admin'){
+                    //Admin
+                    return AdminUI(requestDetailController: _requestDetailController);
+                  }else if(_requestDetailController.userId.value != _requestDetailController.requestDetailModel.senderId){
                     //Collector
                     return CollectorUI(requestDetailController: _requestDetailController);
                   }else{
@@ -594,6 +598,199 @@ class CollectorUI extends StatelessWidget {
                   return Container();
                 }
               },)
+            ],
+          )
+      ],
+    );
+  }
+}
+
+class AdminUI extends StatelessWidget {
+  const AdminUI({
+    super.key,
+    required RequestDetailController requestDetailController,
+  }) : _requestDetailController = requestDetailController;
+
+  final RequestDetailController _requestDetailController;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Center(
+          child: RichText(
+            text: TextSpan(
+              text: 'Chi tiết yêu cầu:  ',
+              style: TextStyle(
+                color: Colors.black,
+                fontWeight: FontWeight.bold,
+                fontSize: 18,
+              ),
+              children: <TextSpan>[
+                TextSpan(
+                  text: _requestDetailController.requestDetailModel.trash_type,
+                  style: TextStyle(
+                    color: ColorsConstants.kMainColor,
+                    fontSize: 18,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        SizedBox(
+          height: 20.sp,
+        ),
+        CachedNetworkImage(
+          imageUrl: _requestDetailController.requestDetailModel.image,
+          imageBuilder: (context, imageProvider) => Container(
+            width: ScreenUtil().screenWidth * 0.5,
+            height: ScreenUtil().screenWidth * 0.5,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+              image: DecorationImage(
+                image: imageProvider,
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+          placeholder: (context, url) => CircularProgressIndicator(color: ColorsConstants.kMainColor,),
+          errorWidget: (context, url, error) => Icon(Icons.error),
+        ),
+        SizedBox(
+          height: 20.sp,
+        ),
+        // Description Field
+        FormBuilderTextField(
+          name: 'description',
+          enabled: false,
+          maxLines: 3,
+          initialValue:
+          _requestDetailController.requestDetailModel.description,
+          decoration: InputDecoration(
+            contentPadding:
+            EdgeInsets.fromLTRB(12.sp, 10.sp, 12.sp, 10.sp),
+            filled: true,
+            fillColor: Colors.white,
+            labelText: 'Mô tả',
+            labelStyle: TextStyle(
+                fontSize: 16.sp, color: ColorsConstants.kMainColor),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+            disabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10),
+                borderSide: BorderSide(
+                    color: ColorsConstants.kMainColor, width: 2)),
+          ),
+          style: AppTextStyles.bodyText1.copyWith(
+            color: ColorsConstants.kTextMainColor, // Màu cho giá trị initialValue
+          ),
+        ),
+        SizedBox(
+          height: 30.sp,
+        ),
+        // Address Field
+        FormBuilderTextField(
+          name: 'address',
+          enabled: false,
+          initialValue:_requestDetailController.requestDetailModel.address,
+          decoration: InputDecoration(
+            contentPadding: EdgeInsets.fromLTRB(12.sp, 0, 12.sp, 0),
+            filled: true,
+            fillColor: Colors.white,
+            labelText: 'Địa chỉ',
+            labelStyle: TextStyle(
+                fontSize: 16.sp, color: ColorsConstants.kMainColor),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+            disabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10),
+                borderSide: BorderSide(
+                    color: ColorsConstants.kMainColor, width: 2)),
+          ),
+          style: AppTextStyles.bodyText1.copyWith(
+            color: ColorsConstants.kTextMainColor, // Màu cho giá trị initialValue
+          ),
+        ),
+        SizedBox(
+          height: 30.sp,
+        ),
+        if(_requestDetailController.requestDetailModel.confirm == _requestDetailController.userId.value)
+          Column(
+            children: [
+              Center(
+                child: RichText(
+                  text: TextSpan(
+                    text: 'Tình trạng thu gom:  ',
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18,
+                    ),
+                    children: <TextSpan>[
+                      TextSpan(
+                        text: 'Đã được thu gom',
+                        style: TextStyle(
+                          color: ColorsConstants.kMainColor,
+                          fontSize: 18,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 48.sp,
+                child: ElevatedButton(
+                    onPressed: () {
+                      CustomDialogs.contactDialog(
+                        _requestDetailController.requestDetailModel.address,
+                        _requestDetailController.requestDetailModel.phone_number,
+                        _requestDetailController.requestDetailModel.phone_number,
+                      );
+                    },
+                    style: CustomButtonStyle.primaryButton,
+                    child: Text(
+                      'Liên Hệ',
+                      style: TextStyle(
+                          color: Colors.white, fontSize: 16.sp),
+                    )
+                ),
+              )
+            ],
+          )
+        else
+          Column(
+            children: [
+              Row(
+                children: [
+                  Expanded(
+                      child: SizedBox(
+                        height: 48.sp,
+                        child: ElevatedButton(
+                            onPressed: () {
+                              CustomDialogs.contactDialog(
+                                _requestDetailController.requestDetailModel.address,
+                                _requestDetailController.requestDetailModel.phone_number,
+                                _requestDetailController.requestDetailModel.phone_number,
+                              );
+                            },
+                            style: CustomButtonStyle.primaryButton,
+                            child: Text(
+                              'Liên Hệ',
+                              style: TextStyle(
+                                  color: Colors.white, fontSize: 16.sp),
+                            )
+                        ),
+                      )
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 20.sp,
+              ),
             ],
           )
       ],
