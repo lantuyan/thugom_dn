@@ -38,6 +38,7 @@ class MainController extends GetxController {
     HomeAdminScreen(),
     MapAdminScreen(),
     AnalysisScreen(),
+    InfomationScreen()
   ];
 
   List<Widget> pages = [];

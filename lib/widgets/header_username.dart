@@ -19,15 +19,15 @@ Padding userName(String name) {
         GestureDetector(
           onTap: () {
             // _loginController.logout(); // LOGOUT
-            CustomDialogs.confirmDialog(
-                'Đăng xuất',
-                Text(
-                  'Bạn chắc chắn muốn đăng xuất tài khoản',
-                  style: AppTextStyles.bodyText2.copyWith(fontSize: 12.sp),
-                  textAlign: TextAlign.center,
-                ), () {
-              _homeController.logOut();
-            });
+            // CustomDialogs.confirmDialog(
+            //     'Đăng xuất',
+            //     Text(
+            //       'Bạn chắc chắn muốn đăng xuất tài khoản',
+            //       style: AppTextStyles.bodyText2.copyWith(fontSize: 12.sp),
+            //       textAlign: TextAlign.center,
+            //     ), () {
+            //   _homeController.logOut();
+            // });
           },
           child: Image.asset(
             'assets/images/user-avatar.png',
