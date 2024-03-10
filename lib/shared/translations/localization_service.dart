@@ -44,10 +44,10 @@ class LocalizationService extends Translations {
       };
 
   static Locale _getLocaleFromLanguage({String? langCode}) {
-  var lang = langCode ?? Get.deviceLocale?.languageCode;
-  for (int i = 0; i < langCodes.length; i++) {
-    if (lang == locales[i].languageCode) return locales[i];
-  }
+  // var lang = langCode ?? Get.deviceLocale?.languageCode;
+  // for (int i = 0; i < langCodes.length; i++) {
+  //   if (lang == locales[i].languageCode) return locales[i];
+  // }
   return fallbackLocale;
 }
 }
