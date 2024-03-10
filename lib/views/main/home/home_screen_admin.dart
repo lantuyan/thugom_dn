@@ -6,10 +6,13 @@ import 'package:thu_gom/controllers/main/home/admin/home_admin_controller.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:thu_gom/providers/user_request_trash_provider.dart';
+import 'package:thu_gom/repositories/user_request_trash_reponsitory.dart';
 import 'package:thu_gom/shared/constants/color_constants.dart';
 import 'package:thu_gom/shared/themes/style/app_text_styles.dart';
 import 'package:thu_gom/shared/themes/style/custom_button_style.dart';
 import 'package:thu_gom/widgets/custom_dialogs.dart';
+import 'package:thu_gom/widgets/header_username.dart';
 
 class HomeAdminScreen extends StatefulWidget {
   @override
@@ -18,7 +21,7 @@ class HomeAdminScreen extends StatefulWidget {
 
 class _HomeAdminScreenState extends State<HomeAdminScreen> {
   final HomeAdminController _homeAdminController =
-      Get.put<HomeAdminController>(HomeAdminController());
+      Get.put<HomeAdminController>(HomeAdminController(UserRequestTrashRepository(UserRequestTrashProvider())));
   final List<RxBool> _pressedList = [
     false.obs,
     false.obs,
@@ -28,6 +31,14 @@ class _HomeAdminScreenState extends State<HomeAdminScreen> {
   Widget build(BuildContext context) {
     bool _pressed = false;
     return Scaffold(
+      appBar: AppBar(
+        title: Obx(
+          () => Container(
+            color: ColorsConstants.kBGCardColor,
+            child: userName(_homeAdminController.name.value),
+          ),
+        ),
+      ),
       backgroundColor: ColorsConstants.ksecondBackgroundColor,
       body: SafeArea(
         child: SingleChildScrollView(
@@ -237,6 +248,7 @@ class _HomeAdminScreenState extends State<HomeAdminScreen> {
                         )
                     ),
                   ),
+                  SizedBox(height: 36.sp),
                 ],
               ),
             ),

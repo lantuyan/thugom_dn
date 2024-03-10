@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:carousel_slider/carousel_controller.dart';
 import 'package:thu_gom/managers/data_manager.dart';
+import 'package:thu_gom/views/main/analysis/analysis_screen.dart';
 import 'package:thu_gom/views/main/home/home_screen_admin.dart';
 import 'package:thu_gom/views/main/home/home_screen_person.dart';
 import 'package:thu_gom/views/main/home/home_screen_collecter.dart';
@@ -36,7 +37,7 @@ class MainController extends GetxController {
   List<Widget> pagesAdmin = [
     HomeAdminScreen(),
     MapAdminScreen(),
-    InfomationScreen(),
+    AnalysisScreen(),
   ];
 
   List<Widget> pages = [];

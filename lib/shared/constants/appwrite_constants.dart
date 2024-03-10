@@ -14,6 +14,7 @@ class AppWriteConstants {
   static String categoryBucketId = "65dc9b51d0e2351f9c0d";
 
   static String userRequestTrashBucketId = "65e074497ce9a947cdb3";
+  static String analysisExcelBucketId = "65ec5264651c7b4972bc";
 
   static String trashBucketId = "";
   static String categoryDetailCollectionId = "";

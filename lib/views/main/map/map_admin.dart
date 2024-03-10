@@ -7,6 +7,7 @@ import 'package:thu_gom/controllers/map/map_controller.dart';
 import 'package:thu_gom/controllers/map/time/Time_Picker_Controller.dart';
 import 'package:thu_gom/shared/constants/color_constants.dart';
 import 'package:thu_gom/shared/themes/style/app_text_styles.dart';
+import 'package:thu_gom/widgets/header_username.dart';
 
 class MapAdminScreen extends StatefulWidget {
   const MapAdminScreen({Key? key}) : super(key: key);
@@ -81,165 +82,175 @@ class _MapAdminScreenState extends State<MapAdminScreen> {
   Widget _buildMapView(BuildContext context, MapController user) {
     final TimePickerController timePickerController = Get.put(TimePickerController());
     return Scaffold(
-      body: Column(
-        children: [
-          Container(
+      appBar: AppBar(
+        title:
+        Container(
             color: ColorsConstants.kBGCardColor,
-            child: _userName(name),
+            child: userName(name),
           ),
-          !user.isDataLoaded.value
-              ? Container(
-            height: MediaQuery.of(context).size.height * 0.3,
-            child: Center(
-              child: CircularProgressIndicator(
-                color: ColorsConstants.kActiveColor,
-              ),
-            ),
-          )
-              : user.initialPos == null
-              ? const Center(
-            child: Text(
-              'Không thể tải bản đồ do thiếu thông tin vị trí.',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-                color: ColorsConstants.kActiveColor,
-              ),
-            ),
-          )
-              : Expanded(
-            flex: 3,
-            child: Stack(
-              children: [
-                controller.FlutterMap(
-                  options: controller.MapOptions(
-                    initialCenter: user.initialPos,
-                    initialZoom: 16.0,
-                  ),
-                  children: [
-                    controller.TileLayer(
-                      urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-                    ),
-                    controller.MarkerLayer(
-                      markers:[
-                        controller.Marker(
-                          point: user.initialPos,
-                          child: const Icon(
-                            Icons.location_on,
-                            color: Colors.redAccent,
-                            size: 20,
-                          ),
-                        ),
-                      ],
-                    ),
-                    controller.MarkerLayer(markers: user.static_user_not),
-                    controller.MarkerLayer(markers: user.static_user_done),
-                  ],
+
+      ),
+      body: SafeArea(
+        child: Column(
+          children: [
+            // Container(
+            //   color: ColorsConstants.kBGCardColor,
+            //   child: _userName(name),
+            // ),
+            !user.isDataLoaded.value
+                ? Container(
+              height: MediaQuery.of(context).size.height * 0.3,
+              child: Center(
+                child: CircularProgressIndicator(
+                  color: ColorsConstants.kActiveColor,
                 ),
-              ],
-            ),
-          ),
-
-          Expanded(
-            flex: 1,
-            child: Obx(() {
-              // Sử dụng isDataLoaded để kiểm tra xem dữ liệu đã tải xong chưa
-              if (!user.isDataLoaded.value) {
-                return Text('Đang tải dữ liệu...');
-              } else {
-                return Container(
-                  padding: EdgeInsets.symmetric(vertical: 2, horizontal: 2),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+              ),
+            )
+                : user.initialPos == null
+                ? const Center(
+              child: Text(
+                'Không thể tải bản đồ do thiếu thông tin vị trí.',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: ColorsConstants.kActiveColor,
+                ),
+              ),
+            )
+                : Expanded(
+              flex: 3,
+              child: Stack(
+                children: [
+                  controller.FlutterMap(
+                    options: controller.MapOptions(
+                      initialCenter: user.initialPos,
+                      initialZoom: 16.0,
+                    ),
                     children: [
-                      Text(
-                        'Thời gian',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                        textAlign: TextAlign.left,
+                      controller.TileLayer(
+                        urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
                       ),
-                      SizedBox(height: 10), // Khoảng cách giữa các widget
-
-                      // Hàng chứa hai calendar date picker
-                      Row(
-                        children: [
-
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text('Bắt đầu:'),
-                                SizedBox(height: 5),
-                                Icon(Icons.calendar_today),
-                                // Biểu tượng lịch trước picker bắt đầu
-                                InkWell(
-                                  onTap: () {
-                                    // Hiển thị date picker và cập nhật giá trị cho biến startTime
-                                    showDatePicker(
-                                      context: context,
-                                      initialDate: timePickerController.startTime.value,
-                                      firstDate: DateTime(2000),
-                                      lastDate: DateTime(2100),
-                                    ).then((selectedDate) {
-                                      if (selectedDate != null) {
-                                        timePickerController.updateStartTime(selectedDate);
-                                      }
-                                    });
-                                  },
-                                  child: Text('${timePickerController.startTime.value.day}/${timePickerController.startTime.value.month}/${timePickerController.startTime.value.year}'),
-                                ),
-                              ],
+                      controller.MarkerLayer(
+                        markers:[
+                          controller.Marker(
+                            point: user.initialPos,
+                            child: const Icon(
+                              Icons.location_on,
+                              color: Colors.redAccent,
+                              size: 20,
                             ),
-                          ),
-                          SizedBox(width: 20), // Khoảng cách giữa hai calendar date picker
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text('Kết thúc:'),
-                                SizedBox(height: 5),
-                                Icon(Icons.calendar_today),
-                                InkWell(
-                                  onTap: () {
-                                    // Hiển thị date picker và cập nhật giá trị cho biến endTime
-                                    showDatePicker(
-                                      context: context,
-                                      initialDate: timePickerController.endTime.value,
-                                      firstDate: DateTime(2000),
-                                      lastDate: DateTime(2100),
-                                    ).then((selectedDate) {
-                                      if (selectedDate != null) {
-                                        timePickerController.updateEndTime(selectedDate);
-                                      }
-                                    });
-                                  },
-                                  child: Text('${timePickerController.endTime.value.day}/${timePickerController.endTime.value.month}/${timePickerController.endTime.value.year}'),
-                                ),
-                              ],
-                            ),
-                          ),
-                          SizedBox(height: 20), // Khoảng cách giữa picker và button
-                          // Button "Kiểm tra"
-                          ElevatedButton(
-                            onPressed: () {
-                              setState(() {
-                                user.statistical(timePickerController.startTime.value, timePickerController.endTime.value);
-                              });
-                            },
-                            child: Text('Kiểm tra'),
                           ),
                         ],
                       ),
+                      controller.MarkerLayer(markers: user.static_user_not),
+                      controller.MarkerLayer(markers: user.static_user_done),
                     ],
                   ),
-                );
-              }
-            }),
-          ),
-
-        ],
+                ],
+              ),
+            ),
+        
+            Expanded(
+              flex: 1,
+              child: Obx(() {
+                // Sử dụng isDataLoaded để kiểm tra xem dữ liệu đã tải xong chưa
+                if (!user.isDataLoaded.value) {
+                  return Text('Đang tải dữ liệu...');
+                } else {
+                  return Container(
+                    padding: EdgeInsets.symmetric(vertical: 2, horizontal: 2),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Thời gian',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          textAlign: TextAlign.left,
+                        ),
+                        SizedBox(height: 10), // Khoảng cách giữa các widget
+        
+                        // Hàng chứa hai calendar date picker
+                        Row(
+                          children: [
+        
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text('Bắt đầu:'),
+                                  SizedBox(height: 5),
+                                  Icon(Icons.calendar_today),
+                                  // Biểu tượng lịch trước picker bắt đầu
+                                  InkWell(
+                                    onTap: () {
+                                      // Hiển thị date picker và cập nhật giá trị cho biến startTime
+                                      showDatePicker(
+                                        context: context,
+                                        initialDate: timePickerController.startTime.value,
+                                        firstDate: DateTime(2000),
+                                        lastDate: DateTime(2100),
+                                      ).then((selectedDate) {
+                                        if (selectedDate != null) {
+                                          timePickerController.updateStartTime(selectedDate);
+                                        }
+                                      });
+                                    },
+                                    child: Text('${timePickerController.startTime.value.day}/${timePickerController.startTime.value.month}/${timePickerController.startTime.value.year}'),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            SizedBox(width: 20), // Khoảng cách giữa hai calendar date picker
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text('Kết thúc:'),
+                                  SizedBox(height: 5),
+                                  Icon(Icons.calendar_today),
+                                  InkWell(
+                                    onTap: () {
+                                      // Hiển thị date picker và cập nhật giá trị cho biến endTime
+                                      showDatePicker(
+                                        context: context,
+                                        initialDate: timePickerController.endTime.value,
+                                        firstDate: DateTime(2000),
+                                        lastDate: DateTime(2100),
+                                      ).then((selectedDate) {
+                                        if (selectedDate != null) {
+                                          timePickerController.updateEndTime(selectedDate);
+                                        }
+                                      });
+                                    },
+                                    child: Text('${timePickerController.endTime.value.day}/${timePickerController.endTime.value.month}/${timePickerController.endTime.value.year}'),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            SizedBox(height: 20), // Khoảng cách giữa picker và button
+                            // Button "Kiểm tra"
+                            ElevatedButton(
+                              onPressed: () {
+                                setState(() {
+                                  user.statistical(timePickerController.startTime.value, timePickerController.endTime.value);
+                                });
+                              },
+                              child: Text('Kiểm tra'),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  );
+                }
+              }),
+            ),
+        
+          ],
+        ),
       ),
     );
   }
