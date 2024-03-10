@@ -40,6 +40,7 @@ class RequestDetailController extends GetxController {
     await _requestRepository.cancelRequest(requestId).then((value){
       CustomDialogs.hideLoadingDialog();
       Get.offAllNamed('/mainPage');
+      requestDetailModel.status ='cancel';
       _homeController.listRequestUser.remove(requestDetailModel);
       _homeController.listRequestHistory.add(requestDetailModel);
       CustomDialogs.showSnackBar(2, "Đã hủy yêu cầu thành công", 'success');
@@ -56,6 +57,8 @@ class RequestDetailController extends GetxController {
       allowHidden.value = false;
       allowConfirm.value = false;
       CustomDialogs.hideLoadingDialog();
+      requestDetailModel.confirm = userId;
+      requestDetailModel.status = 'finish';
       _homeController.listRequestColletor.remove(requestDetailModel);
       _homeController.listRequestConfirmColletor.add(requestDetailModel);
       CustomDialogs.showSnackBar(2, "Xác nhận thu gom thành công", 'success');
