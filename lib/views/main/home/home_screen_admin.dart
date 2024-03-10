@@ -32,11 +32,9 @@ class _HomeAdminScreenState extends State<HomeAdminScreen> {
     bool _pressed = false;
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: ColorsConstants.ksecondBackgroundColor,
         title: Obx(
-          () => Container(
-            color: ColorsConstants.kBGCardColor,
-            child: userName(_homeAdminController.name.value),
-          ),
+                () => userName(_homeAdminController.name.value)
         ),
       ),
       backgroundColor: ColorsConstants.ksecondBackgroundColor,

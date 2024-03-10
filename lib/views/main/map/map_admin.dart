@@ -7,6 +7,7 @@ import 'package:thu_gom/controllers/map/map_controller.dart';
 import 'package:thu_gom/controllers/map/time/Time_Picker_Controller.dart';
 import 'package:thu_gom/shared/constants/color_constants.dart';
 import 'package:thu_gom/shared/themes/style/app_text_styles.dart';
+import 'package:thu_gom/shared/themes/style/custom_button_style.dart';
 import 'package:thu_gom/widgets/header_username.dart';
 
 class MapAdminScreen extends StatefulWidget {
@@ -175,70 +176,73 @@ class _MapAdminScreenState extends State<MapAdminScreen> {
                         // Hàng chứa hai calendar date picker
                         Row(
                           children: [
-        
+
                             Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text('Bắt đầu:'),
-                                  SizedBox(height: 5),
-                                  Icon(Icons.calendar_today),
-                                  // Biểu tượng lịch trước picker bắt đầu
-                                  InkWell(
-                                    onTap: () {
-                                      // Hiển thị date picker và cập nhật giá trị cho biến startTime
-                                      showDatePicker(
-                                        context: context,
-                                        initialDate: timePickerController.startTime.value,
-                                        firstDate: DateTime(2000),
-                                        lastDate: DateTime(2100),
-                                      ).then((selectedDate) {
-                                        if (selectedDate != null) {
-                                          timePickerController.updateStartTime(selectedDate);
-                                        }
-                                      });
-                                    },
-                                    child: Text('${timePickerController.startTime.value.day}/${timePickerController.startTime.value.month}/${timePickerController.startTime.value.year}'),
-                                  ),
-                                ],
+                              child: InkWell(
+                                onTap: (){
+                                  // Hiển thị date picker và cập nhật giá trị cho biến startTime
+                                  showDatePicker(
+                                    context: context,
+                                    initialDate: timePickerController.startTime.value,
+                                    firstDate: DateTime(2000),
+                                    lastDate: DateTime(2100),
+                                  ).then((selectedDate) {
+                                    if (selectedDate != null) {
+                                      timePickerController.updateStartTime(selectedDate);
+                                    }
+                                  });
+                                },
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text('Bắt đầu:'),
+                                    SizedBox(height: 5),
+                                    // Biểu tượng lịch trước picker bắt đầu
+                                    Icon(Icons.calendar_today),
+                                    Text('${timePickerController.startTime.value.day}/${timePickerController.startTime.value.month}/${timePickerController.startTime.value.year}')
+                                  ],
+                                ),
                               ),
                             ),
                             SizedBox(width: 20), // Khoảng cách giữa hai calendar date picker
                             Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text('Kết thúc:'),
-                                  SizedBox(height: 5),
-                                  Icon(Icons.calendar_today),
-                                  InkWell(
-                                    onTap: () {
-                                      // Hiển thị date picker và cập nhật giá trị cho biến endTime
-                                      showDatePicker(
-                                        context: context,
-                                        initialDate: timePickerController.endTime.value,
-                                        firstDate: DateTime(2000),
-                                        lastDate: DateTime(2100),
-                                      ).then((selectedDate) {
-                                        if (selectedDate != null) {
-                                          timePickerController.updateEndTime(selectedDate);
-                                        }
-                                      });
-                                    },
-                                    child: Text('${timePickerController.endTime.value.day}/${timePickerController.endTime.value.month}/${timePickerController.endTime.value.year}'),
-                                  ),
-                                ],
+                              child: InkWell(
+                                onTap:(){
+                                  // Hiển thị date picker và cập nhật giá trị cho biến endTime
+                                  showDatePicker(
+                                    context: context,
+                                    initialDate: timePickerController.endTime.value,
+                                    firstDate: DateTime(2000),
+                                    lastDate: DateTime(2100),
+                                  ).then((selectedDate) {
+                                    if (selectedDate != null) {
+                                      timePickerController.updateEndTime(selectedDate);
+                                    }
+                                  });
+                                },
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text('Kết thúc:'),
+                                    SizedBox(height: 5),
+                                    Icon(Icons.calendar_today),
+                                    Text('${timePickerController.endTime.value.day}/${timePickerController.endTime.value.month}/${timePickerController.endTime.value.year}')
+                                  ],
+                                ),
                               ),
                             ),
                             SizedBox(height: 20), // Khoảng cách giữa picker và button
                             // Button "Kiểm tra"
                             ElevatedButton(
+                              style: CustomButtonStyle.primaryButton,
                               onPressed: () {
                                 setState(() {
                                   user.statistical(timePickerController.startTime.value, timePickerController.endTime.value);
                                 });
                               },
-                              child: Text('Kiểm tra'),
+                              child: Text('Kiểm tra',style: TextStyle(
+                                color: Colors.white
+                              ),),
                             ),
                           ],
                         ),
