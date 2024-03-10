@@ -6,6 +6,7 @@ import 'package:thu_gom/controllers/main/home/home_controller.dart';
 import 'package:thu_gom/controllers/main/infomation/infomation_controller.dart';
 import 'package:thu_gom/shared/constants/color_constants.dart';
 import 'package:thu_gom/shared/themes/style/app_text_styles.dart';
+import 'package:thu_gom/widgets/header_username.dart';
 import 'package:thu_gom/widgets/web_view.dart';
 
 class InfomationScreen extends StatelessWidget {
@@ -17,16 +18,21 @@ class InfomationScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     name = _getStorage.read('name');
     return Scaffold(
+      appBar: _getStorage.read('role') == 'admin'
+          ? AppBar(
+        title: Container(
+            color: ColorsConstants.kBGCardColor,
+            child: userName(name),
+          ),
+      )
+          : null,
       backgroundColor: ColorsConstants.kBackgroundColor,
       body: Container(
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
         child: Column(
           children: [
-            Container(
-              color: ColorsConstants.kBGCardColor,
-              child: _userName(name),
-            ),
+            if (_getStorage.read('role') != 'admin') _userName(name),
             SizedBox(
               height: 8.h,
             ),

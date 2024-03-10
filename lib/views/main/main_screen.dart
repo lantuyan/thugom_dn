@@ -46,21 +46,28 @@ class _MainScreenState extends State<MainScreen> {
                     : UIIcons.icMap),
                 label: "map_nav".tr,
               ),
-              if (_mainController.currentRole != "collector" &&
-                  _mainController.currentRole != "admin")
+              if ( _mainController.currentRole != "admin")
                 BottomNavigationBarItem(
                   icon: _icon(_mainController.currentPage.value == 2
                       ? UIIcons.icPersonFill
                       : UIIcons.icPerson),
                   label: "information_nav".tr,
                 ),
-              if (_mainController.currentRole == "admin")
-                BottomNavigationBarItem(
+              if (_mainController.currentRole == "admin") 
+              BottomNavigationBarItem(
                   icon: _icon(_mainController.currentPage.value == 2
                       ? UIIcons.icDownloadFill
                       : UIIcons.icDownload),
                   label: "Tải xuống".tr,
                 ),
+              if (_mainController.currentRole == "admin") 
+              BottomNavigationBarItem(
+                  icon: _icon(_mainController.currentPage.value == 3
+                      ? UIIcons.icPersonFill
+                      : UIIcons.icPerson),
+                  label: "information_nav".tr,
+              ),
+                
             ],
           ),
         ));
