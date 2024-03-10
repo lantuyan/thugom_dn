@@ -32,7 +32,10 @@ class InfomationScreen extends StatelessWidget {
         width: MediaQuery.of(context).size.width,
         child: Column(
           children: [
-            if (_getStorage.read('role') != 'admin') _userName(name),
+            if (_getStorage.read('role') != 'admin') Container(
+                  color: ColorsConstants.kBGCardColor,
+                  child: _userName(name),
+                ),
             SizedBox(
               height: 8.h,
             ),
@@ -155,10 +158,6 @@ class InfomationScreen extends StatelessWidget {
                 );
               },
               title: 'Liên hệ',
-            ),
-
-            SizedBox(
-              height: 16.h,
             ),
             ProfileCardInfomation(
               image: 'assets/images/log_out.png',
