@@ -28,4 +28,6 @@ class UserRequestTrashRepository{
   // admin
   Future<models.DocumentList> getRequestByDateRange(String dateRange) => _userRequestTrashProvider.getRequestByDateRange(dateRange);
   Future<String> exportRequestToExcel(models.DocumentList data, String fileName) => _userRequestTrashProvider.exportRequestToExcel(data, fileName);
+  // Write function uploadExcelFile
+  Future<models.File> uploadExcelFile(String filePath, String nameFile) => _userRequestTrashProvider.uploadExcelFile(filePath, nameFile);
 }

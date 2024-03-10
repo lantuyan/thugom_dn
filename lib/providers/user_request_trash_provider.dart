@@ -170,12 +170,8 @@ class UserRequestTrashProvider {
     return response.total;
   }
 
-  // admin
   Future<models.DocumentList> getRequestByDateRange(String dateRange) async {
     List<String> dates = dateRange.toString().split(" - ");
-    print("dataRange $dateRange");
-    print(dates[0]);
-    print(dates[1]);
     final response = await databases.listDocuments(
       databaseId: AppWriteConstants.databaseId,
       collectionId: AppWriteConstants.userRequestTrashCollection,
@@ -233,24 +229,42 @@ class UserRequestTrashProvider {
     sheet.appendRow([]);
   }
 
-  var fileBytes = excel.save();
-  var directory = await getApplicationDocumentsDirectory();
-  
-  directory = Directory('/storage/emulated/0/Download');
+  final fileBytes = excel.save() as List<int>;
+  // upload file to appwrite
+  final uploadedFile = await uploadExcelFileToAppwrite(fileBytes, fileName);
 
-  final file =  File('${directory.path}/$fileName.xlsx')
-  ..createSync(recursive: true)
-  ..writeAsBytesSync(fileBytes!);
+  return uploadedFile.$id;
 
-  print('File is saved to ${file.path}');
-
-  if (file.existsSync()) {
-    return file.path;
-  } else {
-    return '';
-  }
 
 }
+Future<models.File> uploadExcelFileToAppwrite(List<int> fileBytes, String fileName) async {
+  // Append .xlsx extension to the file name
+  final excelFileName = fileName + '.xlsx';
+
+  // Convert Uint8List to InputFile
+  final excelFile = InputFile.fromBytes(
+    bytes: fileBytes,
+    filename: excelFileName,
+    // contentType: 'application/vnd.ms-excel',
+  );
+
+  // Upload file to Appwrite
+  final response = await storage.createFile(
+    bucketId: AppWriteConstants.analysisExcelBucketId,
+    fileId: ID.unique(),
+    file: excelFile,
+  );
+  return response;
+}
+  Future<models.File> uploadExcelFile(String imagePath, String fileName) {
+    final response = storage.createFile(
+        bucketId: AppWriteConstants.analysisExcelBucketId,
+        fileId: ID.unique(),
+        file: InputFile.fromPath(path: imagePath, filename: fileName),
+        );
+    return response;
+  }
+
     Future<int> loadRequestByDate(String dateRange) async {
     String startDate = dateRange + " 00:00:00.000";
     String endDate = dateRange + " 24:59:59.000";

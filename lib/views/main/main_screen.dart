@@ -54,6 +54,13 @@ class _MainScreenState extends State<MainScreen> {
                       : UIIcons.icPerson),
                   label: "information_nav".tr,
                 ),
+              if (_mainController.currentRole == "admin")
+                BottomNavigationBarItem(
+                  icon: _icon(_mainController.currentPage.value == 2
+                      ? UIIcons.icDownloadFill
+                      : UIIcons.icDownload),
+                  label: "Tải xuống".tr,
+                ),
             ],
           ),
         ));

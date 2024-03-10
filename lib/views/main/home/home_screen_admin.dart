@@ -12,6 +12,7 @@ import 'package:thu_gom/shared/constants/color_constants.dart';
 import 'package:thu_gom/shared/themes/style/app_text_styles.dart';
 import 'package:thu_gom/shared/themes/style/custom_button_style.dart';
 import 'package:thu_gom/widgets/custom_dialogs.dart';
+import 'package:thu_gom/widgets/header_username.dart';
 
 class HomeAdminScreen extends StatefulWidget {
   @override
@@ -30,6 +31,14 @@ class _HomeAdminScreenState extends State<HomeAdminScreen> {
   Widget build(BuildContext context) {
     bool _pressed = false;
     return Scaffold(
+      appBar: AppBar(
+        title: Obx(
+          () => Container(
+            color: ColorsConstants.kBGCardColor,
+            child: userName(_homeAdminController.name.value),
+          ),
+        ),
+      ),
       backgroundColor: ColorsConstants.ksecondBackgroundColor,
       body: SafeArea(
         child: SingleChildScrollView(
@@ -240,27 +249,6 @@ class _HomeAdminScreenState extends State<HomeAdminScreen> {
                     ),
                   ),
                   SizedBox(height: 36.sp),
-                  SizedBox(
-                    width:  ScreenUtil().screenWidth,
-                    height: 48.sp,
-                    child: ElevatedButton(
-                        onPressed: () {
-                          if (_homeAdminController.selectedDateRange.value ==
-                              null) {
-                            CustomDialogs.showSnackBar(
-                                2, "Vui lòng chọn thời gian thống kê", 'error');
-                          } else {
-                            _homeAdminController.loadRequestByRange();
-                          }
-                        },
-                        style: CustomButtonStyle.primaryButton,
-                        child: Text(
-                          'Xuất báo cáo',
-                          style: TextStyle(
-                              color: Colors.white, fontSize: 18.sp),
-                        )
-                    ),
-                  ),
                 ],
               ),
             ),

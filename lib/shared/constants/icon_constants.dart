@@ -23,4 +23,8 @@ class UIIcons {
   static String icPerson = '$iconsDir/ic_person.svg';
   static String icPersonFill = '$iconsDir/ic_person_filled.svg';
 
+  // Icon download
+  static String icDownload = '$iconsDir/ic_download.svg';
+  static String icDownloadFill = '$iconsDir/ic_download_fill.svg';
+
 }

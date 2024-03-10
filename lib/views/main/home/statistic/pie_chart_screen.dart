@@ -205,20 +205,20 @@ class PieChartScreen extends StatelessWidget {
                         ),
                       ),
                       SizedBox(height: 20.sp,),
-                      SizedBox(
-                        width: ScreenUtil().screenWidth,
-                        height: 48.sp,
-                        child: ElevatedButton(
-                            onPressed: () {
+                      // SizedBox(
+                      //   width: ScreenUtil().screenWidth,
+                      //   height: 48.sp,
+                      //   child: ElevatedButton(
+                      //       onPressed: () {
 
-                            },
-                            style: CustomButtonStyle.primaryButton,
-                            child: Text(
-                              'Xuất báo cáo ',
-                              style: TextStyle(color: Colors.white, fontSize: 18.sp),
-                            )
-                        ),
-                      ),
+                      //       },
+                      //       style: CustomButtonStyle.primaryButton,
+                      //       child: Text(
+                      //         'Xuất báo cáo ',
+                      //         style: TextStyle(color: Colors.white, fontSize: 18.sp),
+                      //       )
+                      //   ),
+                      // ),
                     ]
                   )
                 ),

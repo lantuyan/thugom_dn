@@ -1,20 +1,17 @@
 import 'package:appwrite/models.dart';
 import 'package:carousel_slider/carousel_controller.dart';
-import 'package:carousel_slider/carousel_options.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:get/get.dart';
 import 'package:thu_gom/managers/data_manager.dart';
 import 'package:thu_gom/repositories/user_request_trash_reponsitory.dart';
 import 'package:thu_gom/shared/constants/appwrite_constants.dart';
-import 'package:thu_gom/shared/constants/color_constants.dart';
 import 'package:thu_gom/widgets/custom_dialogs.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:open_file/open_file.dart';
 
-class HomeAdminController extends GetxController {
+class AnalysisController extends GetxController {
   final UserRequestTrashRepository _userRequestTrashRepository;
-  HomeAdminController(this._userRequestTrashRepository);
+  AnalysisController(this._userRequestTrashRepository);
   // Form Key
   final GlobalKey<FormBuilderState> formKey = GlobalKey<FormBuilderState>();
 
@@ -25,12 +22,7 @@ class HomeAdminController extends GetxController {
   RxString chartType = 'bar'.obs;
 
   final CarouselController carouselController = CarouselController();
-  var currentIndex = 0.obs;
-  final List<String> images = [
-    'assets/images/bar_chart.gif',
-    'assets/images/line_chart.gif',
-    'assets/images/pie_chart.gif',
-  ];
+
   var selectedIndex = 0.obs;
   var name = ''.obs;
   @override
@@ -84,7 +76,7 @@ class HomeAdminController extends GetxController {
       try {
         await launchUrl(url);
       } catch (e) {
-        print('Error launching Google Maps: $e');
+        print('Error launching Link download: $e');
       }
 
     } else {
