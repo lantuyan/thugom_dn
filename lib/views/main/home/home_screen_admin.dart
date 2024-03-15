@@ -224,9 +224,10 @@ class _HomeAdminScreenState extends State<HomeAdminScreen> {
                                 });
                                 break;
                               case 'line':
-                                Get.toNamed('/lineChartPage',arguments: {
-                                  'dateRange': _homeAdminController.selectedDateRange.value
-                                });
+                                // Get.toNamed('/lineChartPage',arguments: {
+                                //   'dateRange': _homeAdminController.selectedDateRange.value
+                                // });
+                                CustomDialogs.showSnackBar(2, "Chức năng đang phát triển", 'error');
                                 break;
                               case 'pie':
                                 Get.toNamed('/pieChartPage',arguments: {

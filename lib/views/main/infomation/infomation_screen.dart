@@ -27,9 +27,9 @@ class InfomationScreen extends StatelessWidget {
       )
           : null,
       backgroundColor: ColorsConstants.kBackgroundColor,
-      body: Container(
-        height: MediaQuery.of(context).size.height,
-        width: MediaQuery.of(context).size.width,
+      body: SingleChildScrollView(
+        // height: MediaQuery.of(context).size.height,
+        // width: MediaQuery.of(context).size.width,
         child: Column(
           children: [
             if (_getStorage.read('role') != 'admin') Container(
