@@ -1,11 +1,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
  xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.thu_gom"
+    package="com.donaso.thu_gom"
  >
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <application
-        android:label="thu_gom"
+        android:label="Thu Gom"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher" 
         android:enableOnBackInvokedCallback="true">

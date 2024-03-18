@@ -1,4 +1,4 @@
-package com.example.thu_gom
+package com.donaso.thu_gom
 
 import io.flutter.embedding.android.FlutterActivity
 
