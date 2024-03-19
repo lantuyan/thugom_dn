@@ -11,6 +11,7 @@ class AppWriteConstants {
   static String userRequestTrashCollection = "65d9eedea7d5c425131b";
 
   static String categoryCollectionId = "65dc9ae9cc5e91073a9d";
+  static String categoryPriceCollectionId = "65f87b0331d6ad66507e";
   static String categoryBucketId = "65dc9b51d0e2351f9c0d";
 
   static String userRequestTrashBucketId = "65e074497ce9a947cdb3";

@@ -146,13 +146,7 @@ class _HomeScreenPersonState extends State<HomeScreenPerson> {
                                                   MaterialPageRoute(
                                                     builder: (context) =>
                                                         DetailTrash(
-                                                      id: request.categoryID,
-                                                      image: request
-                                                          .category_image,
-                                                      title: request
-                                                          .category_title,
-                                                      description: request
-                                                          .category_description,
+                                                      data: request
                                                     ),
                                                   ));
                                             },

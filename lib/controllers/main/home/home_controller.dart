@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:get/get_rx/get_rx.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:thu_gom/models/trash/category_model.dart';
+import 'package:thu_gom/models/trash/category_price_model.dart';
 import 'package:thu_gom/models/trash/user_request_trash_model.dart';
 import 'package:thu_gom/providers/auth_provider.dart';
 import 'package:thu_gom/repositories/category_reponsitory.dart';
@@ -28,6 +29,9 @@ class HomeController extends GetxController {
 
   late List<UserRequestTrashModel> listRequestColletor = [];
   late List<UserRequestTrashModel> listRequestConfirmColletor = [];
+
+  late List<CategoryPriceModel> listCategoryPrice = [];
+  
   RxBool isLoading = true.obs; // Sử dụng Rx để theo dõi
   var count = 0.obs;
   StreamSubscription? _sub;
@@ -115,6 +119,15 @@ class HomeController extends GetxController {
     }
   }
 
+  List<CategoryPriceModel> getDataFromTableCategoryTrash(List listCategories) {
+    listCategoryPrice.clear();
+    listCategoryPrice.addAll(
+        listCategories.map((e) => CategoryPriceModel.fromMap(e)).toList());
+    print("LIST PRICE: ${listCategoryPrice}");
+
+    return listCategoryPrice;
+  }
+
   Future getUserRequestFromAppwrite() async {
     try {
       await _userRequestTrashRepository
@@ -196,7 +209,9 @@ class HomeController extends GetxController {
   // }
   Future getRequestListColletor() async {
     try {
-      await _userRequestTrashRepository.getRequestListColletor(0,currentPage).then((value) {
+      await _userRequestTrashRepository
+          .getRequestListColletor(0, currentPage)
+          .then((value) {
         final GetStorage _getStorage = GetStorage();
         final userID = _getStorage.read('userId');
         Map<String, dynamic> data = value.toMap();
@@ -223,7 +238,7 @@ class HomeController extends GetxController {
 
       try {
         await _userRequestTrashRepository
-            .getRequestListColletor(offsetSize,currentPage)
+            .getRequestListColletor(offsetSize, currentPage)
             .then((value) {
           final GetStorage _getStorage = GetStorage();
           final userID = _getStorage.read('userId');

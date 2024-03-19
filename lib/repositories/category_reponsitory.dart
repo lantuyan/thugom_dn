@@ -7,6 +7,7 @@ class CategoryRepository{
 
 
   Future<models.DocumentList> getCategory() => _categoryProvider.getCategory();
+  Future<models.DocumentList> getCategoryPrice() => _categoryProvider.getCategoryPrice();
 
   // Future<models.File> uploadCategoryImage(String imagePath) => _categoryProvider.uploadCategoryImage(imagePath);
   // Future<dynamic> deleteCategoryImage(String fileId) => _categoryProvider.deleteCategoryImage(fileId);
