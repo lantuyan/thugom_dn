@@ -24,4 +24,12 @@ class CategoryProvider {
     return response;
   }
 
+  Future<models.DocumentList> getCategoryPrice() async {
+    final response = await databases!.listDocuments(
+      databaseId: AppWriteConstants.databaseId,
+      collectionId: AppWriteConstants.categoryPriceCollectionId
+    );
+    return response;
+  }
+
 }
