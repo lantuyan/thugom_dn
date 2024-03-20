@@ -14,6 +14,7 @@ import 'package:thu_gom/repositories/user_request_trash_reponsitory.dart';
 import 'package:thu_gom/shared/constants/appwrite_constants.dart';
 import 'package:thu_gom/shared/constants/color_constants.dart';
 import 'package:flutter/material.dart';
+import 'package:thu_gom/shared/themes/style/app_icons.dart';
 import 'package:thu_gom/shared/themes/style/app_text_styles.dart';
 import 'package:thu_gom/views/main/home/detail_trash.dart';
 import 'package:thu_gom/views/main/home/tab/history_user.dart';
@@ -117,10 +118,13 @@ class _HomeScreenPersonState extends State<HomeScreenPerson> {
                                               height: 50.h,
                                               imageUrl:
                                                   '${AppWriteConstants.endPoint}/storage/buckets/${AppWriteConstants.categoryBucketId}/files/${request.category_image}/view?project=${AppWriteConstants.projectId}',
-                                              placeholder: (context, url) => Center(
-                                                child: CircularProgressIndicator(
+                                              placeholder: (context, url) =>
+                                                  Center(
+                                                child:
+                                                    CircularProgressIndicator(
                                                   value: 0.5,
-                                                  color: ColorsConstants.kActiveColor,
+                                                  color: ColorsConstants
+                                                      .kActiveColor,
                                                 ),
                                               ),
                                               errorWidget:
@@ -146,14 +150,14 @@ class _HomeScreenPersonState extends State<HomeScreenPerson> {
                                                   MaterialPageRoute(
                                                     builder: (context) =>
                                                         DetailTrash(
-                                                      data: request
-                                                    ),
+                                                            data: request),
                                                   ));
                                             },
                                             icon: SvgPicture.asset(
-                                                'assets/icons/ic_info_information_detail_icon.svg',
-                                                color: ColorsConstants.kActiveColor,
-                                                ),
+                                              'assets/icons/ic_info_information_detail_icon.svg',
+                                              color:
+                                                  ColorsConstants.kActiveColor,
+                                            ),
                                           )
                                         ],
                                       ),
@@ -279,11 +283,59 @@ class _HomeScreenPersonState extends State<HomeScreenPerson> {
               child: Text(
                 "Xin chào, ${_homeController.name.value}",
                 style: AppTextStyles.headline1,
-                overflow: TextOverflow.ellipsis, // Truncate văn bản nếu vượt quá khung
+                overflow: TextOverflow
+                    .ellipsis, // Truncate văn bản nếu vượt quá khung
                 maxLines: 1, // Giới hạn số dòng hiển thị
               ),
             );
-          })
+          }),
+          Column(
+            children: [
+              Row(
+                children: [
+                  Stack(
+                    children: <Widget>[
+                      GestureDetector(
+                        onTap: (){
+                          Get.toNamed('confirmm_user');
+                        },
+                        child: const Icon(
+                          AppIcons.ic_alert,
+                          size: 28,
+                        ),
+                      ),
+                      Positioned(
+                        right: 0,
+                        top: 0,
+                        child: Container(
+                          padding: const EdgeInsets.all(1),
+                          decoration: BoxDecoration(
+                            color: Colors.red,
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          constraints: const BoxConstraints(
+                            minWidth: 14,
+                            minHeight: 14,
+                          ),
+                          child: const Text(
+                            '1',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 12,
+                                fontWeight: FontWeight.w700),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    width: 20.sp,
+                  )
+                ],
+              ),
+            ],
+          ),
         ],
       ),
     );
