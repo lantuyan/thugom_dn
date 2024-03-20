@@ -25,10 +25,13 @@ class HomeController extends GetxController {
   late List<CategoryModel> categoryList = [];
   late List<UserRequestTrashModel> userRequestTrashList = [];
   late List<UserRequestTrashModel> listRequestUser = [];
+  late List<UserRequestTrashModel> listRequestConfirmUser = [];
   late List<UserRequestTrashModel> listRequestHistory = [];
 
+  // COLLECTOR
   late List<UserRequestTrashModel> listRequestColletor = [];
   late List<UserRequestTrashModel> listRequestConfirmColletor = [];
+  late List<UserRequestTrashModel> listRequestProcessingCollector = [];
 
   late List<CategoryPriceModel> listCategoryPrice = [];
   
@@ -85,9 +88,11 @@ class HomeController extends GetxController {
     await getCategory();
     await getUserRequestFromAppwrite();
     await getRequestWithStatusPending();
+    await getRequestWithStatusComfirmming();
     await getRequestHistory();
 
     await getRequestListColletor();
+    await getRequestListProcessingCollector();
     await getRequestListConfirmColletor();
     await getMoreData();
   }
@@ -168,6 +173,25 @@ class HomeController extends GetxController {
       print(e);
     }
   }
+  Future getRequestWithStatusComfirmming() async {
+    try {
+      await _userRequestTrashRepository
+          .getRequestWithStatusComfirmming()
+          .then((value) {
+        Map<String, dynamic> data = value.toMap();
+        List listRequest = data['documents'].toList();
+        listRequestConfirmUser = listRequest
+            .map(
+              (e) => UserRequestTrashModel.fromMap(e['data']),
+            )
+            .toList();
+        // isLoading.value = false;
+        update(listRequestUser);
+      });
+    } catch (e) {
+      print(e);
+    }
+  }
 
   Future getRequestHistory() async {
     try {
@@ -187,26 +211,6 @@ class HomeController extends GetxController {
     }
   }
 
-  // Future getRequestListColletor() async {
-  //   try {
-  //     await _userRequestTrashRepository.getRequestListColletor(0).then((value) {
-  //       final GetStorage _getStorage = GetStorage();
-  //       final userID = _getStorage.read('userId');
-  //       Map<String, dynamic> data = value.toMap();
-  //       List listRequest = data['documents'].toList();
-  //       listRequestColletor = listRequest
-  //           .map(
-  //             (e) => UserRequestTrashModel.fromMap(e['data']),
-  //           ).where((request) => request.hidden!.every((element) => element != userID))
-  //           .toList();
-  //       // isLoading.value = false;
-  //       print(">>>>>> LIST REQUEST PENDING  <<<<<<<<< ${listRequestColletor}");
-  //       update(listRequestColletor);
-  //     });
-  //   } catch (e) {
-  //     print(e);
-  //   }
-  // }
   Future getRequestListColletor() async {
     try {
       await _userRequestTrashRepository
@@ -267,6 +271,27 @@ class HomeController extends GetxController {
     }
   }
 
+  Future getRequestListProcessingCollector() async {
+    try {
+      await _userRequestTrashRepository
+          .getRequestWithStatusProcessingCollector()
+          .then((value) {
+        Map<String, dynamic> data = value.toMap();
+        List listRequest = data['documents'].toList();
+        listRequestProcessingCollector = listRequest
+            .map(
+              (e) => UserRequestTrashModel.fromMap(e['data']),
+            )
+            .toList();
+        isLoading.value = false;
+        print(
+            ">>>>>> LIST REQUEST PENDING 3 <<<<<<<<< ${listRequestProcessingCollector}");
+        update(listRequestProcessingCollector);
+      });
+    } catch (e) {
+      print(e);
+    }
+  }
   Future getRequestListConfirmColletor() async {
     try {
       await _userRequestTrashRepository
@@ -280,8 +305,6 @@ class HomeController extends GetxController {
             )
             .toList();
         isLoading.value = false;
-        print(
-            ">>>>>> LIST REQUEST PENDING 3 <<<<<<<<< ${listRequestConfirmColletor}");
         update(listRequestConfirmColletor);
       });
     } catch (e) {

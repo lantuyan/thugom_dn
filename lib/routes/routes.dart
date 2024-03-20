@@ -6,6 +6,7 @@ import 'package:thu_gom/controllers/main/home/admin/chart/pie_chart_binding.dart
 import 'package:thu_gom/controllers/main/home/home_binding.dart';
 import 'package:thu_gom/controllers/main/infomation/infomation_binding.dart';
 import 'package:thu_gom/controllers/main/main_binding.dart';
+import 'package:thu_gom/controllers/main/rate/user_detail_binding.dart';
 import 'package:thu_gom/controllers/main/request_detail/request_detail_binding.dart';
 import 'package:thu_gom/controllers/main/request_person/request_person_binding.dart';
 import 'package:thu_gom/controllers/onboarding/onboarding_binding.dart';
@@ -19,11 +20,13 @@ import 'package:thu_gom/views/auth/onboarding/intro/intro_screen.dart';
 import 'package:thu_gom/views/auth/onboarding/profile/profile_screen.dart';
 import 'package:thu_gom/views/main/home/home_screen_person.dart';
 import 'package:thu_gom/views/main/home/home_screen_collecter.dart';
+import 'package:thu_gom/views/main/home/rate/user_detail_confirm.dart';
 import 'package:thu_gom/views/main/home/request_person_screen.dart';
 import 'package:thu_gom/views/main/home/request_detail_screen.dart';
 import 'package:thu_gom/views/main/home/statistic/bar_chart_screen.dart';
 import 'package:thu_gom/views/main/home/statistic/line_chart_screen.dart';
 import 'package:thu_gom/views/main/home/statistic/pie_chart_screen.dart';
+import 'package:thu_gom/views/main/home/tab/notification_user.dart';
 import 'package:thu_gom/views/main/infomation/infomation_screen.dart';
 import 'package:thu_gom/views/main/main_screen.dart';
 import 'package:thu_gom/views/main/map/map_collecter_screen.dart';
@@ -68,6 +71,15 @@ class Routes {
       name:  '/requestDetailPage',
       page: () => RequestDetailScreen(),
       binding: RequestDetailBinding(),
+    ),
+    GetPage(
+      name:  '/user_detail_confirm',
+      page: () => UserDetailConfirmScreen(),
+      binding: UserDetailConfirmBinding(),
+    ),
+    GetPage(
+      name:  '/confirmm_user',
+      page: () => NotificationUser(),
     ),
     GetPage(
       name: '/requestPersonPage',

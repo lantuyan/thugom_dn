@@ -40,7 +40,37 @@ class UserRequestTrashProvider {
       databaseId: AppWriteConstants.databaseId,
       collectionId: AppWriteConstants.userRequestTrashCollection,
       queries: [
-        Query.equal('status', 'pending'),
+        Query.between('status', 'pending', 'processing'),
+        Query.equal('senderId', userID)
+      ],
+    );
+    return response;
+  }
+
+  // list confirmming
+  Future<models.DocumentList> getRequestWithStatusComfirmming() async {
+    final GetStorage _getStorage = GetStorage();
+    final userID = _getStorage.read('userId');
+    final response = await databases!.listDocuments(
+      databaseId: AppWriteConstants.databaseId,
+      collectionId: AppWriteConstants.userRequestTrashCollection,
+      queries: [
+        Query.equal('status', 'confirmming'),
+        Query.equal('senderId', userID)
+      ],
+    );
+    return response;
+  }
+
+  Future<models.DocumentList> getRequestHistory() async {
+    final GetStorage _getStorage = GetStorage();
+    final userID = _getStorage.read('userId');
+    final response = await databases!.listDocuments(
+      databaseId: AppWriteConstants.databaseId,
+      collectionId: AppWriteConstants.userRequestTrashCollection,
+      queries: [
+        Query.between('status', 'cancel', 'finish'),
+        // Query.equal('status', 'finish'),
         Query.equal('senderId', userID)
       ],
     );
@@ -62,15 +92,12 @@ class UserRequestTrashProvider {
     return response;
   }
 
-  Future<models.DocumentList> getRequestHistory() async {
-    final GetStorage _getStorage = GetStorage();
-    final userID = _getStorage.read('userId');
+    Future<models.DocumentList> getRequestWithStatusProcessingCollector() async {
     final response = await databases!.listDocuments(
       databaseId: AppWriteConstants.databaseId,
       collectionId: AppWriteConstants.userRequestTrashCollection,
       queries: [
-        Query.notEqual('status', 'pending'),
-        Query.equal('senderId', userID)
+        Query.equal('status', 'processing'),
       ],
     );
     return response;
@@ -183,89 +210,91 @@ class UserRequestTrashProvider {
     return response;
   }
 
-  Future<String> exportRequestToExcel(models.DocumentList data, String fileName) async {
+  Future<String> exportRequestToExcel(
+      models.DocumentList data, String fileName) async {
     final stopwatch = Stopwatch()..start();
 
     final excel = Excel.createExcel();
     final Sheet sheet = excel[excel.getDefaultSheet()!];
-   
-  //   // Write header row
-  sheet.appendRow([
-    TextCellValue('senderId'),
-    TextCellValue('image'),
-    TextCellValue('phone_number'),
-    TextCellValue('address'),
-    TextCellValue('description'),
-    TextCellValue('status'),
-    TextCellValue('confirm'),
-    TextCellValue('hidden'),
-    TextCellValue('trash_type'),
-    TextCellValue('createAt'),
-    TextCellValue('updateAt'),
-    TextCellValue('point_lat'),
-    TextCellValue('point_lng')
-  ]);
-   sheet.appendRow([]);
 
-  // Populate data
-  for (final document in data.documents) {
+    //   // Write header row
     sheet.appendRow([
-      TextCellValue(document.data['senderId'] ?? ''),
-      TextCellValue(document.data['image'] ?? ''),
-      TextCellValue(document.data['phone_number'] ?? ''),
-      TextCellValue(document.data['address'] ?? ''),
-      TextCellValue(document.data['description'] ?? ''),
-      TextCellValue(document.data['status'] ?? ''),
-      TextCellValue(document.data['confirm'] ?? ''),
-      TextCellValue(document.data['hidden'].toString()),
-      TextCellValue(document.data['trash_type'] ?? ''),
-      TextCellValue(document.data['createAt'] ?? ''),
-      TextCellValue(document.data['updateAt'] ?? ''),
-      TextCellValue(document.data['point_lat'].toString()),
-      TextCellValue(document.data['point_lng'].toString()),
+      TextCellValue('senderId'),
+      TextCellValue('image'),
+      TextCellValue('phone_number'),
+      TextCellValue('address'),
+      TextCellValue('description'),
+      TextCellValue('status'),
+      TextCellValue('confirm'),
+      TextCellValue('hidden'),
+      TextCellValue('trash_type'),
+      TextCellValue('createAt'),
+      TextCellValue('updateAt'),
+      TextCellValue('point_lat'),
+      TextCellValue('point_lng')
     ]);
-
-    // break line
     sheet.appendRow([]);
+
+    // Populate data
+    for (final document in data.documents) {
+      sheet.appendRow([
+        TextCellValue(document.data['senderId'] ?? ''),
+        TextCellValue(document.data['image'] ?? ''),
+        TextCellValue(document.data['phone_number'] ?? ''),
+        TextCellValue(document.data['address'] ?? ''),
+        TextCellValue(document.data['description'] ?? ''),
+        TextCellValue(document.data['status'] ?? ''),
+        TextCellValue(document.data['confirm'] ?? ''),
+        TextCellValue(document.data['hidden'].toString()),
+        TextCellValue(document.data['trash_type'] ?? ''),
+        TextCellValue(document.data['createAt'] ?? ''),
+        TextCellValue(document.data['updateAt'] ?? ''),
+        TextCellValue(document.data['point_lat'].toString()),
+        TextCellValue(document.data['point_lng'].toString()),
+      ]);
+
+      // break line
+      sheet.appendRow([]);
+    }
+
+    final fileBytes = excel.save() as List<int>;
+    // upload file to appwrite
+    final uploadedFile = await uploadExcelFileToAppwrite(fileBytes, fileName);
+
+    return uploadedFile.$id;
   }
 
-  final fileBytes = excel.save() as List<int>;
-  // upload file to appwrite
-  final uploadedFile = await uploadExcelFileToAppwrite(fileBytes, fileName);
+  Future<models.File> uploadExcelFileToAppwrite(
+      List<int> fileBytes, String fileName) async {
+    // Append .xlsx extension to the file name
+    final excelFileName = fileName + '.xlsx';
 
-  return uploadedFile.$id;
+    // Convert Uint8List to InputFile
+    final excelFile = InputFile.fromBytes(
+      bytes: fileBytes,
+      filename: excelFileName,
+      // contentType: 'application/vnd.ms-excel',
+    );
 
-
-}
-Future<models.File> uploadExcelFileToAppwrite(List<int> fileBytes, String fileName) async {
-  // Append .xlsx extension to the file name
-  final excelFileName = fileName + '.xlsx';
-
-  // Convert Uint8List to InputFile
-  final excelFile = InputFile.fromBytes(
-    bytes: fileBytes,
-    filename: excelFileName,
-    // contentType: 'application/vnd.ms-excel',
-  );
-
-  // Upload file to Appwrite
-  final response = await storage.createFile(
-    bucketId: AppWriteConstants.analysisExcelBucketId,
-    fileId: ID.unique(),
-    file: excelFile,
-  );
-  return response;
-}
-  Future<models.File> uploadExcelFile(String imagePath, String fileName) {
-    final response = storage.createFile(
-        bucketId: AppWriteConstants.analysisExcelBucketId,
-        fileId: ID.unique(),
-        file: InputFile.fromPath(path: imagePath, filename: fileName),
-        );
+    // Upload file to Appwrite
+    final response = await storage.createFile(
+      bucketId: AppWriteConstants.analysisExcelBucketId,
+      fileId: ID.unique(),
+      file: excelFile,
+    );
     return response;
   }
 
-    Future<int> loadRequestByDate(String dateRange) async {
+  Future<models.File> uploadExcelFile(String imagePath, String fileName) {
+    final response = storage.createFile(
+      bucketId: AppWriteConstants.analysisExcelBucketId,
+      fileId: ID.unique(),
+      file: InputFile.fromPath(path: imagePath, filename: fileName),
+    );
+    return response;
+  }
+
+  Future<int> loadRequestByDate(String dateRange) async {
     String startDate = dateRange + " 00:00:00.000";
     String endDate = dateRange + " 24:59:59.000";
     final response = await databases!.listDocuments(
@@ -278,7 +307,6 @@ Future<models.File> uploadExcelFileToAppwrite(List<int> fileBytes, String fileNa
     );
     return response.total;
   }
-
 
   // Future<dynamic> deleteCategoryImage(String fileId) {
   //   final response = storage!.deleteFile(
