@@ -58,7 +58,7 @@ class _NotificationCollectorState extends State<NotificationCollector> {
                         onTap: () {
                           // Get.toNamed('requestDetailPage',
                           //     arguments: {'requestDetail': request});
-                          print("GO TO PAGE DETAIL REQUEST");
+                          print("GO TO SCREEN CHỤP MINH CHỨNG");
                         },
                         child: Stack(
                           children: [
@@ -70,7 +70,7 @@ class _NotificationCollectorState extends State<NotificationCollector> {
                             ),
                             Positioned(
                               right: 0,
-                              top: 0,
+                              top: -4.sp,
                               child: Container(
                                 padding: const EdgeInsets.all(4),
                                 decoration: BoxDecoration(
