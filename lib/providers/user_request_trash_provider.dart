@@ -134,14 +134,21 @@ class UserRequestTrashProvider {
   }
 
   Future<void> confirmRequest(String requestId, String userId) async {
-    await databases?.updateDocument(
+    await databases.updateDocument(
       databaseId: AppWriteConstants.databaseId,
       collectionId: AppWriteConstants.userRequestTrashCollection,
       documentId: requestId,
-      data: {'confirm': userId, 'status': 'finish'},
+      data: {'confirm': userId, 'status': 'processing'},
     );
   }
-
+  Future<models.Document> checkConfirmRequest(String requestId) async {
+    final result = await databases.getDocument(
+      databaseId: AppWriteConstants.databaseId,
+      collectionId: AppWriteConstants.userRequestTrashCollection,
+      documentId: requestId,
+    );
+    return result;
+  }
   Future sendRequestToAppwrite(
       UserRequestTrashModel userRequestTrashModel) async {
     try {

@@ -13,7 +13,8 @@ class UserRequestTrashModel {
   late List<String>? hidden;
   late String createAt;
   late String updateAt;
-
+  late double? rating;
+  late String? finishImage;
   UserRequestTrashModel(
       {required this.requestId,
       required this.senderId,
@@ -28,7 +29,9 @@ class UserRequestTrashModel {
       this.confirm,
       this.hidden,
       required this.createAt,
-      required this.updateAt});
+      required this.updateAt,
+      this.rating,
+      this.finishImage});
 
   UserRequestTrashModel.fromMap(Map<String, dynamic> map) {
     requestId = map['\$id'];
@@ -49,6 +52,8 @@ class UserRequestTrashModel {
     }
     createAt = map['createAt'];
     updateAt = map['updateAt'];
+    rating = map['rating'];
+    finishImage = map['finishImage'];
   }
 
   Map<String, dynamic> toMap() {
@@ -67,6 +72,8 @@ class UserRequestTrashModel {
       'hidden': hidden,
       'createAt': createAt,
       'updateAt': updateAt,
+      'rating': rating,
+      'finishImage': finishImage,
     };
   }
 }

@@ -35,6 +35,7 @@ class LandingScreen extends StatelessWidget {
                     color: ColorsConstants.kMainColor,
                     fontSize: 24.sp,
                   ),
+                  textAlign: TextAlign.center,
                 ),
                 Container(
                   margin: const EdgeInsets.only(top: 8),
