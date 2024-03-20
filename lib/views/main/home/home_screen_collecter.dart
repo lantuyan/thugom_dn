@@ -10,6 +10,7 @@ import 'package:thu_gom/repositories/category_reponsitory.dart';
 import 'package:thu_gom/repositories/user_request_trash_reponsitory.dart';
 import 'package:thu_gom/shared/constants/color_constants.dart';
 import 'package:flutter/material.dart';
+import 'package:thu_gom/shared/themes/style/app_icons.dart';
 import 'package:thu_gom/shared/themes/style/app_text_styles.dart';
 import 'package:thu_gom/views/main/home/tab/comfirmed_collector.dart';
 import 'package:thu_gom/views/main/home/tab/request_collector.dart';
@@ -152,7 +153,54 @@ class _HomeScreenCollectorState extends State<HomeScreenCollector> {
                 maxLines: 1, // Giới hạn số dòng hiển thị
               ),
             );
-          })
+          }),
+          Column(
+            children: [
+              Row(
+                children: [
+                  Stack(
+                    children: <Widget>[
+                      GestureDetector(
+                        onTap: (){
+                          Get.toNamed('processing_collector');
+                        },
+                        child: const Icon(
+                          AppIcons.ic_alert,
+                          size: 28,
+                        ),
+                      ),
+                      Positioned(
+                        right: 0,
+                        top: 0,
+                        child: Container(
+                          padding: const EdgeInsets.all(1),
+                          decoration: BoxDecoration(
+                            color: Colors.red,
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          constraints: const BoxConstraints(
+                            minWidth: 14,
+                            minHeight: 14,
+                          ),
+                          child: const Text(
+                            '1',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 12,
+                                fontWeight: FontWeight.w700),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    width: 20.sp,
+                  )
+                ],
+              ),
+            ],
+          ),
         ],
       ),
     );

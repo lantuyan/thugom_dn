@@ -26,6 +26,7 @@ import 'package:thu_gom/views/main/home/request_detail_screen.dart';
 import 'package:thu_gom/views/main/home/statistic/bar_chart_screen.dart';
 import 'package:thu_gom/views/main/home/statistic/line_chart_screen.dart';
 import 'package:thu_gom/views/main/home/statistic/pie_chart_screen.dart';
+import 'package:thu_gom/views/main/home/tab/notification_collector.dart';
 import 'package:thu_gom/views/main/home/tab/notification_user.dart';
 import 'package:thu_gom/views/main/infomation/infomation_screen.dart';
 import 'package:thu_gom/views/main/main_screen.dart';
@@ -80,6 +81,10 @@ class Routes {
     GetPage(
       name:  '/confirmm_user',
       page: () => NotificationUser(),
+    ),
+    GetPage(
+      name:  '/processing_collector',
+      page: () => NotificationCollector(),
     ),
     GetPage(
       name: '/requestPersonPage',
