@@ -13,6 +13,15 @@ class CustomButtonStyle {
         shadowColor: ColorsConstants.kMainColor
     );
 
+    static ButtonStyle infoButton = ElevatedButton.styleFrom(
+        backgroundColor: ColorsConstants.kActiveInfoColor,
+        elevation: 5,
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(10))
+        ),
+        shadowColor: ColorsConstants.kActiveInfoColor
+    );
+
     static ButtonStyle transparentButton = ElevatedButton.styleFrom(
         backgroundColor: ColorsConstants.ksecondBackgroundColor,
         shape: RoundedRectangleBorder(

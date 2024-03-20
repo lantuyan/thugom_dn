@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:thu_gom/controllers/main/request_detail/request_detail_controller.dart';
 import 'package:get/get.dart';
@@ -224,42 +225,7 @@ class PersonUI extends StatelessWidget {
         SizedBox(
           height: 10.sp,
         ),
-        if (_requestDetailController.requestDetailModel.confirm != null)
-          Row(
-            children: [
-              Expanded(
-                  child: SizedBox(
-                    height: 48.sp,
-                    child: ElevatedButton(
-                        onPressed: null,
-                        style: CustomButtonStyle.primaryButton,
-                        child: Text(
-                          'Chờ xử lý',
-                          style: TextStyle(
-                              color: ColorsConstants.kTextMainColor, fontSize: 16.sp),
-                        )
-                    ),
-                  )
-              ),
-              SizedBox(
-                width: 20.sp,
-              ),
-              Expanded(
-                  child: SizedBox(
-                    height: 48.sp,
-                    child: ElevatedButton(
-                        onPressed: (){},
-                        style: CustomButtonStyle.primaryButton,
-                        child: Text(
-                          'Hoàn thành',
-                          style: TextStyle(
-                              color: ColorsConstants.kBGCardColor,
-                              fontSize: 16.sp),
-                        )),
-                  )),
-            ],
-          )
-        else if (_requestDetailController.requestDetailModel.status != 'cancel')
+        if (_requestDetailController.requestDetailModel.status == 'pending')
           Column(
             children: [
               Row(
@@ -268,12 +234,13 @@ class PersonUI extends StatelessWidget {
                       child: SizedBox(
                         height: 48.sp,
                         child: ElevatedButton(
-                            onPressed: () {},
+                            onPressed: (){},
                             style: CustomButtonStyle.primaryButton,
                             child: Text(
                               'Chờ xử lý',
                               style: TextStyle(
-                                  color: Colors.white, fontSize: 16.sp),
+                                  color: ColorsConstants.kBGCardColor,
+                                  fontSize: 16.sp),
                             )
                         ),
                       )
@@ -289,11 +256,10 @@ class PersonUI extends StatelessWidget {
                             style: CustomButtonStyle.primaryButton,
                             child: Text(
                               'Hoàn thành',
-                              style: TextStyle(
-                                  color: ColorsConstants.kTextMainColor,
-                                  fontSize: 16.sp),
+                              style: TextStyle(fontSize: 16.sp),
                             )),
-                      )),
+                      )
+                  ),
                 ],
               ),
               SizedBox(
@@ -327,7 +293,85 @@ class PersonUI extends StatelessWidget {
               )
             ],
           )
-        else
+        else if(_requestDetailController.requestDetailModel.status == 'processing' || _requestDetailController.requestDetailModel.status == 'confirming')
+          Row(
+            children: [
+              Expanded(
+                  child: SizedBox(
+                    height: 48.sp,
+                    child: ElevatedButton(
+                        onPressed: (){},
+                        style: CustomButtonStyle.infoButton,
+                        child: Text(
+                          'Đang xử lý',
+                          style: TextStyle(
+                              color: ColorsConstants.kBGCardColor,
+                              fontSize: 16.sp),
+                        )
+                    ),
+                  )
+              ),
+              SizedBox(
+                width: 20.sp,
+              ),
+              Expanded(
+                  child: SizedBox(
+                    height: 48.sp,
+                    child: ElevatedButton(
+                        onPressed: null,
+                        style: CustomButtonStyle.primaryButton,
+                        child: Text(
+                          'Hoàn thành',
+                          style: TextStyle(
+                              color: ColorsConstants.kBGCardColor,
+                              fontSize: 16.sp),
+                        )),
+                  )),
+            ],
+          )
+        else if (_requestDetailController.requestDetailModel.status == 'finish')
+            Column(
+              children: [
+                Row(
+                  children: [
+                    Expanded(
+                        child: SizedBox(
+                          height: 48.sp,
+                          child: ElevatedButton(
+                              onPressed: null,
+                              style: CustomButtonStyle.primaryButton,
+                              child: Text(
+                                'Chờ xử lý',
+                                style: TextStyle(
+                                    color: Colors.black, fontSize: 16.sp),
+                              )
+                          ),
+                        )
+                    ),
+                    SizedBox(
+                      width: 20.sp,
+                    ),
+                    Expanded(
+                        child: SizedBox(
+                          height: 48.sp,
+                          child: ElevatedButton(
+                              onPressed: (){},
+                              style: CustomButtonStyle.primaryButton,
+                              child: Text(
+                                'Hoàn thành',
+                                style: TextStyle(
+                                    color: ColorsConstants.ksecondBackgroundColor,
+                                    fontSize: 16.sp),
+                              )),
+                        )),
+                  ],
+                ),
+                SizedBox(
+                  height: 20.sp,
+                ),
+              ],
+            )
+        else if (_requestDetailController.requestDetailModel.status == 'cancel')
           SizedBox(
             width: ScreenUtil().screenWidth,
             height: 48.sp,
@@ -338,7 +382,19 @@ class PersonUI extends StatelessWidget {
                   'Đã hủy yêu cầu',
                   style: TextStyle(color: ColorsConstants.kTextMainColor, fontSize: 18.sp),
                 )),
-          ),
+          )
+        else
+          SizedBox(
+            width: ScreenUtil().screenWidth,
+            height: 48.sp,
+            child: ElevatedButton(
+              onPressed: null,
+              style: CustomButtonStyle.cancelButton,
+              child: Text(
+                'Yêu cầu lỗi', style: TextStyle(color: ColorsConstants.kTextMainColor, fontSize: 18.sp),
+                )
+            ),
+          )
       ],
     );
   }
@@ -456,31 +512,54 @@ class CollectorUI extends StatelessWidget {
         SizedBox(
           height: 30.sp,
         ),
-        if(_requestDetailController.requestDetailModel.confirm == _requestDetailController.userId.value)
+        if(_requestDetailController.requestDetailModel.confirm == _requestDetailController.userId.value && _requestDetailController.requestDetailModel.status =='finish')
           Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Center(
-                child: RichText(
-                  text: TextSpan(
-                    text: 'Tình trạng thu gom:  ',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18,
-                    ),
-                    children: <TextSpan>[
-                      TextSpan(
-                        text: 'Đã được thu gom',
-                        style: TextStyle(
-                          color: ColorsConstants.kMainColor,
-                          fontSize: 18,
-                        ),
-                      ),
-                    ],
+              RichText(
+                text: TextSpan(
+                  text: 'Tình trạng thu gom:  ',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16.sp,
                   ),
+                  children: <TextSpan>[
+                    TextSpan(
+                      text: 'Đã được thu gom',
+                      style: TextStyle(
+                        color: ColorsConstants.kMainColor,
+                        fontSize: 16.sp,
+                      ),
+                    ),
+                  ],
                 ),
               ),
               SizedBox(
+                height: 20.sp,
+              ),
+              Text('Đánh giá từ người dân:  ' + (_requestDetailController.requestDetailModel.rating??5.0).toString(),
+                style: TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16.sp,
+                )
+              ),
+              RatingBarIndicator(
+                rating: _requestDetailController.requestDetailModel.rating??5.0,
+                itemBuilder: (context, index) => Icon(
+                  Icons.star,
+                  color: ColorsConstants.kMainColor,
+                ),
+                itemCount: 5,
+                itemSize: 40.sp,
+                direction: Axis.horizontal,
+              ),
+              SizedBox(
+                height: 20.sp,
+              ),
+              SizedBox(
+                width: ScreenUtil().screenWidth,
                 height: 48.sp,
                 child: ElevatedButton(
                     onPressed: () {
