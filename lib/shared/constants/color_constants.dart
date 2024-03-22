@@ -18,6 +18,7 @@ static const kSecondBackgroundColor = Color(0xD9D9D9D9);
 // Active Color and Unactive Colors when user tap button
 static const kActiveColor = Color(0xFF35795C);
 static const kUnactiveColor = Color(0xFF363535);
+static const kActiveInfoColor = Color(0xFF007bff);
 
 static const kUnselectedIconColor = Color(0xFF8E8E93);
 static const kErorColor = Colors.red;

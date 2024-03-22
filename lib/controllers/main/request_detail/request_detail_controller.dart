@@ -26,12 +26,14 @@ class RequestDetailController extends GetxController {
   @override
   Future<void> onInit() async {
     super.onInit();
-    data.value = await Get.arguments;
-    requestDetailModel = data.value['requestDetail'];
-    print(requestDetailModel.image);
-    requestId = requestDetailModel.requestId;
     name.value = await _getStorage.read('name');
     userId.value = await _getStorage.read('userId');
+    data.value = await Get.arguments;
+    requestDetailModel = data.value['requestDetail'];
+    print(requestDetailModel.status);
+    print(requestDetailModel.senderId);
+    print(requestDetailModel.status == 'finish');
+    requestId = requestDetailModel.requestId;
     loading.value = false;
   }
   //Person
@@ -53,20 +55,29 @@ class RequestDetailController extends GetxController {
   //Collector
   Future<void> confirmRequest(String requestId,String userId)async {
     CustomDialogs.showLoadingDialog();
-    await _requestRepository.confirmRequest(requestId,userId).then((value){
-      allowHidden.value = false;
-      allowConfirm.value = false;
+    try{
+      final checkConfirm = await _requestRepository.checkConfirmRequest(requestId);
+      if(checkConfirm.data['confirm'] == null) {
+        await _requestRepository.confirmRequest(requestId, userId).then((value) {
+          allowHidden.value = false;
+          allowConfirm.value = false;
+          CustomDialogs.hideLoadingDialog();
+          _homeController.listRequestColletor.remove(requestDetailModel);
+          CustomDialogs.showSnackBar(2, "Vui lòng gửi minh chứng thu gom để xác nhận", 'success');
+        }).catchError((onError) {
+          CustomDialogs.hideLoadingDialog();
+          print(onError);
+          CustomDialogs.showSnackBar(2, "Đã có lỗi xảy ra vui lòng thử lại sau!", 'error');
+        });
+      }else{
+        CustomDialogs.hideLoadingDialog();
+        CustomDialogs.showSnackBar(2, "Yêu cầu đã đang được xử lý bởi người khác!", 'error');
+      }
+    }catch(error){
       CustomDialogs.hideLoadingDialog();
-      requestDetailModel.confirm = userId;
-      requestDetailModel.status = 'finish';
-      _homeController.listRequestColletor.remove(requestDetailModel);
-      _homeController.listRequestConfirmColletor.add(requestDetailModel);
-      CustomDialogs.showSnackBar(2, "Xác nhận thu gom thành công", 'success');
-    }).catchError((onError){
-      CustomDialogs.hideLoadingDialog();
-      print(onError);
+      print(error);
       CustomDialogs.showSnackBar(2, "Đã có lỗi xảy ra vui lòng thử lại sau!", 'error');
-    });
+    }
   }
 
   Future<void> hiddenRequest(String requestId,List<String>? oldHiddenList)async {
