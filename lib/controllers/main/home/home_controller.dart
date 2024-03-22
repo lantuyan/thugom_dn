@@ -34,9 +34,8 @@ class HomeController extends GetxController {
   late List<UserRequestTrashModel> listRequestProcessingCollector = [];
 
   late List<CategoryPriceModel> listCategoryPrice = [];
-  
+
   RxBool isLoading = true.obs; // Sử dụng Rx để theo dõi
-  var count = 0.obs;
   StreamSubscription? _sub;
   RxString name = ''.obs;
   RxBool hasNextPage = true.obs;
@@ -86,10 +85,10 @@ class HomeController extends GetxController {
   @override
   void onReady() async {
     await getCategory();
-    await getUserRequestFromAppwrite();
+    // await getUserRequestFromAppwrite();
     await getRequestWithStatusPending();
-    await getRequestWithStatusComfirmming();
     await getRequestHistory();
+    await getRequestWithStatusComfirmming();
 
     await getRequestListColletor();
     await getRequestListProcessingCollector();
@@ -115,9 +114,7 @@ class HomeController extends GetxController {
             .toList();
         // Dữ liệu đã được tải xong, đặt isLoading thành false
         // isLoading.value = false;
-        print(">>>>>> LIST CATE <<<<<<<<< ${categoryList}");
         update(categoryList);
-        print(">>>>>>>> COUNT ${categoryList.length}");
       });
     } catch (e) {
       print(e);
@@ -128,8 +125,6 @@ class HomeController extends GetxController {
     listCategoryPrice.clear();
     listCategoryPrice.addAll(
         listCategories.map((e) => CategoryPriceModel.fromMap(e)).toList());
-    print("LIST PRICE: ${listCategoryPrice}");
-
     return listCategoryPrice;
   }
 
@@ -146,7 +141,6 @@ class HomeController extends GetxController {
             )
             .toList();
         // isLoading.value = false;
-        print(">>>>>> LIST REQUEST  <<<<<<<<< ${userRequestTrashList}");
         update(userRequestTrashList);
       });
     } catch (e) {
@@ -168,11 +162,13 @@ class HomeController extends GetxController {
             .toList();
         // isLoading.value = false;
         update(listRequestUser);
+        print(">>>> TAB YEU CAU USER: ${listRequestUser}");
       });
     } catch (e) {
       print(e);
     }
   }
+
   Future getRequestWithStatusComfirmming() async {
     try {
       await _userRequestTrashRepository
@@ -185,11 +181,11 @@ class HomeController extends GetxController {
               (e) => UserRequestTrashModel.fromMap(e['data']),
             )
             .toList();
-        // isLoading.value = false;
         update(listRequestUser);
+        print(">>>> TAB CONFIRM<: ${listRequestConfirmUser}");
       });
     } catch (e) {
-      print(e);
+      print("LOI TAB NOTIFICATION ${e}");
     }
   }
 
@@ -205,9 +201,10 @@ class HomeController extends GetxController {
             .toList();
         // isLoading.value = false;
         update(listRequestHistory);
+        print(">>>> TAB LICHSU<: ${listRequestHistory}");
       });
     } catch (e) {
-      print(e);
+      print(">>> LOI TAB HISTORY: ${e}");
     }
   }
 
@@ -228,7 +225,7 @@ class HomeController extends GetxController {
                 request.hidden!.every((element) => element != userID))
             .toList());
         print(
-            ">>>>>> LIST REQUEST PENDING 1  <<<<<<<<< ${listRequestColletor}");
+            ">>>>>> LIST REQUEST PENDING LIST COLLECTOR  <<<<<<<<< ${listRequestColletor}");
         update(listRequestColletor);
       });
     } catch (e) {
@@ -258,7 +255,7 @@ class HomeController extends GetxController {
                     request.hidden!.every((element) => element != userID))
                 .toList());
             print(
-                ">>>>>> LIST REQUEST PENDING 2 <<<<<<<<< ${listRequestColletor}");
+                ">>>>>> LIST REQUEST PENDING GET MORE DATA <<<<<<<<< ${listRequestColletor}");
             currentPage++;
           } else {
             hasNextPage.value = false;
@@ -285,13 +282,14 @@ class HomeController extends GetxController {
             .toList();
         isLoading.value = false;
         print(
-            ">>>>>> LIST REQUEST PENDING 3 <<<<<<<<< ${listRequestProcessingCollector}");
+            ">>>>>> LIST REQUEST PENDING PROCESSING COLLECTOR <<<<<<<<< ${listRequestProcessingCollector}");
         update(listRequestProcessingCollector);
       });
     } catch (e) {
       print(e);
     }
   }
+
   Future getRequestListConfirmColletor() async {
     try {
       await _userRequestTrashRepository

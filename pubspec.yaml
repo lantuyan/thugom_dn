@@ -86,6 +86,9 @@ dependencies:
   excel: ^4.0.0
   open_file: ^3.3.2
 
+  # RATING
+  flutter_rating_bar: ^4.0.1
+
 
 dev_dependencies:
   flutter_test:

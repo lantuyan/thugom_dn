@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:thu_gom/controllers/main/request_detail/request_detail_controller.dart';
 import 'package:get/get.dart';
@@ -72,6 +73,7 @@ class PersonUI extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    late double rating = 0;
     return Column(
       children: [
         Center(
@@ -146,129 +148,69 @@ class PersonUI extends StatelessWidget {
           ),
         ),
         SizedBox(
-          height: 30.sp,
+          height: 10.sp,
         ),
         Center(
-          child: Text("RATING", style: AppTextStyles.bodyText1,),
+          child: Text(
+            "Đánh giá dịch vụ",
+            style: AppTextStyles.caption,
+          ),
         ),
-        SizedBox(
-          height: 20.sp,
-        ),
-        Text('Tình trạng thu gom',
-            style: AppTextStyles.bodyText1.copyWith(fontSize: 16.sp)),
         SizedBox(
           height: 10.sp,
         ),
-        if (_requestDetailController.requestDetailModel.confirm != null)
-          Row(
-            children: [
-              Expanded(
-                  child: SizedBox(
-                height: 48.sp,
-                child: ElevatedButton(
-                    onPressed: null,
-                    style: CustomButtonStyle.primaryButton,
-                    child: Text(
-                      'Chờ xử lý',
-                      style: TextStyle(
-                          color: ColorsConstants.kTextMainColor,
-                          fontSize: 16.sp),
-                    )),
-              )),
-              SizedBox(
-                width: 20.sp,
-              ),
-              Expanded(
-                  child: SizedBox(
-                height: 48.sp,
-                child: ElevatedButton(
-                    onPressed: () {},
-                    style: CustomButtonStyle.primaryButton,
-                    child: Text(
-                      'Hoàn thành',
-                      style: TextStyle(
-                          color: ColorsConstants.kBGCardColor, fontSize: 16.sp),
-                    )),
-              )),
-            ],
-          )
-        else if (_requestDetailController.requestDetailModel.status != 'cancel')
-          Column(
-            children: [
-              Row(
-                children: [
-                  Expanded(
-                      child: SizedBox(
-                    height: 48.sp,
-                    child: ElevatedButton(
-                        onPressed: () {},
-                        style: CustomButtonStyle.primaryButton,
-                        child: Text(
-                          'Chờ xử lý',
-                          style:
-                              TextStyle(color: Colors.white, fontSize: 16.sp),
-                        )),
-                  )),
-                  SizedBox(
-                    width: 20.sp,
-                  ),
-                  Expanded(
-                      child: SizedBox(
-                    height: 48.sp,
-                    child: ElevatedButton(
-                        onPressed: null,
-                        style: CustomButtonStyle.primaryButton,
-                        child: Text(
-                          'Hoàn thành',
-                          style: TextStyle(
-                              color: ColorsConstants.kTextMainColor,
-                              fontSize: 16.sp),
-                        )),
-                  )),
-                ],
-              ),
-              SizedBox(
-                height: 20.sp,
-              ),
-              SizedBox(
-                width: ScreenUtil().screenWidth,
-                height: 48.sp,
-                child: ElevatedButton(
-                    onPressed: () {
-                      CustomDialogs.confirmDialog(
-                          'Xác nhận hủy',
-                          Text(
-                            'Bạn chắc chắn muốn hủy yêu cầu thu gom này?',
-                            style: AppTextStyles.bodyText2
-                                .copyWith(fontSize: 12.sp),
-                            textAlign: TextAlign.center,
-                          ), () {
-                        Get.back();
-                        _requestDetailController
-                            .cancelRequest(_requestDetailController.requestId);
-                      });
-                    },
-                    style: CustomButtonStyle.cancelButton,
-                    child: Text(
-                      'Hủy yêu cầu',
-                      style: TextStyle(color: Colors.white, fontSize: 18.sp),
-                    )),
-              )
-            ],
-          )
-        else
-          SizedBox(
-            width: ScreenUtil().screenWidth,
-            height: 48.sp,
-            child: ElevatedButton(
-                onPressed: null,
-                style: CustomButtonStyle.cancelButton,
-                child: Text(
-                  'Đã hủy yêu cầu',
-                  style: TextStyle(
-                      color: ColorsConstants.kTextMainColor, fontSize: 18.sp),
+        Center(
+          child: RatingBar(
+            minRating: 1,
+            maxRating: 5,
+            initialRating: 3,
+            allowHalfRating: true,
+            ratingWidget: RatingWidget(
+                full: Icon(
+                  Icons.star,
+                  color: Colors.amber,
+                ),
+                empty: Icon(
+                  Icons.star,
+                  color: Colors.grey,
+                ),
+                half: Icon(
+                  Icons.star_half,
+                  color: Colors.amber,
                 )),
+            onRatingUpdate: (double value) {
+              rating = value;
+              print(">>>>>>> RATING NUMBER: ${rating}");
+            },
           ),
+        ),
+        SizedBox(
+          height: 30.sp,
+        ),
+        SizedBox(
+          width: ScreenUtil().screenWidth,
+          height: 48.sp,
+          child: ElevatedButton(
+              onPressed: () {
+                CustomDialogs.confirmDialog(
+                    'Gửi đánh giá',
+                    Text(
+                      'Gửi đánh giá này cho chúng tôi?',
+                      style: AppTextStyles.bodyText2.copyWith(fontSize: 12.sp),
+                      textAlign: TextAlign.center,
+                    ), () {
+                  Get.back();
+                  _requestDetailController
+                      .userRating(_requestDetailController.requestId, rating);
+                });
+                print(">>>>>>VALUES: ${rating}");
+              },
+              style: CustomButtonStyle.cancelButton,
+              child: Text(
+                'Gửi đánh giá',
+                style: TextStyle(color: Colors.white, fontSize: 18.sp),
+              )),
+        ),
       ],
     );
   }
