@@ -105,5 +105,20 @@ class RequestDetailController extends GetxController {
       CustomDialogs.showSnackBar(2, "Đã có lỗi xảy ra vui lòng thử lại sau!", 'error');
     });
   }
-
+   Future<void> userRating(String requestId, double rating)async {
+    CustomDialogs.showLoadingDialog();
+    await _requestRepository.userRating(requestId, rating).then((value){
+      CustomDialogs.hideLoadingDialog();
+      Get.offNamed('/mainPage');
+      requestDetailModel.status ='finish';
+      _homeController.listRequestConfirmUser.remove(requestDetailModel);
+      _homeController.listRequestHistory.add(requestDetailModel);
+      print(">>>>>>>> UPDATE MODEL RATING: ${_homeController.listRequestConfirmUser}");
+      CustomDialogs.showSnackBar(2, "Cảm ơn bạn đã đánh giá", 'success');
+    }).catchError((onError){
+      CustomDialogs.hideLoadingDialog();
+      print(onError);
+      CustomDialogs.showSnackBar(2, "Đã có lỗi xảy ra vui lòng thử lại sau!", 'error');
+    });
+  }
 }

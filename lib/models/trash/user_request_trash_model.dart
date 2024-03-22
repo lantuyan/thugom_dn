@@ -52,7 +52,11 @@ class UserRequestTrashModel {
     }
     createAt = map['createAt'];
     updateAt = map['updateAt'];
-    rating = map['rating'];
+    if (map['rating'] != null) {
+      rating = map['rating'].toDouble();
+    } else {
+      rating = map['rating'];
+    }
     finishImage = map['finishImage'];
   }
 

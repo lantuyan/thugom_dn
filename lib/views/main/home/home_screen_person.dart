@@ -203,7 +203,7 @@ class _HomeScreenPersonState extends State<HomeScreenPerson> {
                                       child: Container(
                                         width: 250.w,
                                         child: Text(
-                                          "Yêu cầu",
+                                          "Yêu cầu (${_homeController.listRequestUser.length})",
                                           style: TextStyle(
                                             fontSize: 14.sp,
                                             fontWeight: FontWeight.w600,
@@ -218,7 +218,7 @@ class _HomeScreenPersonState extends State<HomeScreenPerson> {
                                       child: Container(
                                         width: 250.w,
                                         child: Text(
-                                          "Lịch Sử ",
+                                          "Lịch Sử (${_homeController.listRequestHistory.length})",
                                           style: TextStyle(
                                             fontSize: 14.sp,
                                             fontWeight: FontWeight.w600,
@@ -308,17 +308,16 @@ class _HomeScreenPersonState extends State<HomeScreenPerson> {
                         right: 0,
                         top: 0,
                         child: Container(
-                          padding: const EdgeInsets.all(1),
                           decoration: BoxDecoration(
                             color: Colors.red,
-                            borderRadius: BorderRadius.circular(10),
+                            borderRadius: BorderRadius.circular(8.sp),
                           ),
                           constraints: const BoxConstraints(
                             minWidth: 14,
                             minHeight: 14,
                           ),
-                          child: const Text(
-                            '1',
+                          child: Text(
+                           "${_homeController.listRequestConfirmUser.length}",
                             style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 12,

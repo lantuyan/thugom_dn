@@ -8,6 +8,7 @@ import 'package:thu_gom/providers/category_provider.dart';
 import 'package:thu_gom/providers/user_request_trash_provider.dart';
 import 'package:thu_gom/repositories/category_reponsitory.dart';
 import 'package:thu_gom/repositories/user_request_trash_reponsitory.dart';
+import 'package:thu_gom/shared/constants/color_constants.dart';
 import 'package:thu_gom/shared/themes/style/app_text_styles.dart';
 import 'package:thu_gom/widgets/item_requestTrash.dart';
 
@@ -35,7 +36,7 @@ class _NotificationUserState extends State<NotificationUser> {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.only(top:8.sp, left: 20.sp, right: 20.sp),
+          padding: EdgeInsets.only(top: 8.sp, left: 20.sp, right: 20.sp),
           child: Container(
             child: _homeController.listRequestConfirmUser.isEmpty
                 ? Center(
@@ -58,7 +59,6 @@ class _NotificationUserState extends State<NotificationUser> {
                         onTap: () {
                           Get.toNamed('user_detail_confirm',
                               arguments: {'requestDetail': request});
-                          print("GO TO PAGE DETAIL REQUEST");
                         },
                         child: Stack(
                           children: [

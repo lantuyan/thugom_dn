@@ -47,7 +47,7 @@ class UserRequestTrashProvider {
     return response;
   }
 
-  // list confirmming
+  // list confirmming user
   Future<models.DocumentList> getRequestWithStatusComfirmming() async {
     final GetStorage _getStorage = GetStorage();
     final userID = _getStorage.read('userId');
@@ -70,11 +70,19 @@ class UserRequestTrashProvider {
       collectionId: AppWriteConstants.userRequestTrashCollection,
       queries: [
         Query.between('status', 'cancel', 'finish'),
-        // Query.equal('status', 'finish'),
         Query.equal('senderId', userID)
       ],
     );
     return response;
+  }
+
+  Future<void> userRating(String requestId, double? rating) async {
+    await databases?.updateDocument(
+      databaseId: AppWriteConstants.databaseId,
+      collectionId: AppWriteConstants.userRequestTrashCollection,
+      documentId: requestId,
+      data: {'rating': rating, 'status': 'finish'},
+    );
   }
 
   // LIST REQUEST OF COLLECTOR

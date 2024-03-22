@@ -72,7 +72,7 @@ class _HomeScreenCollectorState extends State<HomeScreenCollector> {
                                       child: Container(
                                         width: 250.w,
                                         child: Text(
-                                          "Yêu Cầu",
+                                          "Yêu Cầu (${_homeController.listRequestColletor.length})",
                                           textAlign: TextAlign.center,
                                           style: TextStyle(
                                             fontSize: 14.sp,
@@ -87,7 +87,7 @@ class _HomeScreenCollectorState extends State<HomeScreenCollector> {
                                       child: Container(
                                         width: 250.w,
                                         child: Text(
-                                          "Đã Xử Lý",
+                                          "Đã Xử Lý (${_homeController.listRequestConfirmColletor.length})",
                                           textAlign: TextAlign.center,
                                           style: TextStyle(
                                             fontSize: 14.sp,
