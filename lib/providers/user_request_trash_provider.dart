@@ -42,7 +42,8 @@ class UserRequestTrashProvider {
       collectionId: AppWriteConstants.userRequestTrashCollection,
       queries: [
         Query.between('status', 'pending', 'processing'),
-        Query.equal('senderId', userID)
+        Query.equal('senderId', userID),
+        Query.orderDesc('createAt')
       ],
     );
     return response;
@@ -57,7 +58,8 @@ class UserRequestTrashProvider {
       collectionId: AppWriteConstants.userRequestTrashCollection,
       queries: [
         Query.equal('status', 'confirmming'),
-        Query.equal('senderId', userID)
+        Query.equal('senderId', userID),
+        Query.orderDesc('updateAt')
       ],
     );
     return response;
@@ -71,7 +73,8 @@ class UserRequestTrashProvider {
       collectionId: AppWriteConstants.userRequestTrashCollection,
       queries: [
         Query.between('status', 'cancel', 'finish'),
-        Query.equal('senderId', userID)
+        Query.equal('senderId', userID),
+        Query.orderDesc('createAt')
       ],
     );
     return response;
@@ -96,6 +99,7 @@ class UserRequestTrashProvider {
         Query.equal('status', 'pending'),
         Query.limit(10),
         Query.offset(offset * currentPage),
+        Query.orderDesc('createAt')
       ],
     );
     return response;
@@ -110,6 +114,7 @@ class UserRequestTrashProvider {
       queries: [
         Query.equal('status', 'processing'),
         Query.equal('confirm', userID),
+        Query.orderDesc('updateAt')
       ],
     );
     return response;
@@ -123,7 +128,8 @@ class UserRequestTrashProvider {
       collectionId: AppWriteConstants.userRequestTrashCollection,
       queries: [
         Query.equal('confirm', userID),
-        Query.equal('status', 'finish')
+        Query.equal('status', 'finish'),
+        Query.orderDesc('createAt')
       ],
     );
     return response;
