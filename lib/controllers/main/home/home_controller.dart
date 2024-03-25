@@ -103,7 +103,9 @@ class HomeController extends GetxController {
         countRequestUser.value = await listRequestUser.length;
         await getRequestHistory();
         countHistoryUser.value = await listRequestHistory.length;
-
+         await getRequestWithStatusComfirmming();
+         countNotificateUser.value = await listRequestConfirmUser.length;
+         //fake realtime
         Timer.periodic(Duration(seconds: 10), (timer) async {
           await getRequestWithStatusComfirmming();
           countNotificateUser.value = await listRequestConfirmUser.length;
@@ -116,6 +118,9 @@ class HomeController extends GetxController {
         await getRequestListProcessingCollector();
         countNotificateCollector.value =
             await listRequestProcessingCollector.length;
+        await getRequestListConfirmColletor();
+        countComfirmCollector.value = await listRequestConfirmColletor.length;
+        //fake realtime
         Timer.periodic(Duration(seconds: 10), (timer) async {
           await getRequestListConfirmColletor();
           countComfirmCollector.value = await listRequestConfirmColletor.length;

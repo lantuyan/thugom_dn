@@ -33,6 +33,12 @@ class _NotificationUserState extends State<NotificationUser> {
           style: AppTextStyles.caption,
         ),
         centerTitle: true,
+        leading: IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: () {
+               Get.offAllNamed('/mainPage');
+            },
+          ),
       ),
       body: SingleChildScrollView(
         child: Padding(

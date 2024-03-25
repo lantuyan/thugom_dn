@@ -32,6 +32,12 @@ class _NotificationCollectorState extends State<NotificationCollector> {
           style: AppTextStyles.caption,
         ),
         centerTitle: true,
+        leading: IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: () {
+               Get.offAllNamed('/mainPage');
+            },
+          ),
       ),
       body: SingleChildScrollView(
         child: Padding(

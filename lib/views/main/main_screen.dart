@@ -33,6 +33,9 @@ class _MainScreenState extends State<MainScreen> {
               if (_mainController.currentPage.value != index) {
                 _mainController.goToTab(index);
                 // _mainController.currentPage.value = index;
+                if (index == 0) {
+                  Get.offAllNamed('/mainPage', );
+                }
               }
             },
             items: [
