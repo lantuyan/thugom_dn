@@ -28,10 +28,16 @@ class _NotificationCollectorState extends State<NotificationCollector> {
         child: Scaffold(
       appBar: AppBar(
         title: Text(
-          "Trên đường thu gom",
+          "Hãy xác nhận minh chứng",
           style: AppTextStyles.caption,
         ),
         centerTitle: true,
+        leading: IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: () {
+               Get.offAllNamed('/mainPage');
+            },
+          ),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -56,9 +62,8 @@ class _NotificationCollectorState extends State<NotificationCollector> {
 
                       return GestureDetector(
                         onTap: () {
-                          // Get.toNamed('requestDetailPage',
-                          //     arguments: {'requestDetail': request});
-                          print("GO TO SCREEN CHỤP MINH CHỨNG");
+                          Get.toNamed('collector_detail_process',
+                              arguments: {'requestDetail': request});
                         },
                         child: Stack(
                           children: [

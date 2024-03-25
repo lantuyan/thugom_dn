@@ -6,6 +6,7 @@ import 'package:thu_gom/controllers/main/home/admin/chart/pie_chart_binding.dart
 import 'package:thu_gom/controllers/main/home/home_binding.dart';
 import 'package:thu_gom/controllers/main/infomation/infomation_binding.dart';
 import 'package:thu_gom/controllers/main/main_binding.dart';
+import 'package:thu_gom/controllers/main/process_collector/collector_detail_process_binding.dart';
 import 'package:thu_gom/controllers/main/rate/user_detail_binding.dart';
 import 'package:thu_gom/controllers/main/request_detail/request_detail_binding.dart';
 import 'package:thu_gom/controllers/main/request_person/request_person_binding.dart';
@@ -18,6 +19,7 @@ import 'package:thu_gom/views/auth/register/register_screen.dart';
 import 'package:thu_gom/views/landing/landing_sceen.dart';
 import 'package:thu_gom/views/auth/onboarding/intro/intro_screen.dart';
 import 'package:thu_gom/views/auth/onboarding/profile/profile_screen.dart';
+import 'package:thu_gom/views/main/home/collector_detail_process_screen.dart';
 import 'package:thu_gom/views/main/home/home_screen_person.dart';
 import 'package:thu_gom/views/main/home/home_screen_collecter.dart';
 import 'package:thu_gom/views/main/home/rate/user_detail_confirm.dart';
@@ -90,6 +92,11 @@ class Routes {
       name: '/requestPersonPage',
       page: () => RequestPersonScreen(),
       binding: RequestPersonBinding(),
+    ),
+    GetPage(
+      name: '/collector_detail_process',
+      page: () => CollectorDetailProcessScreen(),
+      binding: CollectorDetailProcessBinding(),
     ),
     GetPage(
       name: '/barChartPage',

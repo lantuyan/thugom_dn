@@ -21,10 +21,12 @@ class UserRequestTrashRepository{
   Future<int> loadRequestByDate(String dateRange) => _userRequestTrashProvider.loadRequestByDate(dateRange);
   Future<models.DocumentList> getRequestWithStatusProcessingCollector() => _userRequestTrashProvider.getRequestWithStatusProcessingCollector();
   Future<models.DocumentList> getRequestListConfirmColletor() => _userRequestTrashProvider.getRequestListConfirmColletor();
+  void getRequestListConfirmColletorRealtime() => _userRequestTrashProvider.getRequestListConfirmColletorRealtime();
 
   Future<void> cancelRequest(String requestId) => _userRequestTrashProvider.cancelRequest(requestId);
   Future<void> hiddenRequest(String requestId, List<String> hidden) => _userRequestTrashProvider.hiddenRequest(requestId,hidden);
   Future<void> confirmRequest(String requestId, String userId) => _userRequestTrashProvider.confirmRequest(requestId,userId);
+  Future<void> sendComfirmPhoto(String requestId, String photoConfirm) => _userRequestTrashProvider.sendComfirmPhoto(requestId, photoConfirm);
   Future<models.Document> checkConfirmRequest(String requestId) => _userRequestTrashProvider.checkConfirmRequest(requestId);
 
   Future<void> sendRequestToAppwrite(UserRequestTrashModel userRequestTrashModel) => _userRequestTrashProvider.sendRequestToAppwrite(userRequestTrashModel);

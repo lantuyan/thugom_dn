@@ -112,7 +112,7 @@ class RequestDetailController extends GetxController {
       Get.offNamed('/mainPage');
       requestDetailModel.status ='finish';
       _homeController.listRequestConfirmUser.remove(requestDetailModel);
-      _homeController.listRequestHistory.add(requestDetailModel);
+      _homeController.listRequestHistory.insert(0,requestDetailModel);
       print(">>>>>>>> UPDATE MODEL RATING: ${_homeController.listRequestConfirmUser}");
       CustomDialogs.showSnackBar(2, "Cảm ơn bạn đã đánh giá", 'success');
     }).catchError((onError){

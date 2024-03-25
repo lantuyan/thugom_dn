@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:get/get_rx/get_rx.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:thu_gom/managers/data_manager.dart';
 import 'package:thu_gom/models/trash/category_model.dart';
 import 'package:thu_gom/models/trash/category_price_model.dart';
 import 'package:thu_gom/models/trash/user_request_trash_model.dart';
@@ -38,10 +39,17 @@ class HomeController extends GetxController {
   RxBool isLoading = true.obs; // Sử dụng Rx để theo dõi
   StreamSubscription? _sub;
   RxString name = ''.obs;
+  RxString role = ''.obs;
   RxBool hasNextPage = true.obs;
   RxBool isLoadMoreRunning = false.obs;
   final int offsetSize = 10;
   int currentPage = 1;
+  RxInt countRequestUser = 0.obs;
+  RxInt countHistoryUser = 0.obs;
+  RxInt countNotificateUser = 0.obs;
+  RxInt countRequestCollector = 0.obs;
+  RxInt countComfirmCollector = 0.obs;
+  RxInt countNotificateCollector = 0.obs;
 
   void _handleIncomingLinks() {
     if (!kIsWeb) {
@@ -79,27 +87,63 @@ class HomeController extends GetxController {
     // TODO: implement onInit
     super.onInit();
     _handleIncomingLinks();
-    name.value = await _getStorage.read('name');
+    name.value = DataManager().getData('name');
+    role.value = DataManager().getData('role');
   }
 
   @override
   void onReady() async {
-    await getCategory();
-    // await getUserRequestFromAppwrite();
-    await getRequestWithStatusPending();
-    await getRequestHistory();
-    await getRequestWithStatusComfirmming();
+    CustomDialogs.hideLoadingDialog();
+    CustomDialogs.showLoadingDialog();
+    try {
+      if (role.value == 'person') {
+        print("Value of person");
+        await getCategory();
+        await getRequestWithStatusPending();
+        countRequestUser.value = await listRequestUser.length;
+        await getRequestHistory();
+        countHistoryUser.value = await listRequestHistory.length;
+         await getRequestWithStatusComfirmming();
+         countNotificateUser.value = await listRequestConfirmUser.length;
+         //fake realtime
+        Timer.periodic(Duration(seconds: 10), (timer) async {
+          await getRequestWithStatusComfirmming();
+          countNotificateUser.value = await listRequestConfirmUser.length;
+        });
+      }
+      if (role.value == 'collector') {
+        print("Value of colelctor");
+        await getRequestListColletor();
+        countRequestCollector.value = await listRequestColletor.length;
+        await getRequestListProcessingCollector();
+        countNotificateCollector.value =
+            await listRequestProcessingCollector.length;
+        await getRequestListConfirmColletor();
+        countComfirmCollector.value = await listRequestConfirmColletor.length;
+        //fake realtime
+        Timer.periodic(Duration(seconds: 10), (timer) async {
+          await getRequestListConfirmColletor();
+          countComfirmCollector.value = await listRequestConfirmColletor.length;
+        });
 
-    await getRequestListColletor();
-    await getRequestListProcessingCollector();
-    await getRequestListConfirmColletor();
-    await getMoreData();
+        // getRequestListConfirmCollectorRealTime();
+        await getMoreData();
+      }
+      await hideLoading();
+    } catch (e) {
+      hideLoading();
+    }
   }
 
   @override
   void onClose() {
     // TODO: implement onClose
     super.onClose();
+  }
+
+  Future hideLoading() async {
+    isLoading.value = false;
+    CustomDialogs.hideLoadingDialog();
   }
 
   Future getCategory() async {
@@ -126,26 +170,6 @@ class HomeController extends GetxController {
     listCategoryPrice.addAll(
         listCategories.map((e) => CategoryPriceModel.fromMap(e)).toList());
     return listCategoryPrice;
-  }
-
-  Future getUserRequestFromAppwrite() async {
-    try {
-      await _userRequestTrashRepository
-          .getRequestOfUserFromAppwrite()
-          .then((value) {
-        Map<String, dynamic> data = value.toMap();
-        List listRequest = data['documents'].toList();
-        userRequestTrashList = listRequest
-            .map(
-              (e) => UserRequestTrashModel.fromMap(e['data']),
-            )
-            .toList();
-        // isLoading.value = false;
-        update(userRequestTrashList);
-      });
-    } catch (e) {
-      print(e);
-    }
   }
 
   Future getRequestWithStatusPending() async {
@@ -224,8 +248,6 @@ class HomeController extends GetxController {
             .where((request) =>
                 request.hidden!.every((element) => element != userID))
             .toList());
-        print(
-            ">>>>>> LIST REQUEST PENDING LIST COLLECTOR  <<<<<<<<< ${listRequestColletor}");
         update(listRequestColletor);
       });
     } catch (e) {
@@ -302,9 +324,17 @@ class HomeController extends GetxController {
               (e) => UserRequestTrashModel.fromMap(e['data']),
             )
             .toList();
-        isLoading.value = false;
+        // isLoading.value = false;
         update(listRequestConfirmColletor);
       });
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  getRequestListConfirmCollectorRealTime() {
+    try {
+      _userRequestTrashRepository.getRequestListConfirmColletorRealtime();
     } catch (e) {
       print(e);
     }

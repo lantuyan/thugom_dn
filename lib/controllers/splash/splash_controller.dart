@@ -28,8 +28,23 @@ class SplashController extends GetxController with GetSingleTickerProviderStateM
       });
     } else {
       Future.delayed(const Duration(seconds: 1), () {
-        Get.offAllNamed('/landingPage');
+        // Get.offAllNamed('/landingPage');
+        logOut();
       });
+    }
+  }
+
+  Future<void> logOut() async {
+    try {
+        getStore.remove('userId');
+        getStore.remove('sessionId');
+        getStore.remove('name');
+        getStore.remove('role');
+        getStore.remove('zalonumber');
+        getStore.remove('address');
+        Get.offAllNamed('/landingPage');
+    } catch (error) {
+
     }
   }
 

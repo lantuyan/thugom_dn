@@ -32,7 +32,7 @@ class UserDetailConfirmScreen extends StatelessWidget {
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
-            Get.back();
+            Get.offAllNamed('/mainPage');
           },
         ),
       ),
@@ -198,10 +198,10 @@ class PersonUI extends StatelessWidget {
                       'Gửi đánh giá này cho chúng tôi?',
                       style: AppTextStyles.bodyText2.copyWith(fontSize: 12.sp),
                       textAlign: TextAlign.center,
-                    ), () {
-                  Get.back();
-                  _requestDetailController
+                    ), () async {
+                  await _requestDetailController
                       .userRating(_requestDetailController.requestId, rating);
+                  await Get.offAllNamed('/mainPage');
                 });
                 print(">>>>>>VALUES: ${rating}");
               },

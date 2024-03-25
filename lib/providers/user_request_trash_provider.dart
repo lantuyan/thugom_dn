@@ -17,6 +17,7 @@ class UserRequestTrashProvider {
   late Account account;
   late Storage storage;
   late Databases databases;
+  late Realtime realtime = Realtime(Appwrite.instance.client);
 
   UserRequestTrashProvider() {
     account = Account(Appwrite.instance.client);
@@ -41,7 +42,8 @@ class UserRequestTrashProvider {
       collectionId: AppWriteConstants.userRequestTrashCollection,
       queries: [
         Query.between('status', 'pending', 'processing'),
-        Query.equal('senderId', userID)
+        Query.equal('senderId', userID),
+        Query.orderDesc('createAt')
       ],
     );
     return response;
@@ -56,7 +58,8 @@ class UserRequestTrashProvider {
       collectionId: AppWriteConstants.userRequestTrashCollection,
       queries: [
         Query.equal('status', 'confirmming'),
-        Query.equal('senderId', userID)
+        Query.equal('senderId', userID),
+        Query.orderDesc('updateAt')
       ],
     );
     return response;
@@ -70,7 +73,8 @@ class UserRequestTrashProvider {
       collectionId: AppWriteConstants.userRequestTrashCollection,
       queries: [
         Query.between('status', 'cancel', 'finish'),
-        Query.equal('senderId', userID)
+        Query.equal('senderId', userID),
+        Query.orderDesc('createAt')
       ],
     );
     return response;
@@ -95,17 +99,22 @@ class UserRequestTrashProvider {
         Query.equal('status', 'pending'),
         Query.limit(10),
         Query.offset(offset * currentPage),
+        Query.orderDesc('createAt')
       ],
     );
     return response;
   }
 
-    Future<models.DocumentList> getRequestWithStatusProcessingCollector() async {
+  Future<models.DocumentList> getRequestWithStatusProcessingCollector() async {
+    final GetStorage _getStorage = GetStorage();
+    final userID = _getStorage.read('userId');
     final response = await databases!.listDocuments(
       databaseId: AppWriteConstants.databaseId,
       collectionId: AppWriteConstants.userRequestTrashCollection,
       queries: [
         Query.equal('status', 'processing'),
+        Query.equal('confirm', userID),
+        Query.orderDesc('updateAt')
       ],
     );
     return response;
@@ -117,9 +126,45 @@ class UserRequestTrashProvider {
     final response = await databases!.listDocuments(
       databaseId: AppWriteConstants.databaseId,
       collectionId: AppWriteConstants.userRequestTrashCollection,
-      queries: [Query.equal('confirm', userID)],
+      queries: [
+        Query.equal('confirm', userID),
+        Query.equal('status', 'finish'),
+        Query.orderDesc('createAt')
+      ],
     );
     return response;
+  }
+
+  void getRequestListConfirmColletorRealtime() {
+    // final GetStorage _getStorage = GetStorage();
+    // final userID = _getStorage.read('userId');
+    final subscription = realtime.subscribe(
+      [
+        'collections.${AppWriteConstants.userRequestTrashCollection}'
+      ]);
+    
+    subscription.stream.listen((response) {
+      print('event: $response');
+    });
+
+    // final response = await databases!.listDocuments(
+    //   databaseId: AppWriteConstants.databaseId,
+    //   collectionId: AppWriteConstants.userRequestTrashCollection,
+    //   queries: [
+    //     Query.equal('confirm', userID),
+    //     Query.equal('status', 'finish')
+    //   ],
+    // );
+    // return response;
+  }
+
+  Future<void> sendComfirmPhoto(String requestId, String? photoConfirm) async {
+    await databases?.updateDocument(
+      databaseId: AppWriteConstants.databaseId,
+      collectionId: AppWriteConstants.userRequestTrashCollection,
+      documentId: requestId,
+      data: {'finishImage': photoConfirm, 'status': 'confirmming'},
+    );
   }
 
   Future<void> cancelRequest(String requestId) async {
@@ -149,6 +194,7 @@ class UserRequestTrashProvider {
       data: {'confirm': userId, 'status': 'processing'},
     );
   }
+
   Future<models.Document> checkConfirmRequest(String requestId) async {
     final result = await databases.getDocument(
       databaseId: AppWriteConstants.databaseId,
@@ -157,6 +203,7 @@ class UserRequestTrashProvider {
     );
     return result;
   }
+
   Future sendRequestToAppwrite(
       UserRequestTrashModel userRequestTrashModel) async {
     try {

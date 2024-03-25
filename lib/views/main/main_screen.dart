@@ -30,8 +30,13 @@ class _MainScreenState extends State<MainScreen> {
             selectedItemColor: ColorsConstants.kActiveColor,
             currentIndex: _mainController.currentPage.value,
             onTap: (index) {
-              _mainController.goToTab(index);
-              _mainController.currentPage.value = index;
+              if (_mainController.currentPage.value != index) {
+                _mainController.goToTab(index);
+                _mainController.currentPage.value = index;
+                if (index == 0 && _mainController.currentRole != "admin") {
+                  Get.offAllNamed('/mainPage', );
+                }
+              }
             },
             items: [
               BottomNavigationBarItem(
