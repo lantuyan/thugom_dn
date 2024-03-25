@@ -42,6 +42,12 @@ class HomeController extends GetxController {
   RxBool isLoadMoreRunning = false.obs;
   final int offsetSize = 10;
   int currentPage = 1;
+  RxInt countRequestUser = 0.obs;
+  RxInt countHistoryUser = 0.obs;
+  RxInt countNotificateUser = 0.obs;
+  RxInt countRequestCollector = 0.obs;
+  RxInt countComfirmCollector = 0.obs;
+  RxInt countNotificateCollector = 0.obs;
 
   void _handleIncomingLinks() {
     if (!kIsWeb) {
@@ -85,14 +91,19 @@ class HomeController extends GetxController {
   @override
   void onReady() async {
     await getCategory();
-    // await getUserRequestFromAppwrite();
     await getRequestWithStatusPending();
+    countRequestUser.value = await listRequestUser.length;
     await getRequestHistory();
+    countHistoryUser.value = await listRequestHistory.length;
     await getRequestWithStatusComfirmming();
+    countNotificateUser.value = await listRequestConfirmUser.length;
 
     await getRequestListColletor();
+    countRequestCollector.value = await listRequestColletor.length;
     await getRequestListProcessingCollector();
+    countNotificateCollector.value = await listRequestProcessingCollector.length;
     await getRequestListConfirmColletor();
+    countComfirmCollector.value = await listRequestConfirmColletor.length;
     await getMoreData();
   }
 
@@ -126,26 +137,6 @@ class HomeController extends GetxController {
     listCategoryPrice.addAll(
         listCategories.map((e) => CategoryPriceModel.fromMap(e)).toList());
     return listCategoryPrice;
-  }
-
-  Future getUserRequestFromAppwrite() async {
-    try {
-      await _userRequestTrashRepository
-          .getRequestOfUserFromAppwrite()
-          .then((value) {
-        Map<String, dynamic> data = value.toMap();
-        List listRequest = data['documents'].toList();
-        userRequestTrashList = listRequest
-            .map(
-              (e) => UserRequestTrashModel.fromMap(e['data']),
-            )
-            .toList();
-        // isLoading.value = false;
-        update(userRequestTrashList);
-      });
-    } catch (e) {
-      print(e);
-    }
   }
 
   Future getRequestWithStatusPending() async {
@@ -224,8 +215,6 @@ class HomeController extends GetxController {
             .where((request) =>
                 request.hidden!.every((element) => element != userID))
             .toList());
-        print(
-            ">>>>>> LIST REQUEST PENDING LIST COLLECTOR  <<<<<<<<< ${listRequestColletor}");
         update(listRequestColletor);
       });
     } catch (e) {

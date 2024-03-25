@@ -100,12 +100,15 @@ class UserRequestTrashProvider {
     return response;
   }
 
-    Future<models.DocumentList> getRequestWithStatusProcessingCollector() async {
+  Future<models.DocumentList> getRequestWithStatusProcessingCollector() async {
+    final GetStorage _getStorage = GetStorage();
+    final userID = _getStorage.read('userId');
     final response = await databases!.listDocuments(
       databaseId: AppWriteConstants.databaseId,
       collectionId: AppWriteConstants.userRequestTrashCollection,
       queries: [
         Query.equal('status', 'processing'),
+        Query.equal('confirm', userID),
       ],
     );
     return response;
@@ -117,9 +120,21 @@ class UserRequestTrashProvider {
     final response = await databases!.listDocuments(
       databaseId: AppWriteConstants.databaseId,
       collectionId: AppWriteConstants.userRequestTrashCollection,
-      queries: [Query.equal('confirm', userID)],
+      queries: [
+        Query.equal('confirm', userID),
+        Query.equal('status', 'finish')
+      ],
     );
     return response;
+  }
+
+  Future<void> sendComfirmPhoto(String requestId, String? photoConfirm) async {
+    await databases?.updateDocument(
+      databaseId: AppWriteConstants.databaseId,
+      collectionId: AppWriteConstants.userRequestTrashCollection,
+      documentId: requestId,
+      data: {'finishImage': photoConfirm, 'status': 'confirmming'},
+    );
   }
 
   Future<void> cancelRequest(String requestId) async {
@@ -149,6 +164,7 @@ class UserRequestTrashProvider {
       data: {'confirm': userId, 'status': 'processing'},
     );
   }
+
   Future<models.Document> checkConfirmRequest(String requestId) async {
     final result = await databases.getDocument(
       databaseId: AppWriteConstants.databaseId,
@@ -157,6 +173,7 @@ class UserRequestTrashProvider {
     );
     return result;
   }
+
   Future sendRequestToAppwrite(
       UserRequestTrashModel userRequestTrashModel) async {
     try {

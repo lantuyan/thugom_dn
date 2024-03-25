@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
@@ -54,53 +56,56 @@ class _HomeScreenCollectorState extends State<HomeScreenCollector> {
                           child: Column(
                             children: [
                               Container(
-                                height: 50.h,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: ColorsConstants.kBGCardColor,
-                                ),
-                                child: TabBar(
-                                  indicatorSize: TabBarIndicatorSize.tab,
-                                  indicator: BoxDecoration(
-                                    color: ColorsConstants.kActiveColor,
+                                  height: 50.h,
+                                  decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10),
+                                    color: ColorsConstants.kBGCardColor,
                                   ),
-                                  labelColor: ColorsConstants.kBGCardColor,
-                                  dividerColor: ColorsConstants.kActiveColor,
-                                  tabs: [
-                                    Tab(
-                                      child: Container(
-                                        width: 250.w,
-                                        child: Text(
-                                          "Yêu Cầu (${_homeController.listRequestColletor.length})",
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                            fontSize: 14.sp,
-                                            fontWeight: FontWeight.w600,
-                                            fontFamily:
-                                                AppTextStyles.fontFamily,
+                                  child: Obx(() {
+                                    return TabBar(
+                                      indicatorSize: TabBarIndicatorSize.tab,
+                                      indicator: BoxDecoration(
+                                        color: ColorsConstants.kActiveColor,
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                      labelColor: ColorsConstants.kBGCardColor,
+                                      dividerColor:
+                                          ColorsConstants.kActiveColor,
+                                      tabs: [
+                                        Tab(
+                                          child: Container(
+                                            width: 250.w,
+                                            child: Text(
+                                              "Yêu Cầu (${_homeController.countRequestCollector.value})",
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                fontSize: 14.sp,
+                                                fontWeight: FontWeight.w600,
+                                                fontFamily:
+                                                    AppTextStyles.fontFamily,
+                                              ),
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                    ),
-                                    Tab(
-                                      child: Container(
-                                        width: 250.w,
-                                        child: Text(
-                                          "Đã Xử Lý (${_homeController.listRequestConfirmColletor.length})",
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                            fontSize: 14.sp,
-                                            fontWeight: FontWeight.w600,
-                                            fontFamily:
-                                                AppTextStyles.fontFamily,
+                                        Tab(
+                                          child: Container(
+                                            width: 250.w,
+                                            child: Text(
+                                              "Đã Xử Lý (${_homeController.countComfirmCollector.value})",
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                fontSize: 14.sp,
+                                                fontWeight: FontWeight.w600,
+                                                fontFamily:
+                                                    AppTextStyles.fontFamily,
+                                              ),
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
+                                      ],
+                                    );
+                                  }
+                                      )),
                               Expanded(
                                 child: TabBarView(children: [
                                   listRequest(userController: _homeController),
@@ -132,9 +137,7 @@ class _HomeScreenCollectorState extends State<HomeScreenCollector> {
             width: 20.w,
           ),
           GestureDetector(
-            onTap: () {
-               // _homeController.logOut(); // LOGOUT
-            },
+            onTap: () {},
             child: Image.asset(
               'assets/images/user-avatar.png',
               height: 40.h,
@@ -149,31 +152,35 @@ class _HomeScreenCollectorState extends State<HomeScreenCollector> {
               child: Text(
                 "Xin chào, ${_homeController.name.value}",
                 style: AppTextStyles.headline1,
-                overflow: TextOverflow.ellipsis, // Truncate văn bản nếu vượt quá khung
+                overflow: TextOverflow
+                    .ellipsis, // Truncate văn bản nếu vượt quá khung
                 maxLines: 1, // Giới hạn số dòng hiển thị
               ),
             );
           }),
           Column(
             children: [
-              Row(
-                children: [
-                  Stack(
+              GestureDetector(
+                onTap: () {
+                  Get.toNamed('processing_collector');
+                },
+                child: Padding(
+                  padding: EdgeInsets.only(right: 10.w),
+                  child: Stack(
                     children: <Widget>[
-                      GestureDetector(
-                        onTap: (){
-                          Get.toNamed('processing_collector');
-                        },
-                        child: const Icon(
+                      Padding(
+                        padding: EdgeInsets.all(10.0.sp),
+                        child: Icon(
                           AppIcons.ic_alert,
                           size: 28,
                         ),
                       ),
                       Positioned(
-                        right: 0,
-                        top: 0,
+                        right: 5.sp,
+                        top: 5.sp,
                         child: Container(
-                          padding: const EdgeInsets.all(1),
+                          padding: EdgeInsets.symmetric(
+                              vertical: 1.sp, horizontal: 6.sp),
                           decoration: BoxDecoration(
                             color: Colors.red,
                             borderRadius: BorderRadius.circular(10),
@@ -182,22 +189,21 @@ class _HomeScreenCollectorState extends State<HomeScreenCollector> {
                             minWidth: 14,
                             minHeight: 14,
                           ),
-                          child: const Text(
-                            '1',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 12,
-                                fontWeight: FontWeight.w700),
-                            textAlign: TextAlign.center,
-                          ),
+                          child: Obx(() {
+                            return Text(
+                              '${_homeController.countNotificateCollector.value}',
+                              style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w700),
+                              textAlign: TextAlign.center,
+                            );
+                          }),
                         ),
                       ),
                     ],
                   ),
-                  SizedBox(
-                    width: 20.sp,
-                  )
-                ],
+                ),
               ),
             ],
           ),
@@ -206,7 +212,3 @@ class _HomeScreenCollectorState extends State<HomeScreenCollector> {
     );
   }
 }
-
-
-
-

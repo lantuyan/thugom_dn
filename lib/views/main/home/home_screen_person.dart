@@ -190,47 +190,49 @@ class _HomeScreenPersonState extends State<HomeScreenPerson> {
                                   borderRadius: BorderRadius.circular(10),
                                   color: ColorsConstants.kBGCardColor,
                                 ),
-                                child: TabBar(
-                                  indicatorSize: TabBarIndicatorSize.tab,
-                                  indicator: BoxDecoration(
-                                    color: ColorsConstants.kActiveColor,
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  labelColor: ColorsConstants.kBGCardColor,
-                                  dividerColor: ColorsConstants.kActiveColor,
-                                  tabs: [
-                                    Tab(
-                                      child: Container(
-                                        width: 250.w,
-                                        child: Text(
-                                          "Yêu cầu (${_homeController.listRequestUser.length})",
-                                          style: TextStyle(
-                                            fontSize: 14.sp,
-                                            fontWeight: FontWeight.w600,
-                                            fontFamily:
-                                                AppTextStyles.fontFamily,
+                                child: Obx(() {
+                                  return TabBar(
+                                    indicatorSize: TabBarIndicatorSize.tab,
+                                    indicator: BoxDecoration(
+                                      color: ColorsConstants.kActiveColor,
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    labelColor: ColorsConstants.kBGCardColor,
+                                    dividerColor: ColorsConstants.kActiveColor,
+                                    tabs: [
+                                      Tab(
+                                        child: Container(
+                                          width: 250.w,
+                                          child: Text(
+                                            "Yêu cầu (${_homeController.countRequestUser.value})",
+                                            style: TextStyle(
+                                              fontSize: 14.sp,
+                                              fontWeight: FontWeight.w600,
+                                              fontFamily:
+                                                  AppTextStyles.fontFamily,
+                                            ),
+                                            textAlign: TextAlign.center,
                                           ),
-                                          textAlign: TextAlign.center,
                                         ),
                                       ),
-                                    ),
-                                    Tab(
-                                      child: Container(
-                                        width: 250.w,
-                                        child: Text(
-                                          "Lịch Sử (${_homeController.listRequestHistory.length})",
-                                          style: TextStyle(
-                                            fontSize: 14.sp,
-                                            fontWeight: FontWeight.w600,
-                                            fontFamily:
-                                                AppTextStyles.fontFamily,
+                                      Tab(
+                                        child: Container(
+                                          width: 250.w,
+                                          child: Text(
+                                            "Lịch Sử (${_homeController.countHistoryUser.value})",
+                                            style: TextStyle(
+                                              fontSize: 14.sp,
+                                              fontWeight: FontWeight.w600,
+                                              fontFamily:
+                                                  AppTextStyles.fontFamily,
+                                            ),
+                                            textAlign: TextAlign.center,
                                           ),
-                                          textAlign: TextAlign.center,
                                         ),
                                       ),
-                                    ),
-                                  ],
-                                ),
+                                    ],
+                                  );
+                                }),
                               ),
                               Expanded(
                                 child: TabBarView(children: [
@@ -296,7 +298,7 @@ class _HomeScreenPersonState extends State<HomeScreenPerson> {
                   Stack(
                     children: <Widget>[
                       GestureDetector(
-                        onTap: (){
+                        onTap: () {
                           Get.toNamed('confirmm_user');
                         },
                         child: const Icon(
@@ -316,14 +318,16 @@ class _HomeScreenPersonState extends State<HomeScreenPerson> {
                             minWidth: 14,
                             minHeight: 14,
                           ),
-                          child: Text(
-                           "${_homeController.listRequestConfirmUser.length}",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 12,
-                                fontWeight: FontWeight.w700),
-                            textAlign: TextAlign.center,
-                          ),
+                          child: Obx(() {
+                            return Text(
+                              "${_homeController.countNotificateUser.value}",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w700),
+                              textAlign: TextAlign.center,
+                            );
+                          }),
                         ),
                       ),
                     ],
