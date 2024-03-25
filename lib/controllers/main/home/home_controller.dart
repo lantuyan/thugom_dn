@@ -93,6 +93,7 @@ class HomeController extends GetxController {
 
   @override
   void onReady() async {
+    CustomDialogs.hideLoadingDialog();
     CustomDialogs.showLoadingDialog();
     try {
       if (role.value == 'person') {
@@ -102,8 +103,11 @@ class HomeController extends GetxController {
         countRequestUser.value = await listRequestUser.length;
         await getRequestHistory();
         countHistoryUser.value = await listRequestHistory.length;
-        await getRequestWithStatusComfirmming();
-        countNotificateUser.value = await listRequestConfirmUser.length;
+
+        Timer.periodic(Duration(seconds: 10), (timer) async {
+          await getRequestWithStatusComfirmming();
+          countNotificateUser.value = await listRequestConfirmUser.length;
+        });
       }
       if (role.value == 'collector') {
         print("Value of colelctor");
@@ -112,8 +116,12 @@ class HomeController extends GetxController {
         await getRequestListProcessingCollector();
         countNotificateCollector.value =
             await listRequestProcessingCollector.length;
-        await getRequestListConfirmColletor();
-        countComfirmCollector.value = await listRequestConfirmColletor.length;
+        Timer.periodic(Duration(seconds: 10), (timer) async {
+          await getRequestListConfirmColletor();
+          countComfirmCollector.value = await listRequestConfirmColletor.length;
+        });
+
+        // getRequestListConfirmCollectorRealTime();
         await getMoreData();
       }
       await hideLoading();
@@ -314,6 +322,14 @@ class HomeController extends GetxController {
         // isLoading.value = false;
         update(listRequestConfirmColletor);
       });
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  getRequestListConfirmCollectorRealTime() {
+    try {
+      _userRequestTrashRepository.getRequestListConfirmColletorRealtime();
     } catch (e) {
       print(e);
     }

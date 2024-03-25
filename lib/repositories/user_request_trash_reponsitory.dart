@@ -21,6 +21,7 @@ class UserRequestTrashRepository{
   Future<int> loadRequestByDate(String dateRange) => _userRequestTrashProvider.loadRequestByDate(dateRange);
   Future<models.DocumentList> getRequestWithStatusProcessingCollector() => _userRequestTrashProvider.getRequestWithStatusProcessingCollector();
   Future<models.DocumentList> getRequestListConfirmColletor() => _userRequestTrashProvider.getRequestListConfirmColletor();
+  void getRequestListConfirmColletorRealtime() => _userRequestTrashProvider.getRequestListConfirmColletorRealtime();
 
   Future<void> cancelRequest(String requestId) => _userRequestTrashProvider.cancelRequest(requestId);
   Future<void> hiddenRequest(String requestId, List<String> hidden) => _userRequestTrashProvider.hiddenRequest(requestId,hidden);

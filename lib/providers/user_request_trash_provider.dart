@@ -17,6 +17,7 @@ class UserRequestTrashProvider {
   late Account account;
   late Storage storage;
   late Databases databases;
+  late Realtime realtime = Realtime(Appwrite.instance.client);
 
   UserRequestTrashProvider() {
     account = Account(Appwrite.instance.client);
@@ -126,6 +127,29 @@ class UserRequestTrashProvider {
       ],
     );
     return response;
+  }
+
+  void getRequestListConfirmColletorRealtime() {
+    // final GetStorage _getStorage = GetStorage();
+    // final userID = _getStorage.read('userId');
+    final subscription = realtime.subscribe(
+      [
+        'collections.${AppWriteConstants.userRequestTrashCollection}'
+      ]);
+    
+    subscription.stream.listen((response) {
+      print('event: $response');
+    });
+
+    // final response = await databases!.listDocuments(
+    //   databaseId: AppWriteConstants.databaseId,
+    //   collectionId: AppWriteConstants.userRequestTrashCollection,
+    //   queries: [
+    //     Query.equal('confirm', userID),
+    //     Query.equal('status', 'finish')
+    //   ],
+    // );
+    // return response;
   }
 
   Future<void> sendComfirmPhoto(String requestId, String? photoConfirm) async {
