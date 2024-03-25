@@ -26,6 +26,7 @@ class App extends StatelessWidget {
       builder: (_, child) {
         return SafeArea(
           child: GetMaterialApp(
+            defaultTransition: Transition.rightToLeft,
             useInheritedMediaQuery: true,
             debugShowCheckedModeBanner: false,
             title: 'Thu Gom',

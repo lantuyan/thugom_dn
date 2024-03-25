@@ -264,10 +264,10 @@ class _CollectorDetailProcessScreenState
                                   style: AppTextStyles.bodyText2
                                       .copyWith(fontSize: 12.sp),
                                   textAlign: TextAlign.center,
-                                ), () {
-                              Get.back();
-                              _collectorDetailProcessController.sendComfirmPhoto(
+                                ), () async {
+                              await _collectorDetailProcessController.sendComfirmPhoto(
                                   _collectorDetailProcessController.requestId);
+                              await Get.offAllNamed('/mainPage');
                             });
                           },
                           child: Text(
