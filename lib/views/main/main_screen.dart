@@ -32,8 +32,8 @@ class _MainScreenState extends State<MainScreen> {
             onTap: (index) {
               if (_mainController.currentPage.value != index) {
                 _mainController.goToTab(index);
-                // _mainController.currentPage.value = index;
-                if (index == 0) {
+                _mainController.currentPage.value = index;
+                if (index == 0 && _mainController.currentRole != "admin") {
                   Get.offAllNamed('/mainPage', );
                 }
               }
