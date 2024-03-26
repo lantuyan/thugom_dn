@@ -74,7 +74,7 @@ class UserRequestTrashProvider {
       queries: [
         Query.between('status', 'cancel', 'finish'),
         Query.equal('senderId', userID),
-        Query.orderDesc('createAt')
+        Query.orderDesc('updateAt')
       ],
     );
     return response;
@@ -129,7 +129,7 @@ class UserRequestTrashProvider {
       queries: [
         Query.equal('confirm', userID),
         Query.equal('status', 'finish'),
-        Query.orderDesc('createAt')
+        Query.orderDesc('updateAt')
       ],
     );
     return response;
