@@ -100,7 +100,7 @@ class CollectorDetailProcessController extends GetxController {
         .then((value) {
       CustomDialogs.hideLoadingDialog();
       Get.offNamed('/mainPage');
-      requestDetailModel.status = 'confirmming';
+      requestDetailModel.status = 'confirming';
       _homeController.listRequestProcessingCollector.remove(requestDetailModel);
       _homeController.listRequestConfirmUser.insert(0,requestDetailModel);
       print(

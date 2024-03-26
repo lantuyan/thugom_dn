@@ -49,7 +49,7 @@ class UserRequestTrashProvider {
     return response;
   }
 
-  // list confirmming user
+  // list confirming user
   Future<models.DocumentList> getRequestWithStatusComfirmming() async {
     final GetStorage _getStorage = GetStorage();
     final userID = _getStorage.read('userId');
@@ -57,7 +57,7 @@ class UserRequestTrashProvider {
       databaseId: AppWriteConstants.databaseId,
       collectionId: AppWriteConstants.userRequestTrashCollection,
       queries: [
-        Query.equal('status', 'confirmming'),
+        Query.equal('status', 'confirming'),
         Query.equal('senderId', userID),
         Query.orderDesc('updateAt')
       ],
@@ -74,7 +74,7 @@ class UserRequestTrashProvider {
       queries: [
         Query.between('status', 'cancel', 'finish'),
         Query.equal('senderId', userID),
-        Query.orderDesc('createAt')
+        Query.orderDesc('updateAt')
       ],
     );
     return response;
@@ -129,7 +129,7 @@ class UserRequestTrashProvider {
       queries: [
         Query.equal('confirm', userID),
         Query.equal('status', 'finish'),
-        Query.orderDesc('createAt')
+        Query.orderDesc('updateAt')
       ],
     );
     return response;
@@ -163,7 +163,7 @@ class UserRequestTrashProvider {
       databaseId: AppWriteConstants.databaseId,
       collectionId: AppWriteConstants.userRequestTrashCollection,
       documentId: requestId,
-      data: {'finishImage': photoConfirm, 'status': 'confirmming'},
+      data: {'finishImage': photoConfirm, 'status': 'confirming'},
     );
   }
 
