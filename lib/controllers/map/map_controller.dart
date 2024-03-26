@@ -194,27 +194,28 @@ class MapController extends GetxController {
       static_user_not.clear();
       for (var documents in documentlistUser.documents) {
         Map<String, dynamic> data = documents.data as Map<String, dynamic>;
-        double? pointLat = data['point_lat'] as double?;
-        double? pointLng = data['point_lng'] as double?;
-        String address = data['address'];
-        String senderId = data['senderId'];
-        String trash_type = data['trash_type'];
-        String image = data['image'];
-        String? description = data['description'] as String?;
-        String phone_number = data['phone_number'];
-        String status = data['status'];
-        String date = data['createAt'];
-        String updateAt = data['updateAt'];
-
-        UserRequestTrashModel request = UserRequestTrashModel(senderId: senderId,
-            address: address, trash_type: trash_type, image: image, description: description!,
-            phone_number: phone_number, point_lat: pointLat!, point_lng: pointLng!, status: status, createAt: date, updateAt: updateAt, requestId: '');
-
-        DateTime documentDateTime = DateTime.parse(date);
+        // double pointLat = data['point_lat'] as double;
+        // double pointLng = data['point_lng'] as double;
+        // String address = data['address'];
+        // String senderId = data['senderId'];
+        // String trash_type = data['trash_type'];
+        // String image = data['image'];
+        // String description = data['description'] as String;
+        // String phone_number = data['phone_number'];
+        // String status = data['status'];
+        // String date = data['createAt'];
+        // String updateAt = data['updateAt'];
+        // String? finishImage = data['finishImage'] as String?;
+        // double? rating = data['rating'] as double?;
+        // UserRequestTrashModel request = UserRequestTrashModel(senderId: senderId,
+        //     address: address, trash_type: trash_type, image: image, description: description,
+        //     phone_number: phone_number, point_lat: pointLat, point_lng: pointLng, status: status, createAt: date, updateAt: updateAt, requestId: '', finishImage: finishImage!, rating: rating!);
+          UserRequestTrashModel request = UserRequestTrashModel.fromMap(data);
+        DateTime documentDateTime = DateTime.parse(request.createAt);
         if (documentDateTime.isAfter(startTime) && documentDateTime.isBefore(endTime)) {
-          if (status == 'pending') {
+          if (request.status == 'pending' || request.status == 'processing') {
             Marker marker = Marker(
-              point: LatLng(pointLat!, pointLng!),
+              point: LatLng(request.point_lat, request.point_lng),
               child: GestureDetector(
                 onTap: () {
                   requestDetail(request);
@@ -229,9 +230,9 @@ class MapController extends GetxController {
             static_user_not.add(marker);
           }
           // Thêm marker vào danh sách tương ứng
-          else if(status == 'finish') {
+          else if(request.status == 'finish' || request.status == 'confirming') {
             Marker marker = Marker(
-              point: LatLng(pointLat!, pointLng!),
+              point: LatLng(request.point_lat, request.point_lng),
               child: GestureDetector(
                 onTap: () {
                   requestDetail(request);

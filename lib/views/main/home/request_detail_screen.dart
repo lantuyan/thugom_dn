@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -30,9 +31,7 @@ class RequestDetailScreen extends StatelessWidget {
         // shadowColor: ColorsConstants.kShadowColor,
         title: Obx(() => Text(
               _requestDetailController.name.value,
-              style: AppTextStyles.bodyText1.copyWith(
-                  fontSize: 16.sp
-              ),
+              style: AppTextStyles.bodyText1.copyWith(fontSize: 16.sp),
             )),
         centerTitle: true, // Đảm bảo title được căn giữa
         leading: IconButton(
@@ -50,24 +49,26 @@ class RequestDetailScreen extends StatelessWidget {
               padding: EdgeInsets.fromLTRB(24.sp, 24.sp, 24.sp, 30.sp),
               decoration: BoxDecoration(
                   color: ColorsConstants.ksecondBackgroundColor,
-                borderRadius: BorderRadius.circular(20)
-              ),
-
-              child: Obx((){
-                if(_requestDetailController.loading.value){
+                  borderRadius: BorderRadius.circular(20)),
+              child: Obx(() {
+                if (_requestDetailController.loading.value) {
                   return CircularProgressIndicator(
                     color: ColorsConstants.kMainColor,
                   );
-                }else{
-                  if(DataManager().getData('role') =='admin'){
+                } else {
+                  if (DataManager().getData('role') == 'admin') {
                     //Admin
-                    return AdminUI(requestDetailController: _requestDetailController);
-                  }else if(_requestDetailController.userId.value != _requestDetailController.requestDetailModel.senderId){
+                    return AdminUI(
+                        requestDetailController: _requestDetailController);
+                  } else if (_requestDetailController.userId.value !=
+                      _requestDetailController.requestDetailModel.senderId) {
                     //Collector
-                    return CollectorUI(requestDetailController: _requestDetailController);
-                  }else{
+                    return CollectorUI(
+                        requestDetailController: _requestDetailController);
+                  } else {
                     //Person
-                    return PersonUI(requestDetailController: _requestDetailController);
+                    return PersonUI(
+                        requestDetailController: _requestDetailController);
                   }
                 }
               }),
@@ -128,7 +129,9 @@ class PersonUI extends StatelessWidget {
               ),
             ),
           ),
-          placeholder: (context, url) => CircularProgressIndicator(color: ColorsConstants.kMainColor,),
+          placeholder: (context, url) => CircularProgressIndicator(
+            color: ColorsConstants.kMainColor,
+          ),
           errorWidget: (context, url, error) => Icon(Icons.error),
         ),
         SizedBox(
@@ -139,25 +142,25 @@ class PersonUI extends StatelessWidget {
           name: 'description',
           enabled: false,
           maxLines: 3,
-          initialValue:_requestDetailController.requestDetailModel.description,
+          initialValue: _requestDetailController.requestDetailModel.description,
           decoration: InputDecoration(
-            contentPadding:
-            EdgeInsets.fromLTRB(12.sp, 10.sp, 12.sp, 10.sp),
+            contentPadding: EdgeInsets.fromLTRB(12.sp, 10.sp, 12.sp, 10.sp),
             filled: true,
             fillColor: Colors.white,
             labelText: 'Mô tả',
-            labelStyle: TextStyle(
-                fontSize: 16.sp, color: ColorsConstants.kMainColor),
+            labelStyle:
+                TextStyle(fontSize: 16.sp, color: ColorsConstants.kMainColor),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10),
             ),
             disabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10),
-                borderSide: BorderSide(
-                    color: ColorsConstants.kMainColor, width: 2)),
+                borderSide:
+                    BorderSide(color: ColorsConstants.kMainColor, width: 2)),
           ),
           style: AppTextStyles.bodyText1.copyWith(
-            color: ColorsConstants.kTextMainColor, // Màu cho giá trị initialValue
+            color:
+                ColorsConstants.kTextMainColor, // Màu cho giá trị initialValue
           ),
         ),
         SizedBox(
@@ -167,24 +170,25 @@ class PersonUI extends StatelessWidget {
         FormBuilderTextField(
           name: 'address',
           enabled: false,
-          initialValue:_requestDetailController.requestDetailModel.address,
+          initialValue: _requestDetailController.requestDetailModel.address,
           decoration: InputDecoration(
             contentPadding: EdgeInsets.fromLTRB(12.sp, 0, 12.sp, 0),
             filled: true,
             fillColor: Colors.white,
             labelText: 'Địa chỉ',
-            labelStyle: TextStyle(
-                fontSize: 16.sp, color: ColorsConstants.kMainColor),
+            labelStyle:
+                TextStyle(fontSize: 16.sp, color: ColorsConstants.kMainColor),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10),
             ),
             disabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10),
-                borderSide: BorderSide(
-                    color: ColorsConstants.kMainColor, width: 2)),
+                borderSide:
+                    BorderSide(color: ColorsConstants.kMainColor, width: 2)),
           ),
           style: AppTextStyles.bodyText1.copyWith(
-            color: ColorsConstants.kTextMainColor, // Màu cho giá trị initialValue
+            color:
+                ColorsConstants.kTextMainColor, // Màu cho giá trị initialValue
           ),
         ),
         SizedBox(
@@ -193,35 +197,33 @@ class PersonUI extends StatelessWidget {
         FormBuilderTextField(
           name: 'phonenumber',
           enabled: false,
-          initialValue: _requestDetailController.requestDetailModel.phone_number,
+          initialValue:
+              _requestDetailController.requestDetailModel.phone_number,
           decoration: InputDecoration(
             contentPadding: EdgeInsets.fromLTRB(12.sp, 0, 12.sp, 0),
             filled: true,
             fillColor: Colors.white,
             labelText: 'Số điẹn thoại/zalo liên hệ',
-            labelStyle: TextStyle(
-                fontSize: 16.sp, color: ColorsConstants.kMainColor),
+            labelStyle:
+                TextStyle(fontSize: 16.sp, color: ColorsConstants.kMainColor),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10),
             ),
             disabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10),
-                borderSide: BorderSide(
-                    color: ColorsConstants.kMainColor, width: 2)),
+                borderSide:
+                    BorderSide(color: ColorsConstants.kMainColor, width: 2)),
           ),
           style: AppTextStyles.bodyText1.copyWith(
-            color: ColorsConstants.kTextMainColor, // Màu cho giá trị initialValue
+            color:
+                ColorsConstants.kTextMainColor, // Màu cho giá trị initialValue
           ),
         ),
         SizedBox(
           height: 20.sp,
         ),
-        Text(
-          'Tình trạng thu gom',
-            style: AppTextStyles.bodyText1.copyWith(
-                fontSize: 16.sp
-            )
-        ),
+        Text('Tình trạng thu gom',
+            style: AppTextStyles.bodyText1.copyWith(fontSize: 16.sp)),
         SizedBox(
           height: 10.sp,
         ),
@@ -232,34 +234,31 @@ class PersonUI extends StatelessWidget {
                 children: [
                   Expanded(
                       child: SizedBox(
-                        height: 48.sp,
-                        child: ElevatedButton(
-                            onPressed: (){},
-                            style: CustomButtonStyle.primaryButton,
-                            child: Text(
-                              'Chờ xử lý',
-                              style: TextStyle(
-                                  color: ColorsConstants.kBGCardColor,
-                                  fontSize: 16.sp),
-                            )
-                        ),
-                      )
-                  ),
+                    height: 48.sp,
+                    child: ElevatedButton(
+                        onPressed: () {},
+                        style: CustomButtonStyle.primaryButton,
+                        child: Text(
+                          'Chờ xử lý',
+                          style: TextStyle(
+                              color: ColorsConstants.kBGCardColor,
+                              fontSize: 16.sp),
+                        )),
+                  )),
                   SizedBox(
                     width: 20.sp,
                   ),
                   Expanded(
                       child: SizedBox(
-                        height: 48.sp,
-                        child: ElevatedButton(
-                            onPressed: null,
-                            style: CustomButtonStyle.primaryButton,
-                            child: Text(
-                              'Hoàn thành',
-                              style: TextStyle(fontSize: 16.sp),
-                            )),
-                      )
-                  ),
+                    height: 48.sp,
+                    child: ElevatedButton(
+                        onPressed: null,
+                        style: CustomButtonStyle.primaryButton,
+                        child: Text(
+                          'Hoàn thành',
+                          style: TextStyle(fontSize: 16.sp),
+                        )),
+                  )),
                 ],
               ),
               SizedBox(
@@ -274,16 +273,14 @@ class PersonUI extends StatelessWidget {
                           'Xác nhận hủy',
                           Text(
                             'Bạn chắc chắn muốn hủy yêu cầu thu gom này?',
-                            style: AppTextStyles.bodyText2.copyWith(
-                                fontSize: 12.sp
-                            ),
+                            style: AppTextStyles.bodyText2
+                                .copyWith(fontSize: 12.sp),
                             textAlign: TextAlign.center,
-                          ),
-                              (){
-                            Get.back();
-                            _requestDetailController.cancelRequest(_requestDetailController.requestId);
-                          }
-                      );
+                          ), () {
+                        Get.back();
+                        _requestDetailController
+                            .cancelRequest(_requestDetailController.requestId);
+                      });
                     },
                     style: CustomButtonStyle.cancelButton,
                     child: Text(
@@ -293,84 +290,140 @@ class PersonUI extends StatelessWidget {
               )
             ],
           )
-        else if(_requestDetailController.requestDetailModel.status == 'processing' || _requestDetailController.requestDetailModel.status == 'confirming')
+        else if (_requestDetailController.requestDetailModel.status ==
+                'processing' ||
+            _requestDetailController.requestDetailModel.status == 'confirming')
           Row(
             children: [
               Expanded(
                   child: SizedBox(
-                    height: 48.sp,
-                    child: ElevatedButton(
-                        onPressed: (){},
-                        style: CustomButtonStyle.infoButton,
-                        child: Text(
-                          'Đang xử lý',
-                          style: TextStyle(
-                              color: ColorsConstants.kBGCardColor,
-                              fontSize: 16.sp),
-                        )
-                    ),
-                  )
-              ),
+                height: 48.sp,
+                child: ElevatedButton(
+                    onPressed: () {},
+                    style: CustomButtonStyle.infoButton,
+                    child: Text(
+                      'Đang xử lý',
+                      style: TextStyle(
+                          color: ColorsConstants.kBGCardColor, fontSize: 16.sp),
+                    )),
+              )),
               SizedBox(
                 width: 20.sp,
               ),
               Expanded(
                   child: SizedBox(
+                height: 48.sp,
+                child: ElevatedButton(
+                    onPressed: null,
+                    style: CustomButtonStyle.primaryButton,
+                    child: Text(
+                      'Hoàn thành',
+                      style: TextStyle(
+                          color: ColorsConstants.kBGCardColor, fontSize: 16.sp),
+                    )),
+              )),
+            ],
+          )
+        else if (_requestDetailController.requestDetailModel.status == 'finish')
+          Column(
+            children: [
+              Row(
+                children: [
+                  Expanded(
+                      child: SizedBox(
                     height: 48.sp,
                     child: ElevatedButton(
-                        onPressed: null,
+                        onPressed: () {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: Center(
+                                  child: Text(
+                                    "Minh chứng",
+                                    style: AppTextStyles.caption,
+                                  ),
+                                ),
+                                content: CachedNetworkImage(
+                                  imageUrl: _requestDetailController
+                                      .requestDetailModel.finishImage!,
+                                  imageBuilder: (context, imageProvider) =>
+                                      Container(
+                                    width: ScreenUtil().screenWidth * 0.9,
+                                    height: ScreenUtil().screenHeight * 0.5,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(12),
+                                      image: DecorationImage(
+                                        image: imageProvider,
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                  ),
+                                  placeholder: (context, url) => Center(
+                                    heightFactor: 1,
+                                    widthFactor: 1,
+                                    child: SizedBox(
+                                      height: 20.sp,
+                                      width: 20.sp,
+                                      child: const CircularProgressIndicator(
+                                        strokeWidth: 2,
+                                        color: ColorsConstants.kActiveColor,
+                                      ),
+                                    ),
+                                  ),
+                                  errorWidget: (context, url, error) =>
+                                      Icon(Icons.error),
+                                ),
+                                actions: <Widget>[
+                                  TextButton(
+                                    style: CustomButtonStyle.primaryButton,
+                                    child: Center(
+                                      child: Text(
+                                        "Đóng",
+                                        style: AppTextStyles.headline1.copyWith(
+                                            color: ColorsConstants
+                                                .kBackgroundColor),
+                                      ),
+                                    ),
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+                        },
+                        style: CustomButtonStyle.infoButton,
+                        child: Text(
+                          'Minh chứng',
+                          style:
+                              TextStyle(color: Colors.white, fontSize: 16.sp),
+                        )),
+                  )),
+                  SizedBox(
+                    width: 20.sp,
+                  ),
+                  Expanded(
+                      child: SizedBox(
+                    height: 48.sp,
+                    child: ElevatedButton(
+                        onPressed: () {},
                         style: CustomButtonStyle.primaryButton,
                         child: Text(
                           'Hoàn thành',
                           style: TextStyle(
-                              color: ColorsConstants.kBGCardColor,
+                              color: ColorsConstants.ksecondBackgroundColor,
                               fontSize: 16.sp),
                         )),
                   )),
+                ],
+              ),
+              SizedBox(
+                height: 20.sp,
+              ),
             ],
           )
-        else if (_requestDetailController.requestDetailModel.status == 'finish')
-            Column(
-              children: [
-                Row(
-                  children: [
-                    Expanded(
-                        child: SizedBox(
-                          height: 48.sp,
-                          child: ElevatedButton(
-                              onPressed: null,
-                              style: CustomButtonStyle.primaryButton,
-                              child: Text(
-                                'Chờ xử lý',
-                                style: TextStyle(
-                                    color: Colors.black, fontSize: 16.sp),
-                              )
-                          ),
-                        )
-                    ),
-                    SizedBox(
-                      width: 20.sp,
-                    ),
-                    Expanded(
-                        child: SizedBox(
-                          height: 48.sp,
-                          child: ElevatedButton(
-                              onPressed: (){},
-                              style: CustomButtonStyle.primaryButton,
-                              child: Text(
-                                'Hoàn thành',
-                                style: TextStyle(
-                                    color: ColorsConstants.ksecondBackgroundColor,
-                                    fontSize: 16.sp),
-                              )),
-                        )),
-                  ],
-                ),
-                SizedBox(
-                  height: 20.sp,
-                ),
-              ],
-            )
         else if (_requestDetailController.requestDetailModel.status == 'cancel')
           SizedBox(
             width: ScreenUtil().screenWidth,
@@ -380,7 +433,8 @@ class PersonUI extends StatelessWidget {
                 style: CustomButtonStyle.cancelButton,
                 child: Text(
                   'Đã hủy yêu cầu',
-                  style: TextStyle(color: ColorsConstants.kTextMainColor, fontSize: 18.sp),
+                  style: TextStyle(
+                      color: ColorsConstants.kTextMainColor, fontSize: 18.sp),
                 )),
           )
         else
@@ -388,12 +442,13 @@ class PersonUI extends StatelessWidget {
             width: ScreenUtil().screenWidth,
             height: 48.sp,
             child: ElevatedButton(
-              onPressed: null,
-              style: CustomButtonStyle.cancelButton,
-              child: Text(
-                'Yêu cầu lỗi', style: TextStyle(color: ColorsConstants.kTextMainColor, fontSize: 18.sp),
-                )
-            ),
+                onPressed: null,
+                style: CustomButtonStyle.cancelButton,
+                child: Text(
+                  'Yêu cầu lỗi',
+                  style: TextStyle(
+                      color: ColorsConstants.kTextMainColor, fontSize: 18.sp),
+                )),
           )
       ],
     );
@@ -444,12 +499,14 @@ class CollectorUI extends StatelessWidget {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
               image: DecorationImage(
-                  image: imageProvider,
-                  fit: BoxFit.cover,
+                image: imageProvider,
+                fit: BoxFit.cover,
               ),
             ),
           ),
-          placeholder: (context, url) => CircularProgressIndicator(color: ColorsConstants.kMainColor,),
+          placeholder: (context, url) => CircularProgressIndicator(
+            color: ColorsConstants.kMainColor,
+          ),
           errorWidget: (context, url, error) => Icon(Icons.error),
         ),
         SizedBox(
@@ -460,26 +517,25 @@ class CollectorUI extends StatelessWidget {
           name: 'description',
           enabled: false,
           maxLines: 3,
-          initialValue:
-          _requestDetailController.requestDetailModel.description,
+          initialValue: _requestDetailController.requestDetailModel.description,
           decoration: InputDecoration(
-            contentPadding:
-            EdgeInsets.fromLTRB(12.sp, 10.sp, 12.sp, 10.sp),
+            contentPadding: EdgeInsets.fromLTRB(12.sp, 10.sp, 12.sp, 10.sp),
             filled: true,
             fillColor: Colors.white,
             labelText: 'Mô tả',
-            labelStyle: TextStyle(
-                fontSize: 16.sp, color: ColorsConstants.kMainColor),
+            labelStyle:
+                TextStyle(fontSize: 16.sp, color: ColorsConstants.kMainColor),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10),
             ),
             disabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10),
-                borderSide: BorderSide(
-                    color: ColorsConstants.kMainColor, width: 2)),
+                borderSide:
+                    BorderSide(color: ColorsConstants.kMainColor, width: 2)),
           ),
           style: AppTextStyles.bodyText1.copyWith(
-            color: ColorsConstants.kTextMainColor, // Màu cho giá trị initialValue
+            color:
+                ColorsConstants.kTextMainColor, // Màu cho giá trị initialValue
           ),
         ),
         SizedBox(
@@ -489,30 +545,33 @@ class CollectorUI extends StatelessWidget {
         FormBuilderTextField(
           name: 'address',
           enabled: false,
-          initialValue:_requestDetailController.requestDetailModel.address,
+          initialValue: _requestDetailController.requestDetailModel.address,
           decoration: InputDecoration(
             contentPadding: EdgeInsets.fromLTRB(12.sp, 0, 12.sp, 0),
             filled: true,
             fillColor: Colors.white,
             labelText: 'Địa chỉ',
-            labelStyle: TextStyle(
-                fontSize: 16.sp, color: ColorsConstants.kMainColor),
+            labelStyle:
+                TextStyle(fontSize: 16.sp, color: ColorsConstants.kMainColor),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10),
             ),
             disabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10),
-                borderSide: BorderSide(
-                    color: ColorsConstants.kMainColor, width: 2)),
+                borderSide:
+                    BorderSide(color: ColorsConstants.kMainColor, width: 2)),
           ),
           style: AppTextStyles.bodyText1.copyWith(
-            color: ColorsConstants.kTextMainColor, // Màu cho giá trị initialValue
+            color:
+                ColorsConstants.kTextMainColor, // Màu cho giá trị initialValue
           ),
         ),
         SizedBox(
           height: 30.sp,
         ),
-        if(_requestDetailController.requestDetailModel.confirm == _requestDetailController.userId.value && _requestDetailController.requestDetailModel.status =='finish')
+        if (_requestDetailController.requestDetailModel.confirm ==
+                _requestDetailController.userId.value &&
+            _requestDetailController.requestDetailModel.status == 'finish')
           Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
@@ -538,15 +597,19 @@ class CollectorUI extends StatelessWidget {
               SizedBox(
                 height: 20.sp,
               ),
-              Text('Đánh giá từ người dân:  ' + (_requestDetailController.requestDetailModel.rating??5.0).toString(),
-                style: TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16.sp,
-                )
-              ),
+              Text(
+                  'Đánh giá từ người dân:  ' +
+                      (_requestDetailController.requestDetailModel.rating ??
+                              5.0)
+                          .toString(),
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16.sp,
+                  )),
               RatingBarIndicator(
-                rating: _requestDetailController.requestDetailModel.rating??5.0,
+                rating:
+                    _requestDetailController.requestDetailModel.rating ?? 5.0,
                 itemBuilder: (context, index) => Icon(
                   Icons.star,
                   color: ColorsConstants.kMainColor,
@@ -561,20 +624,108 @@ class CollectorUI extends StatelessWidget {
               SizedBox(
                 width: ScreenUtil().screenWidth,
                 height: 48.sp,
-                child: ElevatedButton(
-                    onPressed: () {
-                      CustomDialogs.contactDialog(
-                        _requestDetailController.requestDetailModel.address,
-                        _requestDetailController.requestDetailModel.phone_number,
-                        _requestDetailController.requestDetailModel.phone_number,
-                      );
-                    },
-                    style: CustomButtonStyle.primaryButton,
-                    child: Text(
-                      'Liên Hệ',
-                      style: TextStyle(
-                          color: Colors.white, fontSize: 16.sp),
-                    )
+                child: Row(
+                  children: [
+                    Expanded(
+                        child: SizedBox(
+                      height: 48.sp,
+                      child: ElevatedButton(
+                          onPressed: () {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  contentPadding: EdgeInsets.all(10.sp),
+                                  title: Center(
+                                    child: Text(
+                                      "Minh chứng",
+                                      style: AppTextStyles.caption,
+                                    ),
+                                  ),
+                                  content: CachedNetworkImage(
+                                    imageUrl: _requestDetailController
+                                        .requestDetailModel.finishImage!,
+                                    imageBuilder: (context, imageProvider) =>
+                                        Container(
+                                      width: ScreenUtil().screenWidth * 0.9,
+                                      height: ScreenUtil().screenHeight * 0.5,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(12),
+                                        image: DecorationImage(
+                                          image: imageProvider,
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
+                                    ),
+                                    placeholder: (context, url) => Center(
+                                      heightFactor: 1,
+                                      widthFactor: 1,
+                                      child: SizedBox(
+                                        height: 20.sp,
+                                        width: 20.sp,
+                                        child: const CircularProgressIndicator(
+                                          strokeWidth: 2,
+                                          color: ColorsConstants.kActiveColor,
+                                        ),
+                                      ),
+                                    ),
+                                    errorWidget: (context, url, error) =>
+                                        Icon(Icons.error),
+                                  ),
+                                  actions: <Widget>[
+                                    TextButton(
+                                      style: CustomButtonStyle.primaryButton,
+                                      child: Center(
+                                        child: Text(
+                                          "Đóng",
+                                          style: AppTextStyles.headline1
+                                              .copyWith(
+                                                  color: ColorsConstants
+                                                      .kBackgroundColor),
+                                        ),
+                                      ),
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                          },
+                          style: CustomButtonStyle.infoButton,
+                          child: Text(
+                            'Minh chứng',
+                            style:
+                                TextStyle(color: Colors.white, fontSize: 16.sp),
+                          )),
+                    )),
+                    SizedBox(
+                      width: 20.w,
+                    ),
+                    Expanded(
+                      child: SizedBox(
+                        height: 48.sp,
+                        child: ElevatedButton(
+                            onPressed: () {
+                              CustomDialogs.contactDialog(
+                                _requestDetailController
+                                    .requestDetailModel.address,
+                                _requestDetailController
+                                    .requestDetailModel.phone_number,
+                                _requestDetailController
+                                    .requestDetailModel.phone_number,
+                              );
+                            },
+                            style: CustomButtonStyle.primaryButton,
+                            child: Text(
+                              'Liên Hệ',
+                              style: TextStyle(
+                                  color: Colors.white, fontSize: 16.sp),
+                            )),
+                      ),
+                    ),
+                  ],
                 ),
               )
             ],
@@ -586,97 +737,100 @@ class CollectorUI extends StatelessWidget {
                 children: [
                   Expanded(
                       child: SizedBox(
-                        height: 48.sp,
-                        child: ElevatedButton(
-                            onPressed: () {
-                              CustomDialogs.contactDialog(
-                                _requestDetailController.requestDetailModel.address,
-                                _requestDetailController.requestDetailModel.phone_number,
-                                _requestDetailController.requestDetailModel.phone_number,
-                              );
-                            },
-                            style: CustomButtonStyle.primaryButton,
-                            child: Text(
-                              'Liên Hệ',
-                              style: TextStyle(
-                                  color: Colors.white, fontSize: 16.sp),
-                            )
-                        ),
-                      )
-                  ),
+                    height: 48.sp,
+                    child: ElevatedButton(
+                        onPressed: () {
+                          CustomDialogs.contactDialog(
+                            _requestDetailController.requestDetailModel.address,
+                            _requestDetailController
+                                .requestDetailModel.phone_number,
+                            _requestDetailController
+                                .requestDetailModel.phone_number,
+                          );
+                        },
+                        style: CustomButtonStyle.primaryButton,
+                        child: Text(
+                          'Liên Hệ',
+                          style:
+                              TextStyle(color: Colors.white, fontSize: 16.sp),
+                        )),
+                  )),
                   SizedBox(
                     width: 20.sp,
                   ),
                   Expanded(
                       child: SizedBox(
-                        height: 48.sp,
-                        child: ElevatedButton(
-                            onPressed: (){
-                              if(_requestDetailController.allowHidden.value){
-                                CustomDialogs.confirmDialog(
-                                    'Xác nhận bỏ qua',
-                                    Text(
-                                      'Bạn chắc chắn muốn bỏ qua thu gom yêu cầu này?',
-                                      style: AppTextStyles.bodyText2.copyWith(
-                                          fontSize: 12.sp
-                                      ),
-                                      textAlign: TextAlign.center,
-                                    ),
-                                        (){
-                                      Get.back();
-                                      _requestDetailController.hiddenRequest(_requestDetailController.requestDetailModel.requestId,_requestDetailController.requestDetailModel.hidden);
-                                    }
-                                );
-                              }else{
-                                null;
-                              }
-                            },
-                            style: CustomButtonStyle.transparentButton,
-                            child: Text(
-                              'Bỏ qua',
-                              style: TextStyle(
-                                  color: ColorsConstants.kTextMainColor,
-                                  fontSize: 16.sp),
-                            )),
-                      )),
+                    height: 48.sp,
+                    child: ElevatedButton(
+                        onPressed: () {
+                          if (_requestDetailController.allowHidden.value) {
+                            CustomDialogs.confirmDialog(
+                                'Xác nhận bỏ qua',
+                                Text(
+                                  'Bạn chắc chắn muốn bỏ qua thu gom yêu cầu này?',
+                                  style: AppTextStyles.bodyText2
+                                      .copyWith(fontSize: 12.sp),
+                                  textAlign: TextAlign.center,
+                                ), () {
+                              Get.back();
+                              _requestDetailController.hiddenRequest(
+                                  _requestDetailController
+                                      .requestDetailModel.requestId,
+                                  _requestDetailController
+                                      .requestDetailModel.hidden);
+                            });
+                          } else {
+                            null;
+                          }
+                        },
+                        style: CustomButtonStyle.transparentButton,
+                        child: Text(
+                          'Bỏ qua',
+                          style: TextStyle(
+                              color: ColorsConstants.kTextMainColor,
+                              fontSize: 16.sp),
+                        )),
+                  )),
                 ],
               ),
               SizedBox(
                 height: 20.sp,
               ),
-              Obx(() {
-                if(_requestDetailController.allowConfirm.value){
-                  return SizedBox(
-                    width: ScreenUtil().screenWidth,
-                    height: 48.sp,
-                    child: ElevatedButton(
-                        onPressed: () {
-                          CustomDialogs.confirmDialog(
-                              'Xác nhận thu gom',
-                              Text(
-                                'Bạn chắc chắn muốn xác nhận thu gom yêu cầu này? Yêu cầu này sẽ được chuyển vào phần đã xử lý ',
-                                style: AppTextStyles.bodyText2.copyWith(
-                                    fontSize: 12.sp
-                                ),
-                                textAlign: TextAlign.center,
-                              ),
-                                  ()async{
-                                await _requestDetailController.confirmRequest(_requestDetailController.requestDetailModel.requestId,_requestDetailController.userId.value);
-                                await Get.offAllNamed('/mainPage');
-                              }
-                          );
-                        },
-                        style: CustomButtonStyle.primaryButton,
-                        child: Text(
-                          'Xác nhận thu gom',
-                          style:
-                          TextStyle(color: Colors.white, fontSize: 18.sp),
-                        )),
-                  );
-                }else{
-                  return Container();
-                }
-              },)
+              Obx(
+                () {
+                  if (_requestDetailController.allowConfirm.value) {
+                    return SizedBox(
+                      width: ScreenUtil().screenWidth,
+                      height: 48.sp,
+                      child: ElevatedButton(
+                          onPressed: () {
+                            CustomDialogs.confirmDialog(
+                                'Xác nhận thu gom',
+                                Text(
+                                  'Bạn chắc chắn muốn xác nhận thu gom yêu cầu này? Yêu cầu này sẽ được chuyển vào phần đã xử lý ',
+                                  style: AppTextStyles.bodyText2
+                                      .copyWith(fontSize: 12.sp),
+                                  textAlign: TextAlign.center,
+                                ), () async {
+                              await _requestDetailController.confirmRequest(
+                                  _requestDetailController
+                                      .requestDetailModel.requestId,
+                                  _requestDetailController.userId.value);
+                              await Get.offAllNamed('/mainPage');
+                            });
+                          },
+                          style: CustomButtonStyle.primaryButton,
+                          child: Text(
+                            'Xác nhận thu gom',
+                            style:
+                                TextStyle(color: Colors.white, fontSize: 18.sp),
+                          )),
+                    );
+                  } else {
+                    return Container();
+                  }
+                },
+              )
             ],
           )
       ],
@@ -733,7 +887,9 @@ class AdminUI extends StatelessWidget {
               ),
             ),
           ),
-          placeholder: (context, url) => CircularProgressIndicator(color: ColorsConstants.kMainColor,),
+          placeholder: (context, url) => CircularProgressIndicator(
+            color: ColorsConstants.kMainColor,
+          ),
           errorWidget: (context, url, error) => Icon(Icons.error),
         ),
         SizedBox(
@@ -744,26 +900,25 @@ class AdminUI extends StatelessWidget {
           name: 'description',
           enabled: false,
           maxLines: 3,
-          initialValue:
-          _requestDetailController.requestDetailModel.description,
+          initialValue: _requestDetailController.requestDetailModel.description,
           decoration: InputDecoration(
-            contentPadding:
-            EdgeInsets.fromLTRB(12.sp, 10.sp, 12.sp, 10.sp),
+            contentPadding: EdgeInsets.fromLTRB(12.sp, 10.sp, 12.sp, 10.sp),
             filled: true,
             fillColor: Colors.white,
             labelText: 'Mô tả',
-            labelStyle: TextStyle(
-                fontSize: 16.sp, color: ColorsConstants.kMainColor),
+            labelStyle:
+                TextStyle(fontSize: 16.sp, color: ColorsConstants.kMainColor),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10),
             ),
             disabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10),
-                borderSide: BorderSide(
-                    color: ColorsConstants.kMainColor, width: 2)),
+                borderSide:
+                    BorderSide(color: ColorsConstants.kMainColor, width: 2)),
           ),
           style: AppTextStyles.bodyText1.copyWith(
-            color: ColorsConstants.kTextMainColor, // Màu cho giá trị initialValue
+            color:
+                ColorsConstants.kTextMainColor, // Màu cho giá trị initialValue
           ),
         ),
         SizedBox(
@@ -773,30 +928,32 @@ class AdminUI extends StatelessWidget {
         FormBuilderTextField(
           name: 'address',
           enabled: false,
-          initialValue:_requestDetailController.requestDetailModel.address,
+          initialValue: _requestDetailController.requestDetailModel.address,
           decoration: InputDecoration(
             contentPadding: EdgeInsets.fromLTRB(12.sp, 0, 12.sp, 0),
             filled: true,
             fillColor: Colors.white,
             labelText: 'Địa chỉ',
-            labelStyle: TextStyle(
-                fontSize: 16.sp, color: ColorsConstants.kMainColor),
+            labelStyle:
+                TextStyle(fontSize: 16.sp, color: ColorsConstants.kMainColor),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10),
             ),
             disabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10),
-                borderSide: BorderSide(
-                    color: ColorsConstants.kMainColor, width: 2)),
+                borderSide:
+                    BorderSide(color: ColorsConstants.kMainColor, width: 2)),
           ),
           style: AppTextStyles.bodyText1.copyWith(
-            color: ColorsConstants.kTextMainColor, // Màu cho giá trị initialValue
+            color:
+                ColorsConstants.kTextMainColor, // Màu cho giá trị initialValue
           ),
         ),
         SizedBox(
           height: 30.sp,
         ),
-        if(_requestDetailController.requestDetailModel.confirm == _requestDetailController.userId.value)
+        if (_requestDetailController.requestDetailModel.confirm ==
+            _requestDetailController.userId.value)
           Column(
             children: [
               Center(
@@ -822,20 +979,107 @@ class AdminUI extends StatelessWidget {
               ),
               SizedBox(
                 height: 48.sp,
-                child: ElevatedButton(
-                    onPressed: () {
-                      CustomDialogs.contactDialog(
-                        _requestDetailController.requestDetailModel.address,
-                        _requestDetailController.requestDetailModel.phone_number,
-                        _requestDetailController.requestDetailModel.phone_number,
-                      );
-                    },
-                    style: CustomButtonStyle.primaryButton,
-                    child: Text(
-                      'Liên Hệ',
-                      style: TextStyle(
-                          color: Colors.white, fontSize: 16.sp),
-                    )
+                width: ScreenUtil().screenWidth,
+                child: Row(
+                  children: [
+                    Expanded(
+                        child: SizedBox(
+                      height: 48.sp,
+                      child: ElevatedButton(
+                          onPressed: () {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  contentPadding: EdgeInsets.all(10.sp),
+                                  title: Center(
+                                    child: Text(
+                                      "Minh chứng",
+                                      style: AppTextStyles.caption,
+                                    ),
+                                  ),
+                                  content: CachedNetworkImage(
+                                    imageUrl: _requestDetailController
+                                        .requestDetailModel.finishImage!,
+                                    imageBuilder: (context, imageProvider) =>
+                                        Container(
+                                      width: ScreenUtil().screenWidth * 0.9,
+                                      height: ScreenUtil().screenHeight * 0.5,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(12),
+                                        image: DecorationImage(
+                                          image: imageProvider,
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
+                                    ),
+                                    placeholder: (context, url) => Center(
+                                      heightFactor: 1,
+                                      widthFactor: 1,
+                                      child: SizedBox(
+                                        height: 20.sp,
+                                        width: 20.sp,
+                                        child: const CircularProgressIndicator(
+                                          strokeWidth: 2,
+                                          color: ColorsConstants.kActiveColor,
+                                        ),
+                                      ),
+                                    ),
+                                    errorWidget: (context, url, error) =>
+                                        Icon(Icons.error),
+                                  ),
+                                  actions: <Widget>[
+                                    TextButton(
+                                      style: CustomButtonStyle.primaryButton,
+                                      child: Center(
+                                        child: Text(
+                                          "Đóng",
+                                          style: AppTextStyles.headline1
+                                              .copyWith(
+                                                  color: ColorsConstants
+                                                      .kBackgroundColor),
+                                        ),
+                                      ),
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                          },
+                          style: CustomButtonStyle.infoButton,
+                          child: Text(
+                            'Minh chứng',
+                            style:
+                                TextStyle(color: Colors.white, fontSize: 16.sp),
+                          )),
+                    )),
+                    SizedBox(width: 20.w),
+                    Expanded(
+                      child: SizedBox(
+                        height: 48.sp,
+                        child: ElevatedButton(
+                            onPressed: () {
+                              CustomDialogs.contactDialog(
+                                _requestDetailController
+                                    .requestDetailModel.address,
+                                _requestDetailController
+                                    .requestDetailModel.phone_number,
+                                _requestDetailController
+                                    .requestDetailModel.phone_number,
+                              );
+                            },
+                            style: CustomButtonStyle.primaryButton,
+                            child: Text(
+                              'Liên Hệ',
+                              style: TextStyle(
+                                  color: Colors.white, fontSize: 16.sp),
+                            )),
+                      ),
+                    ),
+                  ],
                 ),
               )
             ],
@@ -847,24 +1091,24 @@ class AdminUI extends StatelessWidget {
                 children: [
                   Expanded(
                       child: SizedBox(
-                        height: 48.sp,
-                        child: ElevatedButton(
-                            onPressed: () {
-                              CustomDialogs.contactDialog(
-                                _requestDetailController.requestDetailModel.address,
-                                _requestDetailController.requestDetailModel.phone_number,
-                                _requestDetailController.requestDetailModel.phone_number,
-                              );
-                            },
-                            style: CustomButtonStyle.primaryButton,
-                            child: Text(
-                              'Liên Hệ',
-                              style: TextStyle(
-                                  color: Colors.white, fontSize: 16.sp),
-                            )
-                        ),
-                      )
-                  ),
+                    height: 48.sp,
+                    child: ElevatedButton(
+                        onPressed: () {
+                          CustomDialogs.contactDialog(
+                            _requestDetailController.requestDetailModel.address,
+                            _requestDetailController
+                                .requestDetailModel.phone_number,
+                            _requestDetailController
+                                .requestDetailModel.phone_number,
+                          );
+                        },
+                        style: CustomButtonStyle.primaryButton,
+                        child: Text(
+                          'Liên Hệ',
+                          style:
+                              TextStyle(color: Colors.white, fontSize: 16.sp),
+                        )),
+                  )),
                 ],
               ),
               SizedBox(
