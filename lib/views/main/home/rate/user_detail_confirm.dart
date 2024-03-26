@@ -32,7 +32,7 @@ class UserDetailConfirmScreen extends StatelessWidget {
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
-            Get.offAllNamed('/mainPage');
+            Get.back();
           },
         ),
       ),
