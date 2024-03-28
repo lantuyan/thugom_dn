@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:get/get_rx/get_rx.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:thu_gom/managers/data_manager.dart';
 import 'package:thu_gom/models/trash/category_model.dart';
 import 'package:thu_gom/models/trash/user_request_trash_model.dart';
 import 'package:thu_gom/providers/auth_provider.dart';
@@ -27,6 +28,9 @@ class InfomationController extends GetxController {
         _getStorage.remove('sessionId');
         _getStorage.remove('name');
         _getStorage.remove('role');
+        _getStorage.remove('zalonumber');
+        _getStorage.remove('address');
+        DataManager().clearData();
         Get.offAllNamed('/landingPage');
       }).catchError((onError) {
         print("Error: $onError");

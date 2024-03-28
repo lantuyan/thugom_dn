@@ -45,6 +45,9 @@ class RegisterController extends GetxController {
         DataManager().saveData('userId', value.userId);
         DataManager().saveData('sessionId', value.$id);
         DataManager().saveData('role', userModel.role);
+        DataManager().saveData('name', userModel.name);
+        DataManager().saveData('zalonumber', userModel.zalonumber);
+        DataManager().saveData('address', userModel.address);
       });
       Get.offAllNamed('/introPage');
       CustomDialogs.showSnackBar(2, "Đăng ký tài khoàn thành công", 'success');
