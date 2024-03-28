@@ -20,4 +20,8 @@ class DataManager {
  String getData(String key) {
   return dataUser[key] ?? '';
  }
+
+  void clearData() {
+    dataUser.clear();
+  }
 }

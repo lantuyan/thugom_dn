@@ -42,6 +42,7 @@ class SplashController extends GetxController with GetSingleTickerProviderStateM
         getStore.remove('role');
         getStore.remove('zalonumber');
         getStore.remove('address');
+        DataManager().clearData();
         Get.offAllNamed('/landingPage');
     } catch (error) {
 

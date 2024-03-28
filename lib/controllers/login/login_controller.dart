@@ -84,6 +84,11 @@ class LoginController extends GetxController {
         CustomDialogs.hideLoadingDialog();
         _getStorage.remove('userId');
         _getStorage.remove('sessionId');
+        _getStorage.remove('name');
+        _getStorage.remove('role');
+        _getStorage.remove('zalonumber');
+        _getStorage.remove('address');
+        DataManager().clearData();
         Get.offAllNamed("/login");
       }).catchError((onError){
         print(onError);
