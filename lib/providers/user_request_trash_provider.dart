@@ -232,6 +232,28 @@ class UserRequestTrashProvider {
     }
   }
 
+  Future sendFeedbackToAppwrite(UserRequestTrashModel userRequestTrashModel) async {
+    try {
+      await databases.createDocument(
+        databaseId: AppWriteConstants.databaseId,
+        collectionId: AppWriteConstants.userFeedbackTrashCollection,
+        documentId: userRequestTrashModel.requestId,
+        data : {
+            "senderId": userRequestTrashModel.senderId,
+            "image": userRequestTrashModel.image,
+            "phone_number": userRequestTrashModel.phone_number,
+            "address": userRequestTrashModel.address,
+            "description": userRequestTrashModel.description,
+            "point_lat": userRequestTrashModel.point_lat,
+            "point_lng": userRequestTrashModel.point_lng,
+            "createAt": userRequestTrashModel.createAt,
+        }
+      );
+    } catch (e) {
+      print("sendFeedbackToAppwrite error: $e");
+    }
+  }
+
   Future<models.File> uploadCategoryImage(String imagePath) {
     String fileName = "${DateTime.now().microsecondsSinceEpoch}"
         "${imagePath.split(".").last}";
