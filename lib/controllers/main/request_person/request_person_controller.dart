@@ -52,8 +52,8 @@ class RequestPersonController extends GetxController {
 
   @override
   onInit() async {
-    title = argumentData['categoryTitle'];
-    trashType = argumentData['categoryTitle'];
+    title = argumentData['categoryTitle'] ?? "";
+    trashType = argumentData['categoryTitle'] ?? "";
     name.value = DataManager().getData("name");
     userId = DataManager().getData("userId");
     phoneNumber.value = await _getStorage.read('zalonumber');
@@ -87,6 +87,40 @@ class RequestPersonController extends GetxController {
 
     await _requestRepository
         .sendRequestToAppwrite(userRequestTrashModel)
+        .then((value) {
+      CustomDialogs.hideLoadingDialog();
+      Get.offAllNamed('/mainPage');
+      CustomDialogs.showSnackBar(
+          2, "Yêu cầu đã được gửi thành công", 'success');
+    }).catchError((onError) {
+      CustomDialogs.hideLoadingDialog();
+      print(onError);
+      CustomDialogs.showSnackBar(
+          2, "Đã có lỗi xảy ra vui lòng thử lại sau!", 'error');
+    });
+  }
+
+  Future<void> sendFeedbackToAppwrite() async {
+    CustomDialogs.showLoadingDialog();
+    await uploadImageToAppwrite();
+    UserRequestTrashModel userRequestTrashModel = UserRequestTrashModel(
+        requestId: Uuid().v1(),
+        senderId: userId,
+        trash_type: "",
+        image: imageLink,
+        phone_number: phoneNumber.value,
+        address: address.value,
+        description: description.value,
+        point_lat: double.parse(pointLatitute),
+        point_lng: double.parse(pointLongitute),
+        status: "",
+        hidden: [],
+        createAt: DateTime.now().toString(),
+        updateAt: DateTime.now().toString()
+        );
+
+    await _requestRepository
+        .sendFeedbackToAppwrite(userRequestTrashModel)
         .then((value) {
       CustomDialogs.hideLoadingDialog();
       Get.offAllNamed('/mainPage');

@@ -30,6 +30,7 @@ import 'package:thu_gom/views/main/home/statistic/line_chart_screen.dart';
 import 'package:thu_gom/views/main/home/statistic/pie_chart_screen.dart';
 import 'package:thu_gom/views/main/home/tab/notification_collector.dart';
 import 'package:thu_gom/views/main/home/tab/notification_user.dart';
+import 'package:thu_gom/views/main/infomation/feedback_screen.dart';
 import 'package:thu_gom/views/main/infomation/infomation_screen.dart';
 import 'package:thu_gom/views/main/main_screen.dart';
 import 'package:thu_gom/views/main/map/map_collecter_screen.dart';
@@ -91,6 +92,11 @@ class Routes {
     GetPage(
       name: '/requestPersonPage',
       page: () => RequestPersonScreen(),
+      binding: RequestPersonBinding(),
+    ),
+    GetPage(
+      name: '/feedbackTrashPage',
+      page:() => FeedbackScreen(),
       binding: RequestPersonBinding(),
     ),
     GetPage(

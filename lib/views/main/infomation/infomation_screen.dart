@@ -101,6 +101,19 @@ class InfomationScreen extends StatelessWidget {
               height: 8.h,
             ),
             ProfileCardInfomation(
+              image: 'assets/images/log_out.png',
+              color: ColorsConstants.kDangerous,
+              tapHandler: () {
+                Get.toNamed('/feedbackTrashPage',
+                  arguments: {
+                    'categoryId': "",
+                    'categoryTitle': 'Phản ánh rác thải',
+                    'categoryImage': ""
+                  });
+              },
+              title: 'Phản ánh rác thải',
+            ),
+            ProfileCardInfomation(
               image: 'assets/images/trash_bin.png',
               color: ColorsConstants.kActiveColor,
               tapHandler: () {

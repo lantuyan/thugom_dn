@@ -32,6 +32,8 @@ class UserRequestTrashRepository{
   Future<void> sendRequestToAppwrite(UserRequestTrashModel userRequestTrashModel) => _userRequestTrashProvider.sendRequestToAppwrite(userRequestTrashModel);
   Future<models.File> uploadImageToAppwrite(String imagePath) => _userRequestTrashProvider.uploadCategoryImage(imagePath);
 
+  Future<void> sendFeedbackToAppwrite(UserRequestTrashModel userRequestTrashModel) => _userRequestTrashProvider.sendFeedbackToAppwrite(userRequestTrashModel);
+
   // admin
   Future<models.DocumentList> getRequestByDateRange(String dateRange) => _userRequestTrashProvider.getRequestByDateRange(dateRange);
   Future<String> exportRequestToExcel(models.DocumentList data, String fileName) => _userRequestTrashProvider.exportRequestToExcel(data, fileName);
