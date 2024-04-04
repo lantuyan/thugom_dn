@@ -175,31 +175,62 @@ class LoginScreen extends StatelessWidget {
                       ),
                       Padding(
                         padding: EdgeInsets.fromLTRB(0, 64.sp, 0, 24.sp),
-                        child: Align(
-                          alignment: Alignment.bottomCenter,
-                          child: Column(
-                            children: [
-                              Text('Chưa có tài khoản ?',
-                                  style: AppTextStyles.headline3.copyWith(
-                                    fontSize: 13.sp,
-                                    fontWeight: FontWeight.w700,
-                                  )
-                              ),
-                              GestureDetector(
-                                  onTap: () {
-                                    Get.offAndToNamed("/registerPage");
-                                  },
-                                  child: Text('Đăng ký ngay',
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: Column(
+                                children: [
+                                  Text('Chưa có tài khoản ?',
                                       style: AppTextStyles.headline3.copyWith(
-                                        fontWeight: FontWeight.w600,
-                                        color: ColorsConstants.kMainColor,
-                                        decoration: TextDecoration.underline,
-                                        decorationColor: ColorsConstants.kMainColor
+                                        fontSize: 13.sp,
+                                        fontWeight: FontWeight.w700,
+                                      )
+                                  ),
+                                  GestureDetector(
+                                      onTap: () {
+                                        Get.offAndToNamed("/registerPage");
+                                      },
+                                      child: Text('Đăng ký ngay',
+                                          style: AppTextStyles.headline3.copyWith(
+                                            fontWeight: FontWeight.w600,
+                                            color: ColorsConstants.kMainColor,
+                                            decoration: TextDecoration.underline,
+                                            decorationColor: ColorsConstants.kMainColor
+                                          )
                                       )
                                   )
-                              )
-                            ],
-                          ),
+                                ],
+                              ),
+                            ),
+                            Expanded(
+                              child: Column(
+                                  children: [
+                                    Text('Hoặc tiếp tục bằng?',
+                                        style: AppTextStyles.headline3.copyWith(
+                                          fontSize: 13.sp,
+                                          fontWeight: FontWeight.w700,
+                                        )
+                                    ),
+                                    GestureDetector(
+                                        onTap: () {
+                                          Get.toNamed("/registerOrLoginWithPhonePage",arguments: {
+                                            'actionType': 'login'
+                                          });
+                                        },
+                                        child: Text('Số điện thoại',
+                                            style: AppTextStyles.headline3.copyWith(
+                                                fontWeight: FontWeight.w600,
+                                                color: ColorsConstants.kMainColor,
+                                                decoration: TextDecoration.underline,
+                                                decorationColor: ColorsConstants.kMainColor
+                                            ),
+                                          textAlign: TextAlign.center,
+                                        )
+                                    )
+                                  ],
+                                ),
+                            ),
+                          ],
                         ),
                       ),
                     ],
