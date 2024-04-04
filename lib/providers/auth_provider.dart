@@ -76,28 +76,34 @@ class AuthProvider {
     await account.createOAuth2Session(provider: provider);
   }
 
-  Future<String?> loginWithPhoneNumber(String phoneNumber) async {
+  Future<String?> registerOrLoginWithPhoneNumber(String phoneNumber) async {
     String? userId;
-    try {
-      // Tạo phiên đăng nhập bằng điện thoại và nhận userId từ hàm createPhoneSession
-      var session = await account.createPhoneSession(userId: ID.unique(), phone: phoneNumber);
-      userId = session.userId;
-    } catch (e) {
-      print(e);
-    }
+    var session = await account.createPhoneSession(userId: ID.unique(), phone: phoneNumber);
+    userId = session.userId;
     return userId;
   }
 
 
-  Future<models.Session> phoneConfirm(String pinCode,String userId,String name) async {
+  Future<models.Session> phoneConfirm(String pinCode,String userId) async {
     final phoneSession = await account.updatePhoneSession(
       userId: userId,
       secret: pinCode,
     );
-    // update name
-    await account.updateName(name: name,);
 
     return phoneSession;
+  }
+  Future<void> registerWithPhone(Map data) async {
+    await _db.createDocument(
+      databaseId: AppWriteConstants.databaseId,
+      collectionId: AppWriteConstants.usersCollection,
+      documentId: data['userId'],
+      data: {
+        'uid' : data['userId'],
+        'email' : null,
+        'role' : data['role'],
+        'phonenumber' : data['phonenumber'],
+      }
+    );
   }
   // Future<void> updateUserInfo(String userId,String name) async {
   //   // Create document to storage user info
@@ -195,5 +201,20 @@ class AuthProvider {
         'address' : address,
       }
     );
+  }
+
+  Future<bool> checkUserExist(String phonenumber) async {
+    final result = await _db.listDocuments(
+      databaseId: AppWriteConstants.databaseId,
+      collectionId: AppWriteConstants.usersCollection,
+      queries: [
+        Query.equal('phonenumber', phonenumber),
+      ]
+    );
+    if(result.total >= 1){
+      return true;
+    }else{
+      return false;
+    }
   }
 }
