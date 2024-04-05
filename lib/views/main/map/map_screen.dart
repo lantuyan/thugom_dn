@@ -171,12 +171,6 @@ class MapScreen extends StatelessWidget {
                               ),
                             ),
                             Text(
-                              user.labels.value,
-                              style: TextStyle(
-                                fontSize: 16,
-                              ),
-                            ),
-                            Text(
                               user.infos.value,
                               style: TextStyle(
                                 fontSize: 16,
