@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:thu_gom/managers/data_manager.dart';
 import 'package:thu_gom/repositories/auth_reposistory.dart';
 import 'package:thu_gom/widgets/custom_dialogs.dart';
 
@@ -123,6 +124,9 @@ class ProfileController extends GetxController {
       await _getStorage.write('phonenumber', formValue['phonenumber']);
       await _getStorage.write('zalonumber', formValue['zalonumber']);
       await _getStorage.write('address', address);
+
+      DataManager().saveData('name',formValue['name']);
+      
       CustomDialogs.hideLoadingDialog();
       Get.offAllNamed('/mainPage');
     }).catchError((onError){

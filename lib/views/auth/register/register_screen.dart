@@ -35,158 +35,184 @@ class RegisterScreen extends StatelessWidget {
                       fontSize: 24.sp
                     )
                   ),
-                  SizedBox(height: 20.sp),
-                  FormBuilder(
+                  Form(
                     key: _registerController.formKey,
                     child: Column(
                       children: [
                         // Email Field
-                        FormBuilderTextField(
+                        TextFormField(
                           key: _registerController.emailFieldKey,
-                          name: 'email',
                           style: AppTextStyles.bodyText1,
                           decoration: InputDecoration(
-                            contentPadding: EdgeInsets.fromLTRB(12.sp, 0, 12.sp, 0),
+                            contentPadding:
+                                EdgeInsets.fromLTRB(12.sp, 0, 12.sp, 0),
                             filled: true,
                             fillColor: Colors.white,
                             labelText: 'Email',
-                            labelStyle: AppTextStyles.bodyText1.copyWith(
-                              color: ColorsConstants.kMainColor
-                            ),
+                            labelStyle: AppTextStyles.bodyText1
+                                .copyWith(color: ColorsConstants.kMainColor),
                             errorStyle: AppTextStyles.error,
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10),
                             ),
                             focusedBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(10),
-                                borderSide: BorderSide(color: ColorsConstants.kMainColor, width: 2)
-                            ),
+                                borderSide: BorderSide(
+                                    color: ColorsConstants.kMainColor,
+                                    width: 2)),
                           ),
-                          autovalidateMode: AutovalidateMode.onUserInteraction,
-                          validator: FormBuilderValidators.compose([
-                            FormBuilderValidators.required(errorText: "Không được để trống trường này"),
-                            FormBuilderValidators.email(errorText: "Email không hợp lệ"),
-                          ]),
+                          validator: (val) {
+                            if (val == null || val.isEmpty) {
+                              return 'Không được để trống trường này';
+                            }
+                            String p = "[a-zA-Z0-9\+\.\_\%\-\+]{1,256}" +
+                                "\\@" +
+                                "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,64}" +
+                                "(" +
+                                "\\." +
+                                "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,25}" +
+                                ")+";
+                            RegExp regExp = new RegExp(p);
+                            if (regExp.hasMatch(val)) {
+                              return null;
+                            }
+                            return 'Email không hợp lệ';
+                          },
                         ),
                         SizedBox(height: 30.sp),
                         // Username Field
-                        FormBuilderTextField(
+                        TextFormField(
                           key: _registerController.usernameFieldKey,
-                          name: 'username',
                           style: AppTextStyles.bodyText1,
                           decoration: InputDecoration(
-                            contentPadding: EdgeInsets.fromLTRB(12.sp, 0, 12.sp, 0),
+                            contentPadding:
+                                EdgeInsets.fromLTRB(12.sp, 0, 12.sp, 0),
                             filled: true,
                             fillColor: Colors.white,
                             labelText: 'Tên tài khoản',
-                            labelStyle: AppTextStyles.bodyText1.copyWith(
-                                color: ColorsConstants.kMainColor
-                            ),
+                            labelStyle: AppTextStyles.bodyText1
+                                .copyWith(color: ColorsConstants.kMainColor),
                             errorStyle: AppTextStyles.error,
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10),
                             ),
                             focusedBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(10),
-                                borderSide: BorderSide(color: ColorsConstants.kMainColor, width: 2)
-                            ),
+                                borderSide: BorderSide(
+                                    color: ColorsConstants.kMainColor,
+                                    width: 2)),
                           ),
-                          autovalidateMode: AutovalidateMode.onUserInteraction,
-                          validator: FormBuilderValidators.compose([
-                            FormBuilderValidators.required(errorText: "Không được để trống trường này"),
-                            FormBuilderValidators.maxWordsCount(254,errorText: "Tên không hợp lệ"),
-                          ]),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return "Không được để trống trường này";
+                            }
+                            if (value.length > 254) {
+                              return "Tên không hợp lệ";
+                            }
+                            return null;
+                          },
+                          onChanged: (value) {
+                            _registerController.usernameFieldKey.currentState!
+                                .validate();
+                          },
                         ),
                         SizedBox(height: 30.sp),
-                        Obx(
-                              () => FormBuilderTextField(
-                            key: _registerController.passwordFieldKey,
-                            name: 'password',
-                            obscureText: _registerController.passwordVisible.value,
-                            style: AppTextStyles.bodyText1,
-                            decoration: InputDecoration(
-                              contentPadding:
-                              EdgeInsets.fromLTRB(12.sp, 0, 12.sp, 0),
-                              filled: true,
-                              fillColor: Colors.white,
-                              labelText: 'Mật khẩu',
-                              labelStyle: AppTextStyles.bodyText1.copyWith(
-                                  color: ColorsConstants.kMainColor
-                              ),
-                              errorStyle: AppTextStyles.error,
-                              suffixIcon: Obx(() => IconButton(
-                                color: ColorsConstants.kMainColor,
-                                icon: _registerController.passwordVisible.value
-                                    ? Icon(IconlyLight.show)
-                                    : Icon(IconlyLight.hide),
-                                onPressed: () {
-                                  _registerController.passwordVisible.value = !_registerController.passwordVisible.value;
-                                },
-                              )),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                  borderSide: BorderSide(
-                                      color: ColorsConstants.kMainColor,
-                                      width: 2)),
-                            ),
-                            autovalidateMode: AutovalidateMode.onUserInteraction,
-                            validator: FormBuilderValidators.compose([
-                              FormBuilderValidators.required(errorText: "Không được để trống trường này"),
-                              FormBuilderValidators.minLength(8, errorText: 'Mật khẩu cần dài ít nhất 8 ký tự')
-                            ]),
-                          ),
-                        ),
-                        SizedBox(height: 30.sp),
-                        Obx(
-                              () => FormBuilderTextField(
-                            key: _registerController.confirmPasswordFieldKey,
-                            name: 'confirmpassword',
-                            obscureText: _registerController.confirmPasswordVisible.value,
-                            style: AppTextStyles.bodyText1,
-                            decoration: InputDecoration(
-                              contentPadding:
-                              EdgeInsets.fromLTRB(12.sp, 0, 12.sp, 0),
-                              filled: true,
-                              fillColor: Colors.white,
-                              labelText: 'Xác nhận mật khẩu',
-                              labelStyle: AppTextStyles.bodyText1.copyWith(
-                                  color: ColorsConstants.kMainColor
-                              ),
-                              errorStyle: AppTextStyles.error,
-                              suffixIcon: Obx(() => IconButton(
-                                color: ColorsConstants.kMainColor,
-                                icon: _registerController.confirmPasswordVisible.value
-                                    ? Icon(IconlyLight.show)
-                                    : Icon(IconlyLight.hide),
-                                onPressed: () {
-                                  _registerController.confirmPasswordVisible.value = !_registerController.confirmPasswordVisible.value;
-                                },
-                              )),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                  borderSide: BorderSide(
-                                      color: ColorsConstants.kMainColor,
-                                      width: 2)),
-                            ),
-                            autovalidateMode: AutovalidateMode.onUserInteraction,
-                            validator: FormBuilderValidators.compose([
-                              (val) {
-                                if (val != _registerController.formKey.currentState?.fields['password']!.value) {
-                                  return 'Mật khẩu không khớp';
-                                }
-                                return null;
+                        // Password Field
+                        TextFormField(
+                          key: _registerController.passwordFieldKey,
+                          style: AppTextStyles.bodyText1,
+                          obscureText:
+                              _registerController.passwordVisible.value,
+                          decoration: InputDecoration(
+                            contentPadding:
+                                EdgeInsets.fromLTRB(12.sp, 0, 12.sp, 0),
+                            filled: true,
+                            fillColor: Colors.white,
+                            labelText: 'Mật khẩu',
+                            labelStyle: AppTextStyles.bodyText1
+                                .copyWith(color: ColorsConstants.kMainColor),
+                            errorStyle: AppTextStyles.error,
+                            suffixIcon: IconButton(
+                              color: ColorsConstants.kMainColor,
+                              icon: _registerController.passwordVisible.value
+                                  ? Icon(IconlyLight.show)
+                                  : Icon(IconlyLight.hide),
+                              onPressed: () {
+                                _registerController.passwordVisible.value =
+                                    !_registerController.passwordVisible.value;
                               },
-                              FormBuilderValidators.required(errorText: "Không được để trống trường này"),
-                              FormBuilderValidators.minLength(8, errorText: 'Mật khẩu cần dài ít nhất 8 ký tự'),
-                            ]),
-
+                            ),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                                borderSide: BorderSide(
+                                    color: ColorsConstants.kMainColor,
+                                    width: 2)),
                           ),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return "Không được để trống trường này";
+                            }
+                            if (value.length < 8) {
+                              return "Mật khẩu cần dài ít nhất 8 ký tự";
+                            }
+                            return null;
+                          },
+                        ),
+                        SizedBox(height: 30.sp),
+                        // Confirm Password Field
+                        TextFormField(
+                          key: _registerController.confirmPasswordFieldKey,
+                          style: AppTextStyles.bodyText1,
+                          obscureText:
+                              _registerController.confirmPasswordVisible.value,
+                          decoration: InputDecoration(
+                            contentPadding:
+                                EdgeInsets.fromLTRB(12.sp, 0, 12.sp, 0),
+                            filled: true,
+                            fillColor: Colors.white,
+                            labelText: 'Xác nhận mật khẩu',
+                            labelStyle: AppTextStyles.bodyText1
+                                .copyWith(color: ColorsConstants.kMainColor),
+                            errorStyle: AppTextStyles.error,
+                            suffixIcon: IconButton(
+                              color: ColorsConstants.kMainColor,
+                              icon: _registerController
+                                      .confirmPasswordVisible.value
+                                  ? Icon(IconlyLight.show)
+                                  : Icon(IconlyLight.hide),
+                              onPressed: () {
+                                _registerController
+                                        .confirmPasswordVisible.value =
+                                    !_registerController
+                                        .confirmPasswordVisible.value;
+                              },
+                            ),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                                borderSide: BorderSide(
+                                    color: ColorsConstants.kMainColor,
+                                    width: 2)),
+                          ),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return "Không được để trống trường này";
+                            }
+                            if (value !=
+                                _registerController
+                                    .passwordFieldKey.currentState?.value) {
+                              return 'Mật khẩu không khớp';
+                            }
+                            if (value.length < 8) {
+                              return "Mật khẩu cần dài ít nhất 8 ký tự";
+                            }
+                            return null;
+                          },
                         ),
                         SizedBox(height: 24.sp),
                         Column(
@@ -253,8 +279,8 @@ class RegisterScreen extends StatelessWidget {
                           child: ElevatedButton(
                               onPressed: () {
                                 // Get.toNamed('/profilePage');
-                                if (_registerController.formKey.currentState!.saveAndValidate()) {
-                                  _registerController.register(_registerController.formKey.currentState!.value);
+                                if (_registerController.formKey.currentState!.validate()) {
+                                  _registerController.register();
                                 }
                               },
                               style: CustomButtonStyle.primaryButton,
