@@ -75,132 +75,243 @@ class _CollectorDetailProcessScreenState
                       color: ColorsConstants.kActiveColor,
                     );
                   } else {
-                    return Column(children: [
-                      Center(
-                        child: RichText(
-                          text: TextSpan(
-                            text: 'Minh chứng thu gom:  ',
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 18,
+                    return FormBuilder(
+                      key: _collectorDetailProcessController.formKey,
+                      child: Column(children: [
+                        Center(
+                          child: RichText(
+                            text: TextSpan(
+                              text: 'Minh chứng thu gom:  ',
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18,
+                              ),
+                              children: [
+                                TextSpan(
+                                  text: _collectorDetailProcessController
+                                      .requestDetailModel.trash_type,
+                                  style: TextStyle(
+                                    color: ColorsConstants.kMainColor,
+                                    fontSize: 18,
+                                  ),
+                                ),
+                              ],
                             ),
-                            children: [
-                              TextSpan(
-                                text: _collectorDetailProcessController
-                                    .requestDetailModel.trash_type,
-                                style: TextStyle(
-                                  color: ColorsConstants.kMainColor,
-                                  fontSize: 18,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 20.sp,
+                        ),
+                        Container(
+                            height: 205.sp,
+                            width: 205.sp,
+                            // color: ColorsConstants.kBackgroundColor,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(18.sp),
+                                color: ColorsConstants.kActiveColor),
+                            child: Center(
+                              child: SizedBox(
+                                height: 200.sp,
+                                width: 200.sp,
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(18.sp),
+                                  child: Obx(() {
+                                    if (_collectorDetailProcessController
+                                            .imagePath.value ==
+                                        "") {
+                                      return Image.asset(
+                                          'assets/images/chupanhminhchung.gif');
+                                    } else {
+                                      return _collectorDetailProcessController
+                                          .imageWidget;
+                                    }
+                                  }),
                                 ),
                               ),
-                            ],
-                          ),
+                            )),
+                        SizedBox(
+                          height: 30.sp,
                         ),
-                      ),
-                      SizedBox(
-                        height: 20.sp,
-                      ),
-                      Container(
-                          height: 205.sp,
-                          width: 205.sp,
-                          // color: ColorsConstants.kBackgroundColor,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(18.sp),
-                              color: ColorsConstants.kActiveColor),
-                          child: Center(
-                            child: SizedBox(
-                              height: 200.sp,
-                              width: 200.sp,
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(18.sp),
-                                child: Obx(() {
-                                  if (_collectorDetailProcessController
-                                          .imagePath.value ==
-                                      "") {
-                                    return Image.asset(
-                                        'assets/images/chupanhminhchung.gif');
-                                  } else {
-                                    return _collectorDetailProcessController
-                                        .imageWidget;
-                                  }
-                                }),
-                              ),
+                        // Address Field
+                        // FormBuilderTextField(
+                        //   name: 'address',
+                        //   enabled: false,
+                        //   initialValue: _collectorDetailProcessController
+                        //       .requestDetailModel.address,
+                        //   decoration: InputDecoration(
+                        //     contentPadding:
+                        //         EdgeInsets.fromLTRB(12.sp, 0, 12.sp, 0),
+                        //     filled: true,
+                        //     fillColor: Colors.white,
+                        //     labelText: 'Địa chỉ',
+                        //     labelStyle: TextStyle(
+                        //         fontSize: 16.sp,
+                        //         color: ColorsConstants.kMainColor),
+                        //     border: OutlineInputBorder(
+                        //       borderRadius: BorderRadius.circular(10),
+                        //     ),
+                        //     disabledBorder: OutlineInputBorder(
+                        //         borderRadius: BorderRadius.circular(10),
+                        //         borderSide: BorderSide(
+                        //             color: ColorsConstants.kMainColor, width: 2)),
+                        //   ),
+                        //   style: AppTextStyles.bodyText1.copyWith(
+                        //     color: ColorsConstants
+                        //         .kTextMainColor, // Màu cho giá trị initialValue
+                        //   ),
+                        // ),
+                        // SizedBox(
+                        //   height: 30.sp,
+                        // ),
+                        // FormBuilderTextField(
+                        //   name: 'phonenumber',
+                        //   enabled: false,
+                        //   initialValue: _collectorDetailProcessController
+                        //       .requestDetailModel.phone_number,
+                        //   decoration: InputDecoration(
+                        //     contentPadding:
+                        //         EdgeInsets.fromLTRB(12.sp, 0, 12.sp, 0),
+                        //     filled: true,
+                        //     fillColor: Colors.white,
+                        //     labelText: 'Số điẹn thoại/zalo liên hệ',
+                        //     labelStyle: TextStyle(
+                        //         fontSize: 16.sp,
+                        //         color: ColorsConstants.kMainColor),
+                        //     border: OutlineInputBorder(
+                        //       borderRadius: BorderRadius.circular(10),
+                        //     ),
+                        //     disabledBorder: OutlineInputBorder(
+                        //         borderRadius: BorderRadius.circular(10),
+                        //         borderSide: BorderSide(
+                        //             color: ColorsConstants.kMainColor, width: 2)),
+                        //   ),
+                        //   style: AppTextStyles.bodyText1.copyWith(
+                        //     color: ColorsConstants
+                        //         .kTextMainColor, // Màu cho giá trị initialValue
+                        //   ),
+                        // ),
+                        // Amount Collected Field
+                        FormBuilderTextField(
+                          key: _collectorDetailProcessController
+                              .amountCollectedFieldKey,
+                          name: 'amount_collected',
+                          minLines: 1,
+                          maxLines: 3,
+                          decoration: InputDecoration(
+                            contentPadding:
+                                EdgeInsets.fromLTRB(12.sp, 10.sp, 12.sp, 10.sp),
+                            filled: true,
+                            fillColor: Colors.white,
+                            labelText: 'Khối lượng rác thu gom',
+                            labelStyle: TextStyle(
+                                fontSize: 16.sp,
+                                color: ColorsConstants.kMainColor),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
                             ),
-                          )),
-                      SizedBox(
-                        height: 30.sp,
-                      ),
-                      // Address Field
-                      FormBuilderTextField(
-                        name: 'address',
-                        enabled: false,
-                        initialValue: _collectorDetailProcessController
-                            .requestDetailModel.address,
-                        decoration: InputDecoration(
-                          contentPadding:
-                              EdgeInsets.fromLTRB(12.sp, 0, 12.sp, 0),
-                          filled: true,
-                          fillColor: Colors.white,
-                          labelText: 'Địa chỉ',
-                          labelStyle: TextStyle(
-                              fontSize: 16.sp,
-                              color: ColorsConstants.kMainColor),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
+                            disabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                                borderSide: BorderSide(
+                                    color: ColorsConstants.kMainColor,
+                                    width: 2)),
+                            focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                                borderSide: BorderSide(
+                                    color: ColorsConstants.kMainColor,
+                                    width: 2)),
                           ),
-                          disabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                              borderSide: BorderSide(
-                                  color: ColorsConstants.kMainColor, width: 2)),
-                        ),
-                        style: AppTextStyles.bodyText1.copyWith(
-                          color: ColorsConstants
-                              .kTextMainColor, // Màu cho giá trị initialValue
-                        ),
-                      ),
-                      SizedBox(
-                        height: 30.sp,
-                      ),
-                      FormBuilderTextField(
-                        name: 'phonenumber',
-                        enabled: false,
-                        initialValue: _collectorDetailProcessController
-                            .requestDetailModel.phone_number,
-                        decoration: InputDecoration(
-                          contentPadding:
-                              EdgeInsets.fromLTRB(12.sp, 0, 12.sp, 0),
-                          filled: true,
-                          fillColor: Colors.white,
-                          labelText: 'Số điẹn thoại/zalo liên hệ',
-                          labelStyle: TextStyle(
-                              fontSize: 16.sp,
-                              color: ColorsConstants.kMainColor),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
+                          style: AppTextStyles.bodyText1.copyWith(
+                            color: ColorsConstants
+                                .kTextMainColor, // Màu cho giá trị initialValue
                           ),
-                          disabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                              borderSide: BorderSide(
-                                  color: ColorsConstants.kMainColor, width: 2)),
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          validator: FormBuilderValidators.compose([
+                            FormBuilderValidators.required(
+                                errorText: "Không được để trống trường này"),
+                          ]),
                         ),
-                        style: AppTextStyles.bodyText1.copyWith(
-                          color: ColorsConstants
-                              .kTextMainColor, // Màu cho giá trị initialValue
+                        SizedBox(
+                          height: 30.sp,
                         ),
+                        // Collection Price Field
+                         FormBuilderTextField(
+                      key: _collectorDetailProcessController.collectionPriceFieldKey,
+                      name: 'collection_price',
+                      minLines: 1,
+                      maxLines: 3,
+                      decoration: InputDecoration(
+                        contentPadding:
+                            EdgeInsets.fromLTRB(12.sp, 10.sp, 12.sp, 10.sp),
+                        filled: true,
+                        fillColor: Colors.white,
+                        labelText: 'Số tiền thu gom',
+                        labelStyle: TextStyle(
+                            fontSize: 16.sp, color: ColorsConstants.kMainColor),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        disabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: BorderSide(
+                                color: ColorsConstants.kMainColor, width: 2)),
+                        focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: BorderSide(
+                                color: ColorsConstants.kMainColor, width: 2)),
                       ),
-                      SizedBox(
-                        height: 20.sp,
+                      style: AppTextStyles.bodyText1.copyWith(
+                        color: ColorsConstants
+                            .kTextMainColor, // Màu cho giá trị initialValue
                       ),
-                      Align(
-                        alignment: Alignment.bottomCenter,
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(vertical: 15.sp),
-                          child: SingleChildScrollView(
-                            child: CarouselSlider(
-                              carouselController: _carouselController,
-                              items: [
-                                ElevatedButton(
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      validator: FormBuilderValidators.compose([
+                        FormBuilderValidators.required(
+                            errorText: "Không được để trống trường này"),
+                      ]),
+                    ),
+                        SizedBox(
+                          height: 20.sp,
+                        ),
+                        Align(
+                          alignment: Alignment.bottomCenter,
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(vertical: 15.sp),
+                            child: SingleChildScrollView(
+                              child: CarouselSlider(
+                                carouselController: _carouselController,
+                                items: [
+                                  ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                        // minimumSize: Size(65.sp, 65.sp),
+                                        shape: CircleBorder(),
+                                        padding: EdgeInsets.all(5.sp),
+                                        backgroundColor:
+                                            ColorsConstants.kBackgroundColor,
+                                        elevation: 2,
+                                      ),
+                                      onPressed: () {
+                                        _carouselController.animateToPage(0);
+                                        _collectorDetailProcessController
+                                            .getImageFromCamera();
+                                      },
+                                      child: SvgPicture.asset(
+                                        'assets/icons/ic_scan.svg',
+                                        colorFilter: ColorFilter.mode(
+                                            ColorsConstants.kMainColor,
+                                            BlendMode.srcIn),
+                                        width: 40.sp,
+                                        height: 40.sp,
+                                      )),
+                                  ElevatedButton(
+                                    onPressed: () {
+                                      _carouselController.animateToPage(1);
+                                      _collectorDetailProcessController
+                                          .getImageFromGallery();
+                                    },
+                                    child: Icon(Icons.image_outlined,
+                                        color: ColorsConstants.kMainColor,
+                                        size: 36.sp),
                                     style: ElevatedButton.styleFrom(
                                       // minimumSize: Size(65.sp, 65.sp),
                                       shape: CircleBorder(),
@@ -209,85 +320,69 @@ class _CollectorDetailProcessScreenState
                                           ColorsConstants.kBackgroundColor,
                                       elevation: 2,
                                     ),
-                                    onPressed: () {
-                                      _carouselController.animateToPage(0);
-                                      _collectorDetailProcessController
-                                          .getImageFromCamera();
-                                    },
-                                    child: SvgPicture.asset(
-                                      'assets/icons/ic_scan.svg',
-                                      colorFilter: ColorFilter.mode(
-                                          ColorsConstants.kMainColor,
-                                          BlendMode.srcIn),
-                                      width: 40.sp,
-                                      height: 40.sp,
-                                    )),
-                                ElevatedButton(
-                                  onPressed: () {
-                                    _carouselController.animateToPage(1);
-                                    _collectorDetailProcessController
-                                        .getImageFromGallery();
-                                  },
-                                  child: Icon(Icons.image_outlined,
-                                      color: ColorsConstants.kMainColor,
-                                      size: 36.sp),
-                                  style: ElevatedButton.styleFrom(
-                                    // minimumSize: Size(65.sp, 65.sp),
-                                    shape: CircleBorder(),
-                                    padding: EdgeInsets.all(5.sp),
-                                    backgroundColor:
-                                        ColorsConstants.kBackgroundColor,
-                                    elevation: 2,
-                                  ),
-                                )
-                              ],
-                              options: CarouselOptions(
-                                  height: 65.sp,
-                                  enlargeCenterPage: true,
-                                  viewportFraction: 0.3,
-                                  enableInfiniteScroll: false),
+                                  )
+                                ],
+                                options: CarouselOptions(
+                                    height: 65.sp,
+                                    enlargeCenterPage: true,
+                                    viewportFraction: 0.3,
+                                    enableInfiniteScroll: false),
+                              ),
                             ),
                           ),
                         ),
-                      ),
 
-                      SizedBox(
-                        height: 20.sp,
-                      ),
-                      Center(
-                        child: ElevatedButton(
-                          onPressed: () {
-                            CustomDialogs.confirmDialog(
-                                'Gửi Minh chứng',
-                                Text(
-                                  'Gửi minh chứng này cho người dân?',
-                                  style: AppTextStyles.bodyText2
-                                      .copyWith(fontSize: 12.sp),
-                                  textAlign: TextAlign.center,
-                                ), () async {
-                              await _collectorDetailProcessController.sendComfirmPhoto(
-                                  _collectorDetailProcessController.requestId);
-                              await Get.offAllNamed('/mainPage');
-                            });
-                          },
-                          child: Text(
-                            'Gửi minh chứng',
-                            style: TextStyle(
-                              fontSize: 16.sp,
-                              color: Colors.white,
-                            ),
-                          ),
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: ColorsConstants.kMainColor,
-                            padding:
-                                EdgeInsets.fromLTRB(20.sp, 10.sp, 20.sp, 10.sp),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                          ),
+                        SizedBox(
+                          height: 20.sp,
                         ),
-                      )
-                    ]);
+                        Center(
+                          child: ElevatedButton(
+                            onPressed: () {
+                              if (_collectorDetailProcessController
+                                      .imagePath.value ==
+                                  "") {
+                                CustomDialogs.showSnackBar(
+                                    3, "Vui lòng chụp ảnh", 'error');
+                              } else if(_collectorDetailProcessController.formKey.currentState?.validate() == true) {
+                                // _collectorDetailProcessController.amountCollected.value = _collectorDetailProcessController.amountCollectedFieldKey.currentState?.value;
+                                // _collectorDetailProcessController.collectionPrice.value = _collectorDetailProcessController.collectionPriceFieldKey.currentState?.value;
+                                CustomDialogs.confirmDialog(
+                                    'Gửi Minh chứng',
+                                    Text(
+                                      'Gửi minh chứng này cho người dân?',
+                                      style: AppTextStyles.bodyText1
+                                          .copyWith(fontSize: 14.sp),
+                                      textAlign: TextAlign.center,
+                                    ), () async {
+                                  await _collectorDetailProcessController
+                                      .sendComfirmInfo(
+                                    _collectorDetailProcessController.requestId,
+                                    _collectorDetailProcessController.amountCollectedFieldKey.currentState?.value,
+                                     _collectorDetailProcessController.collectionPriceFieldKey.currentState?.value,
+                                  );
+                                  await Get.offAllNamed('/mainPage');
+                                });
+                              }
+                            },
+                            child: Text(
+                              'Gửi minh chứng',
+                              style: TextStyle(
+                                fontSize: 16.sp,
+                                color: Colors.white,
+                              ),
+                            ),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: ColorsConstants.kMainColor,
+                              padding: EdgeInsets.fromLTRB(
+                                  20.sp, 10.sp, 20.sp, 10.sp),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
+                          ),
+                        )
+                      ]),
+                    );
                   }
                 }),
               ),

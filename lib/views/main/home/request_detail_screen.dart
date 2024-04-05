@@ -129,9 +129,7 @@ class PersonUI extends StatelessWidget {
               ),
             ),
           ),
-          placeholder: (context, url) => CircularProgressIndicator(
-            color: ColorsConstants.kMainColor,
-          ),
+          placeholder: (context, url) => Image.asset("assets/images/placeholder.png"),
           errorWidget: (context, url, error) => Icon(Icons.error),
         ),
         SizedBox(
@@ -274,10 +272,11 @@ class PersonUI extends StatelessWidget {
                           Text(
                             'Bạn chắc chắn muốn hủy yêu cầu thu gom này?',
                             style: AppTextStyles.bodyText2
-                                .copyWith(fontSize: 12.sp),
+                                .copyWith(fontSize: 14.sp),
                             textAlign: TextAlign.center,
                           ), () {
                         Get.back();
+
                         _requestDetailController
                             .cancelRequest(_requestDetailController.requestId);
                       });
@@ -340,7 +339,7 @@ class PersonUI extends StatelessWidget {
                               return AlertDialog(
                                 title: Center(
                                   child: Text(
-                                    "Minh chứng",
+                                    "Xem Minh chứng",
                                     style: AppTextStyles.caption,
                                   ),
                                 ),
@@ -365,10 +364,8 @@ class PersonUI extends StatelessWidget {
                                     child: SizedBox(
                                       height: 20.sp,
                                       width: 20.sp,
-                                      child: const CircularProgressIndicator(
-                                        strokeWidth: 2,
-                                        color: ColorsConstants.kActiveColor,
-                                      ),
+                                      child: Image.asset(
+                                          "assets/images/placeholder.png"),
                                     ),
                                   ),
                                   errorWidget: (context, url, error) =>
@@ -396,7 +393,7 @@ class PersonUI extends StatelessWidget {
                         },
                         style: CustomButtonStyle.infoButton,
                         child: Text(
-                          'Minh chứng',
+                          'Xem kết quả',
                           style:
                               TextStyle(color: Colors.white, fontSize: 16.sp),
                         )),
@@ -504,9 +501,7 @@ class CollectorUI extends StatelessWidget {
               ),
             ),
           ),
-          placeholder: (context, url) => CircularProgressIndicator(
-            color: ColorsConstants.kMainColor,
-          ),
+          placeholder: (context, url) => Image.asset("assets/images/placeholder.png"),
           errorWidget: (context, url, error) => Icon(Icons.error),
         ),
         SizedBox(
@@ -663,10 +658,8 @@ class CollectorUI extends StatelessWidget {
                                       child: SizedBox(
                                         height: 20.sp,
                                         width: 20.sp,
-                                        child: const CircularProgressIndicator(
-                                          strokeWidth: 2,
-                                          color: ColorsConstants.kActiveColor,
-                                        ),
+                                        child: Image.asset(
+                                            "assets/images/placeholder.png"),
                                       ),
                                     ),
                                     errorWidget: (context, url, error) =>
@@ -769,7 +762,7 @@ class CollectorUI extends StatelessWidget {
                                 Text(
                                   'Bạn chắc chắn muốn bỏ qua thu gom yêu cầu này?',
                                   style: AppTextStyles.bodyText2
-                                      .copyWith(fontSize: 12.sp),
+                                      .copyWith(fontSize: 14.sp),
                                   textAlign: TextAlign.center,
                                 ), () {
                               Get.back();
@@ -809,7 +802,7 @@ class CollectorUI extends StatelessWidget {
                                 Text(
                                   'Bạn chắc chắn muốn xác nhận thu gom yêu cầu này? Yêu cầu này sẽ được chuyển vào phần đã xử lý ',
                                   style: AppTextStyles.bodyText2
-                                      .copyWith(fontSize: 12.sp),
+                                      .copyWith(fontSize: 13.sp),
                                   textAlign: TextAlign.center,
                                 ), () async {
                               await _requestDetailController.confirmRequest(
@@ -887,9 +880,7 @@ class AdminUI extends StatelessWidget {
               ),
             ),
           ),
-          placeholder: (context, url) => CircularProgressIndicator(
-            color: ColorsConstants.kMainColor,
-          ),
+          placeholder: (context, url) => Image.asset("assets/images/placeholder.png"),
           errorWidget: (context, url, error) => Icon(Icons.error),
         ),
         SizedBox(
@@ -1019,10 +1010,7 @@ class AdminUI extends StatelessWidget {
                                       child: SizedBox(
                                         height: 20.sp,
                                         width: 20.sp,
-                                        child: const CircularProgressIndicator(
-                                          strokeWidth: 2,
-                                          color: ColorsConstants.kActiveColor,
-                                        ),
+                                        child: Image.asset("assets/images/placeholder.png"),
                                       ),
                                     ),
                                     errorWidget: (context, url, error) =>
