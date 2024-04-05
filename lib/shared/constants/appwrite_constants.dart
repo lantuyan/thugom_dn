@@ -21,4 +21,6 @@ class AppWriteConstants {
 
   static String trashBucketId = "";
   static String categoryDetailCollectionId = "";
+
+  static String categoryPointsCollectionId = "660c1bb0900688d238c2";
 }
