@@ -111,11 +111,11 @@ class _tabListRequestState extends State<listRequest> {
                   ),
                 if (widget.userController.hasNextPage == false)
                   AnimatedOpacity(
-                    duration: Duration(milliseconds: 500),
+                    duration: const Duration(milliseconds: 10),
                     opacity: _isVisible ? 1.0 : 0.0,
                     child: Center(
                       child:
-                          Text('Đã Hết Yêu Cầu...', style: AppTextStyles.error),
+                          Text('Không còn Yêu Cầu nào nữa...', style: AppTextStyles.error),
                     ),
                   )
               ],

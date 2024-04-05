@@ -26,7 +26,7 @@ class UserRequestTrashRepository{
   Future<void> cancelRequest(String requestId) => _userRequestTrashProvider.cancelRequest(requestId);
   Future<void> hiddenRequest(String requestId, List<String> hidden) => _userRequestTrashProvider.hiddenRequest(requestId,hidden);
   Future<void> confirmRequest(String requestId, String userId) => _userRequestTrashProvider.confirmRequest(requestId,userId);
-  Future<void> sendComfirmPhoto(String requestId, String photoConfirm) => _userRequestTrashProvider.sendComfirmPhoto(requestId, photoConfirm);
+  Future<void> sendComfirmInfo(String requestId, String photoConfirm, String amount_collected, String collection_price ) => _userRequestTrashProvider.sendComfirmInfo(requestId, photoConfirm, amount_collected, collection_price);
   Future<models.Document> checkConfirmRequest(String requestId) => _userRequestTrashProvider.checkConfirmRequest(requestId);
 
   Future<void> sendRequestToAppwrite(UserRequestTrashModel userRequestTrashModel) => _userRequestTrashProvider.sendRequestToAppwrite(userRequestTrashModel);
