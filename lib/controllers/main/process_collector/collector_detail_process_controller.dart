@@ -22,13 +22,16 @@ class CollectorDetailProcessController extends GetxController {
 
   //Key
   final GlobalKey<FormBuilderState> formKey = GlobalKey<FormBuilderState>();
-  final desriptionFieldKey = GlobalKey<FormBuilderFieldState>();
-  final addressFieldKey = GlobalKey<FormBuilderFieldState>();
-  final phoneNumberFieldKey = GlobalKey<FormBuilderFieldState>();
+  final amountCollectedFieldKey = GlobalKey<FormBuilderFieldState>();
+  final collectionPriceFieldKey = GlobalKey<FormBuilderFieldState>();
+
   late String imageLink;
   RxBool loading = true.obs;
   RxMap data = {}.obs;
   RxString imagePath = "".obs;
+  // RxInt amountCollected = 0.obs;
+  // RxString collectionPrice = "".obs;
+
   late String requestId;
 
   late UserRequestTrashModel requestDetailModel;
@@ -91,12 +94,12 @@ class CollectorDetailProcessController extends GetxController {
     }
   }
 
-  Future<void> sendComfirmPhoto(String requestId) async {
+  Future<void> sendComfirmInfo(String requestId, String amount_collected, String collection_price) async {
     CustomDialogs.showLoadingDialog();
     await uploadImageToAppwrite();
     String pathPhoto = imageLink;
     await _requestRepository
-        .sendComfirmPhoto(requestId, pathPhoto)
+        .sendComfirmInfo(requestId, pathPhoto, amount_collected, collection_price)
         .then((value) {
       CustomDialogs.hideLoadingDialog();
       Get.offNamed('/mainPage');

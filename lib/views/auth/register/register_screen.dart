@@ -291,26 +291,60 @@ class RegisterScreen extends StatelessWidget {
                           ),
                         ),
                         SizedBox(height: 40.sp),
-                        Column(
+                        Row(
                           children: [
-                            Text('Đã có tài khoản ?',
-                                style: AppTextStyles.headline3.copyWith(
-                                  fontSize: 13.sp,
-                                    fontWeight: FontWeight.w700
-                                )
+                            Expanded(
+                              child: Column(
+                                children: [
+                                  Text('Đã có tài khoản ?',
+                                      style: AppTextStyles.headline3.copyWith(
+                                        fontSize: 13.sp,
+                                          fontWeight: FontWeight.w700
+                                      )
+                                  ),
+                                  GestureDetector(
+                                      onTap: () {
+                                        Get.offAndToNamed("/loginPage");
+                                      },
+                                      child: Text('Đăng nhập ngay',
+                                          style: AppTextStyles.headline3.copyWith(
+                                              fontWeight: FontWeight.w600,
+                                              color: ColorsConstants.kMainColor,
+                                              decoration: TextDecoration.underline,
+                                              decorationColor: ColorsConstants.kMainColor
+                                          )
+                                      )
+                                  ),
+                                ],
+                              ),
                             ),
-                            GestureDetector(
-                                onTap: () {
-                                  Get.offAndToNamed("/loginPage");
-                                },
-                                child: Text('Đăng nhập ngay',
-                                    style: AppTextStyles.headline3.copyWith(
-                                        fontWeight: FontWeight.w600,
-                                        color: ColorsConstants.kMainColor,
-                                        decoration: TextDecoration.underline,
-                                        decorationColor: ColorsConstants.kMainColor
-                                    )
-                                )
+                            Expanded(
+                              child: Column(
+                                children: [
+                                  Text('Hoặc đăng ký bằng',
+                                      style: AppTextStyles.headline3.copyWith(
+                                          fontSize: 13.sp,
+                                          fontWeight: FontWeight.w700
+                                      )
+                                  ),
+                                  GestureDetector(
+                                      onTap: () {
+                                        Get.toNamed("/registerOrLoginWithPhonePage",arguments: {
+                                          'actionType': 'register'
+                                        });
+                                      },
+                                      child: Text('Số điện thoại',
+                                        style: AppTextStyles.headline3.copyWith(
+                                          fontWeight: FontWeight.w600,
+                                          color: ColorsConstants.kMainColor,
+                                          decoration: TextDecoration.underline,
+                                          decorationColor: ColorsConstants.kMainColor,
+                                        ),
+                                        textAlign: TextAlign.center,
+                                      )
+                                  ),
+                                ],
+                              ),
                             )
                           ],
                         )

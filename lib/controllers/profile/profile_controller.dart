@@ -105,15 +105,22 @@ class ProfileController extends GetxController {
   final phonenumberFieldKey = GlobalKey<FormBuilderFieldState>();
   final zalonumberFieldKey = GlobalKey<FormBuilderFieldState>();
   final streetFieldKey = GlobalKey<FormBuilderFieldState>();
+  var role;
+  var phonenumber;
+  var registerType;
+  RxBool isLoading = true.obs;
   @override
-  void onInit() {
+  Future<void> onInit() async {
     super.onInit();
     selectedDistrict.value = districts.first;
     selectedSubDistrict.value = subDistricts[selectedDistrict.value]!.first;
-
+    role = await _getStorage.read('role');
+    registerType = await _getStorage.read('registerType');
+    if(registerType == 'sms'){
+      phonenumber = await _getStorage.read('phonenumber');
+    }
+    isLoading.value = false;
   }
-
-
 
   Future<void> updateProfile(Map formValue) async {
     CustomDialogs.showLoadingDialog();
@@ -124,9 +131,12 @@ class ProfileController extends GetxController {
       await _getStorage.write('phonenumber', formValue['phonenumber']);
       await _getStorage.write('zalonumber', formValue['zalonumber']);
       await _getStorage.write('address', address);
-
-      DataManager().saveData('name',formValue['name']);
-      
+      DataManager().saveData('userId', userId);
+      DataManager().saveData('name', formValue['name']);
+      DataManager().saveData('role', await _getStorage.read('role'));
+      DataManager().saveData('zalonumber', formValue['zalonumber']);
+      DataManager().saveData('phonenumber', formValue['phonenumber']);
+      DataManager().saveData('address', address);
       CustomDialogs.hideLoadingDialog();
       Get.offAllNamed('/mainPage');
     }).catchError((onError){

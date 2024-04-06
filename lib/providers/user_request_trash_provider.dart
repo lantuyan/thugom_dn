@@ -139,10 +139,8 @@ class UserRequestTrashProvider {
     // final GetStorage _getStorage = GetStorage();
     // final userID = _getStorage.read('userId');
     final subscription = realtime.subscribe(
-      [
-        'collections.${AppWriteConstants.userRequestTrashCollection}'
-      ]);
-    
+        ['collections.${AppWriteConstants.userRequestTrashCollection}']);
+
     subscription.stream.listen((response) {
       print('event: $response');
     });
@@ -158,12 +156,18 @@ class UserRequestTrashProvider {
     // return response;
   }
 
-  Future<void> sendComfirmPhoto(String requestId, String? photoConfirm) async {
+  Future<void> sendComfirmInfo(String requestId, String? photoConfirm,
+      String? amount_collected, String? collection_price) async {
     await databases?.updateDocument(
       databaseId: AppWriteConstants.databaseId,
       collectionId: AppWriteConstants.userRequestTrashCollection,
       documentId: requestId,
-      data: {'finishImage': photoConfirm, 'status': 'confirming'},
+      data: {
+        'finishImage': photoConfirm,
+        'amount_collected': amount_collected,
+        'collection_price': collection_price,
+        'status': 'confirming'
+      },
     );
   }
 
@@ -232,13 +236,14 @@ class UserRequestTrashProvider {
     }
   }
 
-  Future sendFeedbackToAppwrite(UserRequestTrashModel userRequestTrashModel) async {
+  Future sendFeedbackToAppwrite(
+      UserRequestTrashModel userRequestTrashModel) async {
     try {
       await databases.createDocument(
-        databaseId: AppWriteConstants.databaseId,
-        collectionId: AppWriteConstants.userFeedbackTrashCollection,
-        documentId: userRequestTrashModel.requestId,
-        data : {
+          databaseId: AppWriteConstants.databaseId,
+          collectionId: AppWriteConstants.userFeedbackTrashCollection,
+          documentId: userRequestTrashModel.requestId,
+          data: {
             "senderId": userRequestTrashModel.senderId,
             "image": userRequestTrashModel.image,
             "phone_number": userRequestTrashModel.phone_number,
@@ -247,8 +252,7 @@ class UserRequestTrashProvider {
             "point_lat": userRequestTrashModel.point_lat,
             "point_lng": userRequestTrashModel.point_lng,
             "createAt": userRequestTrashModel.createAt,
-        }
-      );
+          });
     } catch (e) {
       print("sendFeedbackToAppwrite error: $e");
     }

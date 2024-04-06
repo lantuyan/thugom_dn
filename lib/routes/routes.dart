@@ -13,9 +13,12 @@ import 'package:thu_gom/controllers/main/request_person/request_person_binding.d
 import 'package:thu_gom/controllers/onboarding/onboarding_binding.dart';
 import 'package:thu_gom/controllers/profile/profile_binding.dart';
 import 'package:thu_gom/controllers/register/register_binding.dart';
+import 'package:thu_gom/controllers/register/register_or_login_with_phone_controller_binding.dart';
 import 'package:thu_gom/controllers/splash/splash_binding.dart';
 import 'package:thu_gom/views/auth/login/login_screen.dart';
+import 'package:thu_gom/views/auth/otp/otp_confirm_screen.dart';
 import 'package:thu_gom/views/auth/register/register_screen.dart';
+import 'package:thu_gom/views/auth/register/register_or_login_with_phone_screen.dart';
 import 'package:thu_gom/views/landing/landing_sceen.dart';
 import 'package:thu_gom/views/auth/onboarding/intro/intro_screen.dart';
 import 'package:thu_gom/views/auth/onboarding/profile/profile_screen.dart';
@@ -60,6 +63,16 @@ class Routes {
       name: '/registerPage',
       page: () => RegisterScreen(),
       binding: RegisterBinding(),
+    ),
+    // reigster
+    GetPage(
+      name: '/registerOrLoginWithPhonePage',
+      page: () => RegisterOrLoginWithPhoneScreen(),
+      binding: RegisterOrLoginWithPhoneBinding(),
+    ),
+    GetPage(
+      name: '/otpConfirmPage',
+      page: () => OtpConfirmScreen(),
     ),
     GetPage(
       name : '/introPage',

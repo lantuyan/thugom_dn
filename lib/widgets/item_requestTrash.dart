@@ -60,13 +60,7 @@ class item_requestTrash extends StatelessWidget {
                     loadingBuilder: (context, child, loadingProgress) => loadingProgress == null
                         ? child
                         : Center(
-                            child: CircularProgressIndicator(
-                              color: ColorsConstants.kActiveColor,
-                              value: loadingProgress.expectedTotalBytes != null
-                                  ? loadingProgress.cumulativeBytesLoaded /
-                                      loadingProgress.expectedTotalBytes!
-                                  : null,
-                            ),
+                            child: Image.asset("assets/images/placeholder.png")
                           ),
                   ),
                 ),

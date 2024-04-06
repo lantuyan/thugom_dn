@@ -196,7 +196,7 @@ class PersonUI extends StatelessWidget {
                     'Gửi đánh giá',
                     Text(
                       'Gửi đánh giá này cho chúng tôi?',
-                      style: AppTextStyles.bodyText2.copyWith(fontSize: 12.sp),
+                      style: AppTextStyles.bodyText2.copyWith(fontSize: 14.sp),
                       textAlign: TextAlign.center,
                     ), () async {
                   await _requestDetailController

@@ -1,3 +1,4 @@
+import 'dart:typed_data';
 import 'package:appwrite/appwrite.dart';
 import 'package:appwrite/models.dart' as models;
 import 'package:flutter/material.dart';
@@ -19,12 +20,13 @@ class MapController extends GetxController {
   RxString currentAddress = ''.obs;
   RxString labels = ''.obs;
   RxString infos = ''.obs;
+  Map<String, Uint8List> labelToIconMap = {};
 
   late final client = Client()
       .setEndpoint(AppWriteConstants.endPoint)
       .setProject(AppWriteConstants.projectId);
   // user
-  late Databases collection_points;
+  late Databases points;
   List<Marker> markers = [];
   //collecter
   late Databases user_request;
@@ -52,6 +54,7 @@ class MapController extends GetxController {
     statistical(startTime, endTime);
   }
 
+  // lấy vị trí hiện tại của người dùng
   Future<void> getUserLocation() async {
     if (!(await Geolocator.isLocationServiceEnabled())) {
       activeGPS.value = false;
@@ -78,11 +81,36 @@ class MapController extends GetxController {
       update(); // Cần gọi update để cập nhật UI
     }
   }
-
+  // chức năng hiển thị các điểm thu gom của thành phố đà nẵng ở map person gồm MRF,Trạm thu mua và green house ...
   Future<void> loadMarkersCollecter() async {
     try {
-      collection_points = Databases(client);
-      models.DocumentList documentList = await collection_points.listDocuments(
+      // danh sách của collection_points
+      final Storage storage = Storage(client);
+      points = Databases(client);
+      // danh sách của category points
+      models.DocumentList category_points_List = await points.listDocuments(
+          databaseId: AppWriteConstants.databaseId,
+          collectionId: AppWriteConstants.categoryPointsCollectionId,
+          queries: [
+            Query.limit(10),
+            Query.offset(0)
+          ]
+      );
+      // vòng for để lưu các icon dựa trên label
+      for (var document in category_points_List.documents) {
+        Map<String, dynamic> data = document.data as Map<String, dynamic>;
+        String label = data['Label'];
+        String icon = data['Icon'];
+
+        var response = await storage.getFileView(
+          bucketId: '65dc9b51d0e2351f9c0d',
+          fileId: icon,
+        );
+        Uint8List imageData = response;
+        labelToIconMap[label] = imageData; // Lưu trữ ảnh vào labelToIconMap
+      }
+
+      models.DocumentList pointsList = await points.listDocuments(
         databaseId: AppWriteConstants.databaseId,
         collectionId: AppWriteConstants.collection_point_Id,
           queries: [
@@ -91,49 +119,46 @@ class MapController extends GetxController {
           ]
       );
 
-      for (var document in documentList.documents) {
+      // vòng for để xét các địa điểm vào các marker tương ứng
+      for (var document in pointsList.documents) {
         Map<String, dynamic> data = document.data as Map<String, dynamic>;
         double latitude = data['point_lat'];
         double longitude = data['point_lng'];
         String address = data['address'];
         String label = data['label'];
         String info = data['info'] ?? "";
-        if (data['info'] != null) {
-          info = data['info'];
-        } else {
-          // Xử lý khi 'info' là null
-          info = "Không có thông tin";
-        }
-        Marker marker = Marker(
-          point: LatLng(latitude, longitude),
-          child: GestureDetector(
-            onTap: () {
-              currentAddress.value = address;
-              labels.value = label;
-              infos.value = info;
-              openGoogleMapsApp(_initialPosition.latitude,
-                  _initialPosition.longitude, latitude, longitude);
-            },
-            child: Image.asset(
-              'assets/images/bin.jpg',
-              height: 10,
-              width: 10,
+        // kiểm tra xem label của points và category points có giống nhau hay không
+        // nếu giống thì gán imageData với icon tương ứng của label - category points
+        if (labelToIconMap.containsKey(label)) {
+          Uint8List? imageData = labelToIconMap[label];
+          Marker marker = Marker(
+            point: LatLng(latitude, longitude),
+            child: GestureDetector(
+              onTap: () {
+                currentAddress.value = address;
+                infos.value = info;
+                openGoogleMapsApp(_initialPosition.latitude,
+                    _initialPosition.longitude, latitude, longitude);
+              },
+              child: Image.memory(
+                imageData!,
+                height: 10,
+                width: 10,
+              ),
             ),
-          ),
-        );
-        markers.add(marker);
+          );
+          markers.add(marker);
+        }
       }
       isDataLoaded.value = true;
       shouldShowMarkers.value = true;
       update();
-
     } catch (e) {
       print('Error!!! $e');
     }
   }
-
+  // chức năng hiển thị các yêu cầu của người dùng bên map collector
   Future<void> userRequest() async {
-
     try {
       user_request = Databases(client);
       models.DocumentList documentlistUser = await user_request.listDocuments(
@@ -147,30 +172,14 @@ class MapController extends GetxController {
       markers_user.clear();
       for (var documents in documentlistUser.documents) {
         Map<String, dynamic> data = documents.data as Map<String, dynamic>;
-        double? pointLat = data['point_lat'] as double?;
-        double? pointLng = data['point_lng'] as double?;
-        String address = data['address'];
-        String senderId = data['senderId'];
-        String trash_type = data['trash_type'];
-        String image = data['image'];
-        String? description = data['description'] as String?;
-        String phone_number = data['phone_number'];
-        String status = data['status'];
-        String createAt = data['createAt'];
-        String updateAt = data['updateAt'];
-
-
-        UserRequestTrashModel request = UserRequestTrashModel(senderId: senderId,
-          address: address, trash_type: trash_type, image: image, description: description!,
-          phone_number: phone_number, point_lat: pointLat!, point_lng: pointLng!, status: status, createAt: createAt, updateAt: updateAt, requestId: ''
-        );
-        if (status == 'pending')
+        UserRequestTrashModel request = UserRequestTrashModel.fromMap(data);
+        if (request.status == 'pending')
         {
           Marker marker = Marker(
-            point: LatLng(pointLat!, pointLng!),
+            point: LatLng(request.point_lat, request.point_lng),
             child: GestureDetector(
               onTap: () {
-                currentAddress.value = address;
+                currentAddress.value = request.address;
                 requestDetail(request);
               },
               child: Image.asset(
@@ -191,10 +200,11 @@ class MapController extends GetxController {
     }
   }
 
+  // chức năng thống kê người dùng ở admin map
   Future<void> statistical(DateTime startTime, DateTime endTime) async {
     try {
       user_request = Databases(client);
-      models.DocumentList documentlistUser = await user_request.listDocuments(
+      models.DocumentList listRequest = await user_request.listDocuments(
         databaseId: AppWriteConstants.databaseId,
         collectionId: AppWriteConstants.userRequestTrashCollection,
           queries: [
@@ -204,25 +214,9 @@ class MapController extends GetxController {
       );
       static_user_done.clear();
       static_user_not.clear();
-      for (var documents in documentlistUser.documents) {
+      for (var documents in listRequest.documents) {
         Map<String, dynamic> data = documents.data as Map<String, dynamic>;
-        // double pointLat = data['point_lat'] as double;
-        // double pointLng = data['point_lng'] as double;
-        // String address = data['address'];
-        // String senderId = data['senderId'];
-        // String trash_type = data['trash_type'];
-        // String image = data['image'];
-        // String description = data['description'] as String;
-        // String phone_number = data['phone_number'];
-        // String status = data['status'];
-        // String date = data['createAt'];
-        // String updateAt = data['updateAt'];
-        // String? finishImage = data['finishImage'] as String?;
-        // double? rating = data['rating'] as double?;
-        // UserRequestTrashModel request = UserRequestTrashModel(senderId: senderId,
-        //     address: address, trash_type: trash_type, image: image, description: description,
-        //     phone_number: phone_number, point_lat: pointLat, point_lng: pointLng, status: status, createAt: date, updateAt: updateAt, requestId: '', finishImage: finishImage!, rating: rating!);
-          UserRequestTrashModel request = UserRequestTrashModel.fromMap(data);
+        UserRequestTrashModel request = UserRequestTrashModel.fromMap(data);
         DateTime documentDateTime = DateTime.parse(request.createAt);
         if (documentDateTime.isAfter(startTime) && documentDateTime.isBefore(endTime)) {
           if (request.status == 'pending' || request.status == 'processing') {
@@ -242,6 +236,7 @@ class MapController extends GetxController {
             static_user_not.add(marker);
           }
           // Thêm marker vào danh sách tương ứng
+
           else if(request.status == 'finish' || request.status == 'confirming') {
             Marker marker = Marker(
               point: LatLng(request.point_lat, request.point_lng),
@@ -258,6 +253,7 @@ class MapController extends GetxController {
             );
             static_user_done.add(marker);
           }
+
         }
       }
       isDataLoaded3.value = true;
@@ -267,6 +263,8 @@ class MapController extends GetxController {
       print('Error!!! $e');
     }
   }
+
+  // chức năng chuyển hướng googlemap
   Future<void> openGoogleMapsApp(
       double startLat, double startLng, double endLat, double endLng) async {
     showDialog(
@@ -301,9 +299,9 @@ class MapController extends GetxController {
     );
   }
 
-  Future<void> requestDetail(
-      dynamic request) async {
-    showDialog(
+  // gọi đến yêu cầu chi tiết của người dùng
+  Future<void> requestDetail(dynamic request) async {
+    await showDialog(
       context: Get.context!,
       builder: (BuildContext context) {
         return AlertDialog(
@@ -316,8 +314,8 @@ class MapController extends GetxController {
               },
               child: Text("Hủy"),
             ),
-            TextButton(
-              onPressed: () async {
+            GestureDetector(
+              onTap: () {
                 Navigator.of(context).pop(); // Đóng dialog
                 Get.toNamed('requestDetailPage', arguments: {
                   'requestDetail': request
@@ -330,5 +328,4 @@ class MapController extends GetxController {
       },
     );
   }
-
 }
