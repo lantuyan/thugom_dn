@@ -319,7 +319,11 @@ class UserRequestTrashProvider {
       TextCellValue('createAt'),
       TextCellValue('updateAt'),
       TextCellValue('point_lat'),
-      TextCellValue('point_lng')
+      TextCellValue('point_lng'), 
+      TextCellValue('finishImage'),
+      TextCellValue('rating'),
+      TextCellValue('collection_price'),
+      TextCellValue('amount_collected'),
     ]);
     sheet.appendRow([]);
 
@@ -339,6 +343,10 @@ class UserRequestTrashProvider {
         TextCellValue(document.data['updateAt'] ?? ''),
         TextCellValue(document.data['point_lat'].toString()),
         TextCellValue(document.data['point_lng'].toString()),
+        TextCellValue(document.data['finishImage'] ?? ''),
+        TextCellValue(document.data['rating'].toString()),
+        TextCellValue(document.data['collection_price'].toString()),
+        TextCellValue(document.data['amount_collected'].toString()),
       ]);
 
       // break line
