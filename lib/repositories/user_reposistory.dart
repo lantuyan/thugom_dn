@@ -18,4 +18,14 @@ class UserRepository {
     final response = await userProvider.updateUserData(uuid, map);
     return response;
   }
+
+  Future<bool> checkSessionUserIfExists() async {
+    final response = await userProvider.checkSessionUserIfExists();
+    return response;
+  }
+
+  Future<bool> checkUserBlacklist(String userId) async {
+    final response = await userProvider.checkUserBlacklist(userId);
+    return response;
+  }
 }
