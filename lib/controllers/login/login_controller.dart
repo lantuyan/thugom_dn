@@ -31,14 +31,21 @@ class LoginController extends GetxController {
 
   //Login method
   Future<void> login(Map map) async {
-    CustomDialogs.showLoadingDialog();
-    await _authRepository.login({
-      'email': map['email'],
-      'password': map['password']
-    }).then((value) async {
+    CustomDialogs.hideLoadingDialog();
+    try {
+      CustomDialogs.showLoadingDialog();
+      var value = await _authRepository.login({
+        'email': map['email'],
+        'password': map['password']
+      });
+      if (await _authRepository.checkUserBlackList(value.userId)) {
+        CustomDialogs.hideLoadingDialog();
+        CustomDialogs.showSnackBar(2, "Tài khoản của bạn đã bị khóa", 'error');
+        return;
+      } else {
       _getStorage.write('userId', value.userId);
       _getStorage.write('sessionId', value.$id);
-      final userModel = await getUserModel(value.userId);
+      var userModel = await getUserModel(value.userId);
       await _getStorage.write('name', userModel.name);
       await _getStorage.write('role', userModel.role);
       await _getStorage.write('zalonumber', userModel.zalonumber);
@@ -52,15 +59,18 @@ class LoginController extends GetxController {
       DataManager().saveData('address', userModel.address);
 
       Get.offAllNamed('/mainPage');
-    }).catchError((error) {
+      }
+    } catch (error) {
       CustomDialogs.hideLoadingDialog();
       print(error);
       if (error is AppwriteException && error.type == 'user_invalid_credentials') {
-        CustomDialogs.showSnackBar(2,"Thông tin không hợp lệ. Vui lòng kiểm tra email và mật khẩu", 'error');
+        CustomDialogs.hideLoadingDialog();
+        CustomDialogs.showSnackBar(2, "Thông tin không hợp lệ. Vui lòng kiểm tra email và mật khẩu", 'error');
       } else {
+        CustomDialogs.hideLoadingDialog();
         CustomDialogs.showSnackBar(2, "Đã có lỗi xảy ra vui lòng thử lại sau!", 'error');
       }
-    });
+    }
   }
   Future<UserModel> getUserModel(String userId) async {
     var userModel = await _authRepository.getUserModel(userId);

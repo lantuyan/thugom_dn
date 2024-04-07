@@ -10,6 +10,7 @@ class AuthRepository{
   Future<models.User> register(Map map,String role) => _authProvider.register(map,role);
   Future<void> loginOAuth2(String provider) => _authProvider.loginOAuth2(provider);
   Future<bool> checkUserExist(String phonenumber) => _authProvider.checkUserExist(phonenumber);
+  Future<bool> checkUserBlackList(String userId) => _authProvider.checkUserBlacklist(userId);
   Future<String?> registerOrLoginWithPhoneNumber(String phoneNumber) => _authProvider.registerOrLoginWithPhoneNumber(phoneNumber);
   Future<models.Session> phoneConfirm(String pinCode,String userId) => _authProvider.phoneConfirm(pinCode,userId);
   Future<void> registerWithPhone(Map data) => _authProvider.registerWithPhone(data);

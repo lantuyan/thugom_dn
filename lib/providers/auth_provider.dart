@@ -217,4 +217,21 @@ class AuthProvider {
       return false;
     }
   }
+
+  // func check userBlacklist
+  Future<bool> checkUserBlacklist(String userId) async {
+    final result = await _db.listDocuments(
+        databaseId: AppWriteConstants.databaseId,
+        collectionId: AppWriteConstants.usersCollection,
+        queries: [
+          Query.equal('uid', userId),
+          Query.equal('role', 'blacklist')
+        ]
+    );
+    if(result.total >= 1){
+      return true;
+    }else{
+      return false;
+    }
+  }
 }

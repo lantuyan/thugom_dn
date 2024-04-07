@@ -31,4 +31,32 @@ class UserProvider {
     );
     return response;
   }
+
+  Future<bool> checkSessionUserIfExists() async {
+    try {
+      await account.get();
+      return true;
+    } on AppwriteException catch (e) {
+      if (e.code != 401 || e.type != 'general_unauthorized_scope') {
+        return false;
+      }
+    }
+    return false;
+  }
+
+  Future<bool> checkUserBlacklist(String userId) async {
+    final result = await databases.listDocuments(
+        databaseId: AppWriteConstants.databaseId,
+        collectionId: AppWriteConstants.usersCollection,
+        queries: [
+          Query.equal('uid', userId),
+          Query.equal('role', 'blacklist')
+        ]
+    );
+    if(result.total >= 1){
+      return true;
+    }else{
+      return false;
+    }
+  }
 }

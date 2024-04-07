@@ -159,23 +159,28 @@ class ProfileController extends GetxController {
 
     String address = formValue['street'] +","+selectedDistrict.value+","+selectedSubDistrict.value;
     final userId = await _getStorage.read('userId');
-    await _authRepository.updateProfile(formValue, address, userId).then((value) async {
-      await _getStorage.write('name', formValue['name']);
-      await _getStorage.write('phonenumber', formValue['phonenumber']);
-      await _getStorage.write('zalonumber', formValue['zalonumber']);
-      await _getStorage.write('address', address);
-      DataManager().saveData('userId', userId);
-      DataManager().saveData('name', formValue['name']);
-      DataManager().saveData('role', await _getStorage.read('role'));
-      DataManager().saveData('zalonumber', formValue['zalonumber']);
-      DataManager().saveData('phonenumber', formValue['phonenumber']);
-      DataManager().saveData('address', address);
-      CustomDialogs.hideLoadingDialog();
-      Get.offAllNamed('/mainPage');
-    }).catchError((onError){
-      print(onError); 
-      CustomDialogs.hideLoadingDialog();
-      CustomDialogs.showSnackBar(2, "Đã có lỗi xảy ra vui lòng thử lại sau!", 'error');
-    });
+    if(await _authRepository.checkUserExist(formValue['phonenumber'])){
+        CustomDialogs.hideLoadingDialog();
+        CustomDialogs.showSnackBar(2,"Số điện thoại đã tồn tại, hãy thử lại với số khác", 'error');
+    } else{
+        await _authRepository.updateProfile(formValue, address, userId).then((value) async {
+        await _getStorage.write('name', formValue['name']);
+        await _getStorage.write('phonenumber', formValue['phonenumber']);
+        await _getStorage.write('zalonumber', formValue['zalonumber']);
+        await _getStorage.write('address', address);
+        DataManager().saveData('userId', userId);
+        DataManager().saveData('name', formValue['name']);
+        DataManager().saveData('role', await _getStorage.read('role'));
+        DataManager().saveData('zalonumber', formValue['zalonumber']);
+        DataManager().saveData('phonenumber', formValue['phonenumber']);
+        DataManager().saveData('address', address);
+        CustomDialogs.hideLoadingDialog();
+        Get.offAllNamed('/mainPage');
+        }).catchError((onError){
+          print(onError); 
+          CustomDialogs.hideLoadingDialog();
+          CustomDialogs.showSnackBar(2, "Đã có lỗi xảy ra vui lòng thử lại sau!", 'error');
+        });
+    }
   }
 }

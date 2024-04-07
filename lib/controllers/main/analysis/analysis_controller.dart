@@ -34,7 +34,7 @@ class AnalysisController extends GetxController {
   Future loadRequestByRange() async {
     CustomDialogs.showLoadingDialog();
     if (formKey.currentState!.saveAndValidate()) {
-      final dateRange = dateRangeFieldKey.currentState?.value.toString() ?? '';
+      final dateRange = selectedDateRange.value.toString();
       final response =
           await _userRequestTrashRepository.getRequestByDateRange(dateRange);
       if (response.documents.isEmpty) {

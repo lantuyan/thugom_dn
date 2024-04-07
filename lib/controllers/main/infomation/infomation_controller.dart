@@ -36,11 +36,15 @@ class InfomationController extends GetxController {
         print("Error: $onError");
         CustomDialogs.hideLoadingDialog();
         CustomDialogs.showSnackBar(2, "wrong".tr, 'error');
+        DataManager().clearData();
+        Get.offAllNamed('/landingPage');
       });
     } catch (error) {
       print("Error: $error");
       CustomDialogs.hideLoadingDialog();
       CustomDialogs.showSnackBar(2, "wrong".tr, 'error');
+      DataManager().clearData();
+      Get.offAllNamed('/landingPage');
     }
   }
 }

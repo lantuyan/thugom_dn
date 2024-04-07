@@ -105,8 +105,23 @@ class _AnalysisScreen extends State<AnalysisScreen> {
                                 },
                               ), // Nếu không có dữ liệu, không hiển thị icon xóa
                       ),
-                      onChanged: (DateTimeRange? value) {
-                        _analysisController.selectedDateRange.value = value;
+
+                      onChanged: (DateTimeRange? dateRange) {
+                        if (dateRange != null) {
+                          DateTime now = DateTime.now();
+                          DateTime startDate = dateRange.start;
+                          DateTime endDate = DateTime(
+                            dateRange.end.year,
+                            dateRange.end.month,
+                            dateRange.end.day,
+                            now.hour,
+                            now.minute,
+                            now.second,
+                          );
+                          DateTimeRange newDateRange = DateTimeRange(start: startDate, end: endDate);
+                          _analysisController.selectedDateRange.value = newDateRange;
+                          // Use newDateRange
+                        }
                       },
                       style: AppTextStyles.bodyText1,
                     );

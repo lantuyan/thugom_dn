@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:thu_gom/managers/data_manager.dart';
+import 'package:thu_gom/providers/auth_provider.dart';
 
 class SplashController extends GetxController with GetSingleTickerProviderStateMixin {
   final getStore = GetStorage();
@@ -36,6 +37,7 @@ class SplashController extends GetxController with GetSingleTickerProviderStateM
 
   Future<void> logOut() async {
     try {
+      await AuthProvider().logOut(getStore.read('sessionId')).then((value) {
         getStore.remove('userId');
         getStore.remove('sessionId');
         getStore.remove('name');
@@ -44,7 +46,10 @@ class SplashController extends GetxController with GetSingleTickerProviderStateM
         getStore.remove('address');
         DataManager().clearData();
         Get.offAllNamed('/landingPage');
+      } );
     } catch (error) {
+      DataManager().clearData();
+      Get.offAllNamed('/landingPage');
 
     }
   }
