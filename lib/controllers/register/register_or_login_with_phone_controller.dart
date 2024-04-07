@@ -24,6 +24,7 @@ class RegisterOrLoginWithPhoneController extends GetxController {
   final phoneFieldKey = GlobalKey<FormFieldState>();
   final TextEditingController phoneFieldController = TextEditingController();
   var phoneNumber;
+  var dialCode;
   var pinCode;
   var userId;
   @override
@@ -37,7 +38,7 @@ class RegisterOrLoginWithPhoneController extends GetxController {
         CustomDialogs.hideLoadingDialog();
         CustomDialogs.showSnackBar(2,"Người dùng đã tồn tại, hãy thử lại với số khác", 'error');
       }else{
-        userId = await _authRepository.registerOrLoginWithPhoneNumber(phoneNumber);
+        userId = await _authRepository.registerOrLoginWithPhoneNumber(dialCode+phoneNumber);
         if(userId != null ){
           Get.offAndToNamed('/otpConfirmPage');
         }
@@ -84,7 +85,7 @@ class RegisterOrLoginWithPhoneController extends GetxController {
     CustomDialogs.showLoadingDialog();
     try{
       if(await _authRepository.checkUserExist(phoneNumber)){
-        userId = await _authRepository.registerOrLoginWithPhoneNumber(phoneNumber);
+        userId = await _authRepository.registerOrLoginWithPhoneNumber(dialCode+phoneNumber);
         if(userId != null ){
           Get.offAndToNamed('/otpConfirmPage');
         }

@@ -144,7 +144,12 @@ class RegisterOrLoginWithPhoneScreen extends StatelessWidget {
                       onInputChanged: (PhoneNumber number) {
                       },
                       onSaved: (PhoneNumber number) {
-                        _controller.phoneNumber = number.dialCode! + _controller.phoneFieldKey.currentState?.value;
+                        _controller.dialCode = number.dialCode;
+                        if(_controller.phoneFieldKey.currentState!.value.toString().startsWith('0')){
+                          _controller.phoneNumber = _controller.phoneFieldKey.currentState?.value.replaceAll(' ', '');
+                        }else{
+                          _controller.phoneNumber = ('0'+ _controller.phoneFieldKey.currentState?.value).replaceAll(' ', '');
+                        }
                       },
                       selectorConfig: const SelectorConfig(
                         selectorType: PhoneInputSelectorType.DIALOG,
