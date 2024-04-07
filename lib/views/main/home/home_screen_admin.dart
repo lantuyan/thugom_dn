@@ -49,43 +49,43 @@ class _HomeAdminScreenState extends State<HomeAdminScreen> {
                 children: [
                   Center(
                     child: Text(
-                      'Thống kê ',
+                      'Biểu đồ thống kê ',
                       style: AppTextStyles.headline1.copyWith(fontSize: 24.sp),
                     ),
                   ),
                   SizedBox(height: 20.sp),
-                  Text('Biểu đồ',
-                      style: AppTextStyles.bodyText1.copyWith(
-                          fontSize: 16.sp
-                      )
-                  ),
-                  SizedBox(height: 10.sp),
-                  CarouselSlider(
-                    carouselController: _homeAdminController.carouselController,
-                    options: CarouselOptions(
-                      aspectRatio: 1.2,
-                      viewportFraction: 1.0,
-                      enlargeCenterPage: false,
-                      onPageChanged: (index, reason) {
-                        _homeAdminController.currentIndex.value = index;
-                      },
-                      // enableInfiniteScroll: false,
-                      scrollPhysics:NeverScrollableScrollPhysics()
-                    ),
-                    items: _homeAdminController.images.map((imagePath) {
-                      return Builder(
-                        builder: (BuildContext context) {
-                          return ClipRRect(
-                            borderRadius: BorderRadius.circular(20),
-                            child: Image.asset(
-                              imagePath,
-                              fit: BoxFit.cover,
-                            ),
-                          );
-                        },
-                      );
-                    }).toList(),
-                  ),
+                  // Text('Biểu đồ',
+                  //     style: AppTextStyles.bodyText1.copyWith(
+                  //         fontSize: 16.sp
+                  //     )
+                  // ),
+                  // SizedBox(height: 10.sp),
+                  // CarouselSlider(
+                  //   carouselController: _homeAdminController.carouselController,
+                  //   options: CarouselOptions(
+                  //     aspectRatio: 1.2,
+                  //     viewportFraction: 1.0,
+                  //     enlargeCenterPage: false,
+                  //     onPageChanged: (index, reason) {
+                  //       _homeAdminController.currentIndex.value = index;
+                  //     },
+                  //     // enableInfiniteScroll: false,
+                  //     scrollPhysics:NeverScrollableScrollPhysics()
+                  //   ),
+                  //   items: _homeAdminController.images.map((imagePath) {
+                  //     return Builder(
+                  //       builder: (BuildContext context) {
+                  //         return ClipRRect(
+                  //           borderRadius: BorderRadius.circular(20),
+                  //           child: Image.asset(
+                  //             imagePath,
+                  //             fit: BoxFit.cover,
+                  //           ),
+                  //         );
+                  //       },
+                  //     );
+                  //   }).toList(),
+                  // ),
                   SizedBox(height: 10.sp),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,

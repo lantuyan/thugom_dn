@@ -62,14 +62,15 @@ class CustomDialogs{
 
   static void confirmDialog(String title,Widget content,Function confirm){
     Get.defaultDialog(
-      contentPadding: EdgeInsets.fromLTRB(12.sp, 12.sp, 12.sp, 12.sp),
+      contentPadding: EdgeInsets.fromLTRB(18.sp, 0.sp, 18.sp, 32.sp),
+      titlePadding: EdgeInsets.fromLTRB(0.sp, 26.sp, 0.sp, 18.sp),
       title: title,
       titleStyle: AppTextStyles.caption,
       content: content,
       
       buttonColor: ColorsConstants.kMainColor,
-      cancel: Padding(
-        padding: EdgeInsets.only(right: 12.sp),
+      cancel: Container(
+        margin: EdgeInsets.only(top: 18.sp),
         child: ElevatedButton(
             onPressed: (){
               Get.back();
@@ -77,12 +78,12 @@ class CustomDialogs{
             style: CustomButtonStyle.transparentButton,
             child: Text(
               'Bỏ qua',
-              style: TextStyle(color: ColorsConstants.kMainColor, fontSize: 14.sp),
+              style: TextStyle(color: ColorsConstants.kMainColor, fontSize: 16.sp),
             )
         ),
       ),
-      confirm: Padding(
-        padding: EdgeInsets.only(left: 12.sp),
+      confirm: Container(
+        margin: EdgeInsets.only(top: 18.sp),
         child: ElevatedButton(
             onPressed: (){
               confirm();
@@ -90,7 +91,7 @@ class CustomDialogs{
             style: CustomButtonStyle.primaryButton,
             child: Text(
               'Xác nhận',
-              style: TextStyle(color: ColorsConstants.kBGCardColor, fontSize: 14.sp),
+              style: TextStyle(color: ColorsConstants.kBGCardColor, fontSize: 16.sp),
             )
         ),
       ),
