@@ -802,7 +802,7 @@ class CollectorUI extends StatelessWidget {
                                 Text(
                                   'Bạn chắc chắn muốn xác nhận thu gom yêu cầu này? Yêu cầu này sẽ được chuyển vào phần đã xử lý ',
                                   style: AppTextStyles.bodyText2
-                                      .copyWith(fontSize: 13.sp),
+                                      .copyWith(fontSize: 14.sp),
                                   textAlign: TextAlign.center,
                                 ), () async {
                               await _requestDetailController.confirmRequest(
