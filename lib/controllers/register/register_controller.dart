@@ -37,8 +37,8 @@ class RegisterController extends GetxController {
 
     CustomDialogs.showLoadingDialog();
     Map<String, dynamic> formData = {
-      "email" : emailFieldKey.currentState!.value, 
-      "username" : usernameFieldKey.currentState!.value, 
+      "email" : emailFieldKey.currentState!.value.trim(),
+      "username" : '', 
       "password" : passwordFieldKey.currentState!.value
     };
     _authRepository.register(formData,roleField.value).then((value) async {

@@ -26,15 +26,26 @@ class RegisterScreen extends StatelessWidget {
             child: Center(
               child: Column(
                 children: [
-                  Text('Xin chào !', style: AppTextStyles.bodyText1.copyWith(
-                      fontSize: 16.sp
-                    )
+                  Padding(
+                padding: EdgeInsets.symmetric(vertical: 16.sp),
+                child: Center(
+                  child: Column(
+                    children: [
+                      Text('Xin chào!',
+                          style: AppTextStyles.bodyText1.copyWith(
+                            fontSize: 16.sp
+                          )
+                      ),
+                      Text(
+                        'Tạo tài khoản ',
+                        style: AppTextStyles.headline1.copyWith(
+                            fontSize: 24.sp
+                        ),
+                      ),
+                    ],
                   ),
-                  Text(
-                    'Tạo tài khoản', style: AppTextStyles.headline1.copyWith(
-                      fontSize: 24.sp
-                    )
-                  ),
+                ),
+              ),
                   Form(
                     key: _registerController.formKey,
                     child: Column(
@@ -65,60 +76,62 @@ class RegisterScreen extends StatelessWidget {
                             if (val == null || val.isEmpty) {
                               return 'Không được để trống trường này';
                             }
-                            String p = "[a-zA-Z0-9\+\.\_\%\-\+]{1,256}" +
-                                "\\@" +
-                                "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,64}" +
-                                "(" +
-                                "\\." +
-                                "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,25}" +
-                                ")+";
+                            // Regular expression for email
+                            // ignore: prefer_interpolation_to_compose_strings
+                            String p = r"\s*[a-zA-Z0-9\+\.\_\%\-\+]{1,256}" +
+                                      "\\@" +
+                                      "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,64}" +
+                                      "(" +
+                                      "\\." +
+                                      "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,25}" +
+                                      ")+\s*";
                             RegExp regExp = new RegExp(p);
-                            if (regExp.hasMatch(val)) {
+                            if (regExp.hasMatch(val.trim())) {
                               return null;
                             }
                             return 'Email không hợp lệ';
                           },
                         ),
+                        // Commented out username field
+                        // SizedBox(height: 30.sp),
+                        // // Username Field
+                        // TextFormField(
+                        //   key: _registerController.usernameFieldKey,
+                        //   style: AppTextStyles.bodyText1,
+                        //   decoration: InputDecoration(
+                        //     contentPadding:
+                        //         EdgeInsets.fromLTRB(12.sp, 0, 12.sp, 0),
+                        //     filled: true,
+                        //     fillColor: Colors.white,
+                        //     labelText: 'Tên tài khoản',
+                        //     labelStyle: AppTextStyles.bodyText1
+                        //         .copyWith(color: ColorsConstants.kMainColor),
+                        //     errorStyle: AppTextStyles.error,
+                        //     border: OutlineInputBorder(
+                        //       borderRadius: BorderRadius.circular(10),
+                        //     ),
+                        //     focusedBorder: OutlineInputBorder(
+                        //         borderRadius: BorderRadius.circular(10),
+                        //         borderSide: BorderSide(
+                        //             color: ColorsConstants.kMainColor,
+                        //             width: 2)),
+                        //   ),
+                        //   validator: (value) {
+                        //     if (value == null || value.isEmpty) {
+                        //       return "Không được để trống trường này";
+                        //     }
+                        //     if (value.length > 254) {
+                        //       return "Tên không hợp lệ";
+                        //     }
+                        //     return null;
+                        //   },
+                        //   onChanged: (value) {
+                        //     _registerController.usernameFieldKey.currentState!
+                        //         .validate();
+                        //   },
+                        // ),
                         SizedBox(height: 30.sp),
-                        // Username Field
-                        TextFormField(
-                          key: _registerController.usernameFieldKey,
-                          style: AppTextStyles.bodyText1,
-                          decoration: InputDecoration(
-                            contentPadding:
-                                EdgeInsets.fromLTRB(12.sp, 0, 12.sp, 0),
-                            filled: true,
-                            fillColor: Colors.white,
-                            labelText: 'Tên tài khoản',
-                            labelStyle: AppTextStyles.bodyText1
-                                .copyWith(color: ColorsConstants.kMainColor),
-                            errorStyle: AppTextStyles.error,
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
-                                borderSide: BorderSide(
-                                    color: ColorsConstants.kMainColor,
-                                    width: 2)),
-                          ),
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return "Không được để trống trường này";
-                            }
-                            if (value.length > 254) {
-                              return "Tên không hợp lệ";
-                            }
-                            return null;
-                          },
-                          onChanged: (value) {
-                            _registerController.usernameFieldKey.currentState!
-                                .validate();
-                          },
-                        ),
-                        SizedBox(height: 30.sp),
-                        // Password Field
-                        TextFormField(
+                        Obx(() =>  TextFormField(
                           key: _registerController.passwordFieldKey,
                           style: AppTextStyles.bodyText1,
                           obscureText:
@@ -160,10 +173,11 @@ class RegisterScreen extends StatelessWidget {
                             }
                             return null;
                           },
-                        ),
+                        )),
+                        // Password Field
                         SizedBox(height: 30.sp),
                         // Confirm Password Field
-                        TextFormField(
+                        Obx(() => TextFormField(
                           key: _registerController.confirmPasswordFieldKey,
                           style: AppTextStyles.bodyText1,
                           obscureText:
@@ -213,7 +227,7 @@ class RegisterScreen extends StatelessWidget {
                             }
                             return null;
                           },
-                        ),
+                        )),
                         SizedBox(height: 24.sp),
                         Column(
                           mainAxisAlignment: MainAxisAlignment.start,

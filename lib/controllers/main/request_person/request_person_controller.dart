@@ -19,10 +19,10 @@ class RequestPersonController extends GetxController {
   RequestPersonController(this._requestRepository);
 
   //Key
-  final GlobalKey<FormBuilderState> formKey = GlobalKey<FormBuilderState>();
-  final desriptionFieldKey = GlobalKey<FormBuilderFieldState>();
-  final addressFieldKey = GlobalKey<FormBuilderFieldState>();
-  final phoneNumberFieldKey = GlobalKey<FormBuilderFieldState>();
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  final desriptionFieldKey = GlobalKey<FormFieldState>();
+  final addressFieldKey = GlobalKey<FormFieldState>();
+  final phoneNumberFieldKey = GlobalKey<FormFieldState>();
 
   dynamic argumentData = Get.arguments;
 

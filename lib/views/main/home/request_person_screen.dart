@@ -78,7 +78,7 @@ class _RequestPersonScreenState extends State<RequestPersonScreen> {
                 //     }
                 //   }
                 // }),
-                child: FormBuilder(
+                child: Form(
                   key: _requestPersonController.formKey,
                   child: Column(children: [
                     Center(
@@ -134,9 +134,14 @@ class _RequestPersonScreenState extends State<RequestPersonScreen> {
                       height: 30.sp,
                     ),
                     // Description Field
-                    FormBuilderTextField(
+                    TextFormField(
                       key: _requestPersonController.desriptionFieldKey,
-                      name: 'description',
+                      textInputAction: TextInputAction.done,
+                      onChanged: (value) {
+                        if(value.endsWith('\n')){
+                          FocusScope.of(context).unfocus();
+                        }
+                      },
                       minLines: 1,
                       maxLines: 3,
                       decoration: InputDecoration(
@@ -173,10 +178,9 @@ class _RequestPersonScreenState extends State<RequestPersonScreen> {
                       height: 30.sp,
                     ),
                     // Address Field
-                    FormBuilderTextField(
+                    TextFormField(
                       initialValue: address,
                       key: _requestPersonController.addressFieldKey,
-                      name: 'address',
                       decoration: InputDecoration(
                         contentPadding: EdgeInsets.fromLTRB(12.sp, 0, 12.sp, 0),
                         filled: true,
@@ -209,10 +213,9 @@ class _RequestPersonScreenState extends State<RequestPersonScreen> {
                     SizedBox(
                       height: 30.sp,
                     ),
-                    FormBuilderTextField(
+                    TextFormField(
                       initialValue: zalonumber,
                       key: _requestPersonController.phoneNumberFieldKey,
-                      name: 'phonenumber',
                       decoration: InputDecoration(
                         contentPadding: EdgeInsets.fromLTRB(12.sp, 0, 12.sp, 0),
                         filled: true,
@@ -314,8 +317,7 @@ class _RequestPersonScreenState extends State<RequestPersonScreen> {
                     Center(
                       child: ElevatedButton(
                         onPressed: () {
-                          _requestPersonController.formKey.currentState
-                              ?.saveAndValidate();
+                          _requestPersonController.formKey.currentState?.save();
 
                           if (_requestPersonController.imagePath.value == "") {
                             CustomDialogs.showSnackBar(

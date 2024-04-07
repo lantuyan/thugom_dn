@@ -99,14 +99,20 @@ class ProfileController extends GetxController {
   RxString selectedDistrict = ''.obs;
   RxString selectedSubDistrict = ''.obs;
   // Form Key
-  final GlobalKey<FormBuilderState> formKey = GlobalKey<FormBuilderState>();
+    final GlobalKey<FormState> formKey = GlobalKey();
   //Key
-  final nameFieldKey = GlobalKey<FormBuilderFieldState>();
-  final phonenumberFieldKey = GlobalKey<FormBuilderFieldState>();
-  final zalonumberFieldKey = GlobalKey<FormBuilderFieldState>();
-  final streetFieldKey = GlobalKey<FormBuilderFieldState>();
+  final nameFieldKey = GlobalKey<FormFieldState>();
+  final phonenumberFieldKey = GlobalKey<FormFieldState>();
+  final zalonumberFieldKey = GlobalKey<FormFieldState>();
+  final streetFieldKey = GlobalKey<FormFieldState>();
+
+  final TextEditingController phonenumberController = TextEditingController();
+  final TextEditingController zalonumberController = TextEditingController();
+
   var role;
-  var phonenumber;
+  RxString phonenumber = ''.obs;
+  RxString zalonumber = ''.obs;
+
   var registerType;
   RxBool isLoading = true.obs;
   @override
@@ -116,14 +122,36 @@ class ProfileController extends GetxController {
     selectedSubDistrict.value = subDistricts[selectedDistrict.value]!.first;
     role = await _getStorage.read('role');
     registerType = await _getStorage.read('registerType');
-    if(registerType == 'sms'){
+    if (registerType == 'sms') {
       phonenumber = await _getStorage.read('phonenumber');
     }
     isLoading.value = false;
+
+    phonenumberController.addListener(() {
+      if (zalonumber.value.isEmpty) {
+        zalonumberController.text = phonenumberController.text;
+      }
+    });
   }
 
-  Future<void> updateProfile(Map formValue) async {
+  @override
+  void onClose() {
+    phonenumberController.dispose();
+    zalonumberController.dispose();
+    super.onClose();
+  }
+
+  Future<void> updateProfile() async {
     CustomDialogs.showLoadingDialog();
+    Map<String, dynamic> formValue = {
+      "name" : nameFieldKey.currentState!.value,
+      "phonenumber" : phonenumberFieldKey.currentState!.value,
+      "zalonumber" : zalonumberFieldKey.currentState!.value,
+      "street" : streetFieldKey.currentState!.value,
+    };
+
+    print("formValue: $formValue");
+
     String address = formValue['street'] +","+selectedDistrict.value+","+selectedSubDistrict.value;
     final userId = await _getStorage.read('userId');
     await _authRepository.updateProfile(formValue, address, userId).then((value) async {
