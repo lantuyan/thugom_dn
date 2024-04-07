@@ -106,8 +106,12 @@ class ProfileController extends GetxController {
   final zalonumberFieldKey = GlobalKey<FormFieldState>();
   final streetFieldKey = GlobalKey<FormFieldState>();
 
-  final TextEditingController phonenumberController = TextEditingController();
-  final TextEditingController zalonumberController = TextEditingController();
+  final TextEditingController phonenumberController = TextEditingController(
+    text: DataManager().getData('phonenumber')
+  );
+  final TextEditingController zalonumberController = TextEditingController(
+    text: DataManager().getData('zalonumber')
+  );
 
   var role;
   RxString phonenumber = ''.obs;
@@ -123,7 +127,8 @@ class ProfileController extends GetxController {
     role = await _getStorage.read('role');
     registerType = await _getStorage.read('registerType');
     if (registerType == 'sms') {
-      phonenumber = await _getStorage.read('phonenumber');
+      phonenumber.value = await _getStorage.read('phonenumber');
+      zalonumber.value = phonenumber.value;
     }
     isLoading.value = false;
 

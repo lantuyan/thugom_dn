@@ -59,9 +59,12 @@ class RegisterOrLoginWithPhoneController extends GetxController {
         await _getStorage.write('registerType', 'sms');
         await _getStorage.write('role', roleField.value);
         await _getStorage.write('phonenumber',phoneNumber);
+        await _getStorage.write('zalonumber', phoneNumber);
         DataManager().saveData('userId', value.userId);
         DataManager().saveData('sessionId', value.$id);
         DataManager().saveData('role', roleField.value);
+        DataManager().saveData('phonenumber', phoneNumber);
+        DataManager().saveData('zalonumber', phoneNumber);
         await _authRepository.registerWithPhone({
           'userId' : value.userId,
           'role' : roleField.value,
@@ -108,6 +111,7 @@ class RegisterOrLoginWithPhoneController extends GetxController {
         await _getStorage.write('role', userModel.role);
         await _getStorage.write('sessionId', value.$id);
         await _getStorage.write('zalonumber', userModel.zalonumber);
+        await _getStorage.write('phonenumber', userModel.phonenumber);
         await _getStorage.write('address', userModel.address);
         CustomDialogs.hideLoadingDialog();
         DataManager().saveData('userId', value.userId);
@@ -115,6 +119,7 @@ class RegisterOrLoginWithPhoneController extends GetxController {
         DataManager().saveData('name', userModel.name);
         DataManager().saveData('role', userModel.role);
         DataManager().saveData('zalonumber', userModel.zalonumber);
+        DataManager().saveData('phonenumber', userModel.phonenumber);
         DataManager().saveData('address', userModel.address);
         Get.offAllNamed('/mainPage');
       });

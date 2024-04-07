@@ -84,14 +84,8 @@ class ProfileScreen extends StatelessWidget {
                     TextFormField(
                       key: _profileController.phonenumberFieldKey,
                       controller: _profileController.phonenumberController,
-                       keyboardType: TextInputType.phone,
-                        // onChanged: (value) {
-                        // if (_profileController.zalonumberFieldKey.currentState?.value == null || _profileController.zalonumberFieldKey.currentState?.value.isEmpty) {
-                        //   _profileController.zalonumberFieldKey.currentState?.setValue(value);
-                        //   _profileController.phonenumber = value;
-                        //   print("value phone number: $value");
-                        // }
-                        // },
+                      keyboardType: TextInputType.phone,
+                      enabled: _profileController.registerType != 'sms', // Disable if registerType is 'sms'
                       onFieldSubmitted: (value) {
                         _profileController.phonenumberFieldKey.currentState?.setValue(value);
                         _profileController.zalonumberFieldKey.currentState?.setValue(value);
