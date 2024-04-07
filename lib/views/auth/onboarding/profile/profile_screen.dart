@@ -20,7 +20,7 @@ class ProfileScreen extends StatelessWidget {
         margin: EdgeInsets.only(bottom: 40.sp),
         padding: EdgeInsets.fromLTRB(24.sp, 20.sp, 24.sp, 0),
         child: SingleChildScrollView(
-          child: FormBuilder(
+          child: Form(
             key: _profileController.formKey,
             child: Obx((){
               if(_profileController.isLoading.value){
@@ -52,9 +52,8 @@ class ProfileScreen extends StatelessWidget {
                     ),
                     SizedBox(height: 16.sp,),
                     // Name Field
-                    FormBuilderTextField(
+                    TextFormField(
                       key: _profileController.nameFieldKey,
-                      name: 'name',
                       style: AppTextStyles.bodyText1,
                       decoration: InputDecoration(
                         contentPadding: EdgeInsets.fromLTRB(12.sp, 0, 12.sp, 0),
@@ -73,21 +72,36 @@ class ProfileScreen extends StatelessWidget {
                             borderSide: BorderSide(color: ColorsConstants.kMainColor, width: 2)
                         ),
                       ),
-                      validator: FormBuilderValidators.compose([
-                        FormBuilderValidators.required(errorText: "Không được để trống trường này"),
-                      ]),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return "Không được để trống trường này";
+                        }
+                        return null;
+                      },
                     ),
                     SizedBox(height: 30.sp),
                     // Phone number Field
-                    FormBuilderTextField(
+                    TextFormField(
                       key: _profileController.phonenumberFieldKey,
-                      initialValue: _profileController.phonenumber,
-                      onChanged: (value) {
-                        print(_profileController.phonenumberFieldKey.currentState?.value);
+                      controller: _profileController.phonenumberController,
+                       keyboardType: TextInputType.phone,
+                        // onChanged: (value) {
+                        // if (_profileController.zalonumberFieldKey.currentState?.value == null || _profileController.zalonumberFieldKey.currentState?.value.isEmpty) {
+                        //   _profileController.zalonumberFieldKey.currentState?.setValue(value);
+                        //   _profileController.phonenumber = value;
+                        //   print("value phone number: $value");
+                        // }
+                        // },
+                      onFieldSubmitted: (value) {
+                        _profileController.phonenumberFieldKey.currentState?.setValue(value);
                         _profileController.zalonumberFieldKey.currentState?.setValue(value);
-                        print(_profileController.zalonumberFieldKey.currentState?.value);
+                        _profileController.phonenumber = RxString(value);
+                        _profileController.zalonumber = RxString(value);
+                        _profileController.zalonumber.listen((value) {
+                          print("value phone number: $value - phone number: ${_profileController.phonenumber} - zalo number: ${_profileController.zalonumber}");
+                        });
+                        print("value phone number: $value - phone number: ${_profileController.phonenumber} - zalo number: ${_profileController.zalonumber}");
                       },
-                      name: 'phonenumber',
                       style: AppTextStyles.bodyText1,
                       decoration: InputDecoration(
                         contentPadding: EdgeInsets.fromLTRB(12.sp, 0, 12.sp, 0),
@@ -110,18 +124,26 @@ class ProfileScreen extends StatelessWidget {
                             borderSide: BorderSide(color: ColorsConstants.kMainColor, width: 2)
                         ),
                       ),
-                      validator: FormBuilderValidators.compose([
-                        FormBuilderValidators.required(errorText: "Không được để trống trường này"),
-                        FormBuilderValidators.maxLength(13,errorText: "Số điện thoại không hợp lệ"),
-                        FormBuilderValidators.numeric(errorText: "Số điện thoại không hợp lệ"),
-                      ]),
+                      // autovalidateMode: AutovalidateMode.onUserInteraction,
+                      validator: (value) {
+                        // if value contains enter
+                        if (value!.isEmpty) {
+                          return "Không được để trống trường này";
+                        }
+                        if (value.length < 10 || value.length > 13) {
+                          return "Số điện thoại không hợp lệ";
+                        }
+                        if (int.tryParse(value) == null) {
+                          return "Số điện thoại không hợp lệ";
+                        }
+                      },
                     ),
                     SizedBox(height: 30.sp),
                     // Zalo number Field
-                    FormBuilderTextField(
+                    TextFormField(
                       key: _profileController.zalonumberFieldKey,
-                      initialValue: _profileController.phonenumber??'',
-                      name: 'zalonumber',
+                      controller: _profileController.zalonumberController,
+                      keyboardType: TextInputType.phone,
                       style: AppTextStyles.bodyText1,
                       decoration: InputDecoration(
                         contentPadding: EdgeInsets.fromLTRB(12.sp, 0, 12.sp, 0),
@@ -144,11 +166,17 @@ class ProfileScreen extends StatelessWidget {
                             borderSide: BorderSide(color: ColorsConstants.kMainColor, width: 2)
                         ),
                       ),
-                      validator: FormBuilderValidators.compose([
-                        FormBuilderValidators.required(errorText: "Không được để trống trường này"),
-                        FormBuilderValidators.maxLength(13,errorText: "Số điện thoại không hợp lệ"),
-                        FormBuilderValidators.numeric(errorText: "Số điện thoại không hợp lệ"),
-                      ]),
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return "Không được để trống trường này";
+                        }
+                        if (value.length < 10 || value.length > 13) {
+                          return "Số điện thoại không hợp lệ";
+                        }
+                        if (int.tryParse(value) == null) {
+                          return "Số điện thoại không hợp lệ";
+                        }
+                      },
                     ),
                     SizedBox(height: 26.sp),
                     Align(
@@ -248,9 +276,8 @@ class ProfileScreen extends StatelessWidget {
                     ),
                     SizedBox(height: 20.sp),
                     // Street Field
-                    FormBuilderTextField(
+                    TextFormField(
                       key: _profileController.streetFieldKey,
-                      name: 'street',
                       style: AppTextStyles.bodyText1,
                       decoration: InputDecoration(
                         contentPadding: EdgeInsets.fromLTRB(12.sp, 0, 12.sp, 0),
@@ -274,9 +301,12 @@ class ProfileScreen extends StatelessWidget {
                         ),
                       ),
                       autovalidateMode: AutovalidateMode.onUserInteraction,
-                      validator: FormBuilderValidators.compose([
-                        FormBuilderValidators.required(errorText: "Không được để trống trường này"),
-                      ]),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return "Không được để trống trường này";
+                          }
+                          return null;
+                        },
                       // style: AppTextStyles.bodyText1,
                     ),
                     SizedBox(height: 46.sp),
@@ -285,8 +315,9 @@ class ProfileScreen extends StatelessWidget {
                       height: 48.sp,
                       child: ElevatedButton(
                           onPressed: () {
-                            if (_profileController.formKey.currentState!.saveAndValidate()) {
-                              _profileController.updateProfile(_profileController.formKey.currentState!.value);
+                            
+                            if (_profileController.formKey.currentState!.validate()) {
+                              _profileController.updateProfile();
                             }
                           },
                           style: CustomButtonStyle.primaryButton,
