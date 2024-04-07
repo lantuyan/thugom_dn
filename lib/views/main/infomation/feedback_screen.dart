@@ -78,7 +78,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                 //     }
                 //   }
                 // }),
-                child: FormBuilder(
+                child: Form(
                   key: _requestPersonController.formKey,
                   child: Column(children: [
                     Center(
@@ -134,9 +134,14 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                       height: 30.sp,
                     ),
                     // Description Field
-                    FormBuilderTextField(
+                    TextFormField(
                       key: _requestPersonController.desriptionFieldKey,
-                      name: 'description',
+                      textInputAction: TextInputAction.done,
+                      onChanged: (value) {
+                        if(value.endsWith('\n')){
+                          FocusScope.of(context).unfocus();
+                        }
+                      },
                       minLines: 1,
                       maxLines: 3,
                       decoration: InputDecoration(
@@ -164,19 +169,20 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                             .kTextMainColor, // Màu cho giá trị initialValue
                       ),
                       autovalidateMode: AutovalidateMode.onUserInteraction,
-                      validator: FormBuilderValidators.compose([
-                        FormBuilderValidators.required(
-                            errorText: "Không được để trống trường này"),
-                      ]),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return "Không được để trống trường này";
+                        }
+                        return null;
+                      },
                     ),
                     SizedBox(
                       height: 30.sp,
                     ),
                     // Address Field
-                    FormBuilderTextField(
+                    TextFormField(
                       initialValue: address,
                       key: _requestPersonController.addressFieldKey,
-                      name: 'address',
                       decoration: InputDecoration(
                         contentPadding: EdgeInsets.fromLTRB(12.sp, 0, 12.sp, 0),
                         filled: true,
@@ -201,18 +207,19 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                             .kTextMainColor, // Màu cho giá trị initialValue
                       ),
                       autovalidateMode: AutovalidateMode.onUserInteraction,
-                      validator: FormBuilderValidators.compose([
-                        FormBuilderValidators.required(
-                            errorText: "Không được để trống trường này"),
-                      ]),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return "Không được để trống trường này";
+                        }
+                        return null;
+                      },
                     ),
                     SizedBox(
                       height: 30.sp,
                     ),
-                    FormBuilderTextField(
+                    TextFormField(
                       initialValue: zalonumber,
                       key: _requestPersonController.phoneNumberFieldKey,
-                      name: 'phonenumber',
                       decoration: InputDecoration(
                         contentPadding: EdgeInsets.fromLTRB(12.sp, 0, 12.sp, 0),
                         filled: true,
@@ -236,15 +243,17 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                         color: ColorsConstants
                             .kTextMainColor, // Màu cho giá trị initialValue
                       ),
-                      autovalidateMode: AutovalidateMode.onUserInteraction,
-                      validator: FormBuilderValidators.compose([
-                        FormBuilderValidators.required(
-                            errorText: "Không được để trống trường này"),
-                        FormBuilderValidators.maxLength(11,
-                            errorText: "Số điện thoại không hợp lệ"),
-                        FormBuilderValidators.numeric(
-                            errorText: "Số điện thoại không hợp lệ"),
-                      ]),
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return "Không được để trống trường này";
+                        }
+                        if (value.length < 10 || value.length > 13) {
+                          return "Số điện thoại không hợp lệ";
+                        }
+                        if (int.tryParse(value) == null) {
+                          return "Số điện thoại không hợp lệ";
+                        }
+                      },
                     ),
                     SizedBox(
                       height: 20.sp,
@@ -314,8 +323,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                     Center(
                       child: ElevatedButton(
                         onPressed: () {
-                          _requestPersonController.formKey.currentState
-                              ?.saveAndValidate();
+                          _requestPersonController.formKey.currentState?.save();
 
                           if (_requestPersonController.imagePath.value == "") {
                             CustomDialogs.showSnackBar(
