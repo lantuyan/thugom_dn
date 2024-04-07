@@ -81,7 +81,7 @@ class _CollectorDetailProcessScreenState
                         Center(
                           child: RichText(
                             text: TextSpan(
-                              text: 'Minh chứng thu gom:  ',
+                              text: 'Kết quả thu gom: ',
                               style: TextStyle(
                                 color: Colors.black,
                                 fontWeight: FontWeight.bold,
@@ -196,14 +196,14 @@ class _CollectorDetailProcessScreenState
                           key: _collectorDetailProcessController
                               .amountCollectedFieldKey,
                           name: 'amount_collected',
+                          keyboardType: TextInputType.number,
                           minLines: 1,
-                          maxLines: 3,
                           decoration: InputDecoration(
                             contentPadding:
                                 EdgeInsets.fromLTRB(12.sp, 10.sp, 12.sp, 10.sp),
                             filled: true,
                             fillColor: Colors.white,
-                            labelText: 'Khối lượng rác thu gom',
+                            labelText: 'Khối lượng rác thu gom(kg)',
                             labelStyle: TextStyle(
                                 fontSize: 16.sp,
                                 color: ColorsConstants.kMainColor),
@@ -237,15 +237,15 @@ class _CollectorDetailProcessScreenState
                         // Collection Price Field
                          FormBuilderTextField(
                       key: _collectorDetailProcessController.collectionPriceFieldKey,
+                      keyboardType: TextInputType.number,
                       name: 'collection_price',
                       minLines: 1,
-                      maxLines: 3,
                       decoration: InputDecoration(
                         contentPadding:
                             EdgeInsets.fromLTRB(12.sp, 10.sp, 12.sp, 10.sp),
                         filled: true,
                         fillColor: Colors.white,
-                        labelText: 'Số tiền thu gom',
+                        labelText: 'Số tiền thu gom(VNĐ)',
                         labelStyle: TextStyle(
                             fontSize: 16.sp, color: ColorsConstants.kMainColor),
                         border: OutlineInputBorder(

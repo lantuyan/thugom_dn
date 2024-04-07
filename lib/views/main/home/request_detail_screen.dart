@@ -234,29 +234,29 @@ class PersonUI extends StatelessWidget {
                       child: SizedBox(
                     height: 48.sp,
                     child: ElevatedButton(
-                        onPressed: () {},
-                        style: CustomButtonStyle.primaryButton,
+                        onPressed: null,
+                        style: CustomButtonStyle.cancelButton,
                         child: Text(
                           'Chờ xử lý',
                           style: TextStyle(
-                              color: ColorsConstants.kBGCardColor,
+                              color: ColorsConstants.kTextMainColor,
                               fontSize: 16.sp),
                         )),
                   )),
-                  SizedBox(
-                    width: 20.sp,
-                  ),
-                  Expanded(
-                      child: SizedBox(
-                    height: 48.sp,
-                    child: ElevatedButton(
-                        onPressed: null,
-                        style: CustomButtonStyle.primaryButton,
-                        child: Text(
-                          'Hoàn thành',
-                          style: TextStyle(fontSize: 16.sp),
-                        )),
-                  )),
+                  // SizedBox(
+                  //   width: 20.sp,
+                  // ),
+                  // Expanded(
+                  //     child: SizedBox(
+                  //   height: 48.sp,
+                  //   child: ElevatedButton(
+                  //       onPressed: null,
+                  //       style: CustomButtonStyle.primaryButton,
+                  //       child: Text(
+                  //         'Hoàn thành',
+                  //         style: TextStyle(fontSize: 16.sp),
+                  //       )),
+                  // )),
                 ],
               ),
               SizedBox(
@@ -306,21 +306,21 @@ class PersonUI extends StatelessWidget {
                           color: ColorsConstants.kBGCardColor, fontSize: 16.sp),
                     )),
               )),
-              SizedBox(
-                width: 20.sp,
-              ),
-              Expanded(
-                  child: SizedBox(
-                height: 48.sp,
-                child: ElevatedButton(
-                    onPressed: null,
-                    style: CustomButtonStyle.primaryButton,
-                    child: Text(
-                      'Hoàn thành',
-                      style: TextStyle(
-                          color: ColorsConstants.kBGCardColor, fontSize: 16.sp),
-                    )),
-              )),
+              // SizedBox(
+              //   width: 20.sp,
+              // ),
+              // Expanded(
+              //     child: SizedBox(
+              //   height: 48.sp,
+              //   child: ElevatedButton(
+              //       onPressed: null,
+              //       style: CustomButtonStyle.primaryButton,
+              //       child: Text(
+              //         'Hoàn thành',
+              //         style: TextStyle(
+              //             color: ColorsConstants.kBGCardColor, fontSize: 16.sp),
+              //       )),
+              // )),
             ],
           )
         else if (_requestDetailController.requestDetailModel.status == 'finish')
@@ -391,29 +391,29 @@ class PersonUI extends StatelessWidget {
                             },
                           );
                         },
-                        style: CustomButtonStyle.infoButton,
+                        style: CustomButtonStyle.primaryButton,
                         child: Text(
-                          'Xem kết quả',
+                          'Hoàn thành/ Xem minh chứng',
                           style:
                               TextStyle(color: Colors.white, fontSize: 16.sp),
                         )),
                   )),
-                  SizedBox(
-                    width: 20.sp,
-                  ),
-                  Expanded(
-                      child: SizedBox(
-                    height: 48.sp,
-                    child: ElevatedButton(
-                        onPressed: () {},
-                        style: CustomButtonStyle.primaryButton,
-                        child: Text(
-                          'Hoàn thành',
-                          style: TextStyle(
-                              color: ColorsConstants.ksecondBackgroundColor,
-                              fontSize: 16.sp),
-                        )),
-                  )),
+                  // SizedBox(
+                  //   width: 20.sp,
+                  // ),
+                  // Expanded(
+                  //     child: SizedBox(
+                  //   height: 48.sp,
+                  //   child: ElevatedButton(
+                  //       onPressed: () {},
+                  //       style: CustomButtonStyle.primaryButton,
+                  //       child: Text(
+                  //         'Hoàn thành',
+                  //         style: TextStyle(
+                  //             color: ColorsConstants.ksecondBackgroundColor,
+                  //             fontSize: 16.sp),
+                  //       )),
+                  // )),
                 ],
               ),
               SizedBox(
@@ -686,9 +686,9 @@ class CollectorUI extends StatelessWidget {
                               },
                             );
                           },
-                          style: CustomButtonStyle.infoButton,
+                          style: CustomButtonStyle.primaryButton,
                           child: Text(
-                            'Minh chứng',
+                            'Kết quả',
                             style:
                                 TextStyle(color: Colors.white, fontSize: 16.sp),
                           )),
@@ -710,7 +710,7 @@ class CollectorUI extends StatelessWidget {
                                     .requestDetailModel.phone_number,
                               );
                             },
-                            style: CustomButtonStyle.primaryButton,
+                            style: CustomButtonStyle.infoButton,
                             child: Text(
                               'Liên Hệ',
                               style: TextStyle(
@@ -741,7 +741,7 @@ class CollectorUI extends StatelessWidget {
                                 .requestDetailModel.phone_number,
                           );
                         },
-                        style: CustomButtonStyle.primaryButton,
+                        style: CustomButtonStyle.infoButton,
                         child: Text(
                           'Liên Hệ',
                           style:
@@ -776,11 +776,11 @@ class CollectorUI extends StatelessWidget {
                             null;
                           }
                         },
-                        style: CustomButtonStyle.transparentButton,
+                        style: CustomButtonStyle.cancelButton,
                         child: Text(
                           'Bỏ qua',
                           style: TextStyle(
-                              color: ColorsConstants.kTextMainColor,
+                              color: Colors.white,
                               fontSize: 16.sp),
                         )),
                   )),
@@ -1037,7 +1037,7 @@ class AdminUI extends StatelessWidget {
                               },
                             );
                           },
-                          style: CustomButtonStyle.infoButton,
+                          style: CustomButtonStyle.primaryButton,
                           child: Text(
                             'Minh chứng',
                             style:
@@ -1059,7 +1059,7 @@ class AdminUI extends StatelessWidget {
                                     .requestDetailModel.phone_number,
                               );
                             },
-                            style: CustomButtonStyle.primaryButton,
+                            style: CustomButtonStyle.infoButton,
                             child: Text(
                               'Liên Hệ',
                               style: TextStyle(
@@ -1090,7 +1090,7 @@ class AdminUI extends StatelessWidget {
                                 .requestDetailModel.phone_number,
                           );
                         },
-                        style: CustomButtonStyle.primaryButton,
+                        style: CustomButtonStyle.infoButton,
                         child: Text(
                           'Liên Hệ',
                           style:

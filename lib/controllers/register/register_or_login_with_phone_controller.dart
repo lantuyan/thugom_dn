@@ -107,6 +107,7 @@ class RegisterOrLoginWithPhoneController extends GetxController {
     try{
       await _authRepository.phoneConfirm(pinCode, userId).then((value) async {
         final userModel = await _authRepository.getUserModel(value.userId);
+        await _getStorage.write('userId', value.userId);
         await _getStorage.write('name', userModel.name);
         await _getStorage.write('role', userModel.role);
         await _getStorage.write('sessionId', value.$id);

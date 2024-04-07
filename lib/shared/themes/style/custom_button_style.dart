@@ -45,6 +45,16 @@ class CustomButtonStyle {
         shadowColor: ColorsConstants.kMainColor
     );
 
+    static ButtonStyle rateButton = ElevatedButton.styleFrom(
+        // padding: EdgeInsets.symmetric(vertical: 18.sp),
+        backgroundColor: Colors.amber,
+        elevation: 5,
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(10))
+        ),
+        shadowColor: ColorsConstants.kMainColor
+    );
+
     static ButtonStyle socialButton = ElevatedButton.styleFrom(
         minimumSize: Size(40.sp,30.sp),
         backgroundColor: ColorsConstants.kBackgroundColor,

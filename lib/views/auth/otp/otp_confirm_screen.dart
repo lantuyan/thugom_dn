@@ -68,6 +68,7 @@ class OtpConfirmScreen extends StatelessWidget{
             Form(
               key: formPinCodeKey,
               child: PinCodeTextField(
+                keyboardType: TextInputType.number,
                 appContext: context,
                 length: 6,
                 cursorHeight: 19,
