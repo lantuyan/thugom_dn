@@ -138,7 +138,7 @@ class _RequestPersonScreenState extends State<RequestPersonScreen> {
                       key: _requestPersonController.desriptionFieldKey,
                       textInputAction: TextInputAction.done,
                       onChanged: (value) {
-                        if(value.endsWith('\n')){
+                        if (value.endsWith('\n')) {
                           FocusScope.of(context).unfocus();
                         }
                       },
@@ -168,7 +168,7 @@ class _RequestPersonScreenState extends State<RequestPersonScreen> {
                         color: ColorsConstants
                             .kTextMainColor, // Màu cho giá trị initialValue
                       ),
-                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      autovalidateMode: AutovalidateMode.disabled,
                       validator: FormBuilderValidators.compose([
                         FormBuilderValidators.required(
                             errorText: "Không được để trống trường này"),
@@ -204,7 +204,7 @@ class _RequestPersonScreenState extends State<RequestPersonScreen> {
                         color: ColorsConstants
                             .kTextMainColor, // Màu cho giá trị initialValue
                       ),
-                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      autovalidateMode: AutovalidateMode.disabled,
                       validator: FormBuilderValidators.compose([
                         FormBuilderValidators.required(
                             errorText: "Không được để trống trường này"),
@@ -239,7 +239,7 @@ class _RequestPersonScreenState extends State<RequestPersonScreen> {
                         color: ColorsConstants
                             .kTextMainColor, // Màu cho giá trị initialValue
                       ),
-                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      autovalidateMode: AutovalidateMode.disabled,
                       validator: FormBuilderValidators.compose([
                         FormBuilderValidators.required(
                             errorText: "Không được để trống trường này"),

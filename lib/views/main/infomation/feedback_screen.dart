@@ -138,7 +138,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                       key: _requestPersonController.desriptionFieldKey,
                       textInputAction: TextInputAction.done,
                       onChanged: (value) {
-                        if(value.endsWith('\n')){
+                        if (value.endsWith('\n')) {
                           FocusScope.of(context).unfocus();
                         }
                       },
@@ -168,7 +168,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                         color: ColorsConstants
                             .kTextMainColor, // Màu cho giá trị initialValue
                       ),
-                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      autovalidateMode: AutovalidateMode.disabled,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return "Không được để trống trường này";
@@ -206,7 +206,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                         color: ColorsConstants
                             .kTextMainColor, // Màu cho giá trị initialValue
                       ),
-                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      autovalidateMode: AutovalidateMode.disabled,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return "Không được để trống trường này";
