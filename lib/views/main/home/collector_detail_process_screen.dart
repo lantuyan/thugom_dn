@@ -225,7 +225,7 @@ class _CollectorDetailProcessScreenState
                             color: ColorsConstants
                                 .kTextMainColor, // Màu cho giá trị initialValue
                           ),
-                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          autovalidateMode: AutovalidateMode.disabled,
                           validator: FormBuilderValidators.compose([
                             FormBuilderValidators.required(
                                 errorText: "Không được để trống trường này"),
@@ -264,7 +264,7 @@ class _CollectorDetailProcessScreenState
                         color: ColorsConstants
                             .kTextMainColor, // Màu cho giá trị initialValue
                       ),
-                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      autovalidateMode: AutovalidateMode.disabled,
                       validator: FormBuilderValidators.compose([
                         FormBuilderValidators.required(
                             errorText: "Không được để trống trường này"),

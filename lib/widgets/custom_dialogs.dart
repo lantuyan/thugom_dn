@@ -25,6 +25,11 @@ class CustomDialogs{
       ),
       barrierDismissible: false, // Prevent users from dismissing the dialog by tapping outside
     );
+    Future.delayed(Duration(seconds: 30), () {
+      if (Get.isDialogOpen == true) {
+        Get.back();
+      }
+    });
   }
   static void hideLoadingDialog(){
     Get.back();
@@ -55,7 +60,7 @@ class CustomDialogs{
       margin: EdgeInsets.all(15.sp),
       colorText: Colors.white,
       duration: Duration(seconds: duration),
-      isDismissible: true,
+      isDismissible: false,
       forwardAnimationCurve: Curves.easeOutBack,
     );
   }

@@ -78,7 +78,7 @@ class LoginScreen extends StatelessWidget {
                                 borderSide: BorderSide(
                                     color: ColorsConstants.kMainColor, width: 2)),
                           ),
-                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          autovalidateMode: AutovalidateMode.disabled,
                           validator: FormBuilderValidators.compose([
                             FormBuilderValidators.required(errorText: "Không được để trống trường này"),
                             FormBuilderValidators.email(errorText: "Email không hợp lệ"),
@@ -123,7 +123,7 @@ class LoginScreen extends StatelessWidget {
                                       color: ColorsConstants.kMainColor,
                                       width: 2)),
                             ),
-                            autovalidateMode: AutovalidateMode.onUserInteraction,
+                            autovalidateMode: AutovalidateMode.disabled,
                             validator: FormBuilderValidators.compose([
                               FormBuilderValidators.required(
                                   errorText: "Không được để trống trường này"),

@@ -31,17 +31,16 @@ class LoginController extends GetxController {
 
   //Login method
   Future<void> login(Map map) async {
-    CustomDialogs.hideLoadingDialog();
     try {
       CustomDialogs.showLoadingDialog();
       var value = await _authRepository.login({
         'email': map['email'],
         'password': map['password']
       });
-      if (await _authRepository.checkUserBlackList(value.userId)) {
+      bool isBlackList = await _authRepository.checkUserBlackList(value.userId);
+      if (isBlackList) {
         CustomDialogs.hideLoadingDialog();
         CustomDialogs.showSnackBar(2, "Tài khoản của bạn đã bị khóa", 'error');
-        return;
       } else {
       _getStorage.write('userId', value.userId);
       _getStorage.write('sessionId', value.$id);
@@ -50,24 +49,22 @@ class LoginController extends GetxController {
       await _getStorage.write('role', userModel.role);
       await _getStorage.write('zalonumber', userModel.zalonumber);
       await _getStorage.write('address', userModel.address);
-      CustomDialogs.hideLoadingDialog();
+      
       DataManager().saveData('userId', value.userId);
       DataManager().saveData('sessionId', value.$id);
       DataManager().saveData('name', userModel.name);
       DataManager().saveData('role', userModel.role);
       DataManager().saveData('zalonumber', userModel.zalonumber);
       DataManager().saveData('address', userModel.address);
-
+      CustomDialogs.hideLoadingDialog();
       Get.offAllNamed('/mainPage');
       }
     } catch (error) {
       CustomDialogs.hideLoadingDialog();
       print(error);
       if (error is AppwriteException && error.type == 'user_invalid_credentials') {
-        CustomDialogs.hideLoadingDialog();
         CustomDialogs.showSnackBar(2, "Thông tin không hợp lệ. Vui lòng kiểm tra email và mật khẩu", 'error');
       } else {
-        CustomDialogs.hideLoadingDialog();
         CustomDialogs.showSnackBar(2, "Đã có lỗi xảy ra vui lòng thử lại sau!", 'error');
       }
     }

@@ -118,7 +118,7 @@ class ProfileScreen extends StatelessWidget {
                             borderSide: BorderSide(color: ColorsConstants.kMainColor, width: 2)
                         ),
                       ),
-                      // autovalidateMode: AutovalidateMode.onUserInteraction,
+                      // autovalidateMode: AutovalidateMode.disabled,
                       validator: (value) {
                         // if value contains enter
                         if (value!.isEmpty) {
@@ -294,7 +294,7 @@ class ProfileScreen extends StatelessWidget {
                             borderSide: BorderSide(color: ColorsConstants.kMainColor, width: 2)
                         ),
                       ),
-                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      autovalidateMode: AutovalidateMode.disabled,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return "Không được để trống trường này";
