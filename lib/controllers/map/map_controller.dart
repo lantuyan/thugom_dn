@@ -9,6 +9,7 @@ import 'package:get/get.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:http/http.dart' as http;
 
 class MapController extends GetxController {
   late LatLng _initialPosition = LatLng(16.0544, 108.2034);
@@ -100,14 +101,16 @@ class MapController extends GetxController {
       for (var document in category_points_List.documents) {
         Map<String, dynamic> data = document.data as Map<String, dynamic>;
         String label = data['Label'];
-        String icon = data['Icon'];
+        String iconUrl = data['Icon']; // Đường dẫn URL của ảnh
 
-        var response = await storage.getFileView(
-          bucketId: '65dc9b51d0e2351f9c0d',
-          fileId: icon,
-        );
-        Uint8List imageData = response;
-        labelToIconMap[label] = imageData; // Lưu trữ ảnh vào labelToIconMap
+        // Tải ảnh từ URL
+        var response = await http.get(Uri.parse(iconUrl));
+        if (response.statusCode == 200) {
+          Uint8List imageData = response.bodyBytes;
+          labelToIconMap[label] = imageData; // Lưu trữ ảnh vào labelToIconMap
+        } else {
+          print('Failed to load image for label: $label');
+        }
       }
 
       models.DocumentList pointsList = await points.listDocuments(
