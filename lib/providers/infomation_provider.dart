@@ -26,12 +26,11 @@ class InfomationProvider {
 
   }
 
-  Future<models.DocumentList> getCategoryPrice() async {
+  Future<models.DocumentList> getInfomationSetting() async {
     final response = await databases!.listDocuments(
-      databaseId: AppWriteConstants.databaseId,
-      collectionId: AppWriteConstants.categoryPriceCollectionId
+        databaseId: AppWriteConstants.databaseId,
+        collectionId: AppWriteConstants.settingInformationCollection,
     );
     return response;
   }
-
 }

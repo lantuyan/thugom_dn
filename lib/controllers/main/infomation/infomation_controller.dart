@@ -28,20 +28,21 @@ class InfomationController extends GetxController {
   @override
   Future<void> onInit() async {
     print("mainSettingInfommation oninit");
-    getMainSettingInfomation();
+    getSettingInfomation();
     super.onInit();
   }
 
-  Future<void> getMainSettingInfomation() async {
-    print("mainSettingInfommation screen");
+  Future<void> getSettingInfomation() async {
     try {
-      await _infomationReposistory.getMainInfomationSetting().then((value) {
-        Map<String, dynamic> data = value.data;
-        mainSettingInfommation = SettingInformation.fromMap(data);
-        print('mainSettingInfommation $mainSettingInfommation');
+      await _infomationReposistory.getInfomationSetting().then((value) {
+        print('value $value');
+        Map<String, dynamic> data = value.toMap();
+        List documents = data['documents'].toList();
+        settingList = documents.map((e) => SettingInformation.fromMap(e['data'])).toList();
+        print('settingList $settingList');
       });
     } catch (e) {
-      print("mainSettingInfommation false ${e}");
+      print("settingList false ${e}");
       print(e);
     }
   }

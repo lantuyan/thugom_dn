@@ -50,7 +50,7 @@ class InfomationScreen extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                       builder: (context) => WebViewPage(
-                            url: _infomationController.mainSettingInfommation.link
+                            url: _infomationController.settingList[0].link,
                           )),
                 );
               },
@@ -67,7 +67,7 @@ class InfomationScreen extends StatelessWidget {
                         children: [
                           // Hình ảnh
                           Image.network(
-                            _infomationController.mainSettingInfommation.imageLink,
+                            _infomationController.settingList[0].imageLink,
                             height: 80, // Độ cao của hình ảnh
                             width: 80, // Độ rộng của hình ảnh
                             fit: BoxFit.cover, // Hiển thị hình ảnh đúng tỷ lệ
@@ -86,13 +86,13 @@ class InfomationScreen extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                 _infomationController.mainSettingInfommation.title,
+                                 _infomationController.settingList[0].title,
                                   style: AppTextStyles.headline1,
                                 ),
                                 const SizedBox(height: 16.0),
                                 Text(
-                                  _infomationController.mainSettingInfommation.description ?? "",
-                                  style: AppTextStyles.bodyText1,
+                                  _infomationController.settingList[0].description ?? "",
+                                  style: AppTextStyles.bodyText2,
                                   textAlign: TextAlign.justify,
                                 ),
                               ],
@@ -121,65 +121,22 @@ class InfomationScreen extends StatelessWidget {
               },
               title: 'Phản ánh rác thải',
             ),
-            ProfileCardInfomation(
-              image: 'assets/images/trash_bin.png',
+            for (int i = 1; i < _infomationController.settingList.length; i++)
+              ProfileCardInfomation(
+              image: _infomationController.settingList[i].imageLink,
               color: ColorsConstants.kActiveColor,
               tapHandler: () {
                 Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => WebViewPage(
-                            url:
-                                "https://thanhnien.vn/da-nang-tai-khoi-dong-thu-tien-rac-khong-dung-tien-mat-185230512073636513.htm",
-                          )),
+                context,
+                MaterialPageRoute(
+                  builder: (context) => WebViewPage(
+                  url: _infomationController.settingList[i].link,
+                  ),
+                ),
                 );
               },
-              title: 'Thông báo phí thu gom',
-            ),
-            ProfileCardInfomation(
-              image: 'assets/images/check_user.png',
-              color: ColorsConstants.kActiveColor,
-              tapHandler: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => WebViewPage(
-                            url:
-                                "https://tnmt.danang.gov.vn/van-ban-phap-quy/chi-tiet?id=2366&u=nghiinhquyinhvexuphatviphamhanhchinhtronglinhvucbaovemoitruong",
-                          )),
-                );
-              },
-              title: 'Thông tư số 01',
-            ),
-            ProfileCardInfomation(
-              image: 'assets/images/check_user.png',
-              color: ColorsConstants.kActiveColor,
-              tapHandler: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => WebViewPage(
-                            url:
-                                "https://tnmt.danang.gov.vn/bai-viet/chi-tiet?id=3438&u=capnhapcacvanbanmoicuabotainguyenvamoitruong",
-                          )),
-                );
-              },
-              title: 'Thông tư số 02',
-            ),
-            ProfileCardInfomation(
-              image: 'assets/images/noti_user.png',
-              color: ColorsConstants.kActiveColor,
-              tapHandler: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => WebViewPage(
-                            url: "https://donaso.vn/",
-                          )),
-                );
-              },
-              title: 'Liên hệ',
-            ),
+              title: _infomationController.settingList[i].title,
+              ),
             ProfileCardInfomation(
               image: 'assets/images/log_out.png',
               color: ColorsConstants.kDangerous,
@@ -244,6 +201,23 @@ class ProfileCardInfomation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Widget imageWidget;
+    if (image.startsWith('http')) {
+      imageWidget = Image.network(
+        image,
+        color: color,
+        width: 20.sp,
+        height: 20.sp,
+      );
+    } else {
+      imageWidget = Image.asset(
+        image,
+        color: color,
+        width: 20.sp,
+        height: 20.sp,
+      );
+    }
+
     return GestureDetector(
       onTap: () {
         tapHandler();
@@ -265,12 +239,7 @@ class ProfileCardInfomation extends StatelessWidget {
                         borderRadius: BorderRadius.circular(8),
                       ),
                     ),
-                    child: Image.asset(
-                      image,
-                      color: color,
-                      width: 20.sp,
-                      height: 20.sp,
-                    ),
+                    child: imageWidget,
                   ),
                   SizedBox(
                     width: 32.sp,

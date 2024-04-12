@@ -5,4 +5,5 @@ class InfomationReposistory{
   InfomationReposistory(this.infomationProvider);
 
   Future<models.Document > getMainInfomationSetting() => infomationProvider.getMainInfomationSetting();
+  Future<models.DocumentList > getInfomationSetting() => infomationProvider.getInfomationSetting();
 }
