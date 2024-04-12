@@ -49,14 +49,24 @@ class LoginController extends GetxController {
       await _getStorage.write('role', userModel.role);
       await _getStorage.write('zalonumber', userModel.zalonumber);
       await _getStorage.write('address', userModel.address);
+<<<<<<< Updated upstream
       
+=======
+      await _getStorage.write('uid', userModel.uid);
+      CustomDialogs.hideLoadingDialog();
+>>>>>>> Stashed changes
       DataManager().saveData('userId', value.userId);
       DataManager().saveData('sessionId', value.$id);
       DataManager().saveData('name', userModel.name);
       DataManager().saveData('role', userModel.role);
       DataManager().saveData('zalonumber', userModel.zalonumber);
       DataManager().saveData('address', userModel.address);
+<<<<<<< Updated upstream
       CustomDialogs.hideLoadingDialog();
+=======
+      DataManager().saveData('uid', userModel.uid);
+
+>>>>>>> Stashed changes
       Get.offAllNamed('/mainPage');
       }
     } catch (error) {

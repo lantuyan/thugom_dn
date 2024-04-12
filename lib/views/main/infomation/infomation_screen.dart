@@ -1,9 +1,13 @@
+import 'package:face_camera/face_camera.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:thu_gom/controllers/main/home/home_controller.dart';
 import 'package:thu_gom/controllers/main/infomation/infomation_controller.dart';
+import 'package:thu_gom/providers/user_request_trash_provider.dart';
+import 'package:thu_gom/repositories/user_request_trash_reponsitory.dart';
 import 'package:thu_gom/shared/constants/color_constants.dart';
 import 'package:thu_gom/shared/themes/style/app_text_styles.dart';
 import 'package:thu_gom/widgets/header_username.dart';
@@ -12,7 +16,8 @@ import 'package:thu_gom/widgets/web_view.dart';
 class InfomationScreen extends StatelessWidget {
   InfomationScreen({Key? key}) : super(key: key);
   final GetStorage _getStorage = GetStorage();
-  final InfomationController _homeController = Get.put(InfomationController());
+  final InfomationController _homeController = Get.put(InfomationController(
+      UserRequestTrashRepository(UserRequestTrashProvider())));
   var name = '';
   @override
   Widget build(BuildContext context) {
@@ -20,11 +25,11 @@ class InfomationScreen extends StatelessWidget {
     return Scaffold(
       appBar: _getStorage.read('role') == 'admin'
           ? AppBar(
-        title: Container(
-            color: ColorsConstants.kBGCardColor,
-            child: userName(name),
-          ),
-      )
+              title: Container(
+                color: ColorsConstants.kBGCardColor,
+                child: userName(name),
+              ),
+            )
           : null,
       backgroundColor: ColorsConstants.kBackgroundColor,
       body: SingleChildScrollView(
@@ -32,10 +37,11 @@ class InfomationScreen extends StatelessWidget {
         // width: MediaQuery.of(context).size.width,
         child: Column(
           children: [
-            if (_getStorage.read('role') != 'admin') Container(
-                  color: ColorsConstants.kBGCardColor,
-                  child: _userName(name),
-                ),
+            if (_getStorage.read('role') != 'admin')
+              Container(
+                color: ColorsConstants.kBGCardColor,
+                child: _userName(name),
+              ),
             SizedBox(
               height: 8.h,
             ),
@@ -104,12 +110,11 @@ class InfomationScreen extends StatelessWidget {
               image: 'assets/images/log_out.png',
               color: ColorsConstants.kDangerous,
               tapHandler: () {
-                Get.toNamed('/feedbackTrashPage',
-                  arguments: {
-                    'categoryId': "",
-                    'categoryTitle': 'Phản ánh rác thải',
-                    'categoryImage': ""
-                  });
+                Get.toNamed('/feedbackTrashPage', arguments: {
+                  'categoryId': "",
+                  'categoryTitle': 'Phản ánh rác thải',
+                  'categoryImage': ""
+                });
               },
               title: 'Phản ánh rác thải',
             ),
@@ -188,7 +193,7 @@ class InfomationScreen extends StatelessWidget {
 
   Padding _userName(String name) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 12.sp),
+      padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 8.sp),
       child: Row(
         children: [
           SizedBox(
@@ -211,10 +216,26 @@ class InfomationScreen extends StatelessWidget {
             child: Text(
               "Xin chào, " + name,
               style: AppTextStyles.headline1,
-              overflow: TextOverflow.ellipsis, // Truncate văn bản nếu vượt quá khung
+              overflow:
+                  TextOverflow.ellipsis, // Truncate văn bản nếu vượt quá khung
               maxLines: 1, // Giới hạn số dòng hiển thị
             ),
-          )
+          ),
+          SizedBox(width: 10.w),
+          GestureDetector(
+            onTap: () async {
+              await FaceCamera.initialize();
+              Get.toNamed('/portrait_collector');
+            },
+            child: Image.asset(
+              'assets/images/camera.png',
+              height: 50.h,
+              width: 50.w,
+            ),
+          ),
+          SizedBox(
+            width: 20.w,
+          ),
         ],
       ),
     );

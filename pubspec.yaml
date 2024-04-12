@@ -91,6 +91,9 @@ dependencies:
   intl_phone_number_input: ^0.7.4
   pin_code_fields: ^8.0.1
 
+  # FACE CAM
+  face_camera: ^0.1.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

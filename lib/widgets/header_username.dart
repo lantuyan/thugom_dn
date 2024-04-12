@@ -3,11 +3,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:thu_gom/controllers/login/login_controller.dart';
 import 'package:thu_gom/controllers/main/infomation/infomation_controller.dart';
+import 'package:thu_gom/providers/user_request_trash_provider.dart';
+import 'package:thu_gom/repositories/user_request_trash_reponsitory.dart';
 import 'package:thu_gom/shared/themes/style/app_text_styles.dart';
 import 'package:thu_gom/widgets/custom_dialogs.dart';
 
 Padding userName(String name) {
-  final InfomationController _homeController = Get.put(InfomationController());
+  final InfomationController _homeController = Get.put(InfomationController(
+      UserRequestTrashRepository(UserRequestTrashProvider())));
 
   return Padding(
     padding: EdgeInsets.symmetric(horizontal: 0.w, vertical: 0.sp),
@@ -34,7 +37,9 @@ Padding userName(String name) {
             height: 40.h,
             width: 40.w,
           ),
+          
         ),
+
         SizedBox(
           width: 10,
         ),
@@ -42,7 +47,8 @@ Padding userName(String name) {
           child: Text(
             "Xin chào, " + name,
             style: AppTextStyles.headline1,
-            overflow: TextOverflow.ellipsis, // Truncate văn bản nếu vượt quá khung
+            overflow:
+                TextOverflow.ellipsis, // Truncate văn bản nếu vượt quá khung
             maxLines: 1, // Giới hạn số dòng hiển thị
           ),
         )

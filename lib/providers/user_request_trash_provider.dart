@@ -170,6 +170,16 @@ class UserRequestTrashProvider {
       },
     );
   }
+  Future<void> updateAvatarCollector(String requestId, String? imageLink) async {
+    await databases?.updateDocument(
+      databaseId: AppWriteConstants.databaseId,
+      collectionId: AppWriteConstants.usersCollection,
+      documentId: requestId,
+      data: {
+        'avatar': imageLink
+      },
+    );
+  }
 
   Future<void> cancelRequest(String requestId) async {
     await databases?.updateDocument(
