@@ -227,7 +227,7 @@ class MapController extends GetxController {
               point: LatLng(request.point_lat, request.point_lng),
               child: GestureDetector(
                 onTap: () {
-                  requestDetail(request);
+
                 },
                 child: Image.asset(
                   'assets/images/bin.jpg',
@@ -245,7 +245,7 @@ class MapController extends GetxController {
               point: LatLng(request.point_lat, request.point_lng),
               child: GestureDetector(
                 onTap: () {
-                  requestDetail(request);
+                  
                 },
                 child: Image.asset(
                   'assets/images/bin1.jpg',
