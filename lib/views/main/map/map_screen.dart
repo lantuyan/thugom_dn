@@ -9,6 +9,7 @@ import 'package:thu_gom/shared/themes/style/app_text_styles.dart';
 import 'package:flutter_map/flutter_map.dart' as controller;
 import 'package:thu_gom/widgets/flutter_map_zoom_buttons.dart';
 import 'package:thu_gom/widgets/flutter_map_location_button.dart';
+import 'package:flutter_map_marker_cluster/flutter_map_marker_cluster.dart';
 
 class MapScreen extends StatelessWidget {
   MapScreen({Key? key}) : super(key: key);
@@ -120,6 +121,29 @@ class MapScreen extends StatelessWidget {
                       ],
                     ),
                     controller.MarkerLayer(markers: user.markers),
+                    MarkerClusterLayerWidget(
+                      options: MarkerClusterLayerOptions(
+                        maxClusterRadius: 45,
+                        size: const Size(40, 40),
+                        alignment: Alignment.center,
+                        padding: const EdgeInsets.all(50),
+                        maxZoom: 15,
+                        markers: user.markers,
+                        builder: (context, markers) {
+                          return Container(
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
+                                color: Colors.green),
+                            child: Center(
+                              child: Text(
+                                markers.length.toString(),
+                                style: const TextStyle(color: Colors.white),
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
                     Stack(
                       children: [
                         Positioned(
