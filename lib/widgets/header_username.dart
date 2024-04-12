@@ -7,7 +7,7 @@ import 'package:thu_gom/shared/themes/style/app_text_styles.dart';
 import 'package:thu_gom/widgets/custom_dialogs.dart';
 
 Padding userName(String name) {
-  final InfomationController _homeController = Get.put(InfomationController());
+  // final InfomationController _homeController = Get.put(InfomationController());
 
   return Padding(
     padding: EdgeInsets.symmetric(horizontal: 0.w, vertical: 0.sp),

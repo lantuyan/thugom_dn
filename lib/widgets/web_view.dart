@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:thu_gom/shared/constants/color_constants.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class WebViewPage extends StatelessWidget {
@@ -31,7 +32,14 @@ class WebViewPage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Thu Gom App'),
+        title: Text(
+          'Thu Gom App',
+          style: TextStyle(
+            color: ColorsConstants.kActiveColor,
+            fontSize: 20.0,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
       ),
       body: WebViewWidget(
         controller: controller,
