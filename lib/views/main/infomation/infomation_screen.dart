@@ -4,16 +4,20 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:thu_gom/controllers/main/home/home_controller.dart';
 import 'package:thu_gom/controllers/main/infomation/infomation_controller.dart';
+import 'package:thu_gom/providers/infomation_provider.dart';
+import 'package:thu_gom/repositories/infomation_reposistory.dart';
 import 'package:thu_gom/shared/constants/color_constants.dart';
 import 'package:thu_gom/shared/themes/style/app_text_styles.dart';
 import 'package:thu_gom/widgets/header_username.dart';
 import 'package:thu_gom/widgets/web_view.dart';
 
 class InfomationScreen extends StatelessWidget {
-  InfomationScreen({Key? key}) : super(key: key);
   final GetStorage _getStorage = GetStorage();
-  final InfomationController _homeController = Get.put(InfomationController());
+
+  final InfomationController _infomationController = Get.put(InfomationController(InfomationReposistory(InfomationProvider())));
+
   var name = '';
+
   @override
   Widget build(BuildContext context) {
     name = _getStorage.read('name');
@@ -46,8 +50,7 @@ class InfomationScreen extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                       builder: (context) => WebViewPage(
-                            url:
-                                "https://baotainguyenmoitruong.vn/da-nang-trien-khai-luat-bao-ve-moi-truong-cho-cac-doanh-nghiep-khu-cong-nghiep-363363.html",
+                            url: _infomationController.mainSettingInfommation.link
                           )),
                 );
               },
@@ -63,11 +66,16 @@ class InfomationScreen extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           // Hình ảnh
-                          Image.asset(
-                            'assets/images/blog_1.jpg', // Đường dẫn của hình ảnh
+                          Image.network(
+                            _infomationController.mainSettingInfommation.imageLink,
                             height: 80, // Độ cao của hình ảnh
                             width: 80, // Độ rộng của hình ảnh
                             fit: BoxFit.cover, // Hiển thị hình ảnh đúng tỷ lệ
+                            loadingBuilder: (context, child, loadingProgress) => loadingProgress == null
+                          ? child
+                          : Center(
+                              child: Image.asset("assets/images/placeholder.png")
+                            ),
                           ),
                           SizedBox(
                               width:
@@ -78,12 +86,12 @@ class InfomationScreen extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  'Luật bảo vệ môi trường',
+                                 _infomationController.mainSettingInfommation.title,
                                   style: AppTextStyles.headline1,
                                 ),
                                 const SizedBox(height: 16.0),
                                 Text(
-                                  'Môi trường bao gồm các yếu tố vật chất tự nhiên và nhân tạo quan hệ mật thiết với nhau, bao quanh con người, có ảnh hưởng đến đời sống, kinh tế, xã hội, sự tồn tại, phát triển của con người, sinh vật và tự nhiên.',
+                                  _infomationController.mainSettingInfommation.description ?? "",
                                   style: AppTextStyles.bodyText1,
                                   textAlign: TextAlign.justify,
                                 ),
@@ -176,7 +184,7 @@ class InfomationScreen extends StatelessWidget {
               image: 'assets/images/log_out.png',
               color: ColorsConstants.kDangerous,
               tapHandler: () {
-                _homeController.logOut();
+                _infomationController.logOut();
               },
               title: 'Đăng xuất',
             ),
