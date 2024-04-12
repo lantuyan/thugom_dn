@@ -11,6 +11,7 @@ import 'package:thu_gom/shared/themes/style/custom_button_style.dart';
 import 'package:thu_gom/widgets/header_username.dart';
 import 'package:thu_gom/widgets/flutter_map_zoom_buttons.dart';
 import 'package:thu_gom/widgets/flutter_map_location_button.dart';
+import 'package:flutter_map_marker_cluster/flutter_map_marker_cluster.dart';
 
 class MapAdminScreen extends StatefulWidget {
   const MapAdminScreen({Key? key}) : super(key: key);
@@ -147,6 +148,52 @@ class _MapAdminScreenState extends State<MapAdminScreen> {
                       ),
                       controller.MarkerLayer(markers: user.static_user_not),
                       controller.MarkerLayer(markers: user.static_user_done),
+                      MarkerClusterLayerWidget(
+                        options: MarkerClusterLayerOptions(
+                          maxClusterRadius: 45,
+                          size: const Size(40, 40),
+                          alignment: Alignment.center,
+                          padding: const EdgeInsets.all(50),
+                          maxZoom: 15,
+                          markers: user.static_user_not,
+                          builder: (context, markers) {
+                            return Container(
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(20),
+                                  color: Colors.green),
+                              child: Center(
+                                child: Text(
+                                  markers.length.toString(),
+                                  style: const TextStyle(color: Colors.white),
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                      MarkerClusterLayerWidget(
+                        options: MarkerClusterLayerOptions(
+                          maxClusterRadius: 45,
+                          size: const Size(40, 40),
+                          alignment: Alignment.center,
+                          padding: const EdgeInsets.all(50),
+                          maxZoom: 15,
+                          markers: user.static_user_done,
+                          builder: (context, markers) {
+                            return Container(
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(20),
+                                  color: Colors.grey),
+                              child: Center(
+                                child: Text(
+                                  markers.length.toString(),
+                                  style: const TextStyle(color: Colors.white),
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      ),
                       Stack(
                         children: [
                           Positioned(
