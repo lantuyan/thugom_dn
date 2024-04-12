@@ -9,6 +9,8 @@ import 'package:thu_gom/shared/constants/color_constants.dart';
 import 'package:thu_gom/shared/themes/style/app_text_styles.dart';
 import 'package:thu_gom/shared/themes/style/custom_button_style.dart';
 import 'package:thu_gom/widgets/header_username.dart';
+import 'package:thu_gom/widgets/flutter_map_zoom_buttons.dart';
+import 'package:thu_gom/widgets/flutter_map_location_button.dart';
 
 class MapAdminScreen extends StatefulWidget {
   const MapAdminScreen({Key? key}) : super(key: key);
@@ -86,9 +88,9 @@ class _MapAdminScreenState extends State<MapAdminScreen> {
       appBar: AppBar(
         title:
         Container(
-            color: ColorsConstants.kBGCardColor,
-            child: userName(name),
-          ),
+          color: ColorsConstants.kBGCardColor,
+          child: userName(name),
+        ),
 
       ),
       body: SafeArea(
@@ -145,12 +147,38 @@ class _MapAdminScreenState extends State<MapAdminScreen> {
                       ),
                       controller.MarkerLayer(markers: user.static_user_not),
                       controller.MarkerLayer(markers: user.static_user_done),
+                      Stack(
+                        children: [
+                          Positioned(
+                            bottom: 8.0, // Điều chỉnh vị trí dưới cùng của nút phóng to và thu nhỏ
+                            right: 8.0, // Điều chỉnh vị trí bên phải của nút phóng to và thu nhỏ
+                            child: FlutterMapZoomButtons(
+                              minZoom: 1,
+                              maxZoom: 18,
+                              mini: true,
+                              padding: 8.0,
+                              alignment: Alignment.bottomRight,
+                              zoomInIcon: Icons.add,
+                              zoomOutIcon: Icons.remove,
+                            ),
+                          ),
+                          Positioned(
+                            bottom: 120.0, // Điều chỉnh vị trí dưới cùng của nút vị trí hiện tại
+                            right: 8.0, // Điều chỉnh vị trí bên phải của nút vị trí hiện tại
+                            child: CurrentLocationButton(
+                              user: user,
+                              padding: 8.0,
+                              moveToCurrentLocationIcon: Icons.location_on,
+                            ),
+                          ),
+                        ],
+                      )
                     ],
                   ),
                 ],
               ),
             ),
-        
+
             Expanded(
               flex: 1,
               child: Obx(() {
@@ -172,7 +200,7 @@ class _MapAdminScreenState extends State<MapAdminScreen> {
                           textAlign: TextAlign.left,
                         ),
                         SizedBox(height: 10), // Khoảng cách giữa các widget
-        
+
                         // Hàng chứa hai calendar date picker
                         Row(
                           children: [
@@ -241,7 +269,7 @@ class _MapAdminScreenState extends State<MapAdminScreen> {
                                 });
                               },
                               child: Text('Kiểm tra',style: TextStyle(
-                                color: Colors.white
+                                  color: Colors.white
                               ),),
                             ),
                           ],
@@ -252,7 +280,7 @@ class _MapAdminScreenState extends State<MapAdminScreen> {
                 }
               }),
             ),
-        
+
           ],
         ),
       ),
