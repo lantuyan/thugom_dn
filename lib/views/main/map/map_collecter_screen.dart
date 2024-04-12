@@ -111,42 +111,42 @@ class MapCollecterScreen extends StatelessWidget {
                     controller.TileLayer(
                       urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
                     ),
-                    controller.MarkerLayer(
-                      markers:[
-                        controller.Marker(
-                          point: user.initialPos,
-                          child: const Icon(
-                            Icons.location_on,
-                            color: Colors.redAccent,
-                            size: 20,
-                          ),
-                        ),
-
-                      ],
-                    ),
-                    controller.MarkerLayer(markers: user.markers_user),
+                    if (user.markers_user.isNotEmpty)
                     MarkerClusterLayerWidget(
-                      options: MarkerClusterLayerOptions(
-                        maxClusterRadius: 45,
-                        size: const Size(40, 40),
-                        alignment: Alignment.center,
-                        padding: const EdgeInsets.all(50),
-                        maxZoom: 15,
-                        markers: user.markers_user,
-                        builder: (context, markers) {
-                          return Container(
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(20),
-                                color: Colors.green),
-                            child: Center(
-                              child: Text(
-                                markers.length.toString(),
-                                style: const TextStyle(color: Colors.white),
-                              ),
-                            ),
-                          );
-                        },
+                    options: MarkerClusterLayerOptions(
+                      maxClusterRadius: 45,
+                      size: const Size(40, 40),
+                      alignment: Alignment.center,
+                      padding: const EdgeInsets.all(50),
+                      maxZoom: 15,
+                      markers: user.markers_user,
+                      builder: (context, markers) {
+                      return Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          color: Colors.green),
+                        child: Center(
+                        child: Text(
+                          markers.length.toString(),
+                          style: const TextStyle(color: Colors.white),
+                        ),
+                        ),
+                      );
+                      },
+                    ),
+                    ),
+                  if (user.markers_user.isEmpty)
+                    controller.MarkerLayer(
+                    markers: [
+                      controller.Marker(
+                      point: user.initialPos,
+                      child: const Icon(
+                        Icons.location_on,
+                        color: Colors.redAccent,
+                        size: 20,
                       ),
+                      ),
+                    ],
                     ),
                     Stack(
                       children: [

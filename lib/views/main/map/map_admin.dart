@@ -146,8 +146,9 @@ class _MapAdminScreenState extends State<MapAdminScreen> {
                           ),
                         ],
                       ),
-                      controller.MarkerLayer(markers: user.static_user_not),
-                      controller.MarkerLayer(markers: user.static_user_done),
+                      // controller.MarkerLayer(markers: user.static_user_not),
+                      // controller.MarkerLayer(markers: user.static_user_done),
+                      if (user.static_user_not.isNotEmpty)
                       MarkerClusterLayerWidget(
                         options: MarkerClusterLayerOptions(
                           maxClusterRadius: 45,
@@ -157,20 +158,34 @@ class _MapAdminScreenState extends State<MapAdminScreen> {
                           maxZoom: 15,
                           markers: user.static_user_not,
                           builder: (context, markers) {
-                            return Container(
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(20),
-                                  color: Colors.green),
-                              child: Center(
-                                child: Text(
-                                  markers.length.toString(),
-                                  style: const TextStyle(color: Colors.white),
-                                ),
-                              ),
-                            );
+                          return Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20),
+                              color: Colors.green),
+                            child: Center(
+                            child: Text(
+                              markers.length.toString(),
+                              style: const TextStyle(color: Colors.white),
+                            ),
+                            ),
+                          );
                           },
                         ),
+                        ),
+                      if (user.static_user_not.isEmpty)
+                        controller.MarkerLayer(
+                        markers: [
+                          controller.Marker(
+                          point: user.initialPos,
+                          child: const Icon(
+                            Icons.location_on,
+                            color: Colors.redAccent,
+                            size: 20,
+                          ),
+                          ),
+                        ],
                       ),
+                      if (user.static_user_done.isNotEmpty)
                       MarkerClusterLayerWidget(
                         options: MarkerClusterLayerOptions(
                           maxClusterRadius: 45,
@@ -180,19 +195,32 @@ class _MapAdminScreenState extends State<MapAdminScreen> {
                           maxZoom: 15,
                           markers: user.static_user_done,
                           builder: (context, markers) {
-                            return Container(
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(20),
-                                  color: Colors.grey),
-                              child: Center(
-                                child: Text(
-                                  markers.length.toString(),
-                                  style: const TextStyle(color: Colors.white),
-                                ),
-                              ),
-                            );
+                          return Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20),
+                              color: Colors.grey),
+                            child: Center(
+                            child: Text(
+                              markers.length.toString(),
+                              style: const TextStyle(color: Colors.white),
+                            ),
+                            ),
+                          );
                           },
                         ),
+                        ),
+                      if (user.static_user_done.isEmpty)
+                        controller.MarkerLayer(
+                        markers: [
+                          controller.Marker(
+                          point: user.initialPos,
+                          child: const Icon(
+                            Icons.location_on,
+                            color: Colors.redAccent,
+                            size: 20,
+                          ),
+                          ),
+                        ],
                       ),
                       Stack(
                         children: [
