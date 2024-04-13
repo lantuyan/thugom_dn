@@ -135,7 +135,6 @@ class MapCollecterScreen extends StatelessWidget {
                       },
                     ),
                     ),
-                  if (user.markers_user.isEmpty)
                     controller.MarkerLayer(
                     markers: [
                       controller.Marker(

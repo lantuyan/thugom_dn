@@ -132,7 +132,6 @@ class MapScreen extends StatelessWidget {
                       },
                     ),
                     ),
-                  if (user.markers.isEmpty)
                     controller.MarkerLayer(
                     markers: [
                       controller.Marker(
