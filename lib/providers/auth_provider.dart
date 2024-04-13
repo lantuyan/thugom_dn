@@ -225,7 +225,7 @@ class AuthProvider {
         collectionId: AppWriteConstants.usersCollection,
         queries: [
           Query.equal('uid', userId),
-          Query.equal('role', 'blacklist')
+          Query.equal('ban', true),
         ]
     );
     if(result.total >= 1){
