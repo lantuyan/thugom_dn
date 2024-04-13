@@ -33,8 +33,8 @@ class MapController extends GetxController {
   late Databases user_request;
   List<Marker> markers_user = [];
   //static
-  List<Marker> static_user_done = [];
-  List<Marker> static_user_not = [];
+  List<Marker> static_user_done = <Marker>[].obs;
+  List<Marker> static_user_not = <Marker>[].obs;
   DateTime startTime = DateTime.now();
   DateTime endTime = DateTime.now();
 
@@ -49,6 +49,7 @@ class MapController extends GetxController {
     await getUserLocation();
     await userRequest();
     await loadMarkersCollecter();
+    await statistical(startTime, endTime);
   }
 
   void filterDataByTime() {
@@ -227,7 +228,7 @@ class MapController extends GetxController {
               point: LatLng(request.point_lat, request.point_lng),
               child: GestureDetector(
                 onTap: () {
-
+                  currentAddress.value = request.address;
                 },
                 child: Image.asset(
                   'assets/images/bin.jpg',
@@ -245,7 +246,7 @@ class MapController extends GetxController {
               point: LatLng(request.point_lat, request.point_lng),
               child: GestureDetector(
                 onTap: () {
-                  
+                  currentAddress.value = request.address;
                 },
                 child: Image.asset(
                   'assets/images/bin1.jpg',
