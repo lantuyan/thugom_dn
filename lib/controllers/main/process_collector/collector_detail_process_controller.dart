@@ -99,7 +99,7 @@ class CollectorDetailProcessController extends GetxController {
     await uploadImageToAppwrite();
     String pathPhoto = imageLink;
     await _requestRepository
-        .sendComfirmInfo(requestId, pathPhoto, amount_collected, collection_price)
+        .sendComfirmInfo(requestId, pathPhoto, amount_collected, collection_price,requestDetailModel.confirm)
         .then((value) {
       CustomDialogs.hideLoadingDialog();
       Get.offNamed('/mainPage');

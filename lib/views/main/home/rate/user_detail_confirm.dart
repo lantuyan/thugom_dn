@@ -202,7 +202,7 @@ class PersonUI extends StatelessWidget {
                   await _requestDetailController
                       .userRating(_requestDetailController.requestId, rating);
                   await Get.offAllNamed('/mainPage');
-                });
+                },"Gửi");
                 print(">>>>>>VALUES: ${rating}");
               },
               style: CustomButtonStyle.rateButton,

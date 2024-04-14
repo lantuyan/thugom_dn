@@ -361,7 +361,7 @@ class _CollectorDetailProcessScreenState
                                      _collectorDetailProcessController.collectionPriceFieldKey.currentState?.value,
                                   );
                                   await Get.offAllNamed('/mainPage');
-                                });
+                                },"Xác nhận");
                               }
                             },
                             child: Text(
