@@ -157,7 +157,7 @@ class UserRequestTrashProvider {
   }
 
   Future<void> sendComfirmInfo(String requestId, String? photoConfirm,
-      String? amount_collected, String? collection_price) async {
+      String? amount_collected, String? collection_price, String? userId) async {
     await databases?.updateDocument(
       databaseId: AppWriteConstants.databaseId,
       collectionId: AppWriteConstants.userRequestTrashCollection,
@@ -169,6 +169,17 @@ class UserRequestTrashProvider {
         'status': 'confirming'
       },
     );
+    if(userId != null){
+      //Xóa request process của user
+      await databases.updateDocument(
+        databaseId: AppWriteConstants.databaseId,
+        collectionId: AppWriteConstants.usersCollection,
+        documentId: userId,
+        data: {
+          'requestProcess': '',
+        },
+      );
+    }
   }
 
   Future<void> cancelRequest(String requestId) async {
@@ -197,6 +208,12 @@ class UserRequestTrashProvider {
       documentId: requestId,
       data: {'confirm': userId, 'status': 'processing'},
     );
+    await databases.updateDocument(
+      databaseId: AppWriteConstants.databaseId,
+      collectionId: AppWriteConstants.usersCollection,
+      documentId: userId,
+      data: {'requestProcess': requestId},
+    );
   }
 
   Future<models.Document> checkConfirmRequest(String requestId) async {
@@ -204,6 +221,15 @@ class UserRequestTrashProvider {
       databaseId: AppWriteConstants.databaseId,
       collectionId: AppWriteConstants.userRequestTrashCollection,
       documentId: requestId,
+    );
+    return result;
+  }
+
+  Future<models.Document> checkRequestProcess(String userId) async {
+    final result = await databases.getDocument(
+      databaseId: AppWriteConstants.databaseId,
+      collectionId: AppWriteConstants.usersCollection,
+      documentId: '65df359bf1f8a6389ec5',
     );
     return result;
   }

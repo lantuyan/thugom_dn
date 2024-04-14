@@ -53,17 +53,19 @@ class RequestDetailController extends GetxController {
     });
   }
   //Collector
-  Future<void> confirmRequest(String requestId,String userId)async {
+  Future<void> confirmRequest()async {
+    CustomDialogs.hideLoadingDialog();
     CustomDialogs.showLoadingDialog();
     try{
-      final checkConfirm = await _requestRepository.checkConfirmRequest(requestId);
+      final checkConfirm = await _requestRepository.checkConfirmRequest(requestDetailModel.requestId);
       if(checkConfirm.data['confirm'] == null) {
-        await _requestRepository.confirmRequest(requestId, userId).then((value) {
+        await _requestRepository.confirmRequest(requestDetailModel.requestId, userId.value).then((value) {
           allowHidden.value = false;
           allowConfirm.value = false;
           CustomDialogs.hideLoadingDialog();
           _homeController.listRequestColletor.remove(requestDetailModel);
           CustomDialogs.showSnackBar(2, "Vui lòng gửi minh chứng thu gom để xác nhận", 'success');
+          Get.offAllNamed('/mainPage');
         }).catchError((onError) {
           CustomDialogs.hideLoadingDialog();
           print(onError);
@@ -78,6 +80,26 @@ class RequestDetailController extends GetxController {
       print(error);
       CustomDialogs.showSnackBar(2, "Đã có lỗi xảy ra vui lòng thử lại sau!", 'error');
     }
+  }
+
+  Future<String?> checkRequestProcess() async {
+    CustomDialogs.showLoadingDialog();
+    try{
+      final response =  await _requestRepository.checkRequestProcess(userId.value);
+      CustomDialogs.hideLoadingDialog();
+      return response.data['requestProcess'];
+    }catch(e){
+        CustomDialogs.hideLoadingDialog();
+        print(e);
+        CustomDialogs.showSnackBar(2, "Đã có lỗi xảy ra vui lòng thử lại sau!", 'error');
+    }
+    return null;
+  }
+
+  Future<void> redirectToRequestProcess() async {
+    CustomDialogs.hideLoadingDialog();
+    Get.offAndToNamed('processing_collector');
+    // Get.toNamed('collector_detail_process', arguments: {'requestDetail': requestDetailModel});
   }
 
   Future<void> hiddenRequest(String requestId,List<String>? oldHiddenList)async {
