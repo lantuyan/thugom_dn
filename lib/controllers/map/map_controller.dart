@@ -2,12 +2,18 @@ import 'dart:typed_data';
 import 'package:appwrite/appwrite.dart';
 import 'package:appwrite/models.dart' as models;
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:thu_gom/managers/data_manager.dart';
 import 'package:thu_gom/models/trash/user_request_trash_model.dart';
 import 'package:thu_gom/shared/constants/appwrite_constants.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:thu_gom/shared/constants/color_constants.dart';
+import 'package:thu_gom/shared/themes/style/custom_button_style.dart';
+import 'package:thu_gom/widgets/custom_dialogs.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:http/http.dart' as http;
 
@@ -42,14 +48,24 @@ class MapController extends GetxController {
   var isDataLoaded2 = false.obs;
   var isDataLoaded3 = false.obs;
 
+  final GetStorage _getStorage = GetStorage();
 
   @override
   void onInit() async {
     super.onInit();
+    String role = await _getStorage.read('role');
     await getUserLocation();
-    await userRequest();
-    await loadMarkersCollecter();
-    await statistical(startTime, endTime);
+    if (role == 'person') {
+      await loadMarkersCollecter();
+    } else if (role == 'collector') {
+      await loadMarkersCollecter();
+      await userRequest();
+      await statistical(startTime, endTime);
+    } else if (role == 'admin') {
+      await loadMarkersCollecter();
+      await userRequest();
+      await statistical(startTime, endTime);
+    }
   }
 
   void filterDataByTime() {
@@ -58,6 +74,7 @@ class MapController extends GetxController {
 
   // lấy vị trí hiện tại của người dùng
   Future<void> getUserLocation() async {
+    CustomDialogs.showLoadingDialog();
     if (!(await Geolocator.isLocationServiceEnabled())) {
       activeGPS.value = false;
     } else {
@@ -136,13 +153,16 @@ class MapController extends GetxController {
         if (labelToIconMap.containsKey(label)) {
           Uint8List? imageData = labelToIconMap[label];
           Marker marker = Marker(
+            height: 35.sp,
+            width: 35.sp,
             point: LatLng(latitude, longitude),
             child: GestureDetector(
               onTap: () {
                 currentAddress.value = address;
                 infos.value = info;
-                openGoogleMapsApp(_initialPosition.latitude,
-                    _initialPosition.longitude, latitude, longitude);
+                // openGoogleMapsApp(_initialPosition.latitude,
+                //     _initialPosition.longitude, latitude, longitude);
+                showSheet(Get.context, latitude, longitude);
               },
               child: Image.memory(
                 imageData!,
@@ -156,6 +176,7 @@ class MapController extends GetxController {
       }
       isDataLoaded.value = true;
       shouldShowMarkers.value = true;
+      CustomDialogs.hideLoadingDialog();
       update();
     } catch (e) {
       print('Error!!! $e');
@@ -332,4 +353,80 @@ class MapController extends GetxController {
       },
     );
   }
+
+  void showSheet(context, double latitude, double longitude) {
+  showModalBottomSheet(context: context, builder: (BuildContext bc) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+      child: Column(
+        children: <Widget>[
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: ColorsConstants.kMainColor,
+                padding: EdgeInsets.fromLTRB(20.sp, 10.sp, 20.sp, 10.sp),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
+              onPressed: (){
+                openGoogleMapsApp(_initialPosition.latitude,
+                    _initialPosition.longitude, latitude, longitude);
+              },
+              child: Text("Chỉ đường", style: TextStyle(
+                color: Colors.white,
+                fontSize: 18.sp,
+              ))),
+              IconButton(
+                style: CustomButtonStyle.transparentButton,
+                onPressed: (){
+                  Navigator.pop(context);
+                },
+                icon: Icon(Icons.close, color: ColorsConstants.kActiveColor, size: 30.sp),
+              ),
+            ],
+          ),
+          SizedBox(height: 12.sp),
+          Center(
+            child: Text(
+              'Thông tin vị trí',
+              style: TextStyle(
+                fontSize: 22.sp,
+                fontWeight: FontWeight.w700,
+              )
+            ),
+          ),
+          SizedBox(height: 18.sp),
+          Row(
+            children:[
+              Icon(Icons.location_on, color: ColorsConstants.kActiveColor, size: 30.sp),
+              SizedBox(width: 12.sp),
+              Expanded(
+                child: Text(currentAddress.value, style: TextStyle(
+                  fontSize: 16.sp,
+                  color: ColorsConstants.kActiveColor,
+                )),
+              ),
+            ],
+          ),
+          SizedBox(height: 12.sp),
+          Row(
+            children:[
+              Icon(Icons.info, color: ColorsConstants.kActiveColor, size: 30.sp),
+              SizedBox(width: 12.sp),
+              Expanded(
+                child: Text(infos.value, style: TextStyle(
+                  fontSize: 16.sp,
+                  color: ColorsConstants.kActiveColor,
+                )),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  });
+}
 }

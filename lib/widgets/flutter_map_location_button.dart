@@ -30,7 +30,7 @@ class CurrentLocationButton extends StatelessWidget {
       child: Padding(
         padding: EdgeInsets.only(left: padding, top: padding, right: padding),
         child: FloatingActionButton(
-          mini: true,
+          mini: false,
           backgroundColor: Colors.white,
           onPressed: () {
             // Move to current location
