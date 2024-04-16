@@ -349,18 +349,18 @@ class _MapAdminScreenState extends State<MapAdminScreen> {
                               ),
                             ],
                           ),
+                          SizedBox(height: 5),
                           Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Container(
                                 height: 24, // Chiều cao cố định cho tiêu đề
-                                child: Text(
+                                child: const Text(
                                   'Thông tin vị trí',
                                   style: TextStyle(
                                     fontSize: 18,
                                     fontWeight: FontWeight.bold,
                                   ),
-                                  textAlign: TextAlign.left,
+                                  textAlign: TextAlign.center,
                                 ),
                               ), // Khoảng cách giữa tiêu đề và nội dung
                               Obx(() {
@@ -369,7 +369,7 @@ class _MapAdminScreenState extends State<MapAdminScreen> {
                                   style: TextStyle(
                                     fontSize: 16,
                                   ),
-                                  textAlign: TextAlign.left,
+
                                 );
                               }),
                             ],

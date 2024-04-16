@@ -96,7 +96,7 @@ class MapScreen extends StatelessWidget {
             ),
           )
               : Expanded(
-            flex: 4,
+            flex: 5,
             child: Stack(
               children: [
                 controller.FlutterMap(
@@ -195,43 +195,34 @@ class MapScreen extends StatelessWidget {
             ),
           ),
           Expanded(
-            flex: 1,
+            flex: 2,
             child: Obx(() {
               // Sử dụng isDataLoaded để kiểm tra xem dữ liệu đã tải xong chưa
               if (!user.isDataLoaded.value) {
                 return Text('Đang tải dữ liệu...');
               } else {
                 return Container(
-                  padding: EdgeInsets.symmetric(vertical: 0, horizontal: 0),
                   child: Column(
                     children: [
-                      Text(
-                        'Thông tin vị trí',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
+                      Container(
+                        height: 24, // Chiều cao cố định cho tiêu đề
+                        child: const Text(
+                          'Thông tin vị trí',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          textAlign: TextAlign.center,
                         ),
-                      ),
+                      ), // Khoảng cách giữa tiêu đề và nội dung
                       Obx(() {
-                        return Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              user.currentAddress.value,
-                              style: TextStyle(
-                                fontSize: 16,
-                              ),
-                            ),
-                            Text(
-                              user.infos.value,
-                              style: TextStyle(
-                                fontSize: 16,
-                              ),
-                            ),
-                          ],
+                        return Text(
+                          user.currentAddress.value + "\n" + user.infos.value,
+                          style: const TextStyle(
+                            fontSize: 16,
+                          ),
                         );
                       }),
-
                     ],
                   ),
                 );
