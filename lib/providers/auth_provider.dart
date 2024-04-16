@@ -189,7 +189,7 @@ class AuthProvider {
     }
   }
 
-  Future<void> updateProfile(Map map, String address, String userId) async {
+  Future<void> updateProfile(Map map, String address, String userId, String avatar) async {
     await _db.updateDocument(
       databaseId: AppWriteConstants.databaseId,
       collectionId: AppWriteConstants.usersCollection,
@@ -199,6 +199,7 @@ class AuthProvider {
         'phonenumber' : map['phonenumber'],
         'zalonumber' : map['zalonumber'],
         'address' : address,
+        'avatar' : avatar,
       }
     );
   }

@@ -5,7 +5,10 @@ import 'package:face_camera/face_camera.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:thu_gom/controllers/main/infomation/infomation_controller.dart';
+import 'package:thu_gom/controllers/profile/profile_controller.dart';
+import 'package:thu_gom/providers/auth_provider.dart';
 import 'package:thu_gom/providers/user_request_trash_provider.dart';
+import 'package:thu_gom/repositories/auth_reposistory.dart';
 import 'package:thu_gom/repositories/user_request_trash_reponsitory.dart';
 import 'package:thu_gom/shared/constants/color_constants.dart';
 import 'package:thu_gom/shared/themes/style/app_text_styles.dart';
@@ -23,9 +26,10 @@ class _PortraitCollectorState extends State<PortraitCollectorScreen> {
   @override
   Widget build(BuildContext context) {
     WidgetsFlutterBinding.ensureInitialized();
-    final InfomationController _informationController = Get.put(
-        InfomationController(
-            UserRequestTrashRepository(UserRequestTrashProvider())));
+
+    final ProfileController _profileController = Get.put(ProfileController(
+        AuthRepository(AuthProvider()),
+        UserRequestTrashRepository((UserRequestTrashProvider()))));
     return Scaffold(
         appBar: AppBar(
           title: const Text('Chụp ảnh chân dung'),
@@ -60,16 +64,17 @@ class _PortraitCollectorState extends State<PortraitCollectorScreen> {
                                 .copyWith(fontSize: 14.sp),
                             textAlign: TextAlign.center,
                           ), () async {
-                        await _informationController
+                        await _profileController
                             .uploadImageToAppwrite(_capturedImage!);
-                        await _informationController.sendImageToAppwrite(
-                          _informationController.uid_user,
-                        );
-                        await Get.offAllNamed('/mainPage');
+                        // await _profileController.sendImageToAppwrite(
+                        //   _profileController.uid_user,
+                        // );
+                        Get.toNamed('profilePage');
+                        // Get.back();
                       });
                     },
                     child: Text(
-                      'Gửi minh chứng',
+                      'Xác nhận',
                       style: TextStyle(
                         fontSize: 16.sp,
                         color: Colors.white,

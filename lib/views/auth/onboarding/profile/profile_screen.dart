@@ -1,3 +1,4 @@
+import 'package:face_camera/face_camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -9,6 +10,7 @@ import 'package:thu_gom/shared/constants/color_constants.dart';
 import 'package:thu_gom/shared/themes/Themes.dart';
 import 'package:thu_gom/shared/themes/style/app_text_styles.dart';
 import 'package:thu_gom/shared/themes/style/custom_button_style.dart';
+import 'package:thu_gom/widgets/custom_dialogs.dart';
 
 class ProfileScreen extends StatelessWidget {
   final ProfileController _profileController = Get.find<ProfileController>();
@@ -22,10 +24,13 @@ class ProfileScreen extends StatelessWidget {
         child: SingleChildScrollView(
           child: Form(
             key: _profileController.formKey,
-            child: Obx((){
-              if(_profileController.isLoading.value){
-                return Center(child: CircularProgressIndicator(color: ColorsConstants.kMainColor,));
-              }else{
+            child: Obx(() {
+              if (_profileController.isLoading.value) {
+                return Center(
+                    child: CircularProgressIndicator(
+                  color: ColorsConstants.kMainColor,
+                ));
+              } else {
                 return Column(
                   children: [
                     SizedBox(
@@ -50,7 +55,57 @@ class ProfileScreen extends StatelessWidget {
                         ],
                       ),
                     ),
-                    SizedBox(height: 16.sp,),
+
+                    SizedBox(
+                      height: 16.sp,
+                    ),
+
+                    // Image field
+                    Container(
+                      height: 205.sp,
+                      width: 205.sp,
+                      // color: ColorsConstants.kBackgroundColor,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(18.sp),
+                          color: ColorsConstants.kActiveColor),
+                      child: Center(
+                        child: SizedBox(
+                          height: 200.sp,
+                          width: 200.sp,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(18.sp),
+                            child: Obx(() {
+                              if (_profileController.imagePath.value == "") {
+                                return GestureDetector(
+                                    onTap: () async {
+                                      await FaceCamera.initialize();
+                                      Get.toNamed('/portrait_collector');
+                                    },
+                                    child: Center(
+                                      child: Image.asset(
+                                        'assets/images/user_chan_dung.png',
+                                        height: 100.sp,
+                                        width: 100.sp,
+                                      ),
+                                    ));
+                              } else {
+                                return Center(
+                                  child: Image.file(
+                                    _profileController.imageFiles,
+                                    fit: BoxFit.fill,
+                                    height: 200.sp,
+                                    width: 200.sp,
+                                  ),
+                                );
+                              }
+                            }),
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 20.sp,
+                    ),
                     // Name Field
                     TextFormField(
                       key: _profileController.nameFieldKey,
@@ -60,17 +115,16 @@ class ProfileScreen extends StatelessWidget {
                         filled: true,
                         fillColor: Colors.white,
                         labelText: 'Tên đầy đủ',
-                        labelStyle: AppTextStyles.bodyText1.copyWith(
-                            color: ColorsConstants.kMainColor
-                        ),
+                        labelStyle: AppTextStyles.bodyText1
+                            .copyWith(color: ColorsConstants.kMainColor),
                         errorStyle: AppTextStyles.error,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
                         focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10),
-                            borderSide: BorderSide(color: ColorsConstants.kMainColor, width: 2)
-                        ),
+                            borderSide: BorderSide(
+                                color: ColorsConstants.kMainColor, width: 2)),
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -85,16 +139,21 @@ class ProfileScreen extends StatelessWidget {
                       key: _profileController.phonenumberFieldKey,
                       controller: _profileController.phonenumberController,
                       keyboardType: TextInputType.phone,
-                      enabled: _profileController.registerType != 'sms', // Disable if registerType is 'sms'
+                      enabled: _profileController.registerType !=
+                          'sms', // Disable if registerType is 'sms'
                       onFieldSubmitted: (value) {
-                        _profileController.phonenumberFieldKey.currentState?.setValue(value);
-                        _profileController.zalonumberFieldKey.currentState?.setValue(value);
+                        _profileController.phonenumberFieldKey.currentState
+                            ?.setValue(value);
+                        _profileController.zalonumberFieldKey.currentState
+                            ?.setValue(value);
                         _profileController.phonenumber = RxString(value);
                         _profileController.zalonumber = RxString(value);
                         _profileController.zalonumber.listen((value) {
-                          print("value phone number: $value - phone number: ${_profileController.phonenumber} - zalo number: ${_profileController.zalonumber}");
+                          print(
+                              "value phone number: $value - phone number: ${_profileController.phonenumber} - zalo number: ${_profileController.zalonumber}");
                         });
-                        print("value phone number: $value - phone number: ${_profileController.phonenumber} - zalo number: ${_profileController.zalonumber}");
+                        print(
+                            "value phone number: $value - phone number: ${_profileController.phonenumber} - zalo number: ${_profileController.zalonumber}");
                       },
                       style: AppTextStyles.bodyText1,
                       decoration: InputDecoration(
@@ -102,21 +161,19 @@ class ProfileScreen extends StatelessWidget {
                         filled: true,
                         fillColor: Colors.white,
                         labelText: 'Số điện thoại',
-                        labelStyle: AppTextStyles.bodyText1.copyWith(
-                            color: ColorsConstants.kMainColor
-                        ),
+                        labelStyle: AppTextStyles.bodyText1
+                            .copyWith(color: ColorsConstants.kMainColor),
                         hintText: 'Nhập số điện thoại',
-                        hintStyle: AppTextStyles.bodyText1.copyWith(
-                            color: ColorsConstants.kTextSecondColor
-                        ),
+                        hintStyle: AppTextStyles.bodyText1
+                            .copyWith(color: ColorsConstants.kTextSecondColor),
                         errorStyle: AppTextStyles.error,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
                         focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10),
-                            borderSide: BorderSide(color: ColorsConstants.kMainColor, width: 2)
-                        ),
+                            borderSide: BorderSide(
+                                color: ColorsConstants.kMainColor, width: 2)),
                       ),
                       // autovalidateMode: AutovalidateMode.disabled,
                       validator: (value) {
@@ -144,21 +201,19 @@ class ProfileScreen extends StatelessWidget {
                         filled: true,
                         fillColor: Colors.white,
                         labelText: 'Tài khoản zalo',
-                        labelStyle: AppTextStyles.bodyText1.copyWith(
-                            color: ColorsConstants.kMainColor
-                        ),
+                        labelStyle: AppTextStyles.bodyText1
+                            .copyWith(color: ColorsConstants.kMainColor),
                         hintText: 'Nhập số điện thoại đăng ký zalo ',
-                        hintStyle: AppTextStyles.bodyText1.copyWith(
-                            color: ColorsConstants.kTextSecondColor
-                        ),
+                        hintStyle: AppTextStyles.bodyText1
+                            .copyWith(color: ColorsConstants.kTextSecondColor),
                         errorStyle: AppTextStyles.error,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
                         focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10),
-                            borderSide: BorderSide(color: ColorsConstants.kMainColor, width: 2)
-                        ),
+                            borderSide: BorderSide(
+                                color: ColorsConstants.kMainColor, width: 2)),
                       ),
                       validator: (value) {
                         if (value!.isEmpty) {
@@ -175,97 +230,119 @@ class ProfileScreen extends StatelessWidget {
                     SizedBox(height: 26.sp),
                     Align(
                         alignment: Alignment.centerLeft,
-                        child: Text('Địa chỉ', style: AppTextStyles.title.copyWith(
-                            fontSize: 16.sp
-                        ),)
-                    ),
+                        child: Text(
+                          'Địa chỉ',
+                          style: AppTextStyles.title.copyWith(fontSize: 16.sp),
+                        )),
                     SizedBox(height: 16.sp),
                     Row(
                       children: [
                         Expanded(
                             child: DropdownButtonFormField(
-                              value: _profileController.selectedDistrict.value,
+                          value: _profileController.selectedDistrict.value,
+                          isExpanded: true,
+                          style: AppTextStyles.bodyText1,
+                          decoration: InputDecoration(
+                            contentPadding:
+                                EdgeInsets.fromLTRB(12.sp, 0, 12.sp, 0),
+                            filled: true,
+                            fillColor: Colors.white,
+                            hintText: 'Quận, huyện',
+                            hintStyle: AppTextStyles.bodyText1
+                                ?.copyWith(color: ColorsConstants.kMainColor),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                                borderSide: BorderSide(
+                                    color: ColorsConstants.kMainColor,
+                                    width: 2)),
+                          ),
+                          items: _profileController.districts.map((district) {
+                            return DropdownMenuItem(
+                              value: district,
+                              child: Tooltip(
+                                message:
+                                    district, // Hiển thị toàn bộ văn bản khi người dùng di chuyển con trỏ chuột qua mục
+                                child: Text(
+                                  district,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                            );
+                          }).toList(),
+                          onChanged: (newValue) {
+                            _profileController.selectedDistrict.value =
+                                newValue.toString();
+                            if (_profileController.subDistricts[
+                                    _profileController
+                                        .selectedDistrict.value] !=
+                                null) {
+                              _profileController.selectedSubDistrict.value =
+                                  _profileController
+                                      .subDistricts[_profileController
+                                          .selectedDistrict.value]!
+                                      .first;
+                            } else {
+                              _profileController.selectedSubDistrict.value = '';
+                            }
+                          },
+                        )),
+                        SizedBox(
+                          width: 16.sp,
+                        ),
+                        Expanded(
+                            child: Obx(
+                          () => DropdownButtonFormField(
+                              value: _profileController
+                                      .selectedSubDistrict.value ??
+                                  '',
                               isExpanded: true,
+                              isDense: true,
                               style: AppTextStyles.bodyText1,
+                              // value: _profileController.selectedSubDistrict,
                               decoration: InputDecoration(
-                                contentPadding: EdgeInsets.fromLTRB(12.sp, 0, 12.sp, 0),
-                                filled: true,
+                                contentPadding:
+                                    EdgeInsets.fromLTRB(12.sp, 0, 12.sp, 0),
                                 fillColor: Colors.white,
                                 hintText: 'Quận, huyện',
                                 hintStyle: AppTextStyles.bodyText1?.copyWith(
-                                    color: ColorsConstants.kMainColor
-                                ),
+                                    color: ColorsConstants.kMainColor),
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                                 focusedBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10),
-                                    borderSide: BorderSide(color: ColorsConstants.kMainColor, width: 2)),
+                                    borderSide: BorderSide(
+                                        color: ColorsConstants.kMainColor,
+                                        width: 2)),
                               ),
-                              items: _profileController.districts.map((district) {
-                                return DropdownMenuItem(
-                                  value: district,
-                                  child: Tooltip(
-                                    message: district, // Hiển thị toàn bộ văn bản khi người dùng di chuyển con trỏ chuột qua mục
-                                    child: Text(
-                                      district,
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                  ),
-                                );
-                              }).toList(),
-                              onChanged: (newValue) {
-                                _profileController.selectedDistrict.value = newValue.toString();
-                                if(_profileController.subDistricts[_profileController.selectedDistrict.value] != null){
-                                  _profileController.selectedSubDistrict.value = _profileController.subDistricts[_profileController.selectedDistrict.value]!.first;
-                                }else{
-                                  _profileController.selectedSubDistrict.value ='';
-                                }
-                              },
-                            )
-                        ),
-                        SizedBox(width: 16.sp,),
-                        Expanded(
-                            child: Obx(() => DropdownButtonFormField(
-                                value: _profileController.selectedSubDistrict.value ?? '',
-                                isExpanded: true,
-                                isDense: true,
-                                style: AppTextStyles.bodyText1,
-                                // value: _profileController.selectedSubDistrict,
-                                decoration: InputDecoration(
-                                  contentPadding: EdgeInsets.fromLTRB(12.sp, 0, 12.sp, 0),
-                                  fillColor: Colors.white,
-                                  hintText: 'Quận, huyện',
-                                  hintStyle: AppTextStyles.bodyText1?.copyWith(
-                                      color: ColorsConstants.kMainColor
-                                  ),
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10),
-                                      borderSide: BorderSide(color: ColorsConstants.kMainColor, width: 2)),
-                                ),
-                                items: [
-                                  ...(_profileController.subDistricts[_profileController.selectedDistrict.value] ?? [])
-                                      .map<DropdownMenuItem<String>>((String value) {
-                                    return DropdownMenuItem<String>(
-                                      value: value,
-                                      child: Tooltip(
-                                        message: value, // Hiển thị toàn bộ văn bản khi người dùng di chuyển con trỏ chuột qua mục
-                                        child: Text(
-                                          value,
-                                          overflow: TextOverflow.ellipsis,
-                                        ),
+                              items: [
+                                ...(_profileController.subDistricts[
+                                            _profileController
+                                                .selectedDistrict.value] ??
+                                        [])
+                                    .map<DropdownMenuItem<String>>(
+                                        (String value) {
+                                  return DropdownMenuItem<String>(
+                                    value: value,
+                                    child: Tooltip(
+                                      message:
+                                          value, // Hiển thị toàn bộ văn bản khi người dùng di chuyển con trỏ chuột qua mục
+                                      child: Text(
+                                        value,
+                                        overflow: TextOverflow.ellipsis,
                                       ),
-                                    );
-                                  })
-                                ],
-                                onChanged: (newValue) {
-                                  _profileController.selectedSubDistrict.value = newValue.toString();
-                                }
-                            ),)
-                        )
+                                    ),
+                                  );
+                                })
+                              ],
+                              onChanged: (newValue) {
+                                _profileController.selectedSubDistrict.value =
+                                    newValue.toString();
+                              }),
+                        ))
                       ],
                     ),
                     SizedBox(height: 20.sp),
@@ -279,47 +356,48 @@ class ProfileScreen extends StatelessWidget {
                         fillColor: Colors.white,
                         labelText: 'Số nhà, đường',
                         hintText: 'Nhập số nhà và tên đường',
-                        hintStyle: AppTextStyles.bodyText1.copyWith(
-                            color: ColorsConstants.kTextSecondColor
-                        ),
-                        labelStyle: AppTextStyles.bodyText1.copyWith(
-                            color: ColorsConstants.kMainColor
-                        ),
+                        hintStyle: AppTextStyles.bodyText1
+                            .copyWith(color: ColorsConstants.kTextSecondColor),
+                        labelStyle: AppTextStyles.bodyText1
+                            .copyWith(color: ColorsConstants.kMainColor),
                         errorStyle: AppTextStyles.error,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
                         focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10),
-                            borderSide: BorderSide(color: ColorsConstants.kMainColor, width: 2)
-                        ),
+                            borderSide: BorderSide(
+                                color: ColorsConstants.kMainColor, width: 2)),
                       ),
                       autovalidateMode: AutovalidateMode.disabled,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return "Không được để trống trường này";
-                          }
-                          return null;
-                        },
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return "Không được để trống trường này";
+                        }
+                        return null;
+                      },
                       // style: AppTextStyles.bodyText1,
                     ),
                     SizedBox(height: 46.sp),
                     SizedBox(
-                      width:  ScreenUtil().screenWidth,
+                      width: ScreenUtil().screenWidth,
                       height: 48.sp,
                       child: ElevatedButton(
                           onPressed: () {
-                            
-                            if (_profileController.formKey.currentState!.validate()) {
+                            if (_profileController.imagePath.value == "") {
+                              CustomDialogs.showSnackBar(
+                                  3, "Vui lòng chụp ảnh", 'error');
+                            } else if (_profileController.formKey.currentState!
+                                .validate()) {
                               _profileController.updateProfile();
                             }
                           },
                           style: CustomButtonStyle.primaryButton,
                           child: Text(
                             'Đến trang chủ',
-                            style: TextStyle(color: Colors.white, fontSize: 18.sp),
-                          )
-                      ),
+                            style:
+                                TextStyle(color: Colors.white, fontSize: 18.sp),
+                          )),
                     ),
                   ],
                 );

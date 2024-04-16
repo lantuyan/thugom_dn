@@ -1,15 +1,21 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:thu_gom/managers/data_manager.dart';
 import 'package:thu_gom/repositories/auth_reposistory.dart';
+import 'package:thu_gom/repositories/user_request_trash_reponsitory.dart';
+import 'package:thu_gom/shared/constants/appwrite_constants.dart';
 import 'package:thu_gom/widgets/custom_dialogs.dart';
 
 class ProfileController extends GetxController {
   final AuthRepository _authRepository;
+  final UserRequestTrashRepository _requestRepository;
 
-  ProfileController(this._authRepository);
+  ProfileController(this._authRepository, this._requestRepository);
   //Get Storage
   final GetStorage _getStorage = GetStorage();
   // district and sub district list
@@ -119,9 +125,20 @@ class ProfileController extends GetxController {
 
   var registerType;
   RxBool isLoading = true.obs;
+
+  // chan dung
+  
+  late String imageLink;
+  RxString imagePath = "".obs;
+  late String uid_user;
+  RxMap data = {}.obs;
+  late File imageFiles;
+
+
   @override
   Future<void> onInit() async {
     super.onInit();
+    uid_user = await _getStorage.read('uid');
     selectedDistrict.value = districts.first;
     selectedSubDistrict.value = subDistricts[selectedDistrict.value]!.first;
     role = await _getStorage.read('role');
@@ -146,8 +163,49 @@ class ProfileController extends GetxController {
     super.onClose();
   }
 
+  Future<void> uploadImageToAppwrite(File imageFile) async {
+    CustomDialogs.showLoadingDialog();
+    imagePath.value = imageFile.path;
+    imageFiles = File(imageFile.path);
+    
+    try {
+      // Add the 'await' keyword to wait for the upload to complete
+      var value =
+          await _requestRepository.uploadImageToAppwrite(imagePath.value);
+
+      imageLink = 'https://cloud.appwrite.io/v1/storage/' +
+          'buckets/${AppWriteConstants.userRequestTrashBucketId}/' +
+          'files/${value.$id}/view?project=${AppWriteConstants.projectId}';
+
+      CustomDialogs.hideLoadingDialog();
+    } catch (onError) {
+      CustomDialogs.hideLoadingDialog();
+      print(onError);
+    }
+  }
+
+  Future<void> sendImageToAppwrite(String uid_user) async {
+    CustomDialogs.showLoadingDialog();
+    // await uploadImageToAppwrite();
+    String pathPhoto = imageLink;
+    await _requestRepository
+        .updateAvatarCollector(uid_user, pathPhoto)
+        .then((value) {
+      CustomDialogs.hideLoadingDialog();
+      // Get.offNamed('/mainPage');
+
+      CustomDialogs.showSnackBar(2, "Gửi thành công", 'success');
+    }).catchError((onError) {
+      CustomDialogs.hideLoadingDialog();
+      print(onError);
+      CustomDialogs.showSnackBar(
+          2, "Đã có lỗi xảy ra vui lòng thử lại sau!", 'error');
+    });
+  }
+
   Future<void> updateProfile() async {
     CustomDialogs.showLoadingDialog();
+    // sendImageToAppwrite(uid_user);
     Map<String, dynamic> formValue = {
       "name" : nameFieldKey.currentState!.value,
       "phonenumber" : phonenumberFieldKey.currentState!.value,
@@ -163,17 +221,21 @@ class ProfileController extends GetxController {
         CustomDialogs.hideLoadingDialog();
         CustomDialogs.showSnackBar(2,"Số điện thoại đã tồn tại, hãy thử lại với số khác", 'error');
     } else{
-        await _authRepository.updateProfile(formValue, address, userId).then((value) async {
+        await _authRepository.updateProfile(formValue, address, userId,imageLink ).then((value) async {
         await _getStorage.write('name', formValue['name']);
         await _getStorage.write('phonenumber', formValue['phonenumber']);
         await _getStorage.write('zalonumber', formValue['zalonumber']);
         await _getStorage.write('address', address);
+        await _getStorage.write('avatar', imageLink);
+
         DataManager().saveData('userId', userId);
         DataManager().saveData('name', formValue['name']);
         DataManager().saveData('role', await _getStorage.read('role'));
         DataManager().saveData('zalonumber', formValue['zalonumber']);
         DataManager().saveData('phonenumber', formValue['phonenumber']);
         DataManager().saveData('address', address);
+        DataManager().saveData('avatar', imageLink);
+        
         CustomDialogs.hideLoadingDialog();
         Get.offAllNamed('/mainPage');
         }).catchError((onError){

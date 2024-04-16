@@ -220,22 +220,7 @@ class InfomationScreen extends StatelessWidget {
                   TextOverflow.ellipsis, // Truncate văn bản nếu vượt quá khung
               maxLines: 1, // Giới hạn số dòng hiển thị
             ),
-          ),
-          SizedBox(width: 10.w),
-          GestureDetector(
-            onTap: () async {
-              await FaceCamera.initialize();
-              Get.toNamed('/portrait_collector');
-            },
-            child: Image.asset(
-              'assets/images/camera.png',
-              height: 50.h,
-              width: 50.w,
-            ),
-          ),
-          SizedBox(
-            width: 20.w,
-          ),
+          )
         ],
       ),
     );
