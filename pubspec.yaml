@@ -90,6 +90,7 @@ dependencies:
   #Pin code and phone picker
   intl_phone_number_input: ^0.7.4
   pin_code_fields: ^8.0.1
+  flutter_map_marker_cluster: ^1.3.5
 
   # FACE CAM
   face_camera: ^0.1.0

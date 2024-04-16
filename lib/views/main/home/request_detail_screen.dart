@@ -279,7 +279,7 @@ class PersonUI extends StatelessWidget {
 
                         _requestDetailController
                             .cancelRequest(_requestDetailController.requestId);
-                      });
+                      },"Xác nhận");
                     },
                     style: CustomButtonStyle.cancelButton,
                     child: Text(
@@ -364,21 +364,6 @@ class PersonUI extends StatelessWidget {
                           color: ColorsConstants.kBGCardColor, fontSize: 16.sp),
                     )),
               )),
-              // SizedBox(
-              //   width: 20.sp,
-              // ),
-              // Expanded(
-              //     child: SizedBox(
-              //   height: 48.sp,
-              //   child: ElevatedButton(
-              //       onPressed: null,
-              //       style: CustomButtonStyle.primaryButton,
-              //       child: Text(
-              //         'Hoàn thành',
-              //         style: TextStyle(
-              //             color: ColorsConstants.kBGCardColor, fontSize: 16.sp),
-              //       )),
-              // )),
             ],
           )
         else if (_requestDetailController.requestDetailModel.status == 'finish')
@@ -456,22 +441,6 @@ class PersonUI extends StatelessWidget {
                               TextStyle(color: Colors.white, fontSize: 16.sp),
                         )),
                   )),
-                  // SizedBox(
-                  //   width: 20.sp,
-                  // ),
-                  // Expanded(
-                  //     child: SizedBox(
-                  //   height: 48.sp,
-                  //   child: ElevatedButton(
-                  //       onPressed: () {},
-                  //       style: CustomButtonStyle.primaryButton,
-                  //       child: Text(
-                  //         'Hoàn thành',
-                  //         style: TextStyle(
-                  //             color: ColorsConstants.ksecondBackgroundColor,
-                  //             fontSize: 16.sp),
-                  //       )),
-                  // )),
                 ],
               ),
               SizedBox(
@@ -829,7 +798,7 @@ class CollectorUI extends StatelessWidget {
                                       .requestDetailModel.requestId,
                                   _requestDetailController
                                       .requestDetailModel.hidden);
-                            });
+                            },"Xác nhận");
                           } else {
                             null;
                           }
@@ -854,21 +823,32 @@ class CollectorUI extends StatelessWidget {
                       width: ScreenUtil().screenWidth,
                       height: 48.sp,
                       child: ElevatedButton(
-                          onPressed: () {
-                            CustomDialogs.confirmDialog(
-                                'Xác nhận thu gom',
-                                Text(
-                                  'Bạn chắc chắn muốn xác nhận thu gom yêu cầu này? Yêu cầu này sẽ được chuyển vào phần đã xử lý ',
-                                  style: AppTextStyles.bodyText2
-                                      .copyWith(fontSize: 14.sp),
-                                  textAlign: TextAlign.center,
-                                ), () async {
-                              await _requestDetailController.confirmRequest(
-                                  _requestDetailController
-                                      .requestDetailModel.requestId,
-                                  _requestDetailController.userId.value);
-                              await Get.offAllNamed('/mainPage');
-                            });
+                          onPressed: () async {
+                            var checkRequestProcess = await _requestDetailController.checkRequestProcess();
+                            if( checkRequestProcess != null && checkRequestProcess != ''){
+                              CustomDialogs.confirmDialog(
+                                  'Cảnh báo',
+                                  Text(
+                                    'Bạn đang xử lý 1 yêu cầu khác. Vui lòng gửi minh chứng trước khi thực hiện yêu cầu khác',
+                                    style: AppTextStyles.bodyText2
+                                        .copyWith(fontSize: 14.sp),
+                                    textAlign: TextAlign.center,
+                                  ), () async {
+                                await _requestDetailController.redirectToRequestProcess();
+                              },"Minh chứng");
+                            }else{
+                              CustomDialogs.confirmDialog(
+                                  'Xác nhận thu gom',
+                                  Text(
+                                    'Bạn chắc chắn muốn xác nhận thu gom yêu cầu này? Yêu cầu này sẽ chuyển vào hàng đợi chờ minh chứng',
+                                    style: AppTextStyles.bodyText2
+                                        .copyWith(fontSize: 14.sp),
+                                    textAlign: TextAlign.center,
+                                  ), () async {
+                                await _requestDetailController.confirmRequest();
+                              },"Xác nhận");
+                            }
+
                           },
                           style: CustomButtonStyle.primaryButton,
                           child: Text(

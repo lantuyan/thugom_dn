@@ -9,6 +9,9 @@ import 'package:thu_gom/shared/constants/color_constants.dart';
 import 'package:thu_gom/shared/themes/style/app_text_styles.dart';
 import 'package:thu_gom/shared/themes/style/custom_button_style.dart';
 import 'package:thu_gom/widgets/header_username.dart';
+import 'package:thu_gom/widgets/flutter_map_zoom_buttons.dart';
+import 'package:thu_gom/widgets/flutter_map_location_button.dart';
+import 'package:flutter_map_marker_cluster/flutter_map_marker_cluster.dart';
 
 class MapAdminScreen extends StatefulWidget {
   const MapAdminScreen({Key? key}) : super(key: key);
@@ -86,9 +89,9 @@ class _MapAdminScreenState extends State<MapAdminScreen> {
       appBar: AppBar(
         title:
         Container(
-            color: ColorsConstants.kBGCardColor,
-            child: userName(name),
-          ),
+          color: ColorsConstants.kBGCardColor,
+          child: userName(name),
+        ),
 
       ),
       body: SafeArea(
@@ -98,7 +101,7 @@ class _MapAdminScreenState extends State<MapAdminScreen> {
             //   color: ColorsConstants.kBGCardColor,
             //   child: _userName(name),
             // ),
-            !user.isDataLoaded.value
+            !user.isDataLoaded3.value
                 ? Container(
               height: MediaQuery.of(context).size.height * 0.3,
               child: Center(
@@ -119,7 +122,7 @@ class _MapAdminScreenState extends State<MapAdminScreen> {
               ),
             )
                 : Expanded(
-              flex: 3,
+              flex: 5,
               child: Stack(
                 children: [
                   controller.FlutterMap(
@@ -143,116 +146,242 @@ class _MapAdminScreenState extends State<MapAdminScreen> {
                           ),
                         ],
                       ),
-                      controller.MarkerLayer(markers: user.static_user_not),
-                      controller.MarkerLayer(markers: user.static_user_done),
+                      // controller.MarkerLayer(markers: user.static_user_not),
+                      // controller.MarkerLayer(markers: user.static_user_done),
+                      if (user.static_user_not.isNotEmpty)
+                      MarkerClusterLayerWidget(
+                        options: MarkerClusterLayerOptions(
+                          maxClusterRadius: 45,
+                          size: const Size(40, 40),
+                          alignment: Alignment.center,
+                          padding: const EdgeInsets.all(50),
+                          maxZoom: 15,
+                          markers: user.static_user_not,
+                          builder: (context, markers) {
+                          return Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20),
+                              color: Colors.green),
+                            child: Center(
+                            child: Text(
+                              markers.length.toString(),
+                              style: const TextStyle(color: Colors.white),
+                            ),
+                            ),
+                          );
+                          },
+                        ),
+                        ),
+                      if (user.static_user_not.isEmpty)
+                        controller.MarkerLayer(
+                        markers: [
+                          controller.Marker(
+                          point: user.initialPos,
+                          child: const Icon(
+                            Icons.location_on,
+                            color: Colors.redAccent,
+                            size: 20,
+                          ),
+                          ),
+                        ],
+                      ),
+                      if (user.static_user_done.isNotEmpty)
+                      MarkerClusterLayerWidget(
+                        options: MarkerClusterLayerOptions(
+                          maxClusterRadius: 45,
+                          size: const Size(40, 40),
+                          alignment: Alignment.center,
+                          padding: const EdgeInsets.all(50),
+                          maxZoom: 15,
+                          markers: user.static_user_done,
+                          builder: (context, markers) {
+                          return Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20),
+                              color: Colors.grey),
+                            child: Center(
+                            child: Text(
+                              markers.length.toString(),
+                              style: const TextStyle(color: Colors.white),
+                            ),
+                            ),
+                          );
+                          },
+                        ),
+                        ),
+                      if (user.static_user_done.isEmpty)
+                        controller.MarkerLayer(
+                        markers: [
+                          controller.Marker(
+                          point: user.initialPos,
+                          child: const Icon(
+                            Icons.location_on,
+                            color: Colors.redAccent,
+                            size: 20,
+                          ),
+                          ),
+                        ],
+                      ),
+                      Stack(
+                        children: [
+                          Positioned(
+                            bottom: 8.0, // Điều chỉnh vị trí dưới cùng của nút phóng to và thu nhỏ
+                            right: 8.0, // Điều chỉnh vị trí bên phải của nút phóng to và thu nhỏ
+                            child: FlutterMapZoomButtons(
+                              minZoom: 1,
+                              maxZoom: 18,
+                              mini: true,
+                              padding: 8.0,
+                              alignment: Alignment.bottomRight,
+                              zoomInIcon: Icons.add,
+                              zoomOutIcon: Icons.remove,
+                            ),
+                          ),
+                          Positioned(
+                            bottom: 120.0, // Điều chỉnh vị trí dưới cùng của nút vị trí hiện tại
+                            right: 8.0, // Điều chỉnh vị trí bên phải của nút vị trí hiện tại
+                            child: CurrentLocationButton(
+                              user: user,
+                              padding: 8.0,
+                              moveToCurrentLocationIcon: Icons.location_on,
+                            ),
+                          ),
+                        ],
+                      )
                     ],
                   ),
                 ],
               ),
             ),
-        
-            Expanded(
-              flex: 1,
-              child: Obx(() {
-                // Sử dụng isDataLoaded để kiểm tra xem dữ liệu đã tải xong chưa
-                if (!user.isDataLoaded.value) {
-                  return Text('Đang tải dữ liệu...');
-                } else {
-                  return Container(
-                    padding: EdgeInsets.symmetric(vertical: 2, horizontal: 2),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Thời gian',
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                          ),
-                          textAlign: TextAlign.left,
-                        ),
-                        SizedBox(height: 10), // Khoảng cách giữa các widget
-        
-                        // Hàng chứa hai calendar date picker
-                        Row(
-                          children: [
 
-                            Expanded(
-                              child: InkWell(
-                                onTap: (){
-                                  // Hiển thị date picker và cập nhật giá trị cho biến startTime
-                                  showDatePicker(
-                                    context: context,
-                                    initialDate: timePickerController.startTime.value,
-                                    firstDate: DateTime(2000),
-                                    lastDate: DateTime(2100),
-                                  ).then((selectedDate) {
-                                    if (selectedDate != null) {
-                                      timePickerController.updateStartTime(selectedDate);
-                                    }
-                                  });
-                                },
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text('Bắt đầu:'),
-                                    SizedBox(height: 5),
-                                    // Biểu tượng lịch trước picker bắt đầu
-                                    Icon(Icons.calendar_today),
-                                    Text('${timePickerController.startTime.value.day}/${timePickerController.startTime.value.month}/${timePickerController.startTime.value.year}')
-                                  ],
+            Expanded(
+              flex: 2,
+              child: SingleChildScrollView(
+                child: Obx(() {
+                  // Sử dụng isDataLoaded để kiểm tra xem dữ liệu đã tải xong chưa
+                  if (!user.isDataLoaded3.value) {
+                    return Text('Đang tải dữ liệu...');
+                  } else {
+                    return Container(
+                      padding: EdgeInsets.symmetric(vertical: 2, horizontal: 2),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Thời gian',
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            textAlign: TextAlign.left,
+                          ),
+                          SizedBox(height: 0), // Khoảng cách giữa các widget
+                          // Hàng chứa hai calendar date picker
+                          Row(
+                            children: [
+                              Expanded(
+                                child: InkWell(
+                                  onTap: (){
+                                    // Hiển thị date picker và cập nhật giá trị cho biến startTime
+                                    showDatePicker(
+                                      context: context,
+                                      initialDate: timePickerController.startTime.value,
+                                      firstDate: DateTime(2000),
+                                      lastDate: DateTime(2100),
+                                    ).then((selectedDate) {
+                                      if (selectedDate != null) {
+                                        timePickerController.updateStartTime(selectedDate);
+                                      }
+                                    });
+                                  },
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text('Bắt đầu:'),
+                                      SizedBox(height: 5),
+                                      // Biểu tượng lịch trước picker bắt đầu
+                                      Icon(Icons.calendar_today),
+                                      Text('${timePickerController.startTime.value.day}/${timePickerController.startTime.value.month}/${timePickerController.startTime.value.year}')
+                                    ],
+                                  ),
                                 ),
                               ),
-                            ),
-                            SizedBox(width: 20), // Khoảng cách giữa hai calendar date picker
-                            Expanded(
-                              child: InkWell(
-                                onTap:(){
-                                  // Hiển thị date picker và cập nhật giá trị cho biến endTime
-                                  showDatePicker(
-                                    context: context,
-                                    initialDate: timePickerController.endTime.value,
-                                    firstDate: DateTime(2000),
-                                    lastDate: DateTime(2100),
-                                  ).then((selectedDate) {
-                                    if (selectedDate != null) {
-                                      timePickerController.updateEndTime(selectedDate);
-                                    }
-                                  });
-                                },
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text('Kết thúc:'),
-                                    SizedBox(height: 5),
-                                    Icon(Icons.calendar_today),
-                                    Text('${timePickerController.endTime.value.day}/${timePickerController.endTime.value.month}/${timePickerController.endTime.value.year}')
-                                  ],
+                              SizedBox(width: 20), // Khoảng cách giữa hai calendar date picker
+                              Expanded(
+                                child: InkWell(
+                                  onTap:(){
+                                    // Hiển thị date picker và cập nhật giá trị cho biến endTime
+                                    showDatePicker(
+                                      context: context,
+                                      initialDate: timePickerController.endTime.value,
+                                      firstDate: DateTime(2000),
+                                      lastDate: DateTime(2100),
+                                    ).then((selectedDate) {
+                                      if (selectedDate != null) {
+                                        timePickerController.updateEndTime(selectedDate);
+                                      }
+                                    });
+                                  },
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text('Kết thúc:'),
+                                      SizedBox(height: 5),
+                                      Icon(Icons.calendar_today),
+                                      Text('${timePickerController.endTime.value.day}/${timePickerController.endTime.value.month}/${timePickerController.endTime.value.year}')
+
+                                    ],
+                                  ),
                                 ),
                               ),
-                            ),
-                            SizedBox(height: 20), // Khoảng cách giữa picker và button
-                            // Button "Kiểm tra"
-                            ElevatedButton(
-                              style: CustomButtonStyle.primaryButton,
-                              onPressed: () {
-                                setState(() {
-                                  user.statistical(timePickerController.startTime.value, timePickerController.endTime.value);
-                                });
-                              },
-                              child: Text('Kiểm tra',style: TextStyle(
-                                color: Colors.white
-                              ),),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  );
-                }
-              }),
+                              SizedBox(height: 20), // Khoảng cách giữa picker và button
+                              // Button "Kiểm tra"
+                              ElevatedButton(
+                                style: CustomButtonStyle.primaryButton,
+                                onPressed: () {
+                                  setState(() {
+                                    user.statistical(timePickerController.startTime.value, timePickerController.endTime.value);
+                                  });
+                                },
+                                child: Text('Kiểm tra',style: TextStyle(
+                                    color: Colors.white
+                                ),),
+                              ),
+                            ],
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                height: 24, // Chiều cao cố định cho tiêu đề
+                                child: Text(
+                                  'Thông tin vị trí',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                  textAlign: TextAlign.left,
+                                ),
+                              ), // Khoảng cách giữa tiêu đề và nội dung
+                              Obx(() {
+                                return Text(
+                                  user.currentAddress.value,
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                  ),
+                                  textAlign: TextAlign.left,
+                                );
+                              }),
+                            ],
+                          ),
+                        ],
+                      ),
+                    );
+                  }
+                }),
+              ),
             ),
-        
+
           ],
         ),
       ),

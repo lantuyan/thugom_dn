@@ -11,7 +11,6 @@ import 'package:thu_gom/widgets/custom_dialogs.dart';
 Padding userName(String name) {
   final InfomationController _homeController = Get.put(InfomationController(
       UserRequestTrashRepository(UserRequestTrashProvider())));
-
   return Padding(
     padding: EdgeInsets.symmetric(horizontal: 0.w, vertical: 0.sp),
     child: Row(

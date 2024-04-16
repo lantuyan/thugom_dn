@@ -65,7 +65,7 @@ class CustomDialogs{
     );
   }
 
-  static void confirmDialog(String title,Widget content,Function confirm){
+  static void confirmDialog(String title,Widget content,Function confirm,String okText){
     Get.defaultDialog(
       contentPadding: EdgeInsets.fromLTRB(18.sp, 0.sp, 18.sp, 32.sp),
       titlePadding: EdgeInsets.fromLTRB(0.sp, 26.sp, 0.sp, 18.sp),
@@ -95,7 +95,7 @@ class CustomDialogs{
             },
             style: CustomButtonStyle.primaryButton,
             child: Text(
-              'Xác nhận',
+              okText,
               style: TextStyle(color: ColorsConstants.kBGCardColor, fontSize: 16.sp),
             )
         ),
