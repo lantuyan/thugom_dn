@@ -20,7 +20,8 @@ class MapController extends GetxController {
 
   RxString currentAddress = ''.obs;
   RxString labels = ''.obs;
-  RxString infos = ''.obs;
+  RxString firstPart = ''.obs;
+  RxString secondPart = ''.obs;
   Map<String, Uint8List> labelToIconMap = {};
 
   late final client = Client()
@@ -139,8 +140,10 @@ class MapController extends GetxController {
             point: LatLng(latitude, longitude),
             child: GestureDetector(
               onTap: () {
+                List<String> infoParts = info.split('Liên hệ:');
                 currentAddress.value = address;
-                infos.value = info;
+                 firstPart.value = infoParts.length > 0 ? infoParts[0].trim() : ""; // Phần đầu tiên
+                 secondPart.value = infoParts.length > 1 ? 'Liên hệ:' + infoParts[1].trim() : ""; // Phần thứ hai
                 openGoogleMapsApp(_initialPosition.latitude,
                     _initialPosition.longitude, latitude, longitude);
               },

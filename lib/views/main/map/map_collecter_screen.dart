@@ -204,7 +204,7 @@ class MapCollecterScreen extends StatelessWidget {
                 return Text('Đang tải dữ liệu...');
               } else {
                 return Container(
-                  padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+                  padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                   child: Column(
                     children: [
                       Container(

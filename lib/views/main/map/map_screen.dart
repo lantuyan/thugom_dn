@@ -196,39 +196,42 @@ class MapScreen extends StatelessWidget {
           ),
           Expanded(
             flex: 2,
-            child: Obx(() {
-              // Sử dụng isDataLoaded để kiểm tra xem dữ liệu đã tải xong chưa
-              if (!user.isDataLoaded.value) {
-                return Text('Đang tải dữ liệu...');
-              } else {
-                return Container(
-                  padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-                  child: Column(
-                    children: [
-                      Container(
-                        height: 24, // Chiều cao cố định cho tiêu đề
-                        child: const Text(
-                          'Thông tin vị trí',
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
+            child: SingleChildScrollView(
+              child: Obx(() {
+                // Sử dụng isDataLoaded để kiểm tra xem dữ liệu đã tải xong chưa
+                if (!user.isDataLoaded.value) {
+                  return Text('Đang tải dữ liệu...');
+                } else {
+                  return Container(
+                    padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                    child: Column(
+                      children: [
+                        Container(
+                          height: 24, // Chiều cao cố định cho tiêu đề
+                          child: const Text(
+                            'Thông tin vị trí',
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            textAlign: TextAlign.center,
                           ),
-                          textAlign: TextAlign.center,
-                        ),
-                      ), // Khoảng cách giữa tiêu đề và nội dung
-                      Obx(() {
-                        return Text(
-                          user.currentAddress.value + "\n" + user.infos.value,
-                          style: const TextStyle(
-                            fontSize: 16,
-                          ),
-                        );
-                      }),
-                    ],
-                  ),
-                );
-              }
-            }),
+                        ), // Khoảng cách giữa tiêu đề và nội dung
+                        Obx(() {
+                          return Text(
+                            user.currentAddress.value + "\n" + user.firstPart.value + "\n" + user.secondPart.value,
+                            style: const TextStyle(
+                              fontSize: 16,
+                            ),
+                          );
+                        }),
+                      ],
+                    ),
+                  );
+                }
+              }),
+            )
+
           ),
         ],
       ),
