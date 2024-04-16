@@ -298,7 +298,65 @@ class PersonUI extends StatelessWidget {
                   child: SizedBox(
                 height: 48.sp,
                 child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      // showDialog(
+                      //       context: context,
+                      //       builder: (BuildContext context) {
+                      //         return AlertDialog(
+                      //           title: Center(
+                      //             child: Text(
+                      //               "Xem Minh chứng",
+                      //               style: AppTextStyles.caption,
+                      //             ),
+                      //           ),
+                      //           content: CachedNetworkImage(
+                      //             imageUrl: _user
+                      //                 .requestDetailModel.finishImage!,
+                      //             imageBuilder: (context, imageProvider) =>
+                      //                 Container(
+                      //               width: ScreenUtil().screenWidth * 0.9,
+                      //               height: ScreenUtil().screenHeight * 0.5,
+                      //               decoration: BoxDecoration(
+                      //                 borderRadius: BorderRadius.circular(12),
+                      //                 image: DecorationImage(
+                      //                   image: imageProvider,
+                      //                   fit: BoxFit.cover,
+                      //                 ),
+                      //               ),
+                      //             ),
+                      //             placeholder: (context, url) => Center(
+                      //               heightFactor: 1,
+                      //               widthFactor: 1,
+                      //               child: SizedBox(
+                      //                 height: 20.sp,
+                      //                 width: 20.sp,
+                      //                 child: Image.asset(
+                      //                     "assets/images/placeholder.png"),
+                      //               ),
+                      //             ),
+                      //             errorWidget: (context, url, error) =>
+                      //                 Icon(Icons.error),
+                      //           ),
+                      //           actions: <Widget>[
+                      //             TextButton(
+                      //               style: CustomButtonStyle.primaryButton,
+                      //               child: Center(
+                      //                 child: Text(
+                      //                   "Đóng",
+                      //                   style: AppTextStyles.headline1.copyWith(
+                      //                       color: ColorsConstants
+                      //                           .kBackgroundColor),
+                      //                 ),
+                      //               ),
+                      //               onPressed: () {
+                      //                 Navigator.of(context).pop();
+                      //               },
+                      //             ),
+                      //           ],
+                      //         );
+                      //       },
+                      //     );
+                    },
                     style: CustomButtonStyle.infoButton,
                     child: Text(
                       'Đang xử lý',

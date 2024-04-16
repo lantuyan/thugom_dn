@@ -10,6 +10,7 @@ class UserModel {
   final String phonenumber;
   final String zalonumber;
   final String address;
+  final String? avatar;
   const UserModel({
     required this.email,
     required this.username,
@@ -19,6 +20,7 @@ class UserModel {
     required this.phonenumber,
     required this.zalonumber,
     required this.address,
+    this.avatar,
   });
 
   UserModel copyWith({
@@ -30,6 +32,7 @@ class UserModel {
     String? phonenumber,
     String? zalonumber,
     String? address,
+    String? avatar,
   }) {
     return UserModel(
       email: email ?? this.email,
@@ -40,6 +43,7 @@ class UserModel {
       phonenumber: phonenumber ?? this.phonenumber,
       zalonumber: zalonumber ?? this.zalonumber,
       address: address ?? this.address,
+      avatar: avatar ?? this.avatar,
     );
   }
 
@@ -53,6 +57,7 @@ class UserModel {
       'phonenumber': phonenumber,
       'zalonumber': zalonumber,
       'address': address,
+      'avatar': avatar,
     };
   }
 
@@ -66,12 +71,13 @@ class UserModel {
       phonenumber: map['phonenumber'] ?? '',
       zalonumber: map['zalonumber'] ?? '',
       address: map['address'] ?? '',
+      avatar: map['avatar'] ?? '',
     );
   }
 
   @override
   String toString() {
-    return 'UserModel(email: $email, username: $username, name: $name, role: $role, uid: $uid, phonenumber: $phonenumber, zalonumber: $zalonumber, address: $address)';
+    return 'UserModel(email: $email, username: $username, name: $name, role: $role, uid: $uid, phonenumber: $phonenumber, zalonumber: $zalonumber, address: $address, avatar: $avatar,)';
   }
 
   @override
@@ -86,7 +92,8 @@ class UserModel {
         other.uid == uid &&
         other.phonenumber == phonenumber &&
         other.zalonumber == zalonumber &&
-        other.address == address;
+        other.address == address &&
+        other.avatar == avatar;
   }
 
   @override
@@ -98,7 +105,8 @@ class UserModel {
     uid.hashCode ^
     phonenumber.hashCode ^
     zalonumber.hashCode ^
-    address.hashCode;
+    address.hashCode ^
+    avatar.hashCode;
   }
 }
 

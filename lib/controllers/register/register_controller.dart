@@ -53,6 +53,7 @@ class RegisterController extends GetxController {
         await _getStorage.write('role', userModel.role);
         await _getStorage.write('zalonumber', userModel.zalonumber);
         await _getStorage.write('address', userModel.address);
+        await _getStorage.write('uid', userModel.uid);
 
         DataManager().saveData('userId', value.userId);
         DataManager().saveData('sessionId', value.$id);
@@ -60,6 +61,7 @@ class RegisterController extends GetxController {
         DataManager().saveData('name', userModel.name);
         DataManager().saveData('zalonumber', userModel.zalonumber);
         DataManager().saveData('address', userModel.address);
+        DataManager().saveData('uid', userModel.uid);
       });
       Get.offAllNamed('/introPage');
       CustomDialogs.showSnackBar(2, "Đăng ký tài khoàn thành công", 'success');
