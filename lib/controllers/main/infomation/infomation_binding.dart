@@ -12,10 +12,6 @@ import 'package:thu_gom/repositories/infomation_reposistory.dart';
 class InfomationBinding extends Bindings {
   @override
   void dependencies() {
-
-    Get.lazyPut<InfomationController>(() => InfomationController(
-        UserRequestTrashRepository(UserRequestTrashProvider())));
-
     Get.lazyPut<InfomationController>(() => InfomationController(InfomationReposistory(InfomationProvider())));
 
   }

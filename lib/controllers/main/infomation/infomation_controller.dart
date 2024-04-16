@@ -17,10 +17,6 @@ import 'package:thu_gom/widgets/custom_dialogs.dart';
 // import 'package:uni_links/uni_links.dart';
 
 class InfomationController extends GetxController {
-
-  final UserRequestTrashRepository _requestRepository;
-  InfomationController(this._requestRepository);
-
   final GetStorage _getStorage = GetStorage();
   final InfomationReposistory _infomationReposistory;
 

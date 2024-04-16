@@ -3,14 +3,16 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:thu_gom/controllers/login/login_controller.dart';
 import 'package:thu_gom/controllers/main/infomation/infomation_controller.dart';
+import 'package:thu_gom/providers/infomation_provider.dart';
 import 'package:thu_gom/providers/user_request_trash_provider.dart';
+import 'package:thu_gom/repositories/infomation_reposistory.dart';
 import 'package:thu_gom/repositories/user_request_trash_reponsitory.dart';
 import 'package:thu_gom/shared/themes/style/app_text_styles.dart';
 import 'package:thu_gom/widgets/custom_dialogs.dart';
 
 Padding userName(String name) {
   final InfomationController _homeController = Get.put(InfomationController(
-      UserRequestTrashRepository(UserRequestTrashProvider())));
+      InfomationReposistory(InfomationProvider())));
   return Padding(
     padding: EdgeInsets.symmetric(horizontal: 0.w, vertical: 0.sp),
     child: Row(
