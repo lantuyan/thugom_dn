@@ -103,12 +103,12 @@ class _MapAdminScreenState extends State<MapAdminScreen> {
             // ),
             !user.isDataLoaded3.value
                 ? Container(
-              height: MediaQuery.of(context).size.height * 0.3,
-              child: Center(
-                child: CircularProgressIndicator(
-                  color: ColorsConstants.kActiveColor,
-                ),
-              ),
+             // height: MediaQuery.of(context).size.height * 0.3,
+              //child: Center(
+               // child: CircularProgressIndicator(
+                //  color: ColorsConstants.kActiveColor,
+               // ),
+              //),
             )
                 : user.initialPos == null
                 ? const Center(
@@ -128,20 +128,23 @@ class _MapAdminScreenState extends State<MapAdminScreen> {
                   controller.FlutterMap(
                     options: controller.MapOptions(
                       initialCenter: user.initialPos,
-                      initialZoom: 16.0,
+                      initialZoom: 13,
+                      interactiveFlags: controller.InteractiveFlag.all & ~controller.InteractiveFlag.rotate,
+                      maxZoom: 20,
+                      minZoom: 10,
                     ),
                     children: [
                       controller.TileLayer(
                         urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
                       ),
                       controller.MarkerLayer(
-                        markers:[
+                        markers: [
                           controller.Marker(
                             point: user.initialPos,
-                            child: const Icon(
+                            child: Icon(
                               Icons.location_on,
                               color: Colors.redAccent,
-                              size: 20,
+                              size: 40.sp,
                             ),
                           ),
                         ],
@@ -172,19 +175,6 @@ class _MapAdminScreenState extends State<MapAdminScreen> {
                           },
                         ),
                         ),
-                      if (user.static_user_not.isEmpty)
-                        controller.MarkerLayer(
-                        markers: [
-                          controller.Marker(
-                          point: user.initialPos,
-                          child: const Icon(
-                            Icons.location_on,
-                            color: Colors.redAccent,
-                            size: 20,
-                          ),
-                          ),
-                        ],
-                      ),
                       if (user.static_user_done.isNotEmpty)
                       MarkerClusterLayerWidget(
                         options: MarkerClusterLayerOptions(
@@ -209,45 +199,26 @@ class _MapAdminScreenState extends State<MapAdminScreen> {
                           },
                         ),
                         ),
-                      if (user.static_user_done.isEmpty)
-                        controller.MarkerLayer(
-                        markers: [
-                          controller.Marker(
-                          point: user.initialPos,
-                          child: const Icon(
-                            Icons.location_on,
-                            color: Colors.redAccent,
-                            size: 20,
-                          ),
-                          ),
-                        ],
-                      ),
-                      Stack(
-                        children: [
-                          Positioned(
-                            bottom: 8.0, // Điều chỉnh vị trí dưới cùng của nút phóng to và thu nhỏ
-                            right: 8.0, // Điều chỉnh vị trí bên phải của nút phóng to và thu nhỏ
-                            child: FlutterMapZoomButtons(
-                              minZoom: 1,
-                              maxZoom: 18,
-                              mini: true,
-                              padding: 8.0,
-                              alignment: Alignment.bottomRight,
+                      Padding(
+                        padding: EdgeInsets.only(right: 16.sp, bottom: 64.sp),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            CurrentLocationButton(
+                              user: user,
+                              padding: 16.sp,
+                              moveToCurrentLocationIcon: Icons.location_on,
+                            ),
+                            FlutterMapZoomButtons(
+                              mini: false,
+                              padding: 16.sp,
                               zoomInIcon: Icons.add,
                               zoomOutIcon: Icons.remove,
                             ),
-                          ),
-                          Positioned(
-                            bottom: 120.0, // Điều chỉnh vị trí dưới cùng của nút vị trí hiện tại
-                            right: 8.0, // Điều chỉnh vị trí bên phải của nút vị trí hiện tại
-                            child: CurrentLocationButton(
-                              user: user,
-                              padding: 8.0,
-                              moveToCurrentLocationIcon: Icons.location_on,
-                            ),
-                          ),
-                        ],
-                      )
+                          ],
+                        ),
+                      ),
                     ],
                   ),
                 ],
@@ -263,7 +234,7 @@ class _MapAdminScreenState extends State<MapAdminScreen> {
                     return Text('Đang tải dữ liệu...');
                   } else {
                     return Container(
-                      padding: EdgeInsets.symmetric(vertical: 2, horizontal: 2),
+                      padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -347,31 +318,6 @@ class _MapAdminScreenState extends State<MapAdminScreen> {
                                     color: Colors.white
                                 ),),
                               ),
-                            ],
-                          ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Container(
-                                height: 24, // Chiều cao cố định cho tiêu đề
-                                child: Text(
-                                  'Thông tin vị trí',
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                  textAlign: TextAlign.left,
-                                ),
-                              ), // Khoảng cách giữa tiêu đề và nội dung
-                              Obx(() {
-                                return Text(
-                                  user.currentAddress.value,
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                  ),
-                                  textAlign: TextAlign.left,
-                                );
-                              }),
                             ],
                           ),
                         ],

@@ -25,8 +25,10 @@ class MapController extends GetxController {
   var shouldShowMarkers = false.obs;
 
   RxString currentAddress = ''.obs;
+  RxString phonenumber = ''.obs;
   RxString labels = ''.obs;
-  RxString infos = ''.obs;
+  RxString info1 = ''.obs;
+  RxString info2 = ''.obs;
   Map<String, Uint8List> labelToIconMap = {};
 
   late final client = Client()
@@ -57,13 +59,11 @@ class MapController extends GetxController {
     await getUserLocation();
     if (role == 'person') {
       await loadMarkersCollecter();
-    } else if (role == 'collector') {
-      await loadMarkersCollecter();
+    }else
+    if (role == 'collector') {
       await userRequest();
-      await statistical(startTime, endTime);
-    } else if (role == 'admin') {
-      await loadMarkersCollecter();
-      await userRequest();
+    }else
+    if (role == 'admin') {
       await statistical(startTime, endTime);
     }
   }
@@ -158,11 +158,13 @@ class MapController extends GetxController {
             point: LatLng(latitude, longitude),
             child: GestureDetector(
               onTap: () {
+                List<String> infoParts = info.split('Liên hệ:');
                 currentAddress.value = address;
-                infos.value = info;
+                info1.value = infoParts.length > 0 ? infoParts[0].trim() : ""; // Phần đầu tiên
+                info2.value = infoParts.length > 1 ? 'Liên hệ:' + infoParts[1].trim() : ""; // Phần thứ hai
                 // openGoogleMapsApp(_initialPosition.latitude,
                 //     _initialPosition.longitude, latitude, longitude);
-                showSheet(Get.context, latitude, longitude);
+                showSheetPerson(Get.context, latitude, longitude);
               },
               child: Image.memory(
                 imageData!,
@@ -201,11 +203,14 @@ class MapController extends GetxController {
         if (request.status == 'pending')
         {
           Marker marker = Marker(
+            height: 35.sp,
+            width: 35.sp,
             point: LatLng(request.point_lat, request.point_lng),
             child: GestureDetector(
               onTap: () {
+                phonenumber.value = request.phone_number;
                 currentAddress.value = request.address;
-                requestDetail(request);
+                showSheetCollector(Get.context, request.point_lat, request.point_lng , request);
               },
               child: Image.asset(
                 'assets/images/bin.jpg',
@@ -249,7 +254,9 @@ class MapController extends GetxController {
               point: LatLng(request.point_lat, request.point_lng),
               child: GestureDetector(
                 onTap: () {
+                  phonenumber.value = request.phone_number;
                   currentAddress.value = request.address;
+                  showSheetAdmin(Get.context, request.point_lat, request.point_lng);
                 },
                 child: Image.asset(
                   'assets/images/bin.jpg',
@@ -267,7 +274,9 @@ class MapController extends GetxController {
               point: LatLng(request.point_lat, request.point_lng),
               child: GestureDetector(
                 onTap: () {
+                  phonenumber.value = request.phone_number;
                   currentAddress.value = request.address;
+                  showSheetAdmin(Get.context, request.point_lat, request.point_lng);
                 },
                 child: Image.asset(
                   'assets/images/bin1.jpg',
@@ -354,7 +363,7 @@ class MapController extends GetxController {
     );
   }
 
-  void showSheet(context, double latitude, double longitude) {
+  void showSheetPerson(context, double latitude, double longitude) {
   showModalBottomSheet(context: context, builder: (BuildContext bc) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
@@ -417,7 +426,20 @@ class MapController extends GetxController {
               Icon(Icons.info, color: ColorsConstants.kActiveColor, size: 30.sp),
               SizedBox(width: 12.sp),
               Expanded(
-                child: Text(infos.value, style: TextStyle(
+                child: Text(info1.value, style: TextStyle(
+                  fontSize: 16.sp,
+                  color: ColorsConstants.kActiveColor,
+                )),
+              ),
+            ],
+          ),
+          SizedBox(height: 12.sp),
+          Row(
+            children:[
+              Icon(Icons.phone, color: ColorsConstants.kActiveColor, size: 30.sp),
+              SizedBox(width: 12.sp),
+              Expanded(
+                child: Text(info2.value, style: TextStyle(
                   fontSize: 16.sp,
                   color: ColorsConstants.kActiveColor,
                 )),
@@ -429,4 +451,170 @@ class MapController extends GetxController {
     );
   });
 }
+
+  void showSheetCollector(context, double latitude, double longitude ,dynamic request) {
+    showModalBottomSheet(context: context, builder: (BuildContext bc) {
+      return Container(
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+        child: Column(
+          children: <Widget>[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: ColorsConstants.kMainColor,
+                      padding: EdgeInsets.fromLTRB(20.sp, 10.sp, 20.sp, 10.sp),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                    onPressed: (){
+                      openGoogleMapsApp(_initialPosition.latitude,
+                          _initialPosition.longitude, latitude, longitude);
+                    },
+                    child: Text("Chỉ đường", style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 18.sp,
+                    ))),
+                ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: ColorsConstants.kMainColor,
+                      padding: EdgeInsets.fromLTRB(20.sp, 10.sp, 20.sp, 10.sp),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                    onPressed: (){
+                      requestDetail(request);
+                    },
+                    child: Text("Chi tiết", style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 18.sp,
+                    ))),
+                IconButton(
+                  style: CustomButtonStyle.transparentButton,
+                  onPressed: (){
+                    Navigator.pop(context);
+                  },
+                  icon: Icon(Icons.close, color: ColorsConstants.kActiveColor, size: 30.sp),
+                ),
+              ],
+            ),
+            SizedBox(height: 12.sp),
+            Center(
+              child: Text(
+                  'Thông tin vị trí',
+                  style: TextStyle(
+                    fontSize: 22.sp,
+                    fontWeight: FontWeight.w700,
+                  )
+              ),
+            ),
+            SizedBox(height: 18.sp),
+            Row(
+              children:[
+                Icon(Icons.location_on, color: ColorsConstants.kActiveColor, size: 30.sp),
+                SizedBox(width: 12.sp),
+                Expanded(
+                  child: Text(currentAddress.value, style: TextStyle(
+                    fontSize: 16.sp,
+                    color: ColorsConstants.kActiveColor,
+                  )),
+                ),
+              ],
+            ),
+            SizedBox(height: 12.sp),
+            Row(
+              children:[
+                Icon(Icons.phone, color: ColorsConstants.kActiveColor, size: 30.sp),
+                SizedBox(width: 12.sp),
+                Expanded(
+                  child: Text(phonenumber.value, style: TextStyle(
+                    fontSize: 16.sp,
+                    color: ColorsConstants.kActiveColor,
+                  )),
+                ),
+              ],
+            ),
+          ],
+        ),
+      );
+    });
+  }
+  void showSheetAdmin(context, double latitude, double longitude) {
+    showModalBottomSheet(context: context, builder: (BuildContext bc) {
+      return Container(
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+        child: Column(
+          children: <Widget>[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: ColorsConstants.kMainColor,
+                      padding: EdgeInsets.fromLTRB(20.sp, 10.sp, 20.sp, 10.sp),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                    onPressed: (){
+                      openGoogleMapsApp(_initialPosition.latitude,
+                          _initialPosition.longitude, latitude, longitude);
+                    },
+                    child: Text("Chỉ đường", style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 18.sp,
+                    ))),
+                IconButton(
+                  style: CustomButtonStyle.transparentButton,
+                  onPressed: (){
+                    Navigator.pop(context);
+                  },
+                  icon: Icon(Icons.close, color: ColorsConstants.kActiveColor, size: 30.sp),
+                ),
+              ],
+            ),
+            SizedBox(height: 12.sp),
+            Center(
+              child: Text(
+                  'Thông tin vị trí',
+                  style: TextStyle(
+                    fontSize: 22.sp,
+                    fontWeight: FontWeight.w700,
+                  )
+              ),
+            ),
+            SizedBox(height: 18.sp),
+            Row(
+              children:[
+                Icon(Icons.location_on, color: ColorsConstants.kActiveColor, size: 30.sp),
+                SizedBox(width: 12.sp),
+                Expanded(
+                  child: Text(currentAddress.value, style: TextStyle(
+                    fontSize: 16.sp,
+                    color: ColorsConstants.kActiveColor,
+                  )),
+                ),
+              ],
+            ),
+            SizedBox(height: 12.sp),
+            Row(
+              children:[
+                Icon(Icons.phone, color: ColorsConstants.kActiveColor, size: 30.sp),
+                SizedBox(width: 12.sp),
+                Expanded(
+                  child: Text(phonenumber.value, style: TextStyle(
+                    fontSize: 16.sp,
+                    color: ColorsConstants.kActiveColor,
+                  )),
+                ),
+              ],
+            ),
+          ],
+        ),
+      );
+    });
+  }
 }

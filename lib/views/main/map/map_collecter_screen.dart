@@ -77,14 +77,14 @@ class MapCollecterScreen extends StatelessWidget {
             color: ColorsConstants.kBGCardColor,
             child: _userName(name),
           ),
-          !user.isDataLoaded.value
+          !user.isDataLoaded2.value
               ? Container(
-            height: MediaQuery.of(context).size.height * 0.3,
-            child: Center(
-              child: CircularProgressIndicator(
-                color: ColorsConstants.kActiveColor,
-              ),
-            ),
+            //height: MediaQuery.of(context).size.height * 0.3,
+            //child: Center(
+             // child: CircularProgressIndicator(
+              //  color: ColorsConstants.kActiveColor,
+             // ),
+           // ),
           )
               : user.initialPos == null
               ? const Center(
@@ -104,13 +104,16 @@ class MapCollecterScreen extends StatelessWidget {
                 controller.FlutterMap(
                   options: controller.MapOptions(
                     initialCenter: user.initialPos,
-                    initialZoom: 16.0,
+                    initialZoom: 13,
+                    interactiveFlags: controller.InteractiveFlag.all & ~controller.InteractiveFlag.rotate,
+                    maxZoom: 20,
+                    minZoom: 10,
                   ),
-
                   children: [
                     controller.TileLayer(
                       urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
                     ),
+
                     if (user.markers_user.isNotEmpty)
                     MarkerClusterLayerWidget(
                     options: MarkerClusterLayerOptions(
@@ -136,46 +139,39 @@ class MapCollecterScreen extends StatelessWidget {
                     ),
                     ),
                     controller.MarkerLayer(
-                    markers: [
-                      controller.Marker(
-                      point: user.initialPos,
-                      child: const Icon(
-                        Icons.location_on,
-                        color: Colors.redAccent,
-                        size: 20,
-                      ),
-                      ),
-                    ],
-                    ),
-                    Stack(
-                      children: [
-                        Positioned(
-                          bottom: 8.0, // Điều chỉnh vị trí dưới cùng của nút phóng to và thu nhỏ
-                          right: 8.0, // Điều chỉnh vị trí bên phải của nút phóng to và thu nhỏ
-                          child: FlutterMapZoomButtons(
-                            minZoom: 1,
-                            maxZoom: 18,
-                            mini: true,
-                            padding: 8.0,
-                            alignment: Alignment.bottomRight,
-                            zoomInIcon: Icons.add,
-                            zoomOutIcon: Icons.remove,
-                          ),
-                        ),
-                        Positioned(
-                          bottom: 120.0, // Điều chỉnh vị trí dưới cùng của nút vị trí hiện tại
-                          right: 8.0, // Điều chỉnh vị trí bên phải của nút vị trí hiện tại
-                          child: CurrentLocationButton(
-                            user: user,
-                            padding: 8.0,
-                            moveToCurrentLocationIcon: Icons.location_on,
+                      markers: [
+                        controller.Marker(
+                          point: user.initialPos,
+                          child: Icon(
+                            Icons.location_on,
+                            color: Colors.redAccent,
+                            size: 40.sp,
                           ),
                         ),
                       ],
-                    )
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(right: 16.sp, bottom: 64.sp),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          CurrentLocationButton(
+                            user: user,
+                            padding: 16.sp,
+                            moveToCurrentLocationIcon: Icons.location_on,
+                          ),
+                          FlutterMapZoomButtons(
+                            mini: false,
+                            padding: 16.sp,
+                            zoomInIcon: Icons.add,
+                            zoomOutIcon: Icons.remove,
+                          ),
+                        ],
+                      ),
+                    ),
                   ],
                 ),
-
                 Positioned(
                   top: 20,
                   right: 20,
@@ -185,55 +181,30 @@ class MapCollecterScreen extends StatelessWidget {
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    child: Text(
-                      'Số người yêu cầu thu gom: ${user.markers_user.length}',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
+                    child: RichText(
+                      text: TextSpan(
+                        text: 'Số người yêu cầu thu gom: ',
+                        style: TextStyle(
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                        ),
+                        children: [
+                          TextSpan(
+                            text: '${user.markers_user.length}',
+                            style: TextStyle(
+                              fontSize: 16.sp,
+                              fontWeight: FontWeight.bold,
+                              color: ColorsConstants.kActiveColor,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ),
                 ),
               ],
             ),
-          ),
-          Expanded(
-            flex: 1,
-            child: Obx(() {
-              if (!user.isDataLoaded.value) {
-                return Text('Đang tải dữ liệu...');
-              } else {
-                return Container(
-                  padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        height: 24, // Chiều cao cố định cho tiêu đề
-                        child: Text(
-                          'Thông tin vị trí',
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                          ),
-                          textAlign: TextAlign.left,
-                        ),
-                      ),
-                      SizedBox(height: 5), // Khoảng cách giữa tiêu đề và nội dung
-                      Obx(() {
-                        return Text(
-                          user.currentAddress.value,
-                          style: TextStyle(
-                            fontSize: 16,
-                          ),
-                          textAlign: TextAlign.left,
-                        );
-                      }),
-                    ],
-                  ),
-                );
-              }
-            }),
           ),
         ],
       ),
