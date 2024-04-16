@@ -263,7 +263,7 @@ class _MapAdminScreenState extends State<MapAdminScreen> {
                     return Text('Đang tải dữ liệu...');
                   } else {
                     return Container(
-                      padding: EdgeInsets.symmetric(vertical: 2, horizontal: 2),
+                      padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
