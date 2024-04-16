@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:face_camera/face_camera.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:thu_gom/controllers/main/infomation/infomation_controller.dart';
 import 'package:thu_gom/controllers/profile/profile_controller.dart';
 import 'package:thu_gom/providers/auth_provider.dart';
 import 'package:thu_gom/providers/user_request_trash_provider.dart';
@@ -66,12 +65,13 @@ class _PortraitCollectorState extends State<PortraitCollectorScreen> {
                           ), () async {
                         await _profileController
                             .uploadImageToAppwrite(_capturedImage!);
-                        // await _profileController.sendImageToAppwrite(
-                        //   _profileController.uid_user,
-                        // );
-                        Get.toNamed('profilePage');
+                        // await Get.toNamed('/profilePage');
                         // Get.back();
-                      });
+                        Navigator.pop(context);
+                        Navigator.pop(context);
+
+
+                      },"Xác nhận");
                     },
                     child: Text(
                       'Xác nhận',

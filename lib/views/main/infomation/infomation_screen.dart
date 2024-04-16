@@ -1,18 +1,11 @@
-import 'package:face_camera/face_camera.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:thu_gom/controllers/main/home/home_controller.dart';
 import 'package:thu_gom/controllers/main/infomation/infomation_controller.dart';
-
-import 'package:thu_gom/providers/user_request_trash_provider.dart';
-import 'package:thu_gom/repositories/user_request_trash_reponsitory.dart';
-
 import 'package:thu_gom/providers/infomation_provider.dart';
 import 'package:thu_gom/repositories/infomation_reposistory.dart';
-
 import 'package:thu_gom/shared/constants/color_constants.dart';
 import 'package:thu_gom/shared/themes/style/app_text_styles.dart';
 import 'package:thu_gom/widgets/header_username.dart';
@@ -20,11 +13,6 @@ import 'package:thu_gom/widgets/web_view.dart';
 
 class InfomationScreen extends StatelessWidget {
   final GetStorage _getStorage = GetStorage();
-
-  final InfomationController _homeController = Get.put(InfomationController(
-      UserRequestTrashRepository(UserRequestTrashProvider())));
-
-
   final InfomationController _infomationController = Get.put(InfomationController(InfomationReposistory(InfomationProvider())));
 
   var name = '';
