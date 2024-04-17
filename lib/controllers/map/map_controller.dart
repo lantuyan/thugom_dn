@@ -12,6 +12,7 @@ import 'package:get/get.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:thu_gom/shared/constants/color_constants.dart';
+import 'package:thu_gom/shared/themes/style/app_text_styles.dart';
 import 'package:thu_gom/shared/themes/style/custom_button_style.dart';
 import 'package:thu_gom/widgets/custom_dialogs.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -178,10 +179,11 @@ class MapController extends GetxController {
       }
       isDataLoaded.value = true;
       shouldShowMarkers.value = true;
-      CustomDialogs.hideLoadingDialog();
       update();
     } catch (e) {
       print('Error!!! $e');
+    } finally {
+      CustomDialogs.hideLoadingDialog();
     }
   }
   // chức năng hiển thị các yêu cầu của người dùng bên map collector
@@ -227,6 +229,8 @@ class MapController extends GetxController {
       update();
     } catch (e) {
       print('Error!!! $e');
+    } finally {
+      CustomDialogs.hideLoadingDialog();
     }
   }
 
@@ -295,72 +299,47 @@ class MapController extends GetxController {
       update();
     } catch (e) {
       print('Error!!! $e');
+    } finally {
+      CustomDialogs.hideLoadingDialog();
     }
   }
 
   // chức năng chuyển hướng googlemap
-  Future<void> openGoogleMapsApp(
-      double startLat, double startLng, double endLat, double endLng) async {
-    showDialog(
-      context: Get.context!,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text("Xác nhận di chuyển"),
-          content: Text("Bạn có chắc chắn muốn di chuyển đến đích này không?"),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop(); // Đóng dialog
-              },
-              child: Text("Hủy"),
-            ),
-            TextButton(
-              onPressed: () async {
-                Navigator.of(context).pop(); // Đóng dialog
-                final url = Uri.parse(
-                    'https://www.google.com/maps/dir/?api=1&origin=$startLat,$startLng&destination=$endLat,$endLng');
-                try {
-                  await launchUrl(url);
-                } catch (e) {
-                  print('Error launching Google Maps: $e');
-                }
-              },
-              child: Text("Đồng ý"),
-            ),
-          ],
-        );
-      },
-    );
+  void openGoogleMapsApp( double startLat, double startLng, double endLat, double endLng) {
+    CustomDialogs.confirmDialog(
+          'Xác nhận di chuyển',
+          Text(
+            'Bạn có chắc chắn muốn di chuyển đến đích này không?',
+            style: AppTextStyles.bodyText2
+                .copyWith(fontSize: 14.sp),
+            textAlign: TextAlign.center,
+          ), () {
+        Get.back();
+        final url = Uri.parse(
+            'https://www.google.com/maps/dir/?api=1&origin=$startLat,$startLng&destination=$endLat,$endLng');
+        try {
+          launchUrl(url);
+        } catch (e) {
+          CustomDialogs.showSnackBar(2, "Đã có lỗi xảy ra vui lòng thử lại sau!", 'error');
+        }
+      },"Xác nhận");
   }
 
   // gọi đến yêu cầu chi tiết của người dùng
-  Future<void> requestDetail(dynamic request) async {
-    await showDialog(
-      context: Get.context!,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text("Chi tiết yêu cầu"),
-          content: Text("Bạn muốn xem yêu cầu chi tiết?"),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop(); // Đóng dialog
-              },
-              child: Text("Hủy"),
-            ),
-            GestureDetector(
-              onTap: () {
-                Navigator.of(context).pop(); // Đóng dialog
-                Get.toNamed('requestDetailPage', arguments: {
-                  'requestDetail': request
-                });
-              },
-              child: Text("Xác nhận"),
-            ),
-          ],
-        );
-      },
-    );
+  void requestDetail(dynamic request) {
+    CustomDialogs.confirmDialog(
+          'Chi tiết yêu cầu',
+          Text(
+            'Bạn muốn xem yêu cầu chi tiết?',
+            style: AppTextStyles.bodyText2
+                .copyWith(fontSize: 14.sp),
+            textAlign: TextAlign.center,
+          ), () {
+        Get.back();
+        Get.toNamed('requestDetailPage', arguments: {
+          'requestDetail': request
+        });
+      },"Xác nhận");
   }
 
   void showSheetPerson(context, double latitude, double longitude) {
@@ -463,6 +442,7 @@ class MapController extends GetxController {
               children: <Widget>[
                 ElevatedButton(
                     style: ElevatedButton.styleFrom(
+                      minimumSize: Size(124.sp, 40.sp),
                       backgroundColor: ColorsConstants.kMainColor,
                       padding: EdgeInsets.fromLTRB(20.sp, 10.sp, 20.sp, 10.sp),
                       shape: RoundedRectangleBorder(
@@ -479,6 +459,7 @@ class MapController extends GetxController {
                     ))),
                 ElevatedButton(
                     style: ElevatedButton.styleFrom(
+                      minimumSize: Size(124.sp, 40.sp),
                       backgroundColor: ColorsConstants.kMainColor,
                       padding: EdgeInsets.fromLTRB(20.sp, 10.sp, 20.sp, 10.sp),
                       shape: RoundedRectangleBorder(
