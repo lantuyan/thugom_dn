@@ -70,7 +70,7 @@ class CustomDialogs{
       contentPadding: EdgeInsets.fromLTRB(18.sp, 0.sp, 18.sp, 32.sp),
       titlePadding: EdgeInsets.fromLTRB(0.sp, 26.sp, 0.sp, 18.sp),
       title: title,
-      titleStyle: AppTextStyles.caption,
+      titleStyle: AppTextStyles.titleDialog,
       content: content,
       
       buttonColor: ColorsConstants.kMainColor,

@@ -13,6 +13,13 @@ class AppTextStyles {
   static const _bold = FontWeight.w700;
   late var height;
 
+  static TextStyle titleDialog = TextStyle(
+    fontSize: 18.sp,
+    fontFamily: AppTextStyles.fontFamily,
+    fontWeight: FontWeight.w700,
+    color: ColorsConstants.kMainColor,
+  );
+
   static TextStyle caption = TextStyle(
     fontSize: 16.sp,
     fontFamily: AppTextStyles.fontFamily,

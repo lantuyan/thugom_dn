@@ -10,6 +10,7 @@ import 'package:flutter_map/flutter_map.dart' as controller;
 import 'package:thu_gom/widgets/flutter_map_zoom_buttons.dart';
 import 'package:thu_gom/widgets/flutter_map_location_button.dart';
 import 'package:flutter_map_marker_cluster/flutter_map_marker_cluster.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class MapScreen extends StatelessWidget {
   MapScreen({Key? key}) : super(key: key);
@@ -77,12 +78,12 @@ class MapScreen extends StatelessWidget {
           ),
           !user.isDataLoaded.value
               ? Container(
-            height: MediaQuery.of(context).size.height * 0.3,
-            child: Center(
-              child: CircularProgressIndicator(
-                color: ColorsConstants.kActiveColor,
-              ),
-            ),
+            // height: MediaQuery.of(context).size.height * 0.3,
+            // child: Center(
+            //   child: CircularProgressIndicator(
+            //     color: ColorsConstants.kActiveColor,
+            //   ),
+            // ),
           )
               : user.initialPos == null
               ? const Center(
@@ -102,7 +103,10 @@ class MapScreen extends StatelessWidget {
                 controller.FlutterMap(
                   options: controller.MapOptions(
                     initialCenter: user.initialPos,
-                    initialZoom: 16.0,
+                    initialZoom: 13,
+                    interactiveFlags: controller.InteractiveFlag.all & ~controller.InteractiveFlag.rotate,
+                    maxZoom: 20,
+                    minZoom: 10,
                   ),
                   children: [
                     controller.TileLayer(
@@ -112,7 +116,7 @@ class MapScreen extends StatelessWidget {
                     MarkerClusterLayerWidget(
                     options: MarkerClusterLayerOptions(
                       maxClusterRadius: 45,
-                      size: const Size(40, 40),
+                      size: Size(40.sp, 40.sp),
                       alignment: Alignment.center,
                       padding: const EdgeInsets.all(50),
                       maxZoom: 15,
@@ -136,43 +140,36 @@ class MapScreen extends StatelessWidget {
                     markers: [
                       controller.Marker(
                       point: user.initialPos,
-                      child: const Icon(
+                      child: Icon(
                         Icons.location_on,
                         color: Colors.redAccent,
-                        size: 20,
+                        size: 40.sp,
                       ),
                       ),
                     ],
                     ),
-                    Stack(
-                      children: [
-                        Positioned(
-                          bottom: 8.0, // Điều chỉnh vị trí dưới cùng của nút phóng to và thu nhỏ
-                          right: 8.0, // Điều chỉnh vị trí bên phải của nút phóng to và thu nhỏ
-                          child: FlutterMapZoomButtons(
-                            minZoom: 1,
-                            maxZoom: 18,
-                            mini: true,
-                            padding: 8.0,
-                            alignment: Alignment.bottomRight,
+                    Padding(
+                      padding: EdgeInsets.only(right: 16.sp, bottom: 64.sp),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          CurrentLocationButton(
+                            user: user,
+                            padding: 16.sp,
+                            moveToCurrentLocationIcon: Icons.location_on,
+                          ),
+                          FlutterMapZoomButtons(
+                            mini: false,
+                            padding: 16.sp,
                             zoomInIcon: Icons.add,
                             zoomOutIcon: Icons.remove,
                           ),
-                        ),
-                        Positioned(
-                          bottom: 120.0, // Điều chỉnh vị trí dưới cùng của nút vị trí hiện tại
-                          right: 8.0, // Điều chỉnh vị trí bên phải của nút vị trí hiện tại
-                          child: CurrentLocationButton(
-                            user: user,
-                            padding: 8.0,
-                            moveToCurrentLocationIcon: Icons.location_on,
-                          ),
-                        ),
-                      ],
-                    )
+                        ],
+                      ),
+                    ),
                   ],
                 ),
-
                 Positioned(
                   top: 20,
                   right: 20,
@@ -182,61 +179,30 @@ class MapScreen extends StatelessWidget {
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    child: Text(
-                      'Số lượng điểm thu gom: ${user.markers.length}',
+                    child: RichText(
+                      text: TextSpan(
+                      text: 'Số lượng điểm thu gom: ',
                       style: TextStyle(
-                        fontSize: 16,
+                        fontSize: 16.sp,
                         fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                      ),
+                      children: [
+                        TextSpan(
+                        text: '${user.markers.length}',
+                        style: TextStyle(
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.bold,
+                        color: ColorsConstants.kActiveColor,
+                      ),
+                        ),
+                      ],
                       ),
                     ),
                   ),
                 ),
               ],
             ),
-          ),
-          Expanded(
-            flex: 1,
-            child: Obx(() {
-              // Sử dụng isDataLoaded để kiểm tra xem dữ liệu đã tải xong chưa
-              if (!user.isDataLoaded.value) {
-                return Text('Đang tải dữ liệu...');
-              } else {
-                return Container(
-                  padding: EdgeInsets.symmetric(vertical: 0, horizontal: 0),
-                  child: Column(
-                    children: [
-                      Text(
-                        'Thông tin vị trí',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Obx(() {
-                        return Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              user.currentAddress.value,
-                              style: TextStyle(
-                                fontSize: 16,
-                              ),
-                            ),
-                            Text(
-                              user.infos.value,
-                              style: TextStyle(
-                                fontSize: 16,
-                              ),
-                            ),
-                          ],
-                        );
-                      }),
-
-                    ],
-                  ),
-                );
-              }
-            }),
           ),
         ],
       ),
