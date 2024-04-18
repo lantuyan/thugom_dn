@@ -35,7 +35,7 @@ import 'package:thu_gom/views/main/home/tab/notification_collector.dart';
 import 'package:thu_gom/views/main/home/tab/notification_user.dart';
 import 'package:thu_gom/views/main/infomation/feedback_screen.dart';
 import 'package:thu_gom/views/main/infomation/infomation_screen.dart';
-import 'package:thu_gom/views/main/infomation/portrait_collector_screen.dart';
+import 'package:thu_gom/views/auth/onboarding/profile/portrait_collector_screen.dart';
 import 'package:thu_gom/views/main/main_screen.dart';
 import 'package:thu_gom/views/main/map/map_collecter_screen.dart';
 import 'package:thu_gom/views/main/map/map_screen.dart';

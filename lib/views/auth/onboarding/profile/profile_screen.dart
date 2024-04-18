@@ -59,8 +59,9 @@ class ProfileScreen extends StatelessWidget {
                     SizedBox(
                       height: 16.sp,
                     ),
-
                     // Image field
+                    Obx(()
+                    => (_profileController.role.value == 'collector') ?
                     Container(
                       height: 205.sp,
                       width: 205.sp,
@@ -102,6 +103,8 @@ class ProfileScreen extends StatelessWidget {
                           ),
                         ),
                       ),
+                    )
+                    : Container()
                     ),
                     SizedBox(
                       height: 20.sp,
@@ -385,9 +388,12 @@ class ProfileScreen extends StatelessWidget {
                       child: ElevatedButton(
                           onPressed: () {
                             if (_profileController.imagePath.value == "") {
-                              CustomDialogs.showSnackBar(
-                                  3, "Vui lòng chụp ảnh", 'error');
-                            } else if (_profileController.formKey.currentState!
+                              if (_profileController.role == 'collector') {
+                                 CustomDialogs.showSnackBar(
+                                  3, "Vui lòng chụp ảnh chân dung", 'error');
+                              }
+                            }
+                            if (_profileController.formKey.currentState!
                                 .validate()) {
                               _profileController.updateProfile();
                             }

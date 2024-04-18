@@ -147,11 +147,19 @@ class _PortraitCollectorState extends State<PortraitCollectorScreen> {
         }));
   }
 
-  Widget _message(String msg) => Padding(
-        padding: EdgeInsets.symmetric(horizontal: 55.sp, vertical: 20.sp),
-        child: Text(msg,
-            textAlign: TextAlign.center,
-            style: AppTextStyles.bodyText1.copyWith(
-                fontSize: 14.sp, color: ColorsConstants.kBackgroundColor)),
-      );
+  Widget _message(String msg) => Container(
+      height: 50.sp, 
+      padding: EdgeInsets.symmetric(horizontal: 30, vertical: 20), 
+      margin: EdgeInsets.symmetric(horizontal: 55.sp, vertical: 20.sp), 
+      child: Text(
+        msg,
+        maxLines: 3,
+        overflow: TextOverflow.ellipsis,
+        textAlign: TextAlign.center,
+        style: AppTextStyles.bodyText1.copyWith(
+          fontSize: 16.sp, 
+          color: ColorsConstants.kActiveColor,
+        ),
+      ),
+    );
 }

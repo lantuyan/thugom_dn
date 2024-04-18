@@ -119,7 +119,7 @@ class ProfileController extends GetxController {
     text: DataManager().getData('zalonumber')
   );
 
-  var role;
+  RxString role = ''.obs;
   RxString phonenumber = ''.obs;
   RxString zalonumber = ''.obs;
 
@@ -141,7 +141,7 @@ class ProfileController extends GetxController {
     uid_user = await _getStorage.read('uid');
     selectedDistrict.value = districts.first;
     selectedSubDistrict.value = subDistricts[selectedDistrict.value]!.first;
-    role = await _getStorage.read('role');
+    role.value = await _getStorage.read('role');
     registerType = await _getStorage.read('registerType');
     if (registerType == 'sms') {
       phonenumber.value = await _getStorage.read('phonenumber');
