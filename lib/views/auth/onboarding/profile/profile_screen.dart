@@ -17,11 +17,11 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
+      body: SingleChildScrollView(
+        child : Container(
         color: Colors.transparent,
         margin: EdgeInsets.only(bottom: 40.sp),
         padding: EdgeInsets.fromLTRB(24.sp, 20.sp, 24.sp, 0),
-        child: SingleChildScrollView(
           child: Form(
             key: _profileController.formKey,
             child: Obx(() {
