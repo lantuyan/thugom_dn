@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -22,6 +23,9 @@ class PortraitCollectorScreen extends StatefulWidget {
 
 class _PortraitCollectorState extends State<PortraitCollectorScreen> {
   File? _capturedImage;
+  bool isFaceWellPositioned = false;
+  bool isCapture = false;
+  Timer? _timer;
   @override
   Widget build(BuildContext context) {
     WidgetsFlutterBinding.ensureInitialized();
@@ -93,7 +97,10 @@ class _PortraitCollectorState extends State<PortraitCollectorScreen> {
             );
           }
           return SmartFaceCamera(
-              autoCapture: false,
+              autoDisableCaptureControl: true,
+              showCaptureControl: false,
+              performanceMode: FaceDetectorMode.accurate,
+              autoCapture: isCapture,
               defaultCameraLens: CameraLens.front,
               defaultFlashMode: CameraFlashMode.auto,
               showCameraLensControl: false,
@@ -101,27 +108,58 @@ class _PortraitCollectorState extends State<PortraitCollectorScreen> {
               onCapture: (File? image) {
                 setState(() => _capturedImage = image);
               },
-              onFaceDetected: (Face? face) {
-                _message("Tuyệt vời, chụp ngay thôi");
-              },
-              messageBuilder: (context, face) {
-                if (face == null) {
-                  return _message('Để khuôn mặt của bạn vào máy ảnh');
+            messageBuilder: (context, detectedFace) {
+              print("CHECK face ok");
+            if (detectedFace == null) {
+              isFaceWellPositioned = false;
+               print("CHECK face not on camera");
+              return _message('Giữ khuôn mặt của bạn vào máy ảnh');
+            } else {
+              if (detectedFace.wellPositioned) {
+                 print("CHECK face isFaceWellPositioned");
+                
+                if (isFaceWellPositioned == true) {
+                     print("CHECK time value");
+                    _timer = Timer(Duration(seconds: 2), () {
+                      setState(() {
+                        print("CHECK time correct");
+                        isCapture = true;
+                      });
+                    });
+                } else {
+                  print("CHECK time cancel ");
+                  if (_timer != null) {
+                    _timer!.cancel(); 
+                  }
                 }
-                if (!face.wellPositioned) {
-                  return _message(
-                      'Căn giữa khuôn mặt của bạn trong hình vuông');
-                }
-                return const SizedBox.shrink();
-              });
+                isFaceWellPositioned = true;
+                return _message('Giữ khuôn mặt trong 2 giây để chụp');
+              } else {
+                isFaceWellPositioned = false;
+                 print("CHECK face outside");
+                return _message('Giữ khuôn mặt của bạn ở giữa màn hình');
+              }
+            }
+            
+            // return const SizedBox.shrink();
+          }
+            );
         }));
   }
 
-  Widget _message(String msg) => Padding(
-        padding: EdgeInsets.symmetric(horizontal: 55.sp, vertical: 20.sp),
-        child: Text(msg,
-            textAlign: TextAlign.center,
-            style: AppTextStyles.bodyText1.copyWith(
-                fontSize: 14.sp, color: ColorsConstants.kBackgroundColor)),
-      );
+  Widget _message(String msg) => Container(
+      height: 50.sp, 
+      padding: EdgeInsets.symmetric(horizontal: 30, vertical: 20), 
+      margin: EdgeInsets.symmetric(horizontal: 55.sp, vertical: 20.sp), 
+      child: Text(
+        msg,
+        maxLines: 3,
+        overflow: TextOverflow.ellipsis,
+        textAlign: TextAlign.center,
+        style: AppTextStyles.bodyText1.copyWith(
+          fontSize: 16.sp, 
+          color: ColorsConstants.kActiveColor,
+        ),
+      ),
+    );
 }

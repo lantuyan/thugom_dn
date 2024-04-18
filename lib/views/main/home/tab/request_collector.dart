@@ -109,15 +109,15 @@ class _tabListRequestState extends State<listRequest> {
                       child: CircularProgressIndicator(),
                     ),
                   ),
-                if (widget.userController.hasNextPage == false)
-                  AnimatedOpacity(
-                    duration: const Duration(milliseconds: 10),
-                    opacity: _isVisible ? 1.0 : 0.0,
-                    child: Center(
-                      child:
-                          Text('Không còn Yêu Cầu nào nữa...', style: AppTextStyles.error),
-                    ),
-                  )
+                // if (widget.userController.hasNextPage == false)
+                //   AnimatedOpacity(
+                //     duration: const Duration(milliseconds: 10),
+                //     opacity: _isVisible ? 1.0 : 0.0,
+                //     child: Center(
+                //       child:
+                //           Text('Không còn Yêu Cầu nào nữa...', style: AppTextStyles.error),
+                //     ),
+                //   )
               ],
             ),
           );
