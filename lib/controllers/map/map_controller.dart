@@ -19,8 +19,8 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:http/http.dart' as http;
 
 class MapController extends GetxController {
-  late LatLng _initialPosition = LatLng(16.0544, 108.2034);
-  LatLng get initialPos => _initialPosition;
+  late LatLng initialPosition = LatLng(16.0544, 108.2034);
+  LatLng get initialPos => initialPosition;
 
   var activeGPS = true.obs;
   var shouldShowMarkers = false.obs;
@@ -94,9 +94,9 @@ class MapController extends GetxController {
       }
       Position position = await Geolocator.getCurrentPosition(
           desiredAccuracy: LocationAccuracy.high);
-      _initialPosition = LatLng(position.latitude, position.longitude);
+      initialPosition = LatLng(position.latitude, position.longitude);
 
-      // Sau khi _initialPosition được khởi tạo, cập nhật biến isDataLoaded
+      // Sau khi initialPosition được khởi tạo, cập nhật biến isDataLoaded
       // isDataLoaded.value = true;
       update(); // Cần gọi update để cập nhật UI
     }
@@ -163,8 +163,8 @@ class MapController extends GetxController {
                 currentAddress.value = address;
                 info1.value = infoParts.length > 0 ? infoParts[0].trim() : ""; // Phần đầu tiên
                 info2.value = infoParts.length > 1 ? 'Liên hệ:' + infoParts[1].trim() : ""; // Phần thứ hai
-                // openGoogleMapsApp(_initialPosition.latitude,
-                //     _initialPosition.longitude, latitude, longitude);
+                // openGoogleMapsApp(initialPosition.latitude,
+                //     initialPosition.longitude, latitude, longitude);
                 showSheetPerson(Get.context, latitude, longitude);
               },
               child: Image.memory(
@@ -360,8 +360,8 @@ class MapController extends GetxController {
                 ),
               ),
               onPressed: (){
-                openGoogleMapsApp(_initialPosition.latitude,
-                    _initialPosition.longitude, latitude, longitude);
+                openGoogleMapsApp(initialPosition.latitude,
+                    initialPosition.longitude, latitude, longitude);
               },
               child: Text("Chỉ đường", style: TextStyle(
                 color: Colors.white,
@@ -450,8 +450,8 @@ class MapController extends GetxController {
                       ),
                     ),
                     onPressed: (){
-                      openGoogleMapsApp(_initialPosition.latitude,
-                          _initialPosition.longitude, latitude, longitude);
+                      openGoogleMapsApp(initialPosition.latitude,
+                          initialPosition.longitude, latitude, longitude);
                     },
                     child: Text("Chỉ đường", style: TextStyle(
                       color: Colors.white,
@@ -541,8 +541,8 @@ class MapController extends GetxController {
                       ),
                     ),
                     onPressed: (){
-                      openGoogleMapsApp(_initialPosition.latitude,
-                          _initialPosition.longitude, latitude, longitude);
+                      openGoogleMapsApp(initialPosition.latitude,
+                          initialPosition.longitude, latitude, longitude);
                     },
                     child: Text("Chỉ đường", style: TextStyle(
                       color: Colors.white,

@@ -86,7 +86,7 @@ class MapCollecterScreen extends StatelessWidget {
              // ),
            // ),
           )
-              : user.initialPos == null
+              : user.initialPosition == null
               ? const Center(
             child: Text(
               'Không thể tải bản đồ do thiếu thông tin vị trí.',
@@ -103,7 +103,7 @@ class MapCollecterScreen extends StatelessWidget {
               children: [
                 controller.FlutterMap(
                   options: controller.MapOptions(
-                    initialCenter: user.initialPos,
+                    initialCenter: user.initialPosition,
                     initialZoom: 13,
                     interactiveFlags: controller.InteractiveFlag.all & ~controller.InteractiveFlag.rotate,
                     maxZoom: 20,
@@ -141,7 +141,7 @@ class MapCollecterScreen extends StatelessWidget {
                     controller.MarkerLayer(
                       markers: [
                         controller.Marker(
-                          point: user.initialPos,
+                          point: user.initialPosition,
                           child: Icon(
                             Icons.location_on,
                             color: Colors.redAccent,
