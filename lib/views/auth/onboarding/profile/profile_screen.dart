@@ -387,14 +387,12 @@ class ProfileScreen extends StatelessWidget {
                       height: 48.sp,
                       child: ElevatedButton(
                           onPressed: () {
-                            if (_profileController.imagePath.value == "") {
-                              if (_profileController.role == 'collector') {
+                            bool isValid = _profileController.formKey.currentState!
+                                .validate();
+                            if (_profileController.imagePath.value == "" && _profileController.role == 'collector') {
                                  CustomDialogs.showSnackBar(
                                   3, "Vui lòng chụp ảnh chân dung", 'error');
-                              }
-                            }
-                            if (_profileController.formKey.currentState!
-                                .validate()) {
+                            } else if (isValid) {
                               _profileController.updateProfile();
                             }
                           },

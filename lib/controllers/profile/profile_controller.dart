@@ -138,7 +138,7 @@ class ProfileController extends GetxController {
   @override
   Future<void> onInit() async {
     super.onInit();
-    uid_user = await _getStorage.read('uid');
+    uid_user = await _getStorage.read('uid') ?? await _getStorage.read('userId');
     selectedDistrict.value = districts.first;
     selectedSubDistrict.value = subDistricts[selectedDistrict.value]!.first;
     role.value = await _getStorage.read('role');
@@ -217,7 +217,7 @@ class ProfileController extends GetxController {
 
     String address = formValue['street'] +","+selectedDistrict.value+","+selectedSubDistrict.value;
     final userId = await _getStorage.read('userId');
-    if(await _authRepository.checkUserExist(formValue['phonenumber'])){
+    if(await _authRepository.checkUserExist(formValue['phonenumber']) && registerType != 'sms') {
         CustomDialogs.hideLoadingDialog();
         CustomDialogs.showSnackBar(2,"Số điện thoại đã tồn tại, hãy thử lại với số khác", 'error');
     } else{

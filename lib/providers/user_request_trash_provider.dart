@@ -239,7 +239,7 @@ class UserRequestTrashProvider {
     final result = await databases.getDocument(
       databaseId: AppWriteConstants.databaseId,
       collectionId: AppWriteConstants.usersCollection,
-      documentId: '65df359bf1f8a6389ec5',
+      documentId: userId,
     );
     return result;
   }
