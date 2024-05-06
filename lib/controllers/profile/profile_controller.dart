@@ -128,7 +128,7 @@ class ProfileController extends GetxController {
 
   // chan dung
   
-  late String imageLink;
+  String imageLink = "";
   RxString imagePath = "".obs;
   late String uid_user;
   RxMap data = {}.obs;
