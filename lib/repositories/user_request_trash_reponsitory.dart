@@ -18,7 +18,9 @@ class UserRequestTrashRepository{
   // COLLECTOR
   Future<models.DocumentList> getRequestListColletor(offset, currentPage) => _userRequestTrashProvider.getRequestListColletor(offset, currentPage);
   Future<int> loadRequestByType(String type,String dateRange) => _userRequestTrashProvider.loadRequestByType(type,dateRange);
+  Future<int> loadRequestPending(String dateRange) => _userRequestTrashProvider.loadRequestPending(dateRange);
   Future<int> loadRequestByDate(String dateRange) => _userRequestTrashProvider.loadRequestByDate(dateRange);
+  Future<int> loadRequestPendingByDate(String dateRange) => _userRequestTrashProvider.loadRequestPendingByDate(dateRange);
   Future<models.DocumentList> getRequestWithStatusProcessingCollector() => _userRequestTrashProvider.getRequestWithStatusProcessingCollector();
   Future<models.DocumentList> getRequestListConfirmColletor() => _userRequestTrashProvider.getRequestListConfirmColletor();
   void getRequestListConfirmColletorRealtime() => _userRequestTrashProvider.getRequestListConfirmColletorRealtime();

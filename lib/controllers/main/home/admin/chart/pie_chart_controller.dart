@@ -14,6 +14,7 @@ class PieChartController extends GetxController {
   RxInt rtc = 0.obs;
   RxInt rk = 0.obs;
   RxInt total = 0.obs;
+  RxInt totalPending = 0.obs;
   List<PieChartModel> pieData = [];
   final RxBool loading = true.obs;
   final touchedIndex = (-1).obs;
@@ -26,6 +27,7 @@ class PieChartController extends GetxController {
     rtc.value = await loadRequestByType('rac tai che',data.value['dateRange'].toString());
     rk.value = await loadRequestByType('rac khac',data.value['dateRange'].toString());
     total.value = rcc.value+rxd.value+rtc.value+rk.value;
+    totalPending.value = await loadRequestPendingByDate(data.value['dateRange'].toString());
     if(rcc.value ==0  && rxd.value ==0 && rtc.value ==0 && rk.value==0){
     }else{
       pieData.addAll({
@@ -45,6 +47,16 @@ class PieChartController extends GetxController {
       print(onError);
     });
     return quantity;
+  }
+
+  Future<int> loadRequestPendingByDate(String date) async {
+    try {
+      final value = await _userRequestTrashRepository.loadRequestPending(date);
+      return value;
+    } catch (e) {
+      print("Error $e");
+      return 0;
+    }
   }
 
 }
