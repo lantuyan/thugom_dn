@@ -321,6 +321,22 @@ class UserRequestTrashProvider {
     return response.total;
   }
 
+  Future<int> loadRequestPending( String dateRange) async {
+    List<String> dates = dateRange.toString().split(" - ");
+    print(dates[0]);
+    print(dates[1]);
+    final response = await databases.listDocuments(
+      databaseId: AppWriteConstants.databaseId,
+      collectionId: AppWriteConstants.userRequestTrashCollection,
+      queries: [
+        Query.equal('status', 'pending'),
+        Query.greaterThanEqual('createAt', dates[0]),
+        Query.lessThanEqual('createAt', dates[1]),
+      ],
+    );
+    return response.total;
+  }
+
   Future<models.DocumentList> getRequestByDateRange(String dateRange) async {
     List<String> dates = dateRange.toString().split(" - ");
     final response = await databases.listDocuments(
@@ -433,6 +449,21 @@ class UserRequestTrashProvider {
       databaseId: AppWriteConstants.databaseId,
       collectionId: AppWriteConstants.userRequestTrashCollection,
       queries: [
+        Query.greaterThanEqual('createAt', startDate),
+        Query.lessThanEqual('createAt', endDate),
+      ],
+    );
+    return response.total;
+  }
+
+  Future<int> loadRequestPendingByDate(String dateRange) async {
+    String startDate = dateRange + " 00:00:00.000";
+    String endDate = dateRange + " 23:59:59.000";
+    final response = await databases!.listDocuments(
+      databaseId: AppWriteConstants.databaseId,
+      collectionId: AppWriteConstants.userRequestTrashCollection,
+      queries: [
+        Query.equal('status', 'pending'),
         Query.greaterThanEqual('createAt', startDate),
         Query.lessThanEqual('createAt', endDate),
       ],

@@ -18,6 +18,7 @@ class BarChartController extends GetxController {
   late DateTime endDate;
   List<int> totalRequest = [];
   RxInt requestNumber = 0.obs;
+  RxInt totalrequestPendingNumber = 0.obs;
 
   @override
   Future<void> onInit() async {
@@ -39,6 +40,7 @@ class BarChartController extends GetxController {
         String formattedDate = DateFormat('dd/M').format(date);
         dateList.add(formattedDate);
         requestNumber.value = await loadRequestByDate(formattedDateRequest);
+        totalrequestPendingNumber.value = totalrequestPendingNumber.value + await loadRequestPendingByDate(formattedDateRequest);
         barData.add(BarChartModel(formattedDateRequest, requestNumber.value));
         totalRequest.add(requestNumber.value);
       }
@@ -56,5 +58,15 @@ class BarChartController extends GetxController {
       print(onError);
     });
     return quantityRX;
+  }
+
+  Future<int> loadRequestPendingByDate(String date) async {
+    try {
+      final value = await _userRequestTrashRepository.loadRequestPendingByDate(date);
+      return value;
+    } catch (e) {
+      print("Error $e");
+      return 0;
+    }
   }
 }

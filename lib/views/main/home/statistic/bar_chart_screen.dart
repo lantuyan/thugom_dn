@@ -179,6 +179,24 @@ class BarChartScreen extends StatelessWidget {
                         SizedBox(
                           height: 20.sp,
                         ),
+                        Align(
+                          alignment: Alignment.topLeft,
+                          child: RichText(
+                              text: TextSpan(children: [
+                            TextSpan(
+                                text: 'Chưa xử lý: ',
+                                style: AppTextStyles.bodyText1
+                                    .copyWith(fontSize: 18.sp)),
+                            TextSpan(
+                                text: _barChartController.totalrequestPendingNumber.value.toString(),
+                                style: AppTextStyles.bodyText1.copyWith(
+                                    fontSize: 18.sp,
+                                    color: ColorsConstants.kErorColor)),
+                          ])),
+                        ),
+                        SizedBox(
+                          height: 20.sp,
+                        ),
                         // SizedBox(
                         //   width: ScreenUtil().screenWidth,
                         //   height: 48.sp,
