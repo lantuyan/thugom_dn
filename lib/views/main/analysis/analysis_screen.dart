@@ -114,9 +114,9 @@ class _AnalysisScreen extends State<AnalysisScreen> {
                             dateRange.end.year,
                             dateRange.end.month,
                             dateRange.end.day,
-                            now.hour,
-                            now.minute,
-                            now.second,
+                            23,
+                            59,
+                            59
                           );
                           DateTimeRange newDateRange = DateTimeRange(start: startDate, end: endDate);
                           _analysisController.selectedDateRange.value = newDateRange;
