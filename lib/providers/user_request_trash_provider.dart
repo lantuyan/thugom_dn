@@ -129,7 +129,7 @@ class UserRequestTrashProvider {
       queries: [
         Query.equal('confirm', userID),
         Query.equal('status', 'finish'),
-        Query.orderDesc('updateAt')
+        Query.orderDesc('updateAt'),
       ],
     );
     return response;
@@ -316,6 +316,7 @@ class UserRequestTrashProvider {
         Query.equal('trash_type', type),
         Query.greaterThanEqual('createAt', dates[0]),
         Query.lessThanEqual('createAt', dates[1]),
+        Query.limit(100000),
       ],
     );
     return response.total;
@@ -332,6 +333,7 @@ class UserRequestTrashProvider {
         Query.equal('status', 'pending'),
         Query.greaterThanEqual('createAt', dates[0]),
         Query.lessThanEqual('createAt', dates[1]),
+         Query.limit(100000),
       ],
     );
     return response.total;
@@ -345,7 +347,9 @@ class UserRequestTrashProvider {
       queries: [
         Query.greaterThanEqual('createAt', dates[0]),
         Query.lessThanEqual('createAt', dates[1]),
+        Query.limit(100000),
       ],
+
     );
     return response;
   }
@@ -451,6 +455,7 @@ class UserRequestTrashProvider {
       queries: [
         Query.greaterThanEqual('createAt', startDate),
         Query.lessThanEqual('createAt', endDate),
+        Query.limit(100000),
       ],
     );
     return response.total;
@@ -466,6 +471,7 @@ class UserRequestTrashProvider {
         Query.equal('status', 'pending'),
         Query.greaterThanEqual('createAt', startDate),
         Query.lessThanEqual('createAt', endDate),
+        Query.limit(100000),
       ],
     );
     return response.total;
