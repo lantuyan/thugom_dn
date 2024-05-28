@@ -217,6 +217,12 @@ class _HomeAdminScreenState extends State<HomeAdminScreen> {
                             CustomDialogs.showSnackBar(
                                 2, "Vui lòng chọn thời gian thống kê", 'error');
                           } else {
+                            final newEndDate = _homeAdminController.selectedDateRange.value!.end.add(const Duration(days: 1));
+                            _homeAdminController.selectedDateRange.value = DateTimeRange(
+                              start: _homeAdminController.selectedDateRange.value!.start,
+                              end: newEndDate,
+                            );
+
                             switch (_homeAdminController.chartType.value) {
                               case 'bar':
                                 Get.toNamed('/barChartPage',arguments: {
