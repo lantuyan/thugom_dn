@@ -31,21 +31,19 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
-	<string>This app needs access to camera when scan.</string>
+	<string>This app requires access to the camera to allow you to take and upload photos.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>This app needs access to location when open.</string>
+	<string>This app requires access to your location to provide personalized content and improve your experience while using the app.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>This app requires access to your microphone to enable voice recording and audio features.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>NSCameraUsageDescription</string>
+	<string>This app requires access to your photo library to allow you to select and upload photos.</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
-	<key>NSCameraUsageDescription</key>
-	<string>your usage description here</string>
-	<key>NSMicrophoneUsageDescription</key>
-	<string>your usage description here</string>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
