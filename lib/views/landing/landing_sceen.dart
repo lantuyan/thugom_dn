@@ -54,7 +54,10 @@ class LandingScreen extends StatelessWidget {
                   height: 48.sp,
                   child: ElevatedButton(
                     onPressed: () {
-                      Get.toNamed('/registerPage');
+                      // Get.toNamed('/registerPage');
+                      Get.toNamed("/registerOrLoginWithPhonePage",arguments: {
+                        'actionType': 'register'
+                      });
                     },
                     style: CustomButtonStyle.primaryButton,
                     child: Text(
@@ -75,7 +78,10 @@ class LandingScreen extends StatelessWidget {
                   height: 48.sp,
                   child: ElevatedButton(
                     onPressed: () {
-                      Get.toNamed('/loginPage');
+                      // Get.toNamed('/loginPage');
+                      Get.toNamed("/registerOrLoginWithPhonePage",arguments: {
+                        'actionType': 'login'
+                      });
                     },
                     style: CustomButtonStyle.transparentButton,
                     child: Text(

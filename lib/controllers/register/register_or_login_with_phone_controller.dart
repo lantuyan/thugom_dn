@@ -29,6 +29,7 @@ class RegisterOrLoginWithPhoneController extends GetxController {
   var userId;
   @override
   void onInit() async {
+    super.onInit();
     actionType.value = await Get.arguments['actionType']??"";
   }
   Future <void> registerWithPhone() async {

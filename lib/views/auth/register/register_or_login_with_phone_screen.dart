@@ -20,16 +20,16 @@ class RegisterOrLoginWithPhoneScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: ColorsConstants.ksecondBackgroundColor,
-        centerTitle: true,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: () {
-            Get.back();
-          },
-        ),
-      ),
+      // appBar: AppBar(
+      //   backgroundColor: ColorsConstants.ksecondBackgroundColor,
+      //   centerTitle: true,
+      //   leading: IconButton(
+      //     icon: Icon(Icons.arrow_back),
+      //     onPressed: () {
+      //       Get.back();
+      //     },
+      //   ),
+      // ),
       backgroundColor: ColorsConstants.ksecondBackgroundColor,
       body: SafeArea(
         child: Padding(
@@ -47,11 +47,11 @@ class RegisterOrLoginWithPhoneScreen extends StatelessWidget {
                   "assets/images/logo_thugom.png",
                 ),
               ),
-              Text("Xin chào!",
+              Obx(() => Text(_controller.actionType.value == "register"?"Đăng ký tài khoản":"Đăng nhập",
                   style: AppTextStyles.headline1.copyWith(
                       fontSize: 24.sp
                   )
-              ),
+              ),),
               Text(
                 _controller.actionType.value == "register"?"Vui lòng chọn loại tài khoản và nhập số điên thoại để tiếp tục":"Vui lòng nhập số điện thoại để tiếp tục",
                 style: AppTextStyles.bodyText1.copyWith(
@@ -210,7 +210,75 @@ class RegisterOrLoginWithPhoneScreen extends StatelessWidget {
                   ],
                 ),
               ),
-
+              Row(
+                children: [
+                  Expanded(
+                    child: Column(
+                      children: [
+                        Obx(() => Text(_controller.actionType.value == "register" ? "Đã có tài khoản?":"Chưa có tài khoản?",
+                            style: AppTextStyles.headline3.copyWith(
+                              fontSize: 13.sp,
+                                fontWeight: FontWeight.w700
+                            )
+                        ),),
+                        GestureDetector(
+                          onTap: () {
+                            if(_controller.actionType.value == "register") {
+                              Get.offAllNamed("/registerOrLoginWithPhonePage",arguments: {
+                                'actionType': 'login'
+                              });
+                            } else {
+                              Get.offAllNamed("/registerOrLoginWithPhonePage",arguments: {
+                                'actionType': 'register'
+                              });
+                            }
+                          },
+                          child: Obx(() => Text(
+                              _controller.actionType.value == "register"?"Đăng nhập":"Đăng ký",
+                            style: AppTextStyles.headline3.copyWith(
+                              fontWeight: FontWeight.w600,
+                              color: ColorsConstants.kMainColor,
+                              decoration: TextDecoration.underline,
+                              decorationColor: ColorsConstants.kMainColor
+                            )
+                          ),),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Expanded(
+                    child: Column(
+                      children: [
+                        Obx(() => Text(_controller.actionType.value == "register"?"Đăng ký bằng":"Đăng nhập bằng",
+                          style: AppTextStyles.headline3.copyWith(
+                            fontSize: 13.sp,
+                            fontWeight: FontWeight.w700
+                          )
+                        ),),
+                        GestureDetector(
+                          onTap: () {
+                            if(_controller.actionType.value == "register") {
+                              Get.toNamed('/registerPage');
+                            } else {
+                              Get.toNamed('/loginPage');
+                            }
+                          },
+                          child: Text(
+                            'Email',
+                            style: AppTextStyles.headline3.copyWith(
+                              fontWeight: FontWeight.w600,
+                              color: ColorsConstants.kMainColor,
+                              decoration: TextDecoration.underline,
+                              decorationColor: ColorsConstants.kMainColor,
+                            ),
+                            textAlign: TextAlign.center,
+                          )
+                        ),
+                      ],
+                    ),
+                  )
+                ],
+              )
             ],
           ),
         ),
