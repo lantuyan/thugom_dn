@@ -1,5 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -130,6 +131,75 @@ class _RequestPersonScreenState extends State<RequestPersonScreen> {
                             ),
                           ),
                         )),
+                    SizedBox(
+                      height: 30.sp,
+                    ),
+                        // Weight Field
+                    Row(
+                      children: [
+                        //TextFormField with weight
+                        Expanded(
+                          flex: 2,
+                          child: TextFormField(
+                            key: _requestPersonController.weightFieldKey,
+                            controller: _requestPersonController.weightController,
+                              enabled: false,
+                              decoration: InputDecoration(
+                                contentPadding:
+                                    EdgeInsets.fromLTRB(12.sp, 0, 12.sp, 0),
+                                filled: true,
+                                fillColor: Colors.white,
+                                labelText: 'Khối lượng (kg)',
+                                labelStyle: TextStyle(
+                                    fontSize: 16.sp,
+                                    color: ColorsConstants.kMainColor),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                disabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                    borderSide: BorderSide(
+                                        color: ColorsConstants.kMainColor, width: 2)),
+                                focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                    borderSide: BorderSide(
+                                        color: ColorsConstants.kMainColor, width: 2)),
+                              ),
+                              style: AppTextStyles.bodyText1.copyWith(
+                                color: ColorsConstants
+                                    .kTextMainColor, // Màu cho giá trị initialValue
+                              ),
+                              autovalidateMode: AutovalidateMode.disabled,
+                            ),
+                        ),
+                        SizedBox(
+                          width: 10.sp,
+                        ),
+                        // Button Edit Weight
+                        Expanded(
+                          flex: 1,
+                          child: ElevatedButton(
+                            onPressed: () {
+                              _requestPersonController.showWeightDialog();
+                            },
+                            child: Text(
+                              'Thêm',
+                              style: TextStyle(
+                                fontSize: 16.sp,
+                                color: Colors.white,
+                              ),
+                            ),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: ColorsConstants.kMainColor,
+                              padding: EdgeInsets.fromLTRB(20.sp, 10.sp, 20.sp, 10.sp),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                     SizedBox(
                       height: 30.sp,
                     ),
@@ -363,4 +433,7 @@ class _RequestPersonScreenState extends State<RequestPersonScreen> {
           ),
         ));
   }
+
+  
+
 }

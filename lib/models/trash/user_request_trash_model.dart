@@ -17,6 +17,13 @@ class UserRequestTrashModel {
   late String? finishImage;
   late String? amount_collected;
   late String? collection_price;
+  late String? metal;
+  late String? paper;
+  late String? bottle;
+  late String? hdpe;
+  late String? nilon;
+  late String? others;
+
   UserRequestTrashModel(
       {required this.requestId,
       required this.senderId,
@@ -35,7 +42,13 @@ class UserRequestTrashModel {
       this.rating,
       this.finishImage,
       this.amount_collected,
-      this.collection_price
+      this.collection_price,
+      this.metal,
+      this.paper,
+      this.bottle,
+      this.hdpe,
+      this.nilon,
+      this.others
       });
 
   UserRequestTrashModel.fromMap(Map<String, dynamic> map) {
@@ -65,6 +78,12 @@ class UserRequestTrashModel {
     finishImage = map['finishImage'];
     amount_collected = map['amount_collected'];
     collection_price = map['collection_price'];
+    metal = map['metal'];
+    paper = map['paper'];
+    bottle = map['bottle'];
+    hdpe = map['hdpe'];
+    nilon = map['nilon'];
+    others = map['others'];
   }
 
   Map<String, dynamic> toMap() {
@@ -86,7 +105,13 @@ class UserRequestTrashModel {
       'rating': rating,
       'finishImage': finishImage,
       'amount_collected': amount_collected,
-      'collection_price': collection_price
+      'collection_price': collection_price,
+      'metal': metal,
+      'paper': paper,
+      'bottle': bottle,
+      'hdpe': hdpe,
+      'nilon': nilon,
+      'others': others
     };
   }
 }

@@ -133,104 +133,72 @@ class _CollectorDetailProcessScreenState
                         SizedBox(
                           height: 30.sp,
                         ),
-                        // Address Field
-                        // FormBuilderTextField(
-                        //   name: 'address',
-                        //   enabled: false,
-                        //   initialValue: _collectorDetailProcessController
-                        //       .requestDetailModel.address,
-                        //   decoration: InputDecoration(
-                        //     contentPadding:
-                        //         EdgeInsets.fromLTRB(12.sp, 0, 12.sp, 0),
-                        //     filled: true,
-                        //     fillColor: Colors.white,
-                        //     labelText: 'Địa chỉ',
-                        //     labelStyle: TextStyle(
-                        //         fontSize: 16.sp,
-                        //         color: ColorsConstants.kMainColor),
-                        //     border: OutlineInputBorder(
-                        //       borderRadius: BorderRadius.circular(10),
-                        //     ),
-                        //     disabledBorder: OutlineInputBorder(
-                        //         borderRadius: BorderRadius.circular(10),
-                        //         borderSide: BorderSide(
-                        //             color: ColorsConstants.kMainColor, width: 2)),
-                        //   ),
-                        //   style: AppTextStyles.bodyText1.copyWith(
-                        //     color: ColorsConstants
-                        //         .kTextMainColor, // Màu cho giá trị initialValue
-                        //   ),
-                        // ),
-                        // SizedBox(
-                        //   height: 30.sp,
-                        // ),
-                        // FormBuilderTextField(
-                        //   name: 'phonenumber',
-                        //   enabled: false,
-                        //   initialValue: _collectorDetailProcessController
-                        //       .requestDetailModel.phone_number,
-                        //   decoration: InputDecoration(
-                        //     contentPadding:
-                        //         EdgeInsets.fromLTRB(12.sp, 0, 12.sp, 0),
-                        //     filled: true,
-                        //     fillColor: Colors.white,
-                        //     labelText: 'Số điẹn thoại/zalo liên hệ',
-                        //     labelStyle: TextStyle(
-                        //         fontSize: 16.sp,
-                        //         color: ColorsConstants.kMainColor),
-                        //     border: OutlineInputBorder(
-                        //       borderRadius: BorderRadius.circular(10),
-                        //     ),
-                        //     disabledBorder: OutlineInputBorder(
-                        //         borderRadius: BorderRadius.circular(10),
-                        //         borderSide: BorderSide(
-                        //             color: ColorsConstants.kMainColor, width: 2)),
-                        //   ),
-                        //   style: AppTextStyles.bodyText1.copyWith(
-                        //     color: ColorsConstants
-                        //         .kTextMainColor, // Màu cho giá trị initialValue
-                        //   ),
-                        // ),
                         // Amount Collected Field
-                        FormBuilderTextField(
-                          key: _collectorDetailProcessController
-                              .amountCollectedFieldKey,
-                          name: 'amount_collected',
-                          keyboardType: TextInputType.number,
-                          minLines: 1,
-                          decoration: InputDecoration(
-                            contentPadding:
-                                EdgeInsets.fromLTRB(12.sp, 10.sp, 12.sp, 10.sp),
-                            filled: true,
-                            fillColor: Colors.white,
-                            labelText: 'Khối lượng rác thu gom(kg)',
-                            labelStyle: TextStyle(
-                                fontSize: 16.sp,
-                                color: ColorsConstants.kMainColor),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
+                        Row(
+                      children: [
+                        //TextFormField with weight
+                        Expanded(
+                          flex: 2,
+                          child: TextFormField(
+                            key: _collectorDetailProcessController.amountCollectedFieldKey,
+                            controller: _collectorDetailProcessController.weightController,
+                              enabled: false,
+                              decoration: InputDecoration(
+                                contentPadding:
+                                    EdgeInsets.fromLTRB(12.sp, 0, 12.sp, 0),
+                                filled: true,
+                                fillColor: Colors.white,
+                                labelText: 'Khối lượng rác thu gom(kg)',
+                                labelStyle: TextStyle(
+                                    fontSize: 16.sp,
+                                    color: ColorsConstants.kMainColor),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                disabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                    borderSide: BorderSide(
+                                        color: ColorsConstants.kMainColor, width: 2)),
+                                focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                    borderSide: BorderSide(
+                                        color: ColorsConstants.kMainColor, width: 2)),
+                              ),
+                              style: AppTextStyles.bodyText1.copyWith(
+                                color: ColorsConstants
+                                    .kTextMainColor, // Màu cho giá trị initialValue
+                              ),
+                              autovalidateMode: AutovalidateMode.disabled,
                             ),
-                            disabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
-                                borderSide: BorderSide(
-                                    color: ColorsConstants.kMainColor,
-                                    width: 2)),
-                            focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
-                                borderSide: BorderSide(
-                                    color: ColorsConstants.kMainColor,
-                                    width: 2)),
-                          ),
-                          style: AppTextStyles.bodyText1.copyWith(
-                            color: ColorsConstants
-                                .kTextMainColor, // Màu cho giá trị initialValue
-                          ),
-                          autovalidateMode: AutovalidateMode.disabled,
-                          validator: FormBuilderValidators.compose([
-                            FormBuilderValidators.required(
-                                errorText: "Không được để trống trường này"),
-                          ]),
                         ),
+                        SizedBox(
+                          width: 10.sp,
+                        ),
+                        // Button Edit Weight
+                        Expanded(
+                          flex: 1,
+                          child: ElevatedButton(
+                            onPressed: () {
+                              _collectorDetailProcessController.showWeightDialog();
+                            },
+                            child: Text(
+                              'Sửa',
+                              style: TextStyle(
+                                fontSize: 16.sp,
+                                color: Colors.white,
+                              ),
+                            ),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: ColorsConstants.kMainColor,
+                              padding: EdgeInsets.fromLTRB(20.sp, 10.sp, 20.sp, 10.sp),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                         SizedBox(
                           height: 30.sp,
                         ),
@@ -357,7 +325,6 @@ class _CollectorDetailProcessScreenState
                                   await _collectorDetailProcessController
                                       .sendComfirmInfo(
                                     _collectorDetailProcessController.requestId,
-                                    _collectorDetailProcessController.amountCollectedFieldKey.currentState?.value,
                                      _collectorDetailProcessController.collectionPriceFieldKey.currentState?.value,
                                   );
                                   await Get.offAllNamed('/mainPage');

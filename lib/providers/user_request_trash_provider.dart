@@ -157,7 +157,7 @@ class UserRequestTrashProvider {
   }
 
   Future<void> sendComfirmInfo(String requestId, String? photoConfirm,
-      String? amount_collected, String? collection_price, String? userId) async {
+      String? amount_collected, String? collection_price, String? userId, String metal, String paper, String bottle, String hdpe, String nilon, String others) async {
     await databases?.updateDocument(
       databaseId: AppWriteConstants.databaseId,
       collectionId: AppWriteConstants.userRequestTrashCollection,
@@ -166,7 +166,13 @@ class UserRequestTrashProvider {
         'finishImage': photoConfirm,
         'amount_collected': amount_collected,
         'collection_price': collection_price,
-        'status': 'confirming'
+        'status': 'confirming',
+        'metal': metal,
+        'paper': paper,
+        'bottle': bottle,
+        'hdpe': hdpe,
+        'nilon': nilon,
+        'others': others,
       },
     );
     if(userId != null){
@@ -265,6 +271,13 @@ class UserRequestTrashProvider {
             "trash_type": userRequestTrashModel.trash_type,
             "createAt": userRequestTrashModel.createAt,
             "updateAt": userRequestTrashModel.updateAt,
+            "metal": userRequestTrashModel.metal,
+            "paper": userRequestTrashModel.paper,
+            "bottle": userRequestTrashModel.bottle,
+            "hdpe": userRequestTrashModel.hdpe,
+            "nilon": userRequestTrashModel.nilon,
+            "others": userRequestTrashModel.others,
+            "amount_collected": userRequestTrashModel.amount_collected,
           });
       print("sendRequestToAppwrite");
     } catch (e) {

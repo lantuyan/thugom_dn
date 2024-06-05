@@ -32,7 +32,7 @@ class UserRequestTrashRepository{
   
   Future<void> updateAvatarCollector(String requestId, String photoConfirm) => _userRequestTrashProvider.updateAvatarCollector(requestId, photoConfirm);
 
-  Future<void> sendComfirmInfo(String requestId, String photoConfirm, String amount_collected, String collection_price, String? userId ) => _userRequestTrashProvider.sendComfirmInfo(requestId, photoConfirm, amount_collected, collection_price, userId);
+  Future<void> sendComfirmInfo(String requestId, String photoConfirm, String amount_collected, String collection_price, String? userId, String metal, String paper, String bottle, String hdpe, String nilon, String others) => _userRequestTrashProvider.sendComfirmInfo(requestId, photoConfirm, amount_collected, collection_price, userId ,metal, paper, bottle, hdpe, nilon, others);
 
   Future<models.Document> checkConfirmRequest(String requestId) => _userRequestTrashProvider.checkConfirmRequest(requestId);
   Future<models.Document> checkRequestProcess(String userId) => _userRequestTrashProvider.checkRequestProcess(userId);
