@@ -391,8 +391,14 @@ class UserRequestTrashProvider {
       TextCellValue('Kinh độ'),
       TextCellValue('Hình ảnh minh chứng'),
       TextCellValue('Đánh giá'),
-      TextCellValue('Giá thu gom'),
-      TextCellValue('Số lượng thu gom'),
+      TextCellValue('Giá thu gom(vnd)'),
+      TextCellValue('Số lượng thu gom(kg)'),
+      TextCellValue("Kim loại"),
+      TextCellValue("Giấy"),
+      TextCellValue("Chai"),
+      TextCellValue("HDPE"),
+      TextCellValue("Nilon"),
+      TextCellValue("Khác"),
     ]);
     sheet.appendRow([]);
 
@@ -416,6 +422,12 @@ class UserRequestTrashProvider {
         TextCellValue(document.data['rating'].toString()),
         TextCellValue(document.data['collection_price'].toString()),
         TextCellValue(document.data['amount_collected'].toString()),
+        TextCellValue(document.data['metal'].toString()),
+        TextCellValue(document.data['paper'].toString()),
+        TextCellValue(document.data['bottle'].toString()),
+        TextCellValue(document.data['hdpe'].toString()),
+        TextCellValue(document.data['nilon'].toString()),
+        TextCellValue(document.data['others'].toString()),
       ]);
 
       // break line

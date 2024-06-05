@@ -134,7 +134,9 @@ class _CollectorDetailProcessScreenState
                           height: 30.sp,
                         ),
                         // Amount Collected Field
-                        Row(
+                        Obx(() {
+                          if(_collectorDetailProcessController.requestType.value == "Rác Tái Chế") {
+                            return Row(
                       children: [
                         //TextFormField with weight
                         Expanded(
@@ -198,7 +200,46 @@ class _CollectorDetailProcessScreenState
                           ),
                         ),
                       ],
-                    ),
+                    );
+                        } else {
+                          return FormBuilderTextField(
+                            key: _collectorDetailProcessController.amountCollectedFieldKey,
+                            keyboardType: TextInputType.number,
+                            name: 'collection_amount',
+                            minLines: 1,
+                            decoration: InputDecoration(
+                              contentPadding:
+                                  EdgeInsets.fromLTRB(12.sp, 10.sp, 12.sp, 10.sp),
+                              filled: true,
+                              fillColor: Colors.white,
+                              labelText: 'Khối lượng thu gom(Kg)',
+                              labelStyle: TextStyle(
+                                  fontSize: 16.sp, color: ColorsConstants.kMainColor),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              disabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  borderSide: BorderSide(
+                                      color: ColorsConstants.kMainColor, width: 2)),
+                              focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  borderSide: BorderSide(
+                                      color: ColorsConstants.kMainColor, width: 2)),
+                            ),
+                            style: AppTextStyles.bodyText1.copyWith(
+                              color: ColorsConstants
+                                  .kTextMainColor, // Màu cho giá trị initialValue
+                            ),
+                            autovalidateMode: AutovalidateMode.disabled,
+                            validator: FormBuilderValidators.compose([
+                              FormBuilderValidators.required(
+                                  errorText: "Không được để trống trường này"),
+                            ]),
+                          );
+                        }
+                      }),
+                        
                         SizedBox(
                           height: 30.sp,
                         ),
@@ -322,6 +363,9 @@ class _CollectorDetailProcessScreenState
                                           .copyWith(fontSize: 14.sp),
                                       textAlign: TextAlign.center,
                                     ), () async {
+                                  if (_collectorDetailProcessController.requestType.value != "Rác Tái Chế") {
+                                    _collectorDetailProcessController.weight.value = int.tryParse(_collectorDetailProcessController.weightController.text) ?? 0; 
+                                  }
                                   await _collectorDetailProcessController
                                       .sendComfirmInfo(
                                     _collectorDetailProcessController.requestId,

@@ -55,7 +55,7 @@ class RequestPersonController extends GetxController {
   late String pointLatitute;
   late String pointLongitute;
   String status = "pending";
-  late String trashType;
+  RxString trashType = "".obs;
   late String confirm = "";
 
   late UserRequestTrashModel requestDetailModel;
@@ -68,7 +68,7 @@ class RequestPersonController extends GetxController {
   @override
   onInit() async {
     title = argumentData['categoryTitle'] ?? "";
-    trashType = argumentData['categoryTitle'] ?? "";
+    trashType.value = argumentData['categoryTitle'] ?? "";
     name.value = DataManager().getData("name");
     userId = DataManager().getData("userId");
     phoneNumber.value = await _getStorage.read('zalonumber');
@@ -86,7 +86,7 @@ class RequestPersonController extends GetxController {
     UserRequestTrashModel userRequestTrashModel = UserRequestTrashModel(
         requestId: Uuid().v1(),
         senderId: userId,
-        trash_type: trashType,
+        trash_type: trashType.value,
         image: imageLink,
         phone_number: phoneNumber.value,
         address: address.value,

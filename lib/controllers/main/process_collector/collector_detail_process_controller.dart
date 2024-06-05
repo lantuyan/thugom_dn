@@ -35,6 +35,7 @@ class CollectorDetailProcessController extends GetxController {
   RxInt weighHDPE = 0.obs;
   RxInt weighNilon = 0.obs;
   RxInt weighOthers = 0.obs;
+  RxString requestType = "".obs;
 
   late String imageLink;
   RxBool loading = true.obs;
@@ -68,6 +69,7 @@ class CollectorDetailProcessController extends GetxController {
     weightController.text = weight.value.toString();
     loading.value = false;
     requestId = requestDetailModel.requestId;
+    requestType.value = requestDetailModel.trash_type;
   }
 
   Future getImageFromCamera() async {
