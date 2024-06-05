@@ -135,7 +135,9 @@ class _RequestPersonScreenState extends State<RequestPersonScreen> {
                       height: 30.sp,
                     ),
                         // Weight Field
-                    Row(
+                    Obx(() {
+                      if (_requestPersonController.trashType.value =="Rác Tái Chế") {
+                        return Row(
                       children: [
                         //TextFormField with weight
                         Expanded(
@@ -199,10 +201,22 @@ class _RequestPersonScreenState extends State<RequestPersonScreen> {
                           ),
                         ),
                       ],
-                    ),
-                    SizedBox(
-                      height: 30.sp,
-                    ),
+                    );
+                      } else {
+                        return SizedBox();
+                      }
+                    }),
+                    Obx(() {
+                      if (_requestPersonController.trashType.value == "Rác Tái Chế") {
+                        return SizedBox(
+                          height: 30.sp,
+                        );
+                      } else {
+                        return SizedBox(
+                          height: 0,
+                        );
+                      }
+                    }),
                     // Description Field
                     TextFormField(
                       key: _requestPersonController.desriptionFieldKey,
